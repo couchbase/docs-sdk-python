@@ -1,7 +1,7 @@
 = Managing Clusters using the Python SDK with Couchbase Server
 :navtitle: Managing Clusters
 
-include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
+include::6.0@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
 You may perform Couchbase management operations from any HTTP client (e.g.
 `urllib` or `requests`).
@@ -41,7 +41,7 @@ This number is specified in megabytes
 * [.param]`bucket_password`: If specified, makes this bucket password protected, forcing future connects (using the [.api]`Bucket`) class to specify the [.param]`password` parameter
 * [.param]`flush_enabled`: Enables the [.api]`Bucket.flush()` operation to be performed on this bucket
 
-include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=after-creation]
+include::6.0@sdk:shared:partial$flush-info-pars.adoc[tag=after-creation]
 
 The [.api]`Admin` class also has a convenience method to wait until the bucket becomes ready
 
@@ -67,7 +67,7 @@ adm.bucket_remove('new-bucket')
 
 == Flushing Buckets
 
-include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
+include::6.0@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
 You may flush a bucket in the Python SDK by using the [.api]`Bucket.flush()`
 
@@ -88,7 +88,7 @@ couchbase.exceptions.HTTPError: <Key='/pools/default/buckets/travel-sample/contr
 
 == N1QL Index Management
 
-include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=index-management]
+include::6.0@sdk:shared:partial$flush-info-pars.adoc[tag=index-management]
 
 You can manage indexes in the Python SDK using the [.api]`BucketManager` class
 
@@ -105,7 +105,7 @@ manager.n1ql_index_remove_primary(ignore_missing=True)
 
 == Design Document Management
 
-include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=ddoc-intro]
+include::6.0@sdk:shared:partial$flush-info-pars.adoc[tag=ddoc-intro]
 
 Using the Python SDK you may use the `design_*` methods of the [.api]`BucketManager` class to modify design documents.
 
@@ -131,6 +131,6 @@ mgr.design_publish('locations')
 mgr.design_delete('locations', use_devmode=False)
 ----
 
-include::5.1@sdk:shared:partial$flush-info-pars.adoc[tag=ddoc-async-warning]
+include::6.0@sdk:shared:partial$flush-info-pars.adoc[tag=ddoc-async-warning]
 
 You can use the [.param]`use_devmode` (the default) parameter to indicate that the view should initially be a _development mode view_.

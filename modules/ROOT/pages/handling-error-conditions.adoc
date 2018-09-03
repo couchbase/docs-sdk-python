@@ -65,4 +65,4 @@ Note that an error code of 0 means success.
 
 == Conceptual Error Types
 
-include::5.1@sdk:shared:partial$couchbase-errors.adoc[tag=group]
+include::6.0@sdk:shared:partial$couchbase-errors.adoc[tag=group]

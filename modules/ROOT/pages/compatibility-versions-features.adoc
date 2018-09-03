@@ -130,4 +130,4 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 | *✔*
 |===
 
-include::5.1@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
+include::6.0@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]

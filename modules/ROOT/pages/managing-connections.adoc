@@ -6,7 +6,7 @@
 This section describes how to connect the Python SDK to a Couchbase cluster and bucket.
 It contains best practices as well as information on the connection string,  SSL and other advanced connection options.
 
-include::5.1@sdk:shared:partial$lcb-pars-shared.adoc[tag=connstr-intro]
+include::6.0@sdk:shared:partial$lcb-pars-shared.adoc[tag=connstr-intro]
 
 == Connecting to a Bucket
 
