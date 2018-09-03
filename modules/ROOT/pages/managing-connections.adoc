@@ -1,14 +1,14 @@
-= Managing server connections
+= Managing Connections Using the Python SDK with Couchbase Server
+:navtitle: Managing Connections
 :page-topic-type: concept
 
 [abstract]
-Shows how to instantiate a client object to connect to a Couchbase cluster
+This section describes how to connect the Python SDK to a Couchbase cluster and bucket.
+It contains best practices as well as information on the connection string,  SSL and other advanced connection options.
 
-Note that many of these examples will demonstrate a _connection string_.
-The connection string is interpreted by the underlying C library.
-You can read more about it at xref:2.5@c-sdk::managing-connections.adoc[Managing server connections]
+include::4.5@sdk:shared:partial$lcb-pars-shared.adoc[tag=connstr-intro]
 
-== Connecting to a bucket (synchronous API)
+== Connecting to a Bucket
 
 To connect to a bucket using the synchronous API, simply create a new [.api]`Bucket` object by calling its constructor.
 You should pass a _connection string_ to the bucket indicating the host(s) and bucket you want to connect to.
@@ -25,45 +25,16 @@ protected_bucket = Bucket('couchbase://10.1.1.1/default', password='s3cr3t')
 The bucket connection will close once it falls out of scope and has no other objects referencing it.
 It is advised to create only a single bucket object per application (or thread) for each Couchbase bucket your application connects to.
 
-== Connecting to a bucket (Twisted API)
+== Disconnecting from a Bucket
 
-Connecting via the Twisted API is similar to the synchronous API.
-To connect via the Twisted API, create the [.api]`Bucket` object, then call the [.api]`connect()` method on the object.
-This method will return a [.api]`Deferred` which will have its `callback` invoked if the connection succeeds and its `errback` invoked on error.
+A [.api]`Bucket` object will disconnect from the cluster when it falls out of scope; that is, when it is no longer being referenced by anything in your Python application.
+You can still close a bucket manually via the synchronous API using the [.api]`Bucket._close()` method.
+This method should only be used as a last resort, as it may cause unexpected behavior if there are pending operations on the object.
 
-[source,python]
-----
-from twisted.internet import reactor
-from txcouchbase.bucket import Bucket
-
-bucket = Bucket('couchbase://10.1.1./default')
-
-def on_connect_ok(*ignored_args):
-  print "Client connected OK"
-def on_connect_fail(err, *args):
-  print "Client failed ", err
-  err.raiseException()
-
-d = bucket.connect()
-d.addCallback(on_connect_ok)
-d.addErrback(on_connect_fail)
-----
-
-== Configuring SSL
-
-NOTE: Read more about secure SSL connections: xref:4.1@server:developer-guide:ssl-connections.adoc[SSL Connections]
-
-To configure SSL, pass an SSL scheme (`couchbases://`) with your connection.
-Ensure you pass the [.var]`certpath` parameter which should point to the local path to the cluster's certificate
-
-[source,python]
-----
-bucket = Bucket('couchbases://10.1.1.1/default?certpath=/path/to/cluster/certificate.pem')
-----
-
-== Performance, scalability, and concurrency
+== Scalability and concurrency
 
 Creating a new [.api]`Bucket` object is relatively expensive, and keeping many idle [.api]`Bucket` objects will negatively impact server performance (if done at a large scale).
+
 If using an asynchronous framework (such as Gevent or Twisted), your application will require only one [.api]`Bucket` instance per Couchbase bucket.
 Likewise, if your Python application only contains a single thread then you need establish only a single [.api]`Bucket` object per Couchbase bucket.
 
@@ -74,3 +45,5 @@ If you realize that your application is suffering in performance because of thre
 
 If using multiple processes (such as with the `multiprocessing` module), or using a Python module which creates multiple processes, ensure that the [.api]`Bucket` object is not created in the parent process!
 Your Python interpreter may crash if the same [.api]`Bucket` object exists in more than a single process.
+
+include::2.6@c-sdk::page$managing-connections.adoc[tag=group]

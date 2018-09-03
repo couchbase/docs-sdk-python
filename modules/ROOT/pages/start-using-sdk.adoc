@@ -1,0 +1,154 @@
+= Install and Start Using the Python SDK with Couchbase Server
+:navtitle: Start Using the SDK
+
+[abstract]
+The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
+The Python SDK offers a traditional synchronous API as well as integration with _twisted_, _gevent_, and _asyncio_.
+It depends on the C SDK and utilizes it for performance and reliability.
+
+== Installing on Linux
+
+For installation on Linux, install the _couchbase-release_ repository, and then install the _libcouchbase_ packages.
+The following examples download and install _couchbase-release_ repsitory, a C and C++ compiler, the C SDK development files (_libcouchbase-devel_ [RPM] or _libcouchbase-dev_ [DEB]), Python development files, and finally the Python SDK using _pip_.
+
+.Debian and Ubuntu
+[source,bash]
+----
+# Only needed during first-time setup:
+wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb
+sudo dpkg -i couchbase-release-1.0-2-amd64.deb
+sudo apt-get update
+sudo apt-get install libcouchbase-dev build-essential python-dev python-pip
+sudo pip install couchbase
+----
+
+.RHEL and CentOS
+[source,bash]
+----
+# Only needed during first-time setup:
+wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-x86_64.rpm
+sudo rpm -iv couchbase-release-1.0-2-x86_64.rpm
+# Will install or upgrade existing packages
+sudo yum install libcouchbase-devel gcc gcc-c++ python-devel python-pip
+sudo pip install couchbase
+----
+
+NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
+It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
+
+== Installation on Mac OS X
+
+To install the library on Mac OS X, first install the de-facto package manager for OS X: http://brew.sh/[homebrew^].
+Once _homebrew_ is configured:
+
+[source,bash]
+----
+brew update # get list of latest packages
+brew install libcouchbase
+brew install python
+pip install couchbase
+----
+
+NOTE: The above example uses the Python supplied by homebrew and not the vendor-supplied Python which ships with OS X.
+The Python SDK will still work with the vendor-supplied Python (though _pip install_ may be a privileged command), but it is recommended to use Homebrew's Python instead.
+
+== Installing on Microsoft Windows
+
+The Couchbase Python SDK is available as an executable installer for Windows.
+This contains all the required dependencies, including C SDK development files.
+
+. Check your Windows architecture (32-bit or 64-bit) and make sure the required version of Python is installed.
+. Download the Couchbase Python SDK installer for your platform and Python version from https://pypi.python.org/pypi/couchbase#files[^].
+. Run the installer and follow any instructions given.
+
+NOTE: Installation by means of pip will _not_ work on Windows.
+
+== Hello Couchbase
+
+The code snippet below shows how the Python SDK may be used for some common operations.
+
+FASTPATH: Couchbase Server 5.0 introduces _Role-Based Access Control_ (RBAC), whereby bucket-access requires authentication by means of username and, typically, password.
+To access Couchbase Server 5.0-based clusters, you can continue using your existing SDK-version.
+Alternatively, you can upgrade to the most recent SDK-version, which provides an optimized authentication interface, for use with RBAC.
+See https://developer.couchbase.com/documentation/server/5.0/sdk/python/sdk-authentication-overview.html[Authentication^] for information.
+
+[source,python]
+----
+>>> from couchbase.bucket import Bucket
+>>> cb = Bucket('couchbase://localhost/default')
+>>> cb.upsert('u:king_arthur', {'name': 'Arthur',
+...           'email': 'kingarthur@couchbase.com',
+...           'interests': ['Holy Grail', 'African Swallows']})
+OperationResult<RC=0x0, Key=u'u:king_arthur', CAS=0xb1da029b0000>
+>>> cb.get('u:king_arthur').value
+{u'interests': [u'Holy Grail', u'African Swallows'], u'name': u'Arthur', u'email': u'kingarthur@couchbase.com'}
+>>> cb.n1ql_query('CREATE PRIMARY INDEX ON default').execute()
+>>> from couchbase.n1ql import N1QLQuery
+>>> row_iter = cb.n1ql_query(N1QLQuery('SELECT name FROM default WHERE ' +\
+... '$1 IN interests', 'African Swallows'))
+>>> for row in row_iter: print row
+...
+{u'name': u'Arthur'}
+----
+
+== Connecting
+
+To connect to a Couchbase bucket, simply instantiate the [.api]`couchbase.Bucket` class, specifying any cluster node and the bucket name in the _connection string_.
+
+[source,python]
+----
+from couchbase.bucket import Bucket
+bucket = Bucket('couchbase://hostname-or-ip/bucket-name')
+----
+
+See xref:managing-connections.adoc[Managing Connections Using the Python SDK with Couchbase Server] for more connection options and details about the connection string.
+
+== Document Operations
+
+xref:core-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the [.api]`Bucket` class such as [.api]`Bucket.get` and [.api]`Bucket.upsert`.
+Simply pass the key (and value, if applicable) to the relevant methods.
+
+[source,python]
+----
+rv = bucket.get('document-id')
+                    print(rv.value)
+----
+
+[source,python]
+----
+bucket.upsert('document-id', {'application': 'data'})
+----
+
+== N1QL Queries
+
+Couchbase N1QL queries are performed by creating a [.api]`N1QLQuery` object and passing that to the [.api]`Bucket.n1ql_query()` method:
+
+[source,python]
+----
+from couchbase.n1ql import N1QLQuery
+query = N1QLQuery("SELECT airportname, city, country FROM `travel-sample `
+                  "WHERE type=\"airport\" AND city=$my_city", my_city="Reno")
+for row in bucket.n1ql_query(query):
+    print(row)
+----
+
+== API Reference
+
+The API reference is generated for each release and can be found at http://pythonhosted.org/couchbase[^].
+Most of the API documentation can also be accessed via `pydoc`.
+
+== Release Notes
+
+Information on new features, fixes, known issues as well as information on how to install older release versions is link:/server/other-products/release-notes-archives/python-sdk[in the release notes].
+
+== PyPy support
+
+Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
+
+An unofficial module, https://github.com/couchbaselabs/couchbase-python-cffi[couchbase_ffi^] uses ffi rather than the CPython C API to implement the internals of the library, and may be used with pypy.
+
+[#python-contributing]
+== Contributing
+
+Couchbase welcomes community contributions to the Python SDK.
+The https://github.com/couchbase/couchbase-python-client[Python SDK source code^] is available on GitHub.

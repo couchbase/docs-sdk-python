@@ -1,20 +1,15 @@
-= Handling Exceptions
-:page-topic-type: concept
-
-[abstract]
-Python exceptions are thrown when an error is encountered.
-In the Couchbase Python SDK, exceptions are structured in a class hierarchy, with each exception belonging to one or more categories (in the form of base classes):
+= Handling Exceptions and Other Errors with the Python SDK in Couchbase
+:navtitle: Handling Errors
 
 All Couchbase exceptions are derived from [.api]`CouchbaseError`.
 Exceptions may be caught via `except`.
 You may catch specific exceptions for specific handling, or you may catch the `CouchbaseError` and handle exceptions based on their status codes.
+Note that a single error may be part of multiple categories.
 
 == CouchbaseDataError
 
 This error category is raised when there is a data logic error (for example, a missing document ID).
 Handling of this error depends on application logic (for example, either perform corrective action to insert the document, or return an error up the stack indicating the specified resource does not exist).
-
-NOTE: Read more about data errors here: xref:4.1@server:developer-guide:error-handling.adoc#devguide-data-errors[Data errors]
 
 == ArgumentError
 
@@ -25,19 +20,15 @@ You should determine how and why the application is passing invalid input to the
 == CouchbaseNetworkError and CouchbaseTransientError
 
 This error category indicates a connectivity issue between the SDK and the Couchbase Cluster.
-This error might be a result of a temporary condition or a systematic infrastructure failure.
-See xref:4.1@server:developer-guide:error-handling.adoc#devguide-transient-errors[Transient and resource errors].
+This error might be a result of a <<devguide-transient-errors,temporary condition>> or a systematic infrastructure failure.
 
 [.api]`TimeoutError` and [.api]`NetworkError` are subclasses of these error types.
-
-One noteworthy corrective action is performing a xref:4.1@server:developer-guide:error-handling.adoc#devguide-replica-read[replica read] if attempting to retrieve a document from an unreachable server.
 
 == ObjectThreadError
 
 This error is thrown when access is detected from multiple concurrent threads.
-See xref:threads.adoc[Using threads] for information on configuring the SDK in a threaded Python application.
 
-== Anatomy of an exception object
+== Anatomy of an Exception Object
 
 The Python SDK makes full use of the fact that a Python exception is just an object.
 In addition to catching the exception itself, the exception object may be analyzed for more information regarding the failure, and in the case of batched operations, may be inspected to determine which operations failed and which succeeded.
@@ -47,3 +38,31 @@ Likewise applications may use the [.api]`is_network` property to determine if th
 
 All exceptions which are either data errors or network errors will contain a non-zero status code from the underlying C library; this status code may be obtained using the [.api]`rc` property of the exception.
 Exceptions which contain an [.api]`rc` value of 0 are typically [.api]`ArgumentErrors` which are thrown when a method was supplied with an invalid parameter, or an invalid combination of parameters.
+
+== Handling Errors from Multi Operations
+
+When executing multiple operations in a `_multi` methods (for example, [.api]`Bucket.get_multi()`), some of those operations will fail and an exception will be raised.
+Some operations may have still succeeded, and in this case you need to inspect the exception object to see which operations failed and which succeeded using the [.api]`CouchbaseError.split_results`
+
+[source,python]
+----
+try:
+    cb.get_multi(keys)
+except CouchbaseError as e:
+    ok, fail = e.split_results()
+    for k, v in fail.items():
+        print 'Key {0} failed with error code {1}'.format(k, v.rc)
+    for k, v in ok.items():
+        print 'Retrieved {0} with value {1}'.format(k, v.value)
+----
+
+== Converting Error Codes to Exception Objects
+
+In cases where exceptions are not raised but the operation fails, you may receive an _error code_ which is the status code returned by the C SDK.
+The Python SDK will not automatically convert the error code to an exception object for performance reasons.
+You can use the [.api]`CouchbaseError.rc_to_exctype` class method to get the exception class which _would have been raised_ based on the error code.
+Note that an error code of 0 means success.
+
+== Conceptual Error Types
+
+include::4.5@sdk:shared:partial$couchbase-errors.adoc[tag=group]

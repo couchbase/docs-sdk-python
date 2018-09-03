@@ -1,0 +1,136 @@
+= Managing Clusters using the Python SDK with Couchbase Server
+:navtitle: Managing Clusters
+
+include::4.5@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
+
+You may perform Couchbase management operations from any HTTP client (e.g.
+`urllib` or `requests`).
+The Python SDK also comes with some convenience functionality for common Couchbase management requests.
+
+Mangement operations in the Python SDK may be performed through several interfaces depending on the object:
+
+* [.api]`couchbase.admin.Admin` class
+* [.api]`couchbase.bucket.BucketManager` class (obtained via[.api]``Bucket.bucket_manager()``)
+* As a direct API of [.api]`Bucket`
+
+== Creating and removing buckets
+
+The [.api]`Admin` class may be used to create and delete buckets from the Couchbase cluster.
+It is instantiated using the administrative username and password, followed by a cluster node.
+
+[source,python]
+----
+from couchbase.admin import Admin
+adm = Admin('Administrator', '123456', host='localhost', port=8091)
+----
+
+To create a bucket, use the [.api]`Admin.bucket_create()` function, passing the bucket name as the first argument.
+Other arguments may also be specified using keyword arguments
+
+----
+adm.bucket_create('new-bucket',
+                  bucket_type='couchbase',
+                  bucket_password='s3cr3t')
+----
+
+Some useful parameters:
+
+* [.param]`bucket_type`: Defaults to `"couchbase"`, but can also be `"memcached"` to create a cache bucket
+* [.param]`ram_quota`: How much memory should each node use for the bucket.
+This number is specified in megabytes
+* [.param]`bucket_password`: If specified, makes this bucket password protected, forcing future connects (using the [.api]`Bucket`) class to specify the [.param]`password` parameter
+* [.param]`flush_enabled`: Enables the [.api]`Bucket.flush()` operation to be performed on this bucket
+
+include::4.5@sdk:shared:partial$flush-info-pars.adoc[tag=after-creation]
+
+The [.api]`Admin` class also has a convenience method to wait until the bucket becomes ready
+
+[source,python]
+----
+# Wait for bucket to become ready
+adm.wait_ready('new-bucket', timeout=30)
+----
+
+You can now create to the bucket
+
+[source,python]
+----
+bucket = Bucket('couchbase://localhost/new-bucket', password='s3cr3t')
+----
+
+Once you no longer need to use the bucket, you may delete the bucket using the [.api]`Admin.bucket_remove` function:
+
+[source,python]
+----
+adm.bucket_remove('new-bucket')
+----
+
+== Flushing Buckets
+
+include::4.5@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
+
+You may flush a bucket in the Python SDK by using the [.api]`Bucket.flush()`
+
+----
+bucket.flush()
+----
+
+The [.api]`flush` operation may fail if the bucket does not have flush enabled:
+
+....
+Traceback (most recent call last):
+  File "python/flush.py", line 6, in <module>
+    cb.flush()
+  File "/usr/local/lib/python2.7/site-packages/couchbase/bucket.py", line 1715, in flush
+    path=path, method=_LCB.LCB_HTTP_METHOD_POST)
+couchbase.exceptions.HTTPError: <Key='/pools/default/buckets/travel-sample/controller/doFlush', RC=0x3B[HTTP Operation failed. Inspect status code for details], HTTP Request failed. Examine 'objextra' for full result, Results=1, C Source=(src/http.c,140), OBJ=HttpResult<rc=0x0, value={u'_': u'Flush is disabled for the bucket'}, http_status=400, url=/pools/default/buckets/travel-sample/controller/doFlush>>
+....
+
+== N1QL Index Management
+
+include::4.5@sdk:shared:partial$flush-info-pars.adoc[tag=index-management]
+
+You can manage indexes in the Python SDK using the [.api]`BucketManager` class
+
+[source,python]
+----
+manager = cb.bucket_manager()
+manager.n1ql_index_create_primary(ignore_exists=True)
+----
+
+[source,python]
+----
+manager.n1ql_index_remove_primary(ignore_missing=True)
+----
+
+== Design Document Management
+
+include::4.5@sdk:shared:partial$flush-info-pars.adoc[tag=ddoc-intro]
+
+Using the Python SDK you may use the `design_*` methods of the [.api]`BucketManager` class to modify design documents.
+
+[source,python]
+----
+DESIGN_DOC = {
+    'views': {
+        'by_zipcode': {
+            'map': '''
+            function(doc, meta) {
+                if (doc.country && doc.zipcode) {
+                    emit([doc.country, doc.zipcode], null)
+                }
+            }
+            '''
+        }
+    }
+}
+mgr.design_create('locations', DESIGN_DOC, use_devmode=True)
+for row in cb.query('locations', 'by_zipcode'):
+    pass
+mgr.design_publish('locations')
+mgr.design_delete('locations', use_devmode=False)
+----
+
+include::4.5@sdk:shared:partial$flush-info-pars.adoc[tag=ddoc-async-warning]
+
+You can use the [.param]`use_devmode` (the default) parameter to indicate that the view should initially be a _development mode view_.

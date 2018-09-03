@@ -1,0 +1,23 @@
+= Collecting Information and Logging in the Python SDK with Couchbase Server
+:navtitle: Collecting Information
+
+The Python SDK allows logging via the standard [.api]`logging` module, or via the [.api]`LCB_LOGLEVEL` environment variable.
+
+[source,python]
+----
+import logging
+import sys
+
+import couchbase
+from couchbase.bucket import Bucket
+
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+couchbase.enable_logging()
+
+c = Bucket('couchbase://localhost/default')
+c.upsert('key', ['value'])
+----
+
+The logging itself is done by the underlying C SDK.
+
+include::2.6@c-sdk::page$collecting-information-and-logging.adoc[tag=group]

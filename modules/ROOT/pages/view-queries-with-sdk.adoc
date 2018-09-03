@@ -1,29 +1,16 @@
-= MapReduce (view) queries
-:page-topic-type: concept
+= MapReduce Views Using the Python SDK with Couchbase Server
+:navtitle: MapReduce Views
 
 [abstract]
 You can use MapReduce views to create queryable indexes in Couchbase Server.
 
-The normal CRUD methods allow you to look up a document by its ID.
-A MapReduce (_view_ query) allows you to look up one or more documents based on various criteria.
-MapReduce views are comprised of a _map_ function that is executed once per document (this is done incrementally, so this is not run each time you query the view) and an optional _reduce_ function that performs aggregation on the results of the _map_ function.
-The _map_ and _reduce_ functions are stored on the server and written in JavaScript.
+include::4.5@sdk:shared:partial$views.adoc[tag=views-intro]
 
-MapReduce queries can be further customized during query time to allow only a subset (or range) of the data to be returned.
+include::4.5@sdk:shared:partial$views.adoc[tag=example-beer]
 
-The following example queries a `by_name` view in a beer design document.
-This view checks whether a document is a beer and has a name.
-If it does, it emits the beer's name into the index.
-This view allows beers to be queried for by name.
+include::4.5@sdk:shared:partial$views.adoc[tag=example-geo-travel]
 
-[source,javascript]
-----
-function (doc, meta) {
-  if (doc.type && doc.type == "beer" && doc.name) {
-     emit(doc.name, null);
-  }
-}
-----
+== Querying Views with the Python SDK
 
 Querying a view through the Python client is performed through the `query()` method on the [.api]`Bucket` class.
 This method returns a Python iterator that yields the results of the query (in the form of a [.api]`ViewRow` object).
@@ -58,13 +45,13 @@ Here's some sample output for the previous query:
 
 ----
 ViewRow(key=u'A. LeCoq Imperial Extra Double Stout 1999', value=None,
-   docid=u'harvey_son_lewes-a_lecoq_imperial_extra_double_stout_1999', doc=None)
+docid=u'harvey_son_lewes-a_lecoq_imperial_extra_double_stout_1999', doc=None)
 ViewRow(key=u'A. LeCoq Imperial Extra Double Stout 2000', value=None,
-   docid=u'harvey_son_lewes-a_lecoq_imperial_extra_double_stout_2000', doc=None)
+docid=u'harvey_son_lewes-a_lecoq_imperial_extra_double_stout_2000', doc=None)
 ViewRow(key=u'Aass Brewery', value=None, docid=u'aass_brewery', doc=None)
 ViewRow(key=u'Abana Amber Ale', value=None, docid=u'mickey_finn_s_brewery-abana_amber_ale', doc=None)
 ViewRow(key=u'Abbaye de Floreffe Double', value=None,
-   docid=u'brasserie_lefebvre-abbaye_de_floreffe_double', doc=None)
+docid=u'brasserie_lefebvre-abbaye_de_floreffe_double', doc=None)
 ----
 
 You can also pass the query string directly.
@@ -77,8 +64,6 @@ rows = bkt.query('beer', 'by_name',
 ----
 
 == Querying Geospatial Views
-
-NOTE: Geospatial queries are present since Couchbase Server 3.0.1 (as experimental), and since Couchbase Server 4.0.0 (as stable).
 
 To query a geospatial view, you will need to construct a [.api]`SpatialQuery` object ([.api]`couchbase.views.params.SpatialQuery`).
 Spatial queries accept a [.param]`start_range` and an [.param]`end_range` parameter which allow you to limit the enclosing bounding boxes of the result.

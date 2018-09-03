@@ -1,0 +1,274 @@
+= CRUD Document Operations Using the Python SDK with Couchbase Server
+:navtitle: Document Operations
+:page-topic-type: concept
+
+You can access documents in Couchbase using methods of the [.api]`couchbase.bucket.Bucket` object.
+The method for retrieving documents is [.api]`get()`, [.api]`get_in()` and [.api]``retrieve_in()``and the methods for mutating documents are [.api]`upsert()`, [.api]`insert()`, [.api]`replace()` and [.api]`mutate_in()`.
+
+Examples are shown using the synchronous API.
+Semantics of the synchronous API are easily translatable to the xref:async-programming.adoc[Twisted and Gevent APIs].
+
+[#py-mutation-input]
+== Document input and output types
+
+The Python requires that document IDs be convertible to [.api]`unicode` objects.
+For document values, by default it requires that the document value be of a type serializable to [.api]`json.dumps`.
+See <<nonjson>> below for more details
+
+[#py-result-object]
+== Return value for CRUD operations
+
+All Python SDK operations return a `Result` object (or a subclass thereof).
+The result object contains general operation information and item metadata retrieved from the server.
+Typically a _subclass_ of `Result` will be returned which also contains operation-specific result information, such as the `value` field for a [.api]`get()` operation.
+The most common fields in a [.api]`Result` object are:
+
+== Additional options
+
+Additional options may be specified using _keyword arguments_
+
+Update operations also accept a xref:core-operations.adoc#expiry[TTL (expiry)] value ([.param]`ttl`) which will instruct the server to delete the document after a given amount of time.
+This option is useful for transient data (such as sessions).
+By default documents do not expire.
+See xref:core-operations.adoc#expiry[Expiration Overview] for more information on expiration.
+
+Update operations can also accept a xref:concurrent-mutations-cluster.adoc[CAS] ([.param]`cas`) value to protect against concurrent updates to the same document.
+See xref:concurrent-mutations-cluster.adoc[CAS] for a description on how to use CAS values in your application.
+
+== Creating and updating full documents
+
+Documents may be created and updated using the [.api]`Bucket.upsert()`, [.api]`Bucket.insert()`, and [.api]`Bucket.replace()` family of methods.
+Read more about the difference between these methods at xref:core-operations.adoc#crud-overview[Primitive Key-Value Operations] in the Couchbase developer guide.
+
+These methods accept two mandatory arguments:
+
+* [.param]`key`: The ID of the document to modify.
+This should be a Python string or unicode object.
+* [.param]`value`: The desired new value of the document.
+This may be anything that can be serialized as JSON (other input types can also be specified, see <<py-mutation-input>>).
+
+Additional options can be specified to the operation:
+
+* [.param]`cas`: The CAS value for the document.
+If the CAS on the server does not match the CAS supplied to the method, the operation will fail with a [.api]`couchbase.exceptions.KeyExistsError` error.
+See xref:concurrent-mutations-cluster.adoc[Concurrent Document Mutations] for more information on the usage of CAS values.
+* [.param]`ttl`: Specify the expiry time for the document.
+If specified, the document will expire and no longer exist after the given number of seconds.
+See xref:core-operations.adoc#expiry[Expiration Overview] for more information.
+* [.param]`format`: Specify the format of the new value.
+This indicates how the [.param]`value` should be serialized before being sent to the cluster.
+By default only JSON-serializable objects may be supplied as values.
+See <<py-mutation-input>>.
+* [.param]`persist_to`, [.param]`replicate_to`: Specify xref:durability.adoc[durability requirements] for the operations.
+A value of `-1` indicates that the specific requirement will be set to the maximum possible.
+
+Upon success, the returned [.api]`Result` object will contain the new xref:concurrent-mutations-cluster.adoc[CAS] value of the document.
+If the document was not mutated successfully, an exception is raised.
+See xref:handling-error-conditions.adoc[Handling Exceptions and Other Errors with the Python SDK in Couchbase] for more information on exception types and how to handle them.
+
+[source,python]
+----
+rv = bucket.insert('document_name', {'some': 'value'})
+print rv
+----
+
+Output:
+
+....
+OperationResult<RC=0x0, Key=u'document_name', CAS=0x707339a4125aaa13>
+....
+
+If the document being inserted already exists, the client will raise a [.api]`couchbase.exceptions.KeyExistsError`.
+If your application simply wants to set the value ignoring whether it exists or not, use the [.api]`upsert()` method.
+
+== Retrieving full documents
+
+Documents may be retrieved using the [.api]`Bucket.get()` method.
+The [.api]`get()` method has a single mandatory argument:
+
+* [.param]`key`: The document ID to retrieve
+
+Other options include:
+
+* [.param]`ttl`: Set the expiration for the document.
+This operation is known as a _get-and-touch_ operation.
+See xref:core-operations.adoc#expiry[Expiration Overview] for more information.
+* [.param]`replica`: This may be passed as a boolean to issue a _replica read_.
+This may be used if access to the master/primary node is temporarily xref:failure-considerations.adoc[unavailable].
+* [.param]`quiet`: Suppress throwing exceptions if the document does not exist.
+Rather than throwing an exception, status can be obtained from the [.api]`Result.success` property.
++
+[source,python]
+----
+rv = bkt.get('maybe', quiet=True)
+if rv.success:
+    handle_value(rv)
+else:
+    print "Item not found"
+----
+
+Upon success, a [.api]`ValueResult` object is returned.
+The actual document may be access by using the [.api]`ValueResult.value` property.
+Additional properties may also be accessed from the returned object.
+See <<py-result-object>>.
+
+The [.api]`ValueResult.value` will contain a native Python object, deserialized from JSON (or another format, per <<py-mutation-input>>).
+
+If the document does not exist (and [.param]`quiet=True` was not specified), a [.api]`couchbase.exceptions.NotFoundError` will be raised.
+
+[source,python]
+----
+rv = bucket.get('document_name')
+print "Result object is:", rv
+print "Actual value is:", rv.value
+----
+
+Sample output:
+
+....
+Result object is ValueResult<RC=0x0, Key=u'document_name', Value={u'some': u'value'},
+   CAS=0x20504a5e6a5aaa13, Flags=0x2000000>
+Actual value is {u'some': u'value'}
+....
+
+If the item does not exist, the client will raise a [.api]`couchbase.exceptions.NotFoundError`, which you can catch:
+
+[source,python]
+----
+from couchbase.exceptions import NotFoundError
+try:
+    rv = bkt.get('NOTEXISTENT')
+except NotFoundError as e:
+    print "Item not found", e
+----
+
+== Removing full documents
+
+Documents may be removed using the [.api]`Bucket.remove()` method.
+This method takes a single mandatory argument:
+
+* [.param]`key`: The ID of the document to remove
+
+Some additional options:
+
+* [.param]`quiet`: Do not raise an exception when attempting to remove a document which does not exist.
+* [.param]`cas`: Only remove the document if the xref:concurrent-mutations-cluster.adoc[CAS] has not changed.
+
+== Modifying expiraton
+
+xref:core-operations.adoc#expiry[Document expiration] can be performed using the [.api]`Bucket.touch()` method.
+
+[source,python]
+----
+cb.touch('document_id', ttl=5)
+----
+
+You can also set the [.param]`ttl` parameter for methods which support it:
+
+[source,python]
+----
+cb.upsert('expires', "i'm getting old...", ttl=5)
+print cb.get('expires').value
+time.sleep(6)
+print cb.get('expires').value
+----
+
+....
+i'm getting old...
+Traceback (most recent call last):
+  File "exp.py", line 10, in <module>
+    print cb.get('expires').value
+  File "/usr/local/lib/python2.7/site-packages/couchbase/bucket.py", line 489, in get
+    replica=replica, no_format=no_format)
+couchbase.exceptions._NotFoundError_0xD (generated, catch NotFoundError): <Key=u'expires', RC=0xD[The key does not exist on the server], Operational Error, Results=1, C Source=(src/multiresult.c,309)>
+....
+
+== Atomic document modifications
+
+Additional atomic document modifications can be performing using the Python SDK.
+You can modify a xref:core-operations.adoc#devguide_kvcore_append_prepend_generic[counter document] using the [.api]`Bucket.counter()` method.
+You can also use the [.api]`Bucket.append` and [.api]`Bucket.prepend` methods to perform raw byte concatenation
+
+== Batching Operations
+
+Many operations can be xref:batching-operations.adoc[batched] in the Python SDK using their `*_multi` equivalent.
+For example, to batch multiple [.api]`Bucket.get()` calls, you would use [.api]`Bucket.get_multi()`.
+
+The various `*_multi` operations all return a [.api]`MultiResult` object which acts like a dictionary: it maps each individual key to its operation which was performed.
+
+[source,python]
+----
+cb.upsert_multi({
+    'foo': 'fooval',
+    'bar': 'barval',
+    'baz': 'bazval'})
+
+for key, result in cb.get_multi(('foo', 'bar', 'baz')).items():
+    print '{0}: {1.value}'.format(key, result)
+----
+
+....
+baz: bazval
+foo: fooval
+bar: barval
+....
+
+You can use the http://pythonhosted.org/couchbase/api/items.html[Item API^] to pass additional per-operation options to _multi_ methods.
+
+== Operating with sub-documents
+
+TIP: Sub-Document API is available starting Couchbase Server version 4.5.
+See xref:subdocument-operations.adoc[Sub-Document Operations] for an overview.
+
+Sub-document operations save network bandwidth by allowing you to specify _paths_ of a document to be retrieved or updated.
+The document is parsed on the server and only the relevant sections (indicated by _paths_) are transferred between client and server.
+You can execute xref:subdocument-operations.adoc[sub-document] operations in the Python SDK using the [.api]`lookup_in`, [.api]`mutate_in`, and [.api]`retrieve_in` methods.
+
+Each of these methods accepts a [.param]`key` as its mandatory first argument, followed by one or more _command specifications_ specifying a specifying an operation and a document field operand.
+You may find all the operations in the [.api]`couchbase.subdocument` module.
+
+----
+import couchbase.subdocument as SD
+res = cb.lookup_in('docid', SD.get('path.to.get'), SD.exists('check.path.exists'))
+res = cb.mutate_in('docid', SD.upsert('path.to.upsert', value, create_parents=True), SD.remove('path.to.del'))
+----
+
+For simply retrieving a list of paths, you may use the [.api]`retrieve_in` convenience method:
+
+[source,python]
+----
+res = cb.retrieve_in('docid', 'path1', 'path2', 'path3')
+----
+
+All sub-document operations return a special [.api]`SubdocResult` object which is a subclass of [.api]`Result`.
+In contrast with a normal [.api]`Result` object, a [.api]`SubdocResult` object contains multiple results with multiple statuses, one result/status pair for every input operation.
+You can access an individual result/status pair by addressing the [.api]`SubdocResult` object as a mapping, and then using either the index position or the path of the operation as the key:
+
+[source,python]
+----
+res = cb.lookup_in('docid', SD.get('foo'), SD.exists('bar'), SD.exists('baz'))
+# First result
+res['foo']
+# or
+res[0]
+----
+
+Using the `[]` (`__getitem__`) functionality will raise an exception if the individual operation did not complete successfully.
+You can also use [.api]`SubdocResult.get()` to return a tuple of `(errcode, value)`
+
+[#nonjson]
+== Formats and Non-JSON Documents
+
+TIP: See xref:nonjson.adoc[Non-JSON Documents] for a general overview of using non-JSON documents with Couchbase
+
+All Python objects which can be represented as JSON may be passed unmodified to a storage function, and be received via the [.api]`get` method without any additional modifications.
+You can modify the default JSON encoders used by the Python SDK using the [.api]`couchbase.set_json_converters` function.
+This function accepts a pair of _encode_ and _decode_ functions which are expected to behave similarly to [.api]`json.dumps` and [.api]`json.loads` respectively.
+
+Storage operations accept a [.param]`format` keyword argument which may be one of [.opt]`couchbase.FMT_JSON` (to indicate the object should be serialized as JSON), [.opt]`couchbase.FMT_UTF8` (to serialize the object as a UTF-8 encoded string), [.opt]`couchbase.FMT_BYTES` (to serialize an object as a raw set of bytes; note the Python object in question must be of type `bytes`), [.opt]`couchbase.FMT_PICKLE` (to serialize an object using Python's native `pickle` module).
+You may also define new formats and utilize them via a custom transcoder.
+
+You can implement a custom transcoder if none of the pre-configured options are suitable for your application.
+A custom transcoder converts intputs to their serialized forms, and deserializes encoded data based on the item flags.
+The transcoder interface is described in the API documentation (http://pythonhosted.org/couchbase/api/transcoder.html[^]), and an example (http://pythonhosted.org/couchbase/api/transcoder.html[^]) is also provided in the source repository.
+When implementing a transcoder
