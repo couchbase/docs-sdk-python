@@ -24,7 +24,7 @@ for row in bkt.n1ql_query('SELECT * FROM default'):
 
 You can use N1QL xref:n1ql-query.adoc#devguide-named-placeholders[placeholders] in the query.
 Placeholders allow you to specify variable constraints for an otherwise constant query.
-A named or poditional parameter is a placeholder for a value in the WHERE, LIMIT or OFFSET clause of a query.
+A named or positional parameter is a placeholder for a value in the WHERE, LIMIT or OFFSET clause of a query.
 To use placeholders, manually construct an N1QLQuery object with the base query string, and simply use keyword and positional arguments for named or positional placeholders, respectively:
 
 .Named Placeholders
@@ -85,4 +85,4 @@ bkt.n1ql_query("CREATE PRIMARY INDEX ON default").execute()
 
 In order to query a bucket, it must have an index defined.
 You can create indexes using raw N1QL statements (e.g.
-xref:4.5@server:n1ql:n1ql-language-reference/createindex.adoc[CREATE INDEX]) or via the Python SDK's xref:managing-clusters.adoc[cluster management interface]
+xref:5.1@server:n1ql:n1ql-language-reference/createindex.adoc[CREATE INDEX]) or via the Python SDK's xref:managing-clusters.adoc[cluster management interface]

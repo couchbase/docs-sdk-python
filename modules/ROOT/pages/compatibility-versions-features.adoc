@@ -1,4 +1,4 @@
-= Compatibility of Couchbase Features, Couchbase Versions and the Couchbase Python SDK
+= Compatibility
 
 == Couchbase Version/SDK Version Matrix
 
@@ -11,32 +11,26 @@ This combination is not supported or recommended by our technical support organi
 It is best to upgrade either the SDK or the Couchbase version you are using.
 * ✔ *Supported*:This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization.
 
-.Couchbase Python SDK and Couchbase Server Compatibility Version Matrix
+.Couchbase Server and Python SDK Version Compatibility Matrix
 [#table_sdk_versions]
 |===
-| _CB/SDK_ | *SDK 2.0* | *SDK 2.1*
-
-| *CB 2.5*
-| *◎*
-| *◎*
-
-| *CB 3.0*
-| *◎*
-| *◎*
+| _Couchbase Server/Couchbase Python SDK_ | *SDK 2.0* | *SDK 2.1* | *SDK 2.2* | *SDK 2.3*
 
 | *CB 3.1*
 | *◎*
+| *◎*
+| *◎*
+| *◎*
+
+| *CB 4.0 - 4.6*
+| *✔*
+| *✔*
+| *✔*
 | *✔*
 
-| *CB 4.0*
+| *CB 5.0 - 5.1*
+| *◎*
 | *✔*
-| *✔*
-
-| *CB 4.1*
-| *✔*
-| *✔*
-
-| *CB 4.5*
 | *✔*
 | *✔*
 |===
@@ -48,47 +42,92 @@ The following matrix shows which versions of the Python client support the major
 
 Note that some of the features are dependent on the underlying C library (_libcouchbase_).
 
-.Couchbase Server and SDK Supported Version Matrix
-[cols="6,5,5,5,5,5,5"]
+.Couchbase Server and Python SDK Feature Compatibility Matrix
+[cols="6,5,5,5,5,5,5,5,5"]
 |===
-| Feature | Server 1.8 | Server 2.0 | Server 2.5 | Server 3.0 | Server 4.0 | Server 4.5
+| Feature | Server 1.8 | Server 2.0 | Server 2.5 | Server 3.0 | Server 4.0 | Server 4.5 | Server 4.6 | Server 5.0
 
-7+| *Basic features*
+9+| *Basic features*
 
 | CRUD operations
-6+| Since 1.0
+8+| Since 1.0
 
 | View Querying APIs
-6+| Since 1.0
+8+| Since 1.0
 
-7+| *Advanced features*
+9+| *Advanced features*
 
 | Durability Requirements
-6+| Since 1.1.0/_libcouchbase_ 2.3.0
+8+| Since 1.1.0/_libcouchbase_ 2.3.0
 
 | Fast (CCCP) Bootstrapping
 2+| Not Supported
-4+| Since _libcouchbase 2.3.0_
+6+| Since _libcouchbase 2.3.0_
 
 | SSL Connectivity
 3+| Not Supported
-3+| Since 2.0 / _libcouchbase 2.4.0_
+5+| Since 2.0 / _libcouchbase 2.4.0_
 
 | Bulk Operations
-6+| Since 1.0
+8+| Since 1.0
 
 | Cross-SDK Data types
 2+| Not Supported
-4+| Since 2.0
+6+| Since 2.0
 
 | N1QL Querying
 4+| Not Supported
-2+| Since 2.0.1
+4+| Since 2.0.1
 
-7+| *Administrative Features*
+| Extended Attributes
+7+| Not Supported
+| Since 2.2.5
+
+9+| *Administrative Features*
 
 | Administrative API
-6+| Not Supported
+8+| Not Supported
+
+| RBAC
+7+| Not Supported
+| Since 2.2.6
 |===
 
-include::4.5@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
+== Platform Compatibility
+
+We support a number of Python versions on MacOS, Windows and Linux.
+
+[#ul_compat_legend]
+* ✖ *Unsupported* : This combination is not tested, and is not within the scope of technical support if you have purchased a support agreement.
+* ◎ *Compatible* : This combination has been tested previously, and should be compatible.
+This combination is not supported or recommended by our technical support organization.
+It is best to upgrade either the SDK or the Couchbase version you are using.
+* ✔ *Supported* :This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization.
+
+.Couchbase Python SDK and Python Version Compatibility Version Matrix
+[#table_python_versions]
+|===
+| _Python Version/Couchbase SDK version_ | *SDK 2.2.6* | *SDK 2.3.0*
+
+| *2.7*
+| *✔*
+| *✔*
+
+| *3.2*
+| *◎*
+| *✖*
+
+| *3.3*
+| *◎*
+| *◎*
+
+| *3.4*
+| *◎*
+| *◎*
+
+| *3.6*
+| *✔*
+| *✔*
+|===
+
+include::5.1@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]

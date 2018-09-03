@@ -11,4 +11,4 @@ In addition to the connection string, the [.api]`Bucket` object offers a few obj
 
 Below follows the C settings section:
 
-include::2.6@c-sdk::page$client-settings.adoc[tag=group]
+include::2.8@c-sdk::page$client-settings.adoc[tag=group]

@@ -20,4 +20,4 @@ c.upsert('key', ['value'])
 
 The logging itself is done by the underlying C SDK.
 
-include::2.6@c-sdk::page$collecting-information-and-logging.adoc[tag=group]
+include::2.8@c-sdk::page$collecting-information-and-logging.adoc[tag=group]

@@ -6,23 +6,30 @@
 This section describes how to connect the Python SDK to a Couchbase cluster and bucket.
 It contains best practices as well as information on the connection string,  SSL and other advanced connection options.
 
-include::4.5@sdk:shared:partial$lcb-pars-shared.adoc[tag=connstr-intro]
+include::5.1@sdk:shared:partial$lcb-pars-shared.adoc[tag=connstr-intro]
 
 == Connecting to a Bucket
 
-To connect to a bucket using the synchronous API, simply create a new [.api]`Bucket` object by calling its constructor.
-You should pass a _connection string_ to the bucket indicating the host(s) and bucket you want to connect to.
-If your bucket is protected by a password, pass the [.var]`password` keyword argument to the constructor.
+All Couchbase Server-resources are protected by _Role-Based Access Control_ (RBAC).
+Therefore, to connect to a bucket, you must pass appropriate _credentials_: these consist of a _username_ and _password_ that correspond to a user currently defined on Couchbase Server.
+This user-definition is associated with one or more _roles_, each of which in turn corresponds to a set of _privileges_.
+When authentication occurs, Couchbase Server checks to ensure that the authenticated user's privileges do permit access to the requested resource: if they do not, access is denied.
+
+The following code demonstrates how authentication can be managed:
 
 [source,python]
 ----
-from couchbase.bucket import Bucket
-bucket = Bucket('couchbase://10.1.1.1/default')
-# With a password:
-protected_bucket = Bucket('couchbase://10.1.1.1/default', password='s3cr3t')
+from couchbase.cluster import Cluster
+from couchbase.cluster import PasswordAuthenticator
+cluster = Cluster('couchbase://localhost')
+authenticator = PasswordAuthenticator('username', 'password')
+cluster.authenticate(authenticator)
+cb = cluster.open_bucket('bucket-name')
 ----
 
-The bucket connection will close once it falls out of scope and has no other objects referencing it.
+For more information on authentication and RBAC, see xref:sdk-authentication-overview.adoc[Authentication].
+
+Note that a bucket-connection closes once it falls out of scope and has no other objects referencing it.
 It is advised to create only a single bucket object per application (or thread) for each Couchbase bucket your application connects to.
 
 == Disconnecting from a Bucket
@@ -46,4 +53,4 @@ If you realize that your application is suffering in performance because of thre
 If using multiple processes (such as with the `multiprocessing` module), or using a Python module which creates multiple processes, ensure that the [.api]`Bucket` object is not created in the parent process!
 Your Python interpreter may crash if the same [.api]`Bucket` object exists in more than a single process.
 
-include::2.6@c-sdk::page$managing-connections.adoc[tag=group]
+include::2.8@c-sdk::page$managing-connections.adoc[tag=group]
