@@ -1,0 +1,109 @@
+= Migrating from the 1.x SDK
+
+[abstract]
+Version 2.0 of the Couchbase Python SDK offers a slightly different API from its predecessors.
+This section explains how to migrate an application from the 1.x to the 2.x SDK.
+
+Older code using the more common APIs will still continue to function properly (though depending on the Python version, might print various deprecation warnings to the screen).
+However, it is recommended for clarity that even if the application functions using the older API, it should be migrated to the newer API (because it is more concise and consistent).
+
+== C Library Dependencies
+
+The Python 2.0 SDK requires the C SDK (libcouchbase) version 2.4.7 or greater.
+
+== Connecting
+
+The initial connection process has been changed to use a xref:managing-connections.adoc[connection string] rather than discrete keyword arguments.
+Additionally, the `Couchbase` class is deprecated.
+Here is a summary of the key differences:
+
+* The main class, which is used as the object that represents a connection to a bucket, has been renamed to `Bucket` (specifically, `couchbase.bucket.Bucket`) from `Connection` (`couchbase.connection.Connection)`.
+* Creating a new connection to a bucket is done by invoking the `Bucket` constructor directly, and providing it with a connection string.
+
+The following code snippets show how to connect to a bucket named `someBucket` using hosts `cb1`, `cb2` and `cb3` with a password of `s3cr3t`:
+
+.Connecting using 1.x
+[source,python]
+----
+from couchbase import Couchbase
+cb = Couchbase.connect(bucket='someBucket', hosts=['cb1','cb2','cb3'], password='s3cr3t')
+----
+
+.Connecting using 2.x
+[source,python]
+----
+from couchbase.bucket import Bucket
+cb = Bucket('couchbase://cb1,cb2,cb3/someBucket', password='s3cr3t')
+----
+
+== CRUD Operations
+
+CRUD (key-value) operations retain the same semantics.
+However, some of the names have been modified to be consistent with other 2.x-versioned SDKs.
+
+.CRUD Methods
+|===
+| 1.x Name | 2.x Name
+
+| `set`
+| `upsert`
+
+| `add`
+| `insert`
+
+| `incr`
+| `counter(key, amount=1)`
+
+| `decr`
+| `counter(key, amount=-1)`
+|===
+
+Note that the same conversion rules apply for any of the _multi_ methods.
+For example, `set_multi` becomes `upsert_multi` and so on.
+
+== Design Document Management
+
+Design document management methods are now accessible via the `BucketManager` class.
+A `BucketManager` class is obtained via the `bucket_manager()` method.
+For example, to create a new design document:
+
+.Creating a design document with 1.x
+[source,python]
+----
+cb.design_create('user_profiles', design_json)
+----
+
+.Creating a design document with 2.x
+[source,python]
+----
+cb.bucket_manager().design_create('user_profiles', design_json)
+----
+
+== Exception Classes
+
+2.x adds some new exception classes and semantics.
+Thus, in 2.x, the library attempts to be more detailed about various errors (mainly network failures) and throw an appropriate error class (usually subclassed from `CouchbaseNetworkError`) indicating what error actually occurred.
+You can use the (private) `bucket._cntlstr("detailed_errcodes", "0")` to disable this feature and revert back to 1.x exception semantics.
+
+== View Queries
+
+The view query system has remained largely compatible with its 1.x predecessor.
+Here are the main differences:
+
+* The streaming option is now deprecated.
+All views are now effectively streaming.
+Specifying this option will not throw an exception, but will be silently ignored by the SDK.
+* The `include_docs` parameter is no longer propagated to the `RowProcessor` class.
+Rather, it is handled internally by libcouchbase.
+Each raw JSON row will have a field named `__DOCRESULT__` if the library has retrieved its associated document.
+Using the `RowProcessor` class in general is discouraged because its main use case (efficiently fetching associated documents) is largely assumed by the underlying C library.
+
+== Twisted API
+
+The Twisted framework largely follows the same API as the synchronous client, so the changes mentioned above are also applicable to applications that use the Twisted API.
+In addition, the preferred way for connecting is by using `txcouchbase.bucket` (similar to `couchbase.bucket`), rather than `txcouchbase.txconnection`.
+
+== gevent API
+
+The gevent framework largely follows the same API as the synchronous client, so the changes mentioned above are also applicable to applications that use the gevent API.
+In addition, the preferred way for connecting is by using `gcouchbase.bucket` (similar to `couchbase.bucket`) rather than `gcouchbase.connection`.

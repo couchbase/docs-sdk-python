@@ -1,0 +1,73 @@
+= Using threads
+
+[abstract]
+If your application must use threads, follow these guidelines  to make the most of the Python SDK in such a scenario.
+
+[#python-threads-about]
+== About Python threads
+
+Python threads do _not_ speed up an application.
+In fact, Python threads do not even run in parallel.
+Thus, in most cases, using multiple threads will actually slow down an application rather than speeding it up.
+The main use case for Python threads is allowing multiple blocking I/O operations to be performed with pseudoparallelism.
+This technique allows a Python application to perform several I/O operations in parallel without having to redesign the application to make use of an asynchronous I/O framework such as Twisted and gevent.
+
+For new applications, it is highly recommended to make use of such asynchronous operations and to avoid Python threads, if at all possible.
+The purpose of this document is to describe several points of using the Python SDK in a threaded environment.
+
+[#using-with-threads]
+== Using the Python SDK in threaded applications
+
+Each [.api]`Bucket` object contains an internal lock that is held for the duration of each operation performed on it.
+By default, when an method is called on the [.api]`Bucket` object, it checks whether the lock is already held, and if it is, throws a [.api]`couchbase.exceptions.ObjectThreadError` exception.
+This is because this would unnecessarily slow down the application and would indicate that there is contention between two threads for the [.api]`Bucket` object.
+
+In general, you can choose between several possible strategies to apply when using an application with threads.
+The strategy to apply depends on the use case of the application itself.
+Here are the possible strategies:
+
+* Create a dedicated [.api]`Bucket` object per thread.
++
+This strategy is useful for a low number of threads, where each thread is performing Couchbase operations very frequently.
+In this use mode, each thread is assured that it will never have to wait for another thread to complete a Couchbase operation.
++
+Note that this approach is *not* recommended for applications with high numbers of threads, as this will dramatically increase the number of connections to the cluster.
+
+* Create a global [.api]`Bucket` object shared between threads.
++
+This strategy is useful if the application is only intermittently performing Couchbase operations (that is, every few seconds).
+In this case the application maintains only a single connection to the cluster, and application threads and access to the [.api]`Bucket` singleton will be serialized across threads.
+To make use of this strategy (and to disable the [.api]`ObjectThreadError` exception), use the [.var]`lockmode=LOCKMOE_WAIT` in the constructor, like so:
++
+[source,python]
+----
+from couchbase.bucket import Bucket
+from couchbase import LOCKMODE_WAIT
+
+bucket = Bucket('couchbase://10.0.0.99/default', lockmode=LOCKMODE_WAIT)
+----
++
+This explicitly instructs the SDK to wait (and not throw an exception) if an existing operation is in progress on the given [.api]`Bucket` object.
+
+* Create a custom application-specific pool of [.api]`Bucket` instances
++
+This strategy allows an application to fine-tune access to the cluster.
+There is no built-in support for connection pooling within the SDK, however implementing a pooling strategy can be achieved.
+The source distribution of the SDK features an example of a connection pool.
+
+[#topic_anw_1hq_3q]
+== Disabling threaded functionality
+
+The SDK defaults to allowing usage with threads in order to not unexpectedly cause crashes within the Python interpreter itself.
+Nevertheless, there is a small performance cost for this default.
+To disable any threading functionality, pass these options to the constructor:
+
+[source,python]
+----
+from couchbase.bucket import Bucket
+from couchbase import LOCKMODE_NONE
+
+bucket = Bucket('couchbase://192.168.33.101/default', lockmode=LOCKMODE_NONE, unlock_gil=False)
+----
+
+Note that using the above options in an application that uses Python threads will likely crash the interpreter!

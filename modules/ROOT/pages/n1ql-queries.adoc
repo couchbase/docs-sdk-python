@@ -1,0 +1,42 @@
+= N1QL queries
+:page-topic-type: concept
+
+[abstract]
+You can perform N1QL queries via the Python client.
+
+NOTE: See Couchbase Developer documentation for a quick intro to N1QL: xref:4.1@server:developer-guide:querying.adoc[Querying with N1QL]
+
+NOTE: To set the N1QL timeout values per query or globally, see http://pythonhosted.org/couchbase/api/n1ql.html#couchbase.n1ql.N1QLQuery.timeout[timeouts^].
+
+To issue N1QL queries, you should create a [.api]`couchbase.n1ql.N1QLQuery` object, and pass it (as the [.param]`query` keyword argument) to the [.api]`n1ql_query()` method in the [.api]`Bucket` class.
+Simple queries (that is, ones that are only strings and do not use placeholders) can be supplied directly to the [.api]`n1ql_query()` function, which will implicitly create the [.api]`N1QLQuery` object internally.
+
+The return value from [.api]`n1ql_query()` is a [.api]`N1QLRequest` object.
+Iterating over the object will yield the rows returned by the server for the given query (as a `dict`).
+Each row represents a row received for the query.
+
+As a convenience for queries which are not intended to yield multiple rows, you may use the returned [.api]`N1QLRequest` object's [.api]`execute()` method.
+For queries which are intended to return only a single result, you can use the [.api]`get_single_result()` method.
+Both of the aforementioned methods are wrappers that iterate over the object internally and are intended to provide additional clarity inside your application's code.
+
+.Simple N1QL Query
+[source,python]
+----
+bkt.n1ql_query('CREATE PRIMARY INDEX ON default').execute()
+for row in bkt.n1ql_query('SELECT * FROM default'):
+    print row
+----
+
+You can use N1QL placeholders in the query.
+Placeholders allow you to specify variable constraints for an otherwise constant query.
+To use placeholders, manually construct an N1QLQuery object with the base query string, and simply use keyword and positional arguments for named or positional placeholders, respectively:
+
+.N1QL Query with placeholders
+[source,python]
+----
+from couchbase.n1ql import N1QLQuery
+# ...
+q = N1QLQuery('SELECT fname, lname, age FROM default WHERE age > $age', age=22)
+for row in bkt.n1ql_query(q):
+    print row
+----

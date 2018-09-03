@@ -1,0 +1,220 @@
+= Release notes
+:page-topic-type: concept
+
+[abstract]
+Release notes for the 2.0 version of the Python SDK.
+
+== Version 2.0.9 (19 May 2016)
+
+* Raise exception if error occurs in stats operation.
+Previously the error would be silenced and the [.api]`Bucket.stats()` would simply return an empty value.
+Issue https://issues.couchbase.com/browse/PYCBC-341[PYCBC-341^].
+* Fix error when iterating over [.api]`SubdocResult`.
+This was due to a missing import for the `izip` function, which requires an import from `itertools` in Python 2.7.
+Issue https://issues.couchbase.com/browse/PYCBC-343[PYCBC-343^].
+* Add experimental full-text search support.
+This is available via the [.api]`Bucket.search()` method.
+Issue https://issues.couchbase.com/browse/PYCBC-321[PYCBC-321^].
+* Send Python SDK version in server-side logs.
+This allows the Python SDK version to appear in the server-side logs, such as when using `cbcollectinfo`.
+Issue https://issues.couchbase.com/browse/PYCBC-388[PYCBC-388^].
+* Enable users to add multiple bucket credentials.
+This may be used for future cross-bucket access and authentication (for e.g.
+n1ql queries which use multiple buckets).
+The credentials may be added via [.api]`Bucket.add_bucket_creds()`.
+Issue https://issues.couchbase.com/browse/PYCBC-325[PYCBC-325^].
+* Add N1QL index management to the [.api]`BucketManager` class.
+This adds the [.api]`n1ql_create_index`, [.api]`n1ql_drop_index` and other methods to the [.api]`BucketManager` class.
+The [.api]`BucketManager` itself may be obtained via [.api]`Bucket.bucket_manager()`.
+Issue https://issues.couchbase.com/browse/PYCBC-326[PYCBC-326^].
+* Fix wrong callbacks being invoked when [.api]`GreenletExit` is caught and handled.
+Issue https://issues.couchbase.com/browse/PYCBC-344[PYCBC-344^].
+
+== Version 2.0.8 (4 April 2016)
+
+* Added sub-document API support.
+This is an experimental API which can be used with Couchbase Server 4.5.
+There is a walkthrough http://blog.couchbase.com/2016/february/subdoc-explained[blog^] demonstrating the sub-document API, though the API in this release has some minor differences.
+Issue https://issues.couchbase.com/browse/PYCBC-320[PYCBC-320^]
+* Improved and fixed sequence-number consistency for N1QL queries.
+Seqno-based consistency is a feature in Couchbase Server 4.5 and was implemented previously in the Python SDK.
+It has been modified in this version to reflect the latest server development, notably to support multi-bucket sequence bounding.
+Issue https://issues.couchbase.com/browse/PYCBC-319[PYCBC-319^]
+
+== Version 2.0.7 (1 February 2016)
+
+* Enhanced _asyncio_ support using the `acouchbase` module:
+ ** Ensure the `acouchbase` module is installed alongside `couchbase` (https://issues.couchbase.com/browse/PYCBC-318[PYCBC-318^])
+ ** Add example to README for asyncio
+ ** Fix potential crash when loop is destroyed while the `Bucket` object is still in scope
+ ** Add support for `query` and `n1ql_query` in the [.api]`acouchbase.bucket.Bucket` module.
+* Undocument `View.rows_returned`.
+This variable is slightly misleading and acts as a counter for how many total rows have been buffered.
+It is not particularly useful for outside application development.
+Issue https://issues.couchbase.com/browse/PYCBC-317[PYCBC-317^]
+
+== Version 2.0.6 (8 December 2015)
+
+* Removed the _experimental_ designation from the N1QL and Geospatial views support (both are stable as of Couchbase 4.0).
+Issue https://issues.couchbase.com/browse/PYCBC-310[PYCBC-310^]
+* Indicated that N1QL placeholder values (from `couchbase.n1ql.N1QLQuery`) should contain unencoded Python values rather than encoded JSON values.
+Issue https://issues.couchbase.com/browse/PYCBC-309[PYCBC-309^]
+* `N1QLRequest` (the iterator object returned via `Bucket.n1ql_query()`) now has a `meta` property which can be inspected at the end of querying to discover other metadata sent by the server
+* `N1QLRequest.execute()` now returns itself, allowing for idioms such as `+meta = cb.n1ql_query(...).execute().meta+`
+* Attempting to access any metadata property of a `View` object (returned from [.api]`Bucket.query`) or a `N1QLRequest` object (returned from [.api]`Bucket.n1ql_query`) will raise an exception if the query has not been complete yet.
+This new functionality will prevent misleading information from trickling into the application and enforce correct API usage.
+Issue https://issues.couchbase.com/browse/PYCBC-311[PYCBC-311^]
+* Allow tests to be executed by specifying their "simple" names.
+Internally the SDK's tests' names are mangled according to the API implementation being tests (synchronous, `gevent`, `asyncio`, and other future possible implementations).
+An example of a mangled name might be `couchbase.tests.test_sync.ArithmeticTest_Bucket` while the actual test name may be `couchbase.tests.cases.arithmetic_t.ArithmeticTest`.
+This allows the unmangled name to be used; falling back to the sync implementation and issuing a warning that the mangled name should be used in the future.
+* Don't throw exception iterating over empty resultsets with `Async` modules.
+Issue https://issues.couchbase.com/browse/PYCBC-308[PYCBC-308^]
+
+== Version 2.0.5 (3 November 2015)
+
+* Fix N1QL API for Twisted.
+The N1QL API in the Twisted (`txcouchbase`) module was not functioning correctly with respect to iterating over the results.
+This has been fixed.
+Issue https://issues.couchbase.com/browse/PYCBC-306[PYCBC-306^].
+* Fix common flags mask for 32-bit platforms.
+This fixes a bug where a negative value would be exposed to Python for the format mask.
+This issue may have affected user-defined transcoders on 32-bit platforms.
+Issue https://issues.couchbase.com/browse/PYCBC-296[PYCBC-296^].
+* [.api]`ItemOptionsDict.add()` now validates its inputs to be of type [.api]`Item`.
+This avoids crashes and odd behaviors later on if trying to perform `Item`-based operations on objects which are not [.api]`Item` instances.
+Issue https://issues.couchbase.com/browse/PYCBC-303[PYCBC-303^]
+* Add `Bucket.is_ssl` property.
+This property is a read-only boolean which is true if the current [.api]`Bucket` object is connected using SSL.
+Issue https://issues.couchbase.com/browse/PYCBC-305[PYCBC-305^]
+* Add [.api]`Bucket.n1ql_timeout` property.
+This property allows setting the global N1QL timeout for N1QL queries.
+Timeouts may also be set _lower_ on a per-query basis using the [.api]`N1QLQuery.tmeout` property.
+Issue https://issues.couchbase.com/browse/PYCBC-307[PYCBC-307^]
+
+== Version 2.0.4 (1 September 2015)
+
+Version 2.0.4 adds some additional APIs and bug fixes
+
+* Fix `FMT_XXX_MASK` to the correct values.
+This allows them to be used for user-defined transcoders.
+Previously this would end up being a negative value.
+This has been fixed by forcing the value to be unsigned in the Python extension code.
+Issue https://issues.couchbase.com/browse/PYCBC-293[PYCBC-293^]
+* Free [.code]``Result``'s mutation info before freeing result itself.
+This fixes a bug where the client would read uninitialized memory, introduced in 2.0.3.
+Issue https://issues.couchbase.com/browse/PYCBC-294[PYCBC-294^].
+* Ignore legacy value flags (bits 1-24) if any of the newer common value flags (bits 24-32) is set.
+This allows the Python SDK to interact better with other SDKs (in this case, the .NET client), which themselves may set the lower 24 bits in additional to the upper 8 bits.
+The lower 24 bits are not interoperable but are set by SDKs for legacy purposes.
+The upper 8 bits are intended to be interoperable and take precedence over the legacy flags.
+Issue https://issues.couchbase.com/browse/PYCBC-295[PYCBC-295^].
+* Allow use of N1QL's prepared (optimized, non-adhoc) queries.
+This can be done by setting the `adhoc` property to `False` on the `N1QLQuery` object.
+The Python SDK passes this option to the C SDK, which implements the underlying mechanics for this feature.
+* Add undocumented _keystats_ feature.
+This feature allows retrieval of some additional document metadata (such as expiration and flags) through the `stats()` API.
+This is a private API and only intended for debugging purposes.
+It may be used by passing the `keystats=True` to the `Bucket.stats()` method.
+When passing this argument, any of the prior keys passed to the `stats()` method are interpreted to refer to document IDs, and their metadata (for each server) is returned.
+Issue https://issues.couchbase.com/browse/PYCBC-291[PYCBC-291^].
+
+== Version 2.0.3 (3 August 2015)
+
+Version 2.0.3 fixes some additional bugs in the N1QL API, and enhances its integration with the underlying C SDK
+
+* Fix crash in cases where N1QL result iterator (`N1QLRequest`) is destroyed (in Python) before query is complete.
+This happens if the iterator is destroyed or otherwise goes out of scope before all its results have been returned to the user within Python.
+Issue https://issues.couchbase.com/browse/PYCBC-290[PYCBC-290^]
+* Don't throw exception on N1QL results which return no rows.
+This fix in Python code properly handles the case where no rows are returned by the query.
+
+== Version 2.0.2 (2 June 2015)
+
+Version 2.0.2 fixes some bugs in the N1QL API, and also adds an administration API
+
+* Fix encoding bug for named parameters with N1QL queries.
+This fixes an issue where named parameters passed to the [.api]`N1QLQuery` constructor would be accepted by the library, but would not actually be properly supplied during query time.
+* Add administrative API for creating/modifying/removing buckets.
+This extends the `couchbase.admin.Admin` class.
+This API is only available for synchronous clients (and thus has no gevent or Twisted wrappers).
+
+== Version 2.0.1 (5 May 2015)
+
+Version 2.0.1 offers a new (experimental) N1QL API.
+
+*Changes*
+
+* The N1QL API now returns raw Python dictionaries (as parsed from within Python) rather than [.api]`N1QLRow` objects.
+The [.api]`N1QLRow` class has been removed.
+* N1QL API encoding is done directly in pure Python, rather than deferring to the C library.
+* The [.api]`N1QLQuery.set_args()` and [.api]`N1QLQuery.add_args` have been removed.
+Placeholder parameters should be provided directly in the constructor in the form of Python's positional and keyword arguments, e.g.
++
+[source,python]
+----
+q = N1QLQuery("SELECT name, age FROM users WHERE age=$age", age=42)
+----
+
+* A new `N1QLQuery.consistency` property has been implemented, which may accept a [.var]`couchbase.n1ql.CONSISTENCY_REQUEST` or [.var]`CONSISTENCY_NONE` to indicate the consistency of the dataset against which the query is executed
+
+*Enhancements*
+
+* Document the [.api]`Bucket.flush()` method.
+* Starting from this version, Windows binaries are now available for Python 3.4
+
+== Version 2.0.0 (7 April 2015)
+
+Version 2.0.0 is the first general availability release of the 2.0 Python SDK.
+
+Enhancements
+
+* The client now offers integration with Python's `logging` module.
+Simply invoke `couchbase.enable_logging()` to use Python's built-in logging.
+This is a cleaner alternative to using `LCB_LOGLEVEL` in the environment.
+* Building on Apple's Python now works in all conditions, as `/usr/local/` is now included in the library search paths.
+* A new `split_result()` method has been added to the `CouchbaseError` base exception class.
+This method allows users to more easily derive the successful and failed operations (the later of which caused the exception).
+* For _Windows_ installers, libcouchbase *2.4.8* is bundled.
+
+== Version 2.0.0 Beta 2 (3 March 2015)
+
+Version 2.0 Beta 2 is the second beta release of the Python SDK version 2.0.
+This release includes additional experimental support for geospatial views and N1QL queries.
+
+Enhancements
+
+* The views subsystem has been rewritten internally to take advantage of the new view API inside libcouchbase.
+As a result, the client now depends on libcouchbase version 2.4.7 or later.
+* Geospatial support has been added via the `SpatialQuery` class.
+This can be used like the `Query` class, but contains the `start_range` and `end_range` properties.
+* N1QL support has been added via the `N1QLQuery` class and the `Bucket.n1ql_query()` method.
+This exposes an iterator-based API similar to the view API.
+The N1QL API is highly experimental and likely to change.
+
+== Version 2.0.0 Beta 1 (20 January 2015)
+
+Version 2.0 Beta 1 is the first beta release of the Python SDK version 2.0.
+This release includes new documentation, new API reference, and a tested interface that represents all committed features.
+Various uncommitted and experimental features might change prior to the final release of version 2.0.0.
+
+Enhancements and behavioral changes
+
+* New CRUD verbs have been introduced, which makes this release more compatible with other 2.0 SDKs.
+Thus, `set` has been renamed to `upsert`, `add` to `insert`, and `incr` and `decr` to `counter`.
+* A new `Bucket` class has been introduced that replaces the older `Connection` class.
+To connect to a bucket, instantiate the `Bucket` object via its constructor.
+The constructor is typically passed a [.term]_connection string_ (see API documentation for details).
+The older method for connecting, that is, `Couchbase.connect` has been deprecated (but not removed).
+* Data flags have been modified to conform to the new SDK 2.0 specification regarding common handling of data types across clients.
+This means that data stored by the Python SDK (other than in `FMT_PICKLE`) will be readable by all other SDKs.
+This does not break interoperability with older versions of the Python client, but might break interoperability with older versions of other SDKs.
+* Flushing a bucket is now possible via the `Bucket.flush` method.
+* `include_docs` now works in gevent.
+Previously this would use the server-side `include_docs`, which was removed in Couchbase Server 3.0.
+* An experimental implementation, `acouchbase`, has been added.
+This is intended to integrate with the Python 3 `asyncio` (also know as Tulip) event system.
+
+Known issues
+
+* The N1QL interface has yet to be defined.

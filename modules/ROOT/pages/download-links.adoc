@@ -1,0 +1,96 @@
+= Download and API Reference
+
+[abstract]
+The Python SDK is available via pip, the Python package management system.
+
+== API Reference
+
+You can find the latest API reference at http://pythonhosted.org/couchbase[^].
+Most of the API reference is also available via `pydoc`.
+
+== Installing the SDK
+
+The SDK requires Python 2.6 or greater.
+Use `python -V` to get the version of Python being used.
+
+*Installation Instructions (Linux, OS X, other Unix-like systems)*
+
+. xref:2.5@c-sdk::download-install.adoc[Install the C library].
++
+IMPORTANT: If you don't have the C library installed, the rest of this installation will not work.
++
+If you already have the C SDK installed, ensure the installed version is at least **2.5.7.**To determine the version, either query your package version, or run the `cbc` command:
++
+[source,bash]
+----
+$ cbc version
+cbc:
+  Runtime: Version=2.5.3, Changeset=041e4d58d24ea3ba2b4c3e307ac7da90a28eba68
+  Headers: Version=2.5.3, Changeset=041e4d58d24ea3ba2b4c3e307ac7da90a28eba68
+  IO: Default=libevent, Current=libevent
+  SSL: .. SUPPORTED
+----
++
+Note that depending on how your libcouchbase was installed, the `cbc` command might not be available and is not required for the Python SDK.
+
+. Install the Python development files:
+ ** For EL6-based RPM distributions (e.g.
+CentOS 6, RHEL 6):
++
+[source,bash]
+----
+$ yum install python-devel
+----
+
+ ** For Debian-based systems (including Ubuntu):
++
+[source,bash]
+----
+$ apt-get install python-dev
+----
+
+ ** For OS X, the Python development files are already included in the Python distribution.
+. Install the Python SDK.
+The easiest way to do this is via the `pip` tool:
++
+[source,bash]
+----
+$ pip install couchbase
+----
++
+Alternatively, you can manually download the source package at https://pypi.python.org/pypi/couchbase[PyPi^].
++
+[NOTE]
+====
+If you get an error message like
+
+....
+  src/pycbc.h:25:10: fatal error: 'libcouchbase/couchbase.h' file not found
+  #include <libcouchbase/couchbase.h>
+           ^
+  1 error generated.
+  error: command 'clang' failed with exit status 1
+....
+
+then you have not installed the C SDK.
+Please xref:2.5@c-sdk::download-install.adoc[Install the C library] to fix this error.
+====
+
+. Verify that your Python SDK is available and working by entering the following command:
++
+[source,bash]
+----
+$ python -c 'import couchbase'
+----
++
+If this command does not print any errors or exceptions, your Python SDK is properly installed!
+
+*Installation Instructions (Microsoft Windows)*
+
+The process for installing on Windows involves downloading the correct installer for your system and installing it.
+There are no additional dependencies, as the C library is embedded into the SDK.
+
+Go to the SDK's PyPi page (https://pypi.python.org/pypi/couchbase#downloads[^]) and download the executable installer corresponding to your version and architecture of Python.
+Keep in mind that "32 bit" and "64 bit" correspond to your _Python_ version, not your operating system.
+
+You may verify your installation by importing the `couchbase` module (as per instruction #4 for *nix).

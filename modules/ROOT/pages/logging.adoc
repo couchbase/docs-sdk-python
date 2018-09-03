@@ -1,0 +1,58 @@
+= Setting up logging
+:page-topic-type: concept
+
+[abstract]
+The Python SDK provides log messages via the C library.
+Logging may be configured either directly from within the C library (via an environment variable), or using Python's standard `logging` module.
+
+Read more about the `LCB_LOGLEVEL` environment variable at  (from the C library documentation).
+
+== Enabling Logging via Environment Variables
+
+This option is recommended for quick one-off debugging to determine what the library is doing.
+
+Enabling logging via environment variables will simply have the internal C library log to the standard error stream (`stderr`).
+Set `LCB_LOGLEVEL` environment variable to a number between 1 to 5 (with 5 being the most verbose).
+See xref:2.5@c-sdk::logging.adoc[Setting up logging] for more information.
+
+== Enabling Logging using Python's `logging` module
+
+This option is recommended for applications already using Python's `logging` module.
+To enable logging, call the `couchbase.enable_logging()` function.
+This will make the C library call into Python's logging routines.
+The _root_ couchbase logger is called `couchbase`.
+
+.Using the logging module
+[source,python]
+----
+import logging
+import sys
+
+import couchbase
+from couchbase.bucket import Bucket
+
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+couchbase.enable_logging()
+
+c = Bucket('couchbase://localhost/default')
+c.upsert('key', ['value'])
+----
+
+....
+INFO:couchbase:Initializing Couchbase logging. lcb_version=('2.4.7', 132103)
+DEBUG:couchbase.confmon:[0] Preparing providers (this may be called multiple times) (L:89)
+DEBUG:couchbase.confmon:[0] Provider FILE is DISABLED (L:99)
+DEBUG:couchbase.confmon:[0] Provider CCCP is ENABLED (L:96)
+DEBUG:couchbase.confmon:[0] Provider HTTP is ENABLED (L:96)
+DEBUG:couchbase.confmon:[0] Provider MCRAW is DISABLED (L:99)
+DEBUG:couchbase.confmon:[0] Start refresh requested (L:292)
+DEBUG:couchbase.confmon:[0] Current provider is CCCP (L:271)
+INFO:couchbase.cccp:[0] Requesting connection to node localhost:11210 for CCCP configuration (L:118)
+DEBUG:couchbase.lcbio_mgr:[0] <localhost:11210> (HE=0x7fd3a3811e00) Creating new connection because none are available in the pool (L:416)
+DEBUG:couchbase.lcbio_mgr:[0] <localhost:11210> (HE=0x7fd3a3811e00) Starting connection on I=0x7fd3a2420db0 (L:321)
+INFO:couchbase.connection:[0] <localhost:11210> (SOCK=0x7fd3a2701fd0) Starting. Timeout=2000000us (L:441)
+DEBUG:couchbase.connection:[0] <localhost:11210> (SOCK=0x7fd3a2701fd0) Got event handler for new connection (L:258)
+DEBUG:couchbase.connection:[0] <localhost:11210> (SOCK=0x7fd3a2701fd0) Scheduling asynchronous watch for socket. (L:305)
+DEBUG:couchbase.connection:[0] <localhost:11210> (SOCK=0x7fd3a2701fd0) Got event handler for new connection (L:258)
+INFO:couchbase.connection:[0] <localhost:11210> (SOCK=0x7fd3a2701fd0) Connected  (L:116)
+....

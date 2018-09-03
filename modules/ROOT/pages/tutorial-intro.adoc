@@ -1,0 +1,15 @@
+= Python tutorial
+:page-topic-type: concept
+
+[abstract]
+The Python SDK tutorial shows you how to build a simple web application that uses Couchbase Server as the underlying data source.
+
+The sample application works with data in the `beer-sample` bucket.
+That's the same sample bucket you used in the Hello Couchbase example.
+If you didn't run the Hello Couchbase example, make sure the `beer-sample` bucket is installed before you start this tutorial.
+
+The sample application displays the beers and breweries in the `beer-sample` bucket.
+It also provides methods to edit and manage beers and breweries.
+
+The full https://github.com/couchbaselabs/beersample-python[source code for the Python tutorial^] is available in the beersample-python repository from https://github.com/couchbaselabs[couchbaselabs on GitHub^].
+You should read through all of the source code in the sample application because it contains additional code that is not described in this tutorial.

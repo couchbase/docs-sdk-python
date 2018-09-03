@@ -1,0 +1,7 @@
+name: python-sdk
+version: '2.0'
+title: Python SDK
+start_page: introduction.adoc
+nav:
+- modules/ROOT/nav.adoc
+server_version: '4.1'
