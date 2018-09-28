@@ -44,7 +44,7 @@
 * xref:tracing-from-the-sdk.adoc[Tracing from the SDK]
 
 .Project Docs
-* xref:relnotes-java-sdk.adoc[Release Notes]
+* xref:relnotes-python-sdk.adoc[Release Notes]
 * xref:compatibility-versions-features.adoc[Compatibility]
 * xref:sdk-licenses.adoc[Licenses]
 * xref:get-involved.adoc[Get involved]
