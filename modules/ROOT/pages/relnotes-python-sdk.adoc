@@ -1,4 +1,5 @@
 = Couchbase Python SDK Release Notes
+:page-partial:
 
 == Installation
 
