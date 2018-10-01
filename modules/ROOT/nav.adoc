@@ -37,3 +37,10 @@
 * xref:handling-error-conditions.adoc[Handling Errors]
 * xref:failure-considerations.adoc[Failure Considerations]
 * xref:collecting-information-and-logging.adoc[Collecting Information]
+
+.Project Docs
+* xref:relnotes-python-sdk.adoc#_python_sdk_2_2_6_release_notes_august_25_2017[Release Notes]
+* xref:compatibility-versions-features.adoc[Compatibility]
+* xref:sdk-licenses.adoc[Licenses]
+* xref:get-involved.adoc[Get involved]
+ ** https://docs.couchbase.com/home/contribute/index.html[Improve the Docs]
