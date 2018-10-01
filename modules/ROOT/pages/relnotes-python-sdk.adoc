@@ -1,1 +1,1 @@
-2.4@python-sdk:pages:relnotes-python-sdk.adoc
+include::2.4@python-sdk:pages:relnotes-python-sdk.adoc
