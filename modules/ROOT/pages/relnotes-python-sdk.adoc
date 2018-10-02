@@ -1,1 +1,1 @@
-include::2.4@python-sdk::page$relnotes-python-sdk.adoc
+include::2.5@python-sdk::page$relnotes-python-sdk.adoc#python-sdk-2-3-5-release-notes-may-1-2018[]
