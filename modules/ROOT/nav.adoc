@@ -39,7 +39,7 @@
 * xref:collecting-information-and-logging.adoc[Collecting Information]
 
 .Project Docs	
-* xref:relnotes-python-sdk.adoc[Release Notes]	
+* xref:relnotes-python-sdk.adoc#python-sdk-2-2-6-release-notes-august-25-2017[Release Notes]	
 * xref:compatibility-versions-features.adoc[Compatibility]	
 * xref:sdk-licenses.adoc[Licenses]	
 * xref:get-involved.adoc[Get involved]	
