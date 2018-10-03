@@ -139,7 +139,7 @@ Most of the API documentation can also be accessed via `pydoc`.
 
 == Release Notes
 
-Information on new features, fixes, known issues as well as information on how to install older release versions is link:/server/other-products/release-notes-archives/python-sdk[in the release notes].
+Information on new features, fixes, known issues as well as information on how to install older release versions is xref:relnotes-python-sdk.adoc#python-sdk-2-1-3-release-notes-december-6-2016[in the release notes].
 
 == PyPy support
 
