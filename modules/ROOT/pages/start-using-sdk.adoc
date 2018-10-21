@@ -22,6 +22,77 @@ sudo apt-get install libcouchbase-dev build-essential python-dev python-pip
 sudo pip install couchbase
 ----
 
+.Recent versions of Debian and Ubuntu
+
+If you are using a recent version of Debian or Ubuntu, as Debian 9 ("Stretch") or Ubuntu 18.04 ("Bionic Beaver"), you will need to configure and install Couchbase manually. But it is very easy too.
+
+* First, install Couchbase's GPG key. If you are a normal user with `sudo`:
+
+[source,bash]
+----
+sudo wget -O - http://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add -
+----
+
+* If you are a `root` user:
+
+[source,bash]
+----
+wget -O - http://packages.couchbase.com/ubuntu/couchbase.key | apt-key add -
+----
+
+* Then select the repository entry for your operating system (Debian or Ubuntu) and version from this list:
+
+https://docs.couchbase.com/c-sdk/2.10/relnotes-c-sdk.html#configuring-apt-repositories-debian-ubuntu[^]
+
+* Add that repository entry to a `couchbase.list` file under `/etc/apt/sources.list.d/`.
+* For example, for Ubuntu 18.04 (Bionic Beaver) you could do it with this command:
+
+[source,bash]
+-----
+sudo echo "deb http://packages.couchbase.com/ubuntu bionic bionic/main" > /etc/apt/sources.list.d/couchbase.list
+-----
+
+* And for Debian 9 (Stretch), assuming you are a `root` user, you could do it with this command:
+
+[source,bash]
+-----
+echo "deb http://packages.couchbase.com/ubuntu stretch stretch/main" > /etc/apt/sources.list.d/couchbase.list
+-----
+
+* Then you can install the dependencies:
+
+[source,bash]
+-----
+sudo apt-get update
+sudo apt-get install -y libcouchbase-dev build-essential python-dev python-pip
+-----
+
+* And then install `couchbase` with `pip`:
+
+[source,bash]
+-----
+pip install couchbase
+-----
+
+
+.Python in Docker
+
+If you are using an image with a recent version of Python, it will probably be based on Debian 9 (Stretch).
+
+Applying the information in the section above on how to install for Debian 9 (Stretch), and taking into account that the official images already have `python-dev`, `python-pip` and `build-essential`, this is how your `Dockerfile` could look like:
+
+[source,Dockerfile]
+-----
+FROM python:3.6
+
+# Dependencies for Couchbase
+RUN wget -O - http://packages.couchbase.com/ubuntu/couchbase.key | apt-key add -
+RUN echo "deb http://packages.couchbase.com/ubuntu stretch stretch/main" > /etc/apt/sources.list.d/couchbase.list
+RUN apt-get update && apt-get install -y libcouchbase-dev build-essential
+RUN pip install couchbase
+-----
+
+
 .RHEL and CentOS
 [source,bash]
 ----
