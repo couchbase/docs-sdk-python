@@ -41,7 +41,6 @@ Once _homebrew_ is configured:
 [source,bash]
 ----
 brew update # get list of latest packages
-brew install libcouchbase
 brew install python
 pip install couchbase
 ----
