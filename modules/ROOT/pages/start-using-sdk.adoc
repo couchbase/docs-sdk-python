@@ -86,7 +86,7 @@ OperationResult<RC=0x0, Key=u'u:king_arthur', CAS=0xb1da029b0000>
 >>> from couchbase.n1ql import N1QLQuery
 >>> row_iter = cb.n1ql_query(N1QLQuery('SELECT name FROM default WHERE ' +\
 ... '$1 IN interests', 'African Swallows'))
->>> for row in row_iter: print row
+>>> for row in row_iter: print(row)
 ...
 {u'name': u'Arthur'}
 ----
