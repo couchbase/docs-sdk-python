@@ -11,11 +11,13 @@ After familiarising yourself with our xref:6.0@server:analytics:primer-beer.adoc
 
 == Availability
 
-The analytics service is available in Couchbase Data Platform 6.0 and later (developer preview in 5.5). While earlier Python SDK versions provide some support, we strongly recommend to use at least version 2.5.0, which provides a committed and stable interface for it.
+The analytics service is available in Couchbase Data Platform 6.0 and later (developer preview in 5.5). 
+While earlier Python SDK versions provide some support, we strongly recommend to use at least version 2.5.0, which provides a committed and stable interface for it.
 
 == Usage: Performing a Request
 
 Intentionally, the API for analytics is very similar to the query service one, but with an additional host parameter.
+
 [source,python]
 ----
 
@@ -27,7 +29,8 @@ def analytics_query(self, query, host, *args, **kwargs):
 
 The timeout is always propagated to the server, so when a timeout happens on the client side the server can also stop processing the request and save resources.
 
-To perform a query, you need to create an `AnalyticsQuery` -- which can either be simple or parameterized. If parameters are used, they can either be positional or named. Here is one example of each:
+To perform a query, you need to create an `AnalyticsQuery` -- which can either be simple or parameterized. 
+If parameters are used, they can either be positional or named. Here is one example of each:
 
 [source,python]
 ----
