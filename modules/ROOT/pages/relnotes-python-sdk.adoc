@@ -33,12 +33,8 @@ pip install git+http://github.com/couchbase/couchbase-python-client@2.5.1
 * https://issues.couchbase.com/browse/PYCBC-531[PYCBC-531]
 Analytics KV Ingress for Python
 
-////
-
 * https://issues.couchbase.com/browse/PYCBC-532[PYCBC-532]
 Analytics Deferred Queries for Python
-////
-
 
 * https://issues.couchbase.com/browse/PYCBC-493[PYCBC-493]
 Add alternate name/alternate port config support
