@@ -19,6 +19,32 @@ install version 2.0.8:
 pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 ----
 
+== Python SDK 2.5.1 Release Notes (November 6 2018)
+
+[source,bash]
+----
+pip install git+http://github.com/couchbase/couchbase-python-client@2.5.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.1/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-531[PYCBC-531]
+Analytics KV Ingress for Python
+
+* https://issues.couchbase.com/browse/PYCBC-532[PYCBC-532]
+Analytics Deferred Queries for Python
+
+* https://issues.couchbase.com/browse/PYCBC-493[PYCBC-493]
+Add alternate name/alternate port config support
+
+* https://issues.couchbase.com/browse/PYCBC-515[PYCBC-515]
+Reject unsupported Python versions in setup.py
+
+* https://issues.couchbase.com/browse/PYCBC-535[PYCBC-535]
+Support Python 3.7 Async Interface
+
 == Python SDK 2.5.0 Release Notes (October 2 2018)
 
 [source,bash]
