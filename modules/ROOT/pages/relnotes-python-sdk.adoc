@@ -28,8 +28,8 @@ pip install couchbase==2.5.1
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.1/
 
-Please note that, due to the end of support for Microsoft Visual Studio 2008 (VC9), which is unfortunately required to build
-binary extensions for Python 2.7 on Windows, we have made the difficult decision to discontinue builds and support for the latter.
+Please note, with the end of support for Microsoft Visual Studio 2008 (VC9), which is required to build
+binary extensions for Python 2.7 on Windows, with this release we no longer build for Python 2.7 on Windows.
 
 However, we are now shipping binary wheels for Python 3 on Windows, which means that you can now download Windows
 binaries (if available for your Python 3 version) simply by running the pip command above, rather than manually downloading the binaries or sources.
