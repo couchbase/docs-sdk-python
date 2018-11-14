@@ -142,7 +142,7 @@ for row in bucket.n1ql_query(query):
 
 == API Reference
 
-The API reference is generated for each release and can be found linked from the xref:relnotes-python-sdk.adoc#python-sdk-2-2-6-release-notes-august-25-2017[release notes for your version of the Python SDK^].
+The API reference is generated for each release and can be found linked from the xref:relnotes-python-sdk.adoc#python-sdk-2-2-6-release-notes-august-25-2017[release notes for your version of the Python SDK].
 Most of the API documentation can also be accessed via `pydoc`.
 
 == Release Notes
