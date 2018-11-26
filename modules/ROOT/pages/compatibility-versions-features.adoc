@@ -136,8 +136,8 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 | *✔*
 
 | *3.7*
-| *@*
-| *✔*
+| *x*
+| *x*
 | *✔*
 
 |===
