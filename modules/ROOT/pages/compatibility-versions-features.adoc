@@ -103,31 +103,43 @@ We support a number of Python versions on MacOS, Windows and Linux.
 This combination is not supported or recommended by our technical support organization.
 It is best to upgrade either the SDK or the Couchbase version you are using.
 * ✔ *Supported* :This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization.
+* U *Supported on Unix systems only* : This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization, but only on Unix-based systems, i.e. MacOS and Linux.
 
 .Couchbase Python SDK and Python Version Compatibility Version Matrix
 [#table_python_versions]
 |===
-| _Python Version/Couchbase SDK version_ | *SDK 2.2.6* | *SDK 2.3.0*
+| _Python Version/Couchbase SDK version_ | *SDK 2.2.6* | *SDK 2.3.0* | *SDK 2.5.1*
 
 | *2.7*
 | *✔*
 | *✔*
+| *U*
 
 | *3.2*
 | *◎*
 | *✖*
+| *✖*
 
 | *3.3*
+| *◎*
 | *◎*
 | *◎*
 
 | *3.4*
 | *◎*
 | *◎*
+| *◎*
 
 | *3.6*
 | *✔*
 | *✔*
+| *✔*
+
+| *3.7*
+| *x*
+| *x*
+| *✔*
+
 |===
 
 include::6.0@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
