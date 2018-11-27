@@ -1,0 +1,11 @@
+antora.html
+.idea/atlassian-ide-plugin.xml
+.idea/docs-sdk-python.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/codeStyles/Project.xml
+.idea/markdown-navigator/profiles_settings.xml
+cmake-build-debug/CMakeFiles/clion-log.txt
+modules/ROOT/nav.html
