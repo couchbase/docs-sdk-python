@@ -54,3 +54,17 @@ If using multiple processes (such as with the `multiprocessing` module), or usin
 Your Python interpreter may crash if the same [.api]`Bucket` object exists in more than a single process.
 
 include::2.8@c-sdk::page$managing-connections.adoc[tag=group]
+
+[NOTE]
+====
+
+From Couchbase Python.js SDK 2.5.1, [.api]`AlternateAddress` is implemented, for connecting to nodes in a NATed environment, such as Docker containers using portmapping.
+It is on by default, if the server provides a topology that includes a multi-network configuration.
+Whichever network is selected at bootstrap will be logged.
+
+If using __Docker Swarm__, or otherwise running the SDK inside the NAT, then you will want to disable with `?network = internal` in the connection string, or an xref:client-settings.adoc[environmental setting] can be made.
+
+Note that any SSL/TLS certificates must be set up at the point where the connections are being made.
+The Couchbase SDKs will honor any valid SSL/TLS certificates.
+
+====
