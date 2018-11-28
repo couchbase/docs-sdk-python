@@ -58,7 +58,7 @@ include::2.8@c-sdk::page$managing-connections.adoc[tag=group]
 [NOTE]
 ====
 
-From Couchbase Python.js SDK 2.5.1, [.api]`AlternateAddress` is implemented, for connecting to nodes in a NATed environment, such as Docker containers using portmapping.
+From Couchbase Python Client 2.5.1, [.api]`AlternateAddress` is implemented, for connecting to nodes in a NATed environment, such as Docker containers using portmapping.
 It is on by default, if the server provides a topology that includes a multi-network configuration.
 Whichever network is selected at bootstrap will be logged.
 
