@@ -36,7 +36,7 @@ The most common fields in a [.api]`Result` object are:
 
 |===
 
-Note that for Twisted APIs, these objects are not returned _per se_, but rather a `Deferred` object is returned, and the appropriate `Result` or `Failure` object is passed into the callback or errback, respectively.
+Note that for most of the asynchronous APIs, these objects are not returned _per se_, but rather passed back to callbacks. For example, with Twisted, a `Deferred` object is returned, and the appropriate `Result` or `Failure` object is passed into the callback or errback, respectively.
 
 == Additional options
 
