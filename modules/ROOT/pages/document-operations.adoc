@@ -34,7 +34,7 @@ The most common fields in a [.api]`Result` object are:
 
 | `cas` | An opaque object representing the resulting xref:concurrent-mutations-cluster.adoc[CAS] value of the key that was operated on. This value is not meant to be user facing, but should be passed directly to other operations for locking purposes.
 
-| ===
+|===
 
 Note that for Twisted APIs, these objects are not returned _per se_, but rather a `Deferred` object is returned, and the appropriate `Result` or `Failure` object is passed into the callback or errback, respectively.
 
