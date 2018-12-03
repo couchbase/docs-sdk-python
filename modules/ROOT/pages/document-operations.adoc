@@ -23,6 +23,21 @@ The result object contains general operation information and item metadata retri
 Typically a _subclass_ of `Result` will be returned which also contains operation-specific result information, such as the `value` field for a [.api]`get()` operation.
 The most common fields in a [.api]`Result` object are:
 
+|===
+| Name | Description
+
+| `value` | For retrieval-type operations, this field contains the value of the requested key.
+
+| `rc` | Contains the raw error code received from _libcouchbase_. If this number is zero then the operation was successful; otherwise it will be an error. The `CouchbaseError.rc_to_exctype()` class method can be used to return the exception class which would have been thrown.
+
+| `success` | This is a convenience property which is equivalent to `rc == 0`
+
+| `cas` | An opaque object representing the resulting xref:concurrent-mutations-cluster.adoc[CAS] value of the key that was operated on. This value is not meant to be user facing, but should be passed directly to other operations for locking purposes.
+
+| ===
+
+Note that for Twisted APIs, these objects are not returned _per se_, but rather a `Deferred` object is returned, and the appropriate `Result` or `Failure` object is passed into the callback or errback, respectively.
+
 == Additional options
 
 Additional options may be specified using _keyword arguments_
