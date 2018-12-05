@@ -3,7 +3,7 @@
 
 == Installation
 
-You may install previous versions using pip (after installing the required
+You may install previous versions of the SDK using pip (after installing the required
 http://developer.couchbase.com/documentation/server/4.5/sdk/python/start-using-sdk.html[dependencies])
 
 [source,bash]
@@ -18,6 +18,37 @@ install version 2.0.8:
 ----
 pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 ----
+
+== Python SDK 2.5.2 Release Notes (December 4 2018)
+
+[source,bash]
+----
+pip install couchbase==2.5.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.2/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-547[PYCBC-547]
+Allow the user to set deferred query timeout easily
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-542[PYCBC-542]
+Correct the "plain text" example in n1ql_query API documentation
+
+* https://issues.couchbase.com/browse/PYCBC-543[PYCBC-543]
+Handle multiresult exception entries without a success field
+
+* https://issues.couchbase.com/browse/PYCBC-550[PYCBC-550]
+Correct the txcouchbase get_multi example
+
+* https://issues.couchbase.com/browse/PYCBC-554[PYCBC-554]
+Mandate installation of PEP484 typing module on all systems
+
+* https://issues.couchbase.com/browse/PYCBC-548[PYCBC-548]
+Fix AnalyticsIngester docs
 
 == Python SDK 2.5.1 Release Notes (November 6 2018)
 
