@@ -89,7 +89,7 @@ for row in row_iter: print(row)
 == Connecting
 
 To connect to a Couchbase bucket, you must use Couchbase _Role-Based Access Control_ (RBAC).
-This is fully described in the section xref:6.0@server:security:security-authorization.adoc[Authorization].
+This is fully described in the section xref:6.0@server:learn:security/authorization-overview.adoc[Authorization].
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
 Following successful authentication, the bucket can be opened.
 
