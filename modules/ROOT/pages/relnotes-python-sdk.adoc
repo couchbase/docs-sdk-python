@@ -19,6 +19,10 @@ install version 2.0.8:
 pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 ----
 
+== Upgrading
+
+New versions of the Python SDK take advantage of features added in recent versions of libcouchbase. Be sure to xref:c-sdk:relnotes-c-sdk.adoc[upgrade your LCB installation] before making a major upgrade to the Couchbase Python client.
+
 == Python SDK 2.5.2 Release Notes (December 4 2018)
 
 [source,bash]
