@@ -3,8 +3,7 @@
 
 == Installation
 
-You may install previous versions of the SDK using pip (after installing the required
-http://developer.couchbase.com/documentation/server/4.5/sdk/python/start-using-sdk.html[dependencies])
+You may install previous versions of the SDK using pip (after installing the required xref:start-using-sdk.adoc[dependencies])
 
 [source,bash]
 ----
