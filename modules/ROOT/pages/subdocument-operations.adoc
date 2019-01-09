@@ -2,7 +2,7 @@
 include::partial$attributes.adoc[]
 
 [abstract]
-_Sub-Document operations can be used to efficiently access _parts_ of documents.
+_Sub-Document_ operations can be used to efficiently access _parts_ of documents.
 Sub-Document operations may be quicker and more network-efficient than _full-document_ operations such as _upsert_, _update_ and _get_ because they only transmit the accessed sections of the document over the network.
 Sub-Document operations are also atomic, allowing safe modifications to documents with built-in concurrency control.
 
