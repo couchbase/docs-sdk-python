@@ -2,22 +2,22 @@
 include::partial$attributes.adoc[]
 
 [abstract]
-_Sub-document_ operations can be used to efficiently access _parts_ of documents.
-Sub-document operations may be quicker and more network-efficient than _full-document_ operations such as _upsert_, _update_ and _get_ because they only transmit the accessed sections of the document over the network.
-Sub-document operations are also atomic, allowing safe modifications to documents with built-in concurrency control.
+_Sub-Document operations can be used to efficiently access _parts_ of documents.
+Sub-Document operations may be quicker and more network-efficient than _full-document_ operations such as _upsert_, _update_ and _get_ because they only transmit the accessed sections of the document over the network.
+Sub-Document operations are also atomic, allowing safe modifications to documents with built-in concurrency control.
 
-== Sub-documents
+== Sub-Documents
 
 Starting with Couchbase Server 4.5 you can atomically and efficiently update and retrieve _parts_ of a document.
-These parts are called _sub-documents_.
-While full-document retrievals retrieve the entire document and full document updates require sending the entire document, sub-document retrievals only retrieve relevant parts of a document and sub-document updates only require sending the updated portions of a document.
-You should use sub-document operations when you are modifying only portions of a document, and full-document operations when the contents of a document is to change significantly.
+These parts are called _Sub-Documents_.
+While full-document retrievals retrieve the entire document and full document updates require sending the entire document, Sub-Document retrievals only retrieve relevant parts of a document and Sub-Document updates only require sending the updated portions of a document.
+You should use Sub-Document operations when you are modifying only portions of a document, and full-document operations when the contents of a document is to change significantly.
 
 [caption=Attention]
-IMPORTANT: The sub-document operations described on this page are for _Key-Value_ requests only: they are not related to sub-document N1QL queries.
-(Sub-document N1QL queries are explained in the section xref:n1ql-query.adoc[Querying with N1QL].)
+IMPORTANT: The Sub-Document operations described on this page are for _Key-Value_ requests only: they are not related to Sub-Document N1QL queries.
+(Sub-Document N1QL queries are explained in the section xref:n1ql-query.adoc[Querying with N1QL].)
 
-In order to use sub-document operations you need to specify a _path_ indicating the location of the sub-document.
+In order to use Sub-Document operations you need to specify a _path_ indicating the location of the Sub-Document.
 The _path_ follows N1QL syntax (see https://developer.couchbase.com/documentation/server/current/sdk/subdocument-operations.html#story-h2-12[below^], and xref:{version-server}@server:n1ql:n1ql-intro/queriesandresults.adoc[N1QL Queries and Results]).
 Considering the document:
 
@@ -55,10 +55,10 @@ The paths `name`, `addresses.billing.country` and `purchases.complete[0]` are al
 == Retrieving
 
 The _lookup-in_ operations queries the document for a certain path(s) and returns that/those path(s).
-You have a choice of actually retrieving the document path using the _subdoc-get_ sub-document operation, or simply querying the existence of the path using the _subdoc-exists_ sub-document operation.
+You have a choice of actually retrieving the document path using the _subdoc-get_ Sub-Document operation, or simply querying the existence of the path using the _subdoc-exists_ Sub-Document operation.
 The latter saves even more bandwidth by not retrieving the contents of the path if it is not needed.
 
-.Retrieve sub-document value
+.Retrieve Sub-Document value
 [source,python]
 ----
 import couchbase.subdocument as SD  # Use SD alias for brevity
