@@ -76,7 +76,7 @@ logging.info('Path exists? {}'.format('purchases.pending[-1]' in rv.value.keys()
 Multiple operations can be combined as well:
 
 .Combine multiple lookup operations
-[source,php]
+[source,python]
 ----
 import couchbase.subdocument as SD
 frags = self.cb.lookup_in('customer123',
