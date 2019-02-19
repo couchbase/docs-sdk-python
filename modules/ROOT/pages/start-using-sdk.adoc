@@ -65,25 +65,7 @@ The code snippet below shows how the Python SDK may be used for some common oper
 
 [source,python]
 ----
-from couchbase.cluster import Cluster
-from couchbase.cluster import PasswordAuthenticator
-cluster = Cluster('couchbase://localhost')
-authenticator = PasswordAuthenticator('username', 'password')
-cluster.authenticate(authenticator)
-cb = cluster.open_bucket('bucket-name')
-cb.upsert('u:king_arthur', {'name': 'Arthur', 'email': 'kingarthur@couchbase.com', 'interests': ['Holy Grail', 'African Swallows']})
-# OperationResult<RC=0x0, Key=u'u:king_arthur', CAS=0xb1da029b0000>
-
-cb.get('u:king_arthur').value
-# {u'interests': [u'Holy Grail', u'African Swallows'], u'name': u'Arthur', u'email': u'kingarthur@couchbase.com'}
-
-## The CREATE PRIMARY INDEX step is only needed the first time you run this script
-cb.n1ql_query('CREATE PRIMARY INDEX ON bucket-name').execute()
-from couchbase.n1ql import N1QLQuery
-row_iter = cb.n1ql_query(N1QLQuery('SELECT name FROM bucket-name WHERE ' +\
-'$1 IN interests', 'African Swallows'))
-for row in row_iter: print(row)
-# {u'name': u'Arthur'}
+include::{examplesdir}/hello_world_t.py[tag=intro]
 ----
 
 == Connecting
@@ -95,12 +77,7 @@ Following successful authentication, the bucket can be opened.
 
 [source,python]
 ----
-from couchbase.cluster import Cluster
-from couchbase.cluster import PasswordAuthenticator
-cluster = Cluster('couchbase://localhost')
-authenticator = PasswordAuthenticator('username', 'password')
-cluster.authenticate(authenticator)
-bucket = cluster.open_bucket('bucket-name')
+include::{examplesdir}/hello_world_t.py[tag=connecting]
 ----
 
 Once defined, the authenticator can be passed to other clusters, as appropriate.
@@ -114,13 +91,12 @@ Simply pass the key (and value, if applicable) to the relevant methods.
 
 [source,python]
 ----
-rv = bucket.get('document-id')
-                    print(rv.value)
+include::{examplesdir}/hello_world_t.py[tag=docopsget]
 ----
 
 [source,python]
 ----
-bucket.upsert('document-id', {'application': 'data'})
+include::{examplesdir}/hello_world_t.py[tag=docopsupsert]
 ----
 
 == N1QL Queries
@@ -129,11 +105,7 @@ Couchbase N1QL queries are performed by creating a [.api]`N1QLQuery` object and 
 
 [source,python]
 ----
-from couchbase.n1ql import N1QLQuery
-query = N1QLQuery("""SELECT airportname, city, country FROM `travel-sample` """
-                  """WHERE type="airport" AND city=$my_city""", my_city="Reno")
-for row in bucket.n1ql_query(query):
-    print(row)
+include::{examplesdir}/hello_world_t.py[tag=n1l]
 ----
 
 == API Reference
