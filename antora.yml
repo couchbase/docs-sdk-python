@@ -1,7 +1,8 @@
 name: python-sdk
 version: '3.0dp1'
+prerelease: ALPHA
 title: Python SDK
-start_page: start-using-sdk.adoc
+start_page: 3.0dp1@php-sdk:hello-world:start-using-sdk.adoc
 nav:
 - modules/ROOT/nav.adoc
 server_version: '6.5'
