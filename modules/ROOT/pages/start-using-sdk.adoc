@@ -53,11 +53,11 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 The Couchbase Python SDK is available as an executable installer for Windows.
 This contains all the required dependencies, including C SDK development files.
 
-. Check your Windows architecture (32-bit or 64-bit) and make sure the required version of Python is installed.
-. Download the Couchbase Python SDK installer for your platform and Python version from https://pypi.python.org/pypi/couchbase#files[^].
-. Run the installer and follow any instructions given.
+[source,bash]
+----
+pip install couchbase
+----
 
-NOTE: Installation by means of pip will _not_ work on Windows.
 
 == Hello Couchbase
 
