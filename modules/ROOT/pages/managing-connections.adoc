@@ -53,6 +53,8 @@ If you realize that your application is suffering in performance because of thre
 If using multiple processes (such as with the `multiprocessing` module), or using a Python module which creates multiple processes, ensure that the [.api]`Bucket` object is not created in the parent process!
 Your Python interpreter may crash if the same [.api]`Bucket` object exists in more than a single process.
 
+include::6.0@sdk:pages:partial$max-connections.adoc[tag=limits]
+
 include::2.8@c-sdk::page$managing-connections.adoc[tag=group]
 
 [NOTE]
