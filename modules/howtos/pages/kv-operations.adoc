@@ -35,26 +35,22 @@ Make sure you're familiar with the basics of authorization and connecting to a C
 We're going to expand on the short _Upsert_ example we used there, adding options as we move through the various CRUD operations.
 Here is the _Insert_ operation at its simplest:
 
-[source,csharp]
+[source,python]
 ----
 Insert
-var document = new {foo = "bar", bar = "foo"};
-var result = await collection.Insert("document-key", document);
+document = {"foo":"bar", "bar":"foo"}
+result = collection.insert("document-key", document)
 ----
 
 Options may be added to operations:
 
-[source,csharp]
+[source,python]
 ----
 Insert (with options)
-var document = new {foo = "bar", bar = "foo"};
-var result = await collection.Insert("document-key", document,
-    new InsertOptions
-    {
-        Cas = 12345,
-        Timeout = TimeSpan.FromSeconds(5)
-    }
-);
+document = {"foo":"bar", "bar":"foo"}
+result = collection.insert("document-key", document,
+                           cas = 12345,
+                           timeout = Durations.seconds(5))
 ----
 
 Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
@@ -66,17 +62,14 @@ _Timeout_ is an optional parameter which in the .NET SDK has a type value of `Ti
 Timeout sets the timeout value for the underlying network connection.
 We will add to these options for the _Replace_ example:
 
-[source,csharp]
+[source,python]
 ----
-var document = new {foo = "bar", bar = "foo"};
-var result = await collection.Replace("document-key", document,
-    new ReplaceOptions
-    {
-        Cas = 12345,
-        Expiration = TimeSpan.FromMinutes(1),
-        Timeout = TimeSpan.FromSeconds(5)
-    }
-);
+document = {"foo":"bar","bar":"foo"}
+result = collection.replace("document-key",
+                            document,
+                            cas = 12345,
+                            expiration = Durations.minutes(1),
+                            timeout = Durations.seconds(5))
 ----
 
 Expiration sets an explicit time to live (TTL) for a document, for which you can also xref:sdk-xattr-example.adoc[see a more detailed example of TTL discovery] later in the docs.
@@ -84,19 +77,15 @@ We'll discuss modifying `Expiration` in more details xref:#net-modifying-expirat
 For a discussion of item (Document) _vs_ Bucket expiration, see the 
 xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
 
-[source,csharp]
+[source,python]
 ----
-var document = new {foo = "bar", bar = "foo"};
-var result = await collection.Upsert("document-key", document,
-    new UpsertOptions
-    {
-        Cas = 12345,
-        Expiration = TimeSpan.FromMinutes(1),
-        PersistTo = PersistTo.One,
-        ReplicateTo = ReplicateTo.One,
-        Timeout = TimeSpan.FromSeconds(5)
-    }
-);
+document = {"foo":"bar","bar":"foo"}
+result = collection.upsert("document-key", document,
+                           cas = 12345,
+                           expiration = TimeSpan.FromMinutes(1),
+                           persist_to = PersistTo.One,
+                           replicate_to = ReplicateTo.One,
+                           timeout = Durations.seconds(5))
 ----
 
 Here, we have add _Durability_ options, namely `PersistTo` and `ReplicateTo`.
@@ -115,24 +104,20 @@ Where the number of operations or other circumstances make bandwidth a significa
 
 Using the `Get()` method with the document key can be done in a similar fashion to the other operations:
 
-[source,csharp]
+[source,python]
 ----
-var result = await collection.Get(“document-key”);
-var content = result.ContentAs<string>();
+result = collection.get(“document-key”);
+content = result.content_as[str];
 ----
 
 Timeout can also be set - as in the earlier `Insert` example:
 
-[source,csharp]
+[source,python]
 ----
 Get (with options)
-var result = await collection.Get(“document-key”,
-    new GetOptions
-    {
-        Timeout = TimeSpan.FromSeconds(5)
-    }
-);
-var content = result.ContentAs<string>();
+result = collection.get(“document-key”,
+                        timeout = Durations.seconds(5))
+content = result.content_as[str]
 ----
 
 
@@ -141,9 +126,9 @@ var content = result.ContentAs<string>();
 When removing a document, you will have the same concern for durability as with any additive modification to the Bucket:
 
 Remove (with options)
-[source,csharp]
+[source,python]
 ----
-var result = await collection.Remove("document-key",
+result = collection.remove("document-key",
     new RemoveOptions
     {
         Cas = 12345,
