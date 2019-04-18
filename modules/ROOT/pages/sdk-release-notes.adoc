@@ -2,6 +2,7 @@
 :page-partial:
 :page-aliases: relnotes-python-sdk
 
+// tag::latest[]
 == Installation
 
 You may install previous versions of the SDK using pip (after installing the required xref:start-using-sdk.adoc[dependencies])
@@ -696,3 +697,4 @@ constant
 Previously the fields in the indexes would be ignored or wrongly
 encoded when sent to the server. This fix goes in conjunction with
 fixes in the C SDK 2.6.1
+// end::latest[]
