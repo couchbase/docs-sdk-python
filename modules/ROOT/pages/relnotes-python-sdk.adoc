@@ -1,1 +1,1 @@
-include::python-sdk::page$relnotes-python-sdk.adoc[]
+include::python-sdk::page$sdk-release-notes.adoc[]
