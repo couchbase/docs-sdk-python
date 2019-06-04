@@ -36,15 +36,15 @@ pip install couchbase==2.5.5
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-476[PYCBC-476]:
-Add method to list buckets in Cluster.
+Added method to list buckets in Cluster.
 
 * https://issues.couchbase.com/browse/PYCBC-572[PYCBC-572]:
-Tests should run against mock by default.
+Tests now run against CouchbaseMock by default.
 
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-582[PYCBC-582]:
-Make touch tests more reliable.
+Made touch tests more reliable, by running the event loop with sleep.
 
 == Python SDK 2.5.4 Release Notes (February 5 2019)
 
