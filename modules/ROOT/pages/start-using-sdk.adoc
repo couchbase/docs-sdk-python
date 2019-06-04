@@ -8,7 +8,10 @@ It depends on the C SDK, libcouchbase, which it uses for performance and reliabi
 
 First, install libcouchbase following the instructions xref:2.10@c-sdk::sdk-release-notes.adoc[here].
 
-When libcouchbase is installed, please follow these instructions:
+TIP: Owing to the evolution of the Python language, API, and compiler over time, we support an optimal subset of Python platforms. 
+Please see xref:compatibility-versions-features.adoc#platform-compatibility[the Compatibility page] for details.
+
+Once libcouchbase is installed, please follow these instructions:
 
 == Installing on Linux
 
