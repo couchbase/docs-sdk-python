@@ -24,7 +24,7 @@ pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 
 New versions of the Python SDK take advantage of features added in recent versions of libcouchbase. Be sure to https://docs.couchbase.com/c-sdk/2.10/sdk-release-notes.html[upgrade your LCB installation] before making a major upgrade to the Couchbase Python client.
 
-== Python SDK 2.5.4 Release Notes (February 5 2019)
+== Python SDK 2.5.5 Release Notes (June 4 2019)
 
 [source,bash]
 ----
