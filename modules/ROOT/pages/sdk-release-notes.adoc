@@ -28,6 +28,28 @@ New versions of the Python SDK take advantage of features added in recent versio
 
 [source,bash]
 ----
+pip install couchbase==2.5.5
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.5/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-476[PYCBC-476]:
+Add method to list buckets in Cluster.
+
+* https://issues.couchbase.com/browse/PYCBC-572[PYCBC-572]:
+Tests should run against mock by default.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-582[PYCBC-582]:
+Make touch tests more reliable.
+
+== Python SDK 2.5.4 Release Notes (February 5 2019)
+
+[source,bash]
+----
 pip install couchbase==2.5.4
 ----
 
@@ -35,7 +57,7 @@ pip install couchbase==2.5.4
 
 === Enhancements
 
-* https://issues.couchbase.com/browse/PYCBC-558[PYCBC-558]:         
+* https://issues.couchbase.com/browse/PYCBC-558[PYCBC-558]:
 Better document libcouchbase dependency. The minimum version number is retrieved from a centralised location.
 
 == Python SDK 2.5.3 Release Notes (January 8 2019)
