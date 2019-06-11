@@ -38,8 +38,7 @@ Here is the _Insert_ operation at its simplest:
 [source,python]
 ----
 Insert
-document = {"foo":"bar", "bar":"foo"}
-result = collection.insert("document-key", document)
+include::example$kv_operations.py[tag=insert]
 ----
 
 Options may be added to operations:
@@ -47,49 +46,31 @@ Options may be added to operations:
 [source,python]
 ----
 Insert (with options)
-document = {"foo":"bar", "bar":"foo"}
-result = collection.insert("document-key", document,
-                           cas = 12345,
-                           timeout = Durations.seconds(5))
-----
+include::example$kv_operations.py[tag=insert_w_options]
 
 Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
 Here we just note that the CAS is a value representing the current state of an item; each time the item is modified, its CAS changes.
 The CAS value is returned as part of a document’s metadata whenever a document is accessed.
 Without explicitly setting it, a newly-created document would have a CAS value of _0_.
 
-_Timeout_ is an optional parameter which in the .NET SDK has a type value of `TimeSpan`.
-Timeout sets the timeout value for the underlying network connection.
-We will add to these options for the _Replace_ example:
-
+Replace
 [source,python]
 ----
-document = {"foo":"bar","bar":"foo"}
-result = collection.replace("document-key",
-                            document,
-                            cas = 12345,
-                            expiration = Durations.minutes(1),
-                            timeout = Durations.seconds(5))
+include::example$kv_operations.py[tag=replace]
 ----
 
 Expiration sets an explicit time to live (TTL) for a document, for which you can also xref:sdk-xattr-example.adoc[see a more detailed example of TTL discovery] later in the docs.
 We'll discuss modifying `Expiration` in more details xref:#net-modifying-expiration[below].
-For a discussion of item (Document) _vs_ Bucket expiration, see the 
+For a discussion of item (Document) _vs_ Bucket expiration, see the
 xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
 
 [source,python]
 ----
-document = {"foo":"bar","bar":"foo"}
-result = collection.upsert("document-key", document,
-                           cas = 12345,
-                           expiration = TimeSpan.FromMinutes(1),
-                           persist_to = PersistTo.One,
-                           replicate_to = ReplicateTo.One,
-                           timeout = Durations.seconds(5))
+include::example$kv_operations.py[tag=expiration]
 ----
 
 Here, we have add _Durability_ options, namely `PersistTo` and `ReplicateTo`.
-In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:https://docs.couchbase.com/dotnet-sdk/2.7/durability.html[6.0 Durability documentation] -- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist. 
+In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:https://docs.couchbase.com/python-sdk/2.5.5/durability.html[6.0 Durability documentation] -- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
 Couchbase Data Platform 6.5 refines these two options, with xref:synchronous-replication.adoc[Synchronous Replication] -- although they remain essentially the same in use -- as well as adding the option of xref:transactions.adoc[atomic document transactions].
 
 
@@ -106,18 +87,7 @@ Using the `Get()` method with the document key can be done in a similar fashion 
 
 [source,python]
 ----
-result = collection.get(“document-key”);
-content = result.content_as[str];
-----
-
-Timeout can also be set - as in the earlier `Insert` example:
-
-[source,python]
-----
-Get (with options)
-result = collection.get(“document-key”,
-                        timeout = Durations.seconds(5))
-content = result.content_as[str]
+include::example$kv_operations.py[tag=get]
 ----
 
 
@@ -128,78 +98,45 @@ When removing a document, you will have the same concern for durability as with 
 Remove (with options)
 [source,python]
 ----
-result = collection.remove("document-key",
-    new RemoveOptions
-    {
-        Cas = 12345,
-        PersistTo = PersistTo.One,
-        ReplicateTo = ReplicateTo.One,
-        Timeout = TimeSpan.FromSeconds(5)
-    }
-);
+include::example$kv_operations.py[tag=remove_old_durability]
 ----
 
 == Expiration / TTL
 
-By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents. 
+By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents.
 Using `Touch()`, you can set expiration values on documents to handle transient data:
 
-[source,csharp]
+[source,python]
 ----
-var result = await collection.Touch("document-key", TimeSpan.FromSeconds(10));
-----
+include::example$kv_operations.py[tag=touch]
 
-A network timeout can be set with the optional `TouchOptions()`, in the same fashion as earlier examples on this page:
-
-[source,csharp]
-----
-var result = await collection.Touch("document-key", TimeSpan.FromSeconds(30),
-    new TouchOptions
-    {
-        Timeout = TimeSpan.FromSeconds(5)
-    }
-);
 ----
 
 == Atomic document modifications
 
-The value of a document can be increased or decreased atomically using `Binary.Increment()` and `.Binary.Decrement()`.
+The value of a document can be increased or decreased atomically using `.increment()` and `.decrement()`.
 
 .Increment
-[source,csharp]
+[source,python]
 ----
-// increment binary value by 1, if document doesn’t exist, seed it at 1000
-await collection.Binary.Increment("document-key", 1, 1000);
-----
+include::example$kv_operations.py[tag=increment]
+---
 
-[source,csharp]
+[source,python]
 ----
 .Increment (with options)
-// increment binary value by 1, if document doesn’t exist, seed it at 1000
-// optional arguments:
-// - Timeout (TimeSpan)
-// - Expiration (TimeSpan)
-// - CAS (ulong)
-
-await collection.Binary.Increment("document-key", 1, 1000, TimeSpan.FromSeconds(5), TimeSpan.FromDays(1), cas);
-----
+include::example$kv_operations.py[tag=increment_w_expiration]
 
 .Decrement
-[source,csharp]
+[source,python]
 ----
-// decrement binary value by 1, if document doesn’t exist, seed it at 1000
-await collection.Binary.Decrement("document-key", 1, 1000);
+include::example$kv_operations.py[tag=decrement]
 ----
 
 .Increment (with options)
-[source,csharp]
+[source,python]
 ----
-// decrement binary value by 1, if document doesn’t exist, seed it at 1000
-// optional arguments:
-// - Timeout (TimeSpan)
-// - Expiration (TimeSpan)
-// - CAS (ulong)
-await collection.Binary.Decrement("document-key", 1, 1000, TimeSpan.FromSeconds(5), TimeSpan.FromDays(1), cas);
+include::example$kv_operations.py[tag=decrement_w_expiration]
 ----
 
 NOTE: Increment & Decrement are considered part of the ‘binary’ API and as such may still be subject to change
