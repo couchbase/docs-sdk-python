@@ -3,14 +3,16 @@
 :page-topic-type: howto
 :page-aliases: document-operations.adoc
 
-WARNING: These pages cover the first _Developer Preview_ of the Couchbase .NET SDK 3.0 (DP1).
-As such they are likely to change without notice.
-The DP1 code _should not_ be used in production.
+[WARNING]
+====
+These pages cover the Alpha of the Couchbase Python SDK. 
+As such they are likely to change without notice. 
+This alpha code should not be used in production.
 
+Documentation is incomplete, subject to change, and likely to contain broken links.
+====
 
-The complete code sample used on this page can be downloaded from
-//  xref::example$document.cs[here]
-- from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
+The complete code sample used on this page can be downloaded from link:https://github.com/couchbase/docs-sdk-python/tree/3.0dp1/modules/hello-world/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
 
 // Type hints!
 // Type hints!
@@ -26,7 +28,7 @@ A _document_ refers to an entry in the database (other databases may refer to th
 A document has an ID (_primary key_ in other databases), which is unique to the document and by which it can be located.
 The document also has a value which contains the actual application data.
 See xref::concept-docs:documents.adoc[the concept guide to _Documents_] for a deeper dive into documents in the Couchbase Data Platform.
-Or read on, for a hands-on introduction to working with documents from the .NET SDK.
+Or read on, for a hands-on introduction to working with documents from the Python SDK.
 
 == CRUD Operations
 
@@ -35,25 +37,26 @@ Make sure you're familiar with the basics of authorization and connecting to a C
 We're going to expand on the short _Upsert_ example we used there, adding options as we move through the various CRUD operations.
 Here is the _Insert_ operation at its simplest:
 
+.Insert
 [source,python]
 ----
-Insert
 include::example$kv_operations.py[tag=insert]
 ----
 
 Options may be added to operations:
 
+.Insert (with options)
 [source,python]
 ----
-Insert (with options)
 include::example$kv_operations.py[tag=insert_w_options]
+----
 
-Setting a Compare and Swap (CAS) value is a form of optimistic locking - dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
+Setting a Compare and Swap (CAS) value is a form of optimistic locking -- dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
 Here we just note that the CAS is a value representing the current state of an item; each time the item is modified, its CAS changes.
-The CAS value is returned as part of a document’s metadata whenever a document is accessed.
+The CAS value is returned as part of a document's metadata whenever a document is accessed.
 Without explicitly setting it, a newly-created document would have a CAS value of _0_.
 
-Replace
+.Replace
 [source,python]
 ----
 include::example$kv_operations.py[tag=replace]
@@ -69,9 +72,11 @@ xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-buck
 include::example$kv_operations.py[tag=expiration]
 ----
 
-Here, we have add _Durability_ options, namely `PersistTo` and `ReplicateTo`.
-In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:https://docs.couchbase.com/python-sdk/2.5.5/durability.html[6.0 Durability documentation] -- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
-Couchbase Data Platform 6.5 refines these two options, with xref:synchronous-replication.adoc[Synchronous Replication] -- although they remain essentially the same in use -- as well as adding the option of xref:transactions.adoc[atomic document transactions].
+Here, we have added _Durability_ options, namely `PersistTo` and `ReplicateTo`.
+In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:https://docs.couchbase.com/python-sdk/2.5.5/durability.html[6.0 Durability documentation] -- covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
+Couchbase Data Platform 6.5 refines these two options, with xref:synchronous-replication.adoc[Synchronous Replication] -- although they remain essentially the same in use.
+// No longer quite true.
+// NEEDS ATTENTION
 
 
 [TIP]
@@ -109,7 +114,6 @@ Using `Touch()`, you can set expiration values on documents to handle transient 
 [source,python]
 ----
 include::example$kv_operations.py[tag=touch]
-
 ----
 
 == Atomic document modifications
@@ -122,10 +126,11 @@ The value of a document can be increased or decreased atomically using `.increme
 include::example$kv_operations.py[tag=increment]
 ---
 
+.Increment (with options)
 [source,python]
 ----
-.Increment (with options)
 include::example$kv_operations.py[tag=increment_w_expiration]
+----
 
 .Decrement
 [source,python]
@@ -139,16 +144,15 @@ include::example$kv_operations.py[tag=decrement]
 include::example$kv_operations.py[tag=decrement_w_expiration]
 ----
 
-NOTE: Increment & Decrement are considered part of the ‘binary’ API and as such may still be subject to change
+NOTE: Increment & Decrement are considered part of the ‘binary’ API, and as such may still be subject to change.
 
 == Additional Resources
 
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
-For working with metadata on a document, reference our xref:sdk-xattr-example.adoc[Extended Attributes] pages.
+// For working with metadata on a document, reference our xref:sdk-xattr-example.adoc[Extended Attributes] pages.
 
-Another way of increasing network performance is to _pipeline_ operations with xref:batching-operations.adoc[Batching Operations].
+// Another way of increasing network performance is to _pipeline_ operations with xref:batching-operations.adoc[Batching Operations].
 
-As well as various xref:concept-docs:data-model.adoc[Formats] of JSON, Couchbase can work directly with xref:non-json.adoc[arbitary bytes, or binary format].
+// As well as various xref:concept-docs:data-model.adoc[Formats] of JSON, Couchbase can work directly with xref:non-json.adoc[arbitary bytes, or binary format].
 
 Our xref:n1ql-queries-with-sdk.adoc[Query Engine] enables retrieval of information using the SQL-like syntax of N1QL.
-
