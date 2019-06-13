@@ -15,9 +15,8 @@ This alpha code should not be used in production.
 Documentation is incomplete, subject to change, and likely to contain broken links.
 ====
 
-First, install libcouchbase following the xref::c-sdk:project-docs:relnotes-python-sdk.adoc[instructions here}:
-
-When libcouchbase is installed, please follow these instructions:
+Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
+You may need cmake to install, although the installer will attempt to download it from PyPI automatically.
 
 == Installing on Linux
 
@@ -27,7 +26,7 @@ When libcouchbase is installed, please follow these instructions:
 ----
 # Only needed during first-time setup:
 sudo apt-get install build-essential python-dev python-pip
-sudo pip install couchbase
+sudo pip install couchbase-3.0.0a1
 ----
 
 .RHEL and CentOS
@@ -35,7 +34,7 @@ sudo pip install couchbase
 ----
 # Only needed during first-time setup:
 sudo yum install gcc gcc-c++ python-devel python-pip
-sudo pip install couchbase
+sudo pip install couchbase-3.0.0a1
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
@@ -50,7 +49,7 @@ Once _Homebrew_ is configured:
 ----
 brew update # get list of latest packages
 brew install python
-pip install couchbase
+pip install couchbase-3.0.0a1
 ----
 
 NOTE: The above example uses the Python supplied by Homebrew and not the vendor-supplied Python which ships with OS X.
@@ -58,14 +57,7 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 
 == Installing on Microsoft Windows
 
-The Couchbase Python SDK is available as an executable installer for Windows.
-This contains all the required dependencies, including C SDK development files.
-
-. Check your Windows architecture (32-bit or 64-bit) and make sure the required version of Python is installed.
-. Download the Couchbase Python SDK installer for your platform and Python version from https://pypi.python.org/pypi/couchbase#files[^].
-. Run the installer and follow any instructions given.
-
-NOTE: Installation by means of pip will _not_ work on Windows.
+pip install couchbase-3.0.0a1
 
 == Hello Couchbase
 

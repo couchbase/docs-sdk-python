@@ -4,8 +4,8 @@
 ----
 """
 #tag::intro[]
-from couchbase.v3 import Cluster
-from couchbase.cluster import PasswordAuthenticator
+from couchbase.cluster import Cluster
+from couchbase_core.cluster import PasswordAuthenticator
 cluster = Cluster('couchbase://localhost')
 authenticator = PasswordAuthenticator('username', 'password')
 cluster.authenticate(authenticator)
@@ -20,7 +20,7 @@ print(cb_coll.get('u:king_arthur').contentAs[str])
 ## The CREATE PRIMARY INDEX step is only needed the first time you run this script
 cluster.query('CREATE PRIMARY INDEX ON bucket-name')
 
-from couchbase.n1ql import N1QLQuery
+from couchbase_core.n1ql import N1QLQuery
 row_iter = cluster.query(N1QLQuery('SELECT name FROM bucket-name WHERE ' + \
                                    '$1 IN interests', 'African Swallows'))
 for row in row_iter: print(row)
@@ -40,8 +40,8 @@ Following successful authentication, the bucket can be opened.
 ----
 """
 #tag::connecting[]
-from couchbase.v3 import Cluster
-from couchbase.cluster import PasswordAuthenticator
+from couchbase.cluster import Cluster
+from couchbase_core.cluster import PasswordAuthenticator
 cluster = Cluster('couchbase://localhost')
 authenticator = PasswordAuthenticator('username', 'password')
 cluster.authenticate(authenticator)
@@ -86,7 +86,7 @@ Couchbase N1QL queries are performed by creating a [.api]`N1QLQuery` object and 
 ----
 """
 #tag::n1ql[]
-from couchbase.n1ql import N1QLQuery
+from couchbase_core.n1ql import N1QLQuery
 query = N1QLQuery("""SELECT airportname, city, country FROM `travel-sample` """
                   """WHERE type="airport" AND city=$my_city""", my_city="Reno")
 for row in cluster.query(query):
