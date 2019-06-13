@@ -20,10 +20,12 @@
 .Managing Couchbase
 * User Management
  ** xref:howtos:sdk-authentication-overview.adoc[Authentication]
+////
 
 .Errors & Diagnostics
-* xref:howtos:health-check.adoc[Health Check]
-////
+* xref:howtos:error-handling.adoc[Error Handling]
+// * xref:howtos:health-check.adoc[Health Check]
+
 
 .Concepts
 * xref:concept-docs:concepts.adoc[Concepts]
