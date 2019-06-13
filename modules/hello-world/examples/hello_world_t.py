@@ -75,7 +75,7 @@ print(rv.content)
 """
 #tag::docopsupsert[]
 coll.upsert('document-id', {'application': 'data'})
-#tag::docopsupsert[]
+#end::docopsupsert[]
 """----
 
 == N1QL Queries
