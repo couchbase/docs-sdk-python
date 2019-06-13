@@ -15,9 +15,8 @@ This alpha code should not be used in production.
 Documentation is incomplete, subject to change, and likely to contain broken links.
 ====
 
-First, install libcouchbase following the xref::c-sdk:project-docs:relnotes-python-sdk.adoc[instructions here}:
-
-When libcouchbase is installed, please follow these instructions:
+Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
+You may need cmake to install, although the installer will attempt to download it from PyPI automatically.
 
 == Installing on Linux
 
@@ -27,7 +26,7 @@ When libcouchbase is installed, please follow these instructions:
 ----
 # Only needed during first-time setup:
 sudo apt-get install build-essential python-dev python-pip
-sudo pip install couchbase
+sudo pip install couchbase-3.0.0-pre1
 ----
 
 .RHEL and CentOS
