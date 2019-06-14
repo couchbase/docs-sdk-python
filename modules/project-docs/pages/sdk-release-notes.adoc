@@ -46,34 +46,34 @@ pip install couchbase==3.0.0a1
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-540[PYCBC-540]:
-Add Basic CRUD for SDK 3.0
+Added Basic CRUD for SDK 3.0.
 
 * https://issues.couchbase.com/browse/PYCBC-541[PYCBC-541]:
-Add Basic Query for SDK 3.0
+Added Basic Query for SDK 3.0.
 
 * https://issues.couchbase.com/browse/PYCBC-564[PYCBC-564]:
-Add Synchronous Durability Operations
+Added Synchronous Durability Operations.
 
 * https://issues.couchbase.com/browse/PYCBC-566[PYCBC-566]:
-KV Operations Doc at draft level
+KV Operations Doc at draft level.
 
 * https://issues.couchbase.com/browse/PYCBC-583[PYCBC-583]:
-Python Doc on Error Handling for SDK 3 v1
+Python Doc on Error Handling for SDK 3 (v1).
 
 * https://issues.couchbase.com/browse/PYCBC-546[PYCBC-546]:
-Update CMakeLists.txt to pull in libcouchbase and other deps
+Update CMakeLists.txt to pull in libcouchbase and other deps.
 
 * https://issues.couchbase.com/browse/PYCBC-561[PYCBC-561]:
-Update Error Handling for SDK3 Python
+Update Error Handling for SDK3 Python.
 
 * https://issues.couchbase.com/browse/PYCBC-562[PYCBC-562]:
-Move to libcouchbase 3.0.0 and LCB API v4
+Move to libcouchbase 3.0.0 and LCB API v4.
 
 * https://issues.couchbase.com/browse/PYCBC-582[PYCBC-582]:
-Make touch tests more reliable
+Made touch tests more reliable.
 
 * https://issues.couchbase.com/browse/PYCBC-588[PYCBC-588]:
-Fix Centos compilation
+Fixed Centos compilation.
 
 == Upgrading 2.x
 
