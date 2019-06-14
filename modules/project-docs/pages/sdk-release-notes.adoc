@@ -28,9 +28,58 @@ install version 2.0.8:
 pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 ----
 
-== Upgrading
+== Upgrading to 3.x
 
-New versions of the Python SDK take advantage of features added in recent versions of libcouchbase. Be sure to xref:c-sdk::relnotes-c-sdk.adoc[upgrade your LCB installation] before making a major upgrade to the Couchbase Python client.
+Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
+ so no need to install it separately.
+
+
+== Python SDK 3.0.0 Alpha 1 Release Notes (June 14 2019)
+
+[source,bash]
+----
+pip install couchbase==3.0.0a1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha1/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-540[PYCBC-540]:
+Added Basic CRUD for SDK 3.0.
+
+* https://issues.couchbase.com/browse/PYCBC-541[PYCBC-541]:
+Added Basic Query for SDK 3.0.
+
+* https://issues.couchbase.com/browse/PYCBC-564[PYCBC-564]:
+Added Synchronous Durability Operations.
+
+* https://issues.couchbase.com/browse/PYCBC-566[PYCBC-566]:
+KV Operations Doc at draft level.
+
+* https://issues.couchbase.com/browse/PYCBC-583[PYCBC-583]:
+Python Doc on Error Handling for SDK 3 (v1).
+
+* https://issues.couchbase.com/browse/PYCBC-546[PYCBC-546]:
+Update CMakeLists.txt to pull in libcouchbase and other deps.
+
+* https://issues.couchbase.com/browse/PYCBC-561[PYCBC-561]:
+Update Error Handling for SDK3 Python.
+
+* https://issues.couchbase.com/browse/PYCBC-562[PYCBC-562]:
+Move to libcouchbase 3.0.0 and LCB API v4.
+
+* https://issues.couchbase.com/browse/PYCBC-582[PYCBC-582]:
+Made touch tests more reliable.
+
+* https://issues.couchbase.com/browse/PYCBC-588[PYCBC-588]:
+Fixed Centos compilation.
+
+== Upgrading 2.x
+
+Versions of the Python SDK prior to 3.0.0 do not bundle libcouchbase.
+Be sure to xref:c-sdk::relnotes-c-sdk.adoc[upgrade your LCB installation] before making a major upgrade to the Couchbase Python client.
+
 
 == Python SDK 2.5.4 Release Notes (February 5 2019)
 
