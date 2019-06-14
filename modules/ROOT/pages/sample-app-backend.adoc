@@ -1,6 +1,6 @@
 = Python Sample App Backend Tutorial
 :navtitle: Sample App Backend
-:page-aliases: quickstart,tutorial-prep,tutorial-welcome,tutorial-managing-beers,tutorial-next-steps
+:page-aliases: quickstart,tutorial-prep,tutorial-welcome,tutorial-managing-beers,tutorial-next-steps,tutorial-intro
 
 [abstract]
 The Python SDK tutorial bridges the gap between simple and advanced concepts by walking through a complete web application.
