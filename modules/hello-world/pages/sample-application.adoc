@@ -1,6 +1,6 @@
 = Python Travel Sample App Backend Tutorial
 :navtitle: Sample App
-:page-aliases: ROOT:quickstart,ROOT:tutorial-prep,ROOT:tutorial-welcome,ROOT:tutorial-managing-beers,ROOT:tutorial-next-steps,ROOT:sample-application
+:page-aliases: ROOT:quickstart,ROOT:tutorial-prep,ROOT:tutorial-welcome,ROOT:tutorial-managing-beers,ROOT:tutorial-next-steps,ROOT:sample-application,ROOT:tutorial-intro
 
 [abstract]
 The Python SDK tutorial bridges the gap between simple and advanced concepts by walking through a complete web application.
