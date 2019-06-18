@@ -1,7 +1,7 @@
 = Key Value Operations
 :navtitle: KV Operations
 :page-topic-type: howto
-:page-aliases: document-operations.adoc
+:page-aliases: ROOT:document-operations,ROOT:crud
 
 [WARNING]
 ====
