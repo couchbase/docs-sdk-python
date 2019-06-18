@@ -44,11 +44,11 @@ pip install couchbase==3.0.0a2
 
 === Fixes
 
-* https://issues.couchbase.com/browse/PYCBC-592[PYCBC-592]
-Fix manifest to include extra files for distribution
+* https://issues.couchbase.com/browse/PYCBC-592[PYCBC-592]: 
+Fixed manifest to include extra files for distribution.
 
-* https://issues.couchbase.com/browse/PYCBC-593[PYCBC-593]
-Restrict LCB versions to tagged &gt;=2.10.3, &gt;=3.0.0-alpha.3
+* https://issues.couchbase.com/browse/PYCBC-593[PYCBC-593]: 
+Restrict LCB versions to tagged &gt;=2.10.3, &gt;=3.0.0-alpha.3.
 
 == Python SDK 3.0.0 Alpha 1 Release Notes (June 14 2019)
 
