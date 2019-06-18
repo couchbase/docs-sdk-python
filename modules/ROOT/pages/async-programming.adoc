@@ -1,5 +1,5 @@
 = Asynchronous Progamming Using the Python SDK with Couchbase Server
-:page-aliases: asynchronous-frameworks,performance-tuning
+:page-aliases: asynchronous-frameworks,performance-tuning,threads
 :navtitle: Asynchronous Programming
 
 The Python SDK supports asynchronous programming by offering integration modules for Twisted, gevent, and Python 3.4 asyncio.
