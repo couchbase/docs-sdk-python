@@ -40,8 +40,13 @@ Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it
 pip install couchbase==3.0.0a2
 ----
 
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha2/
+
+=== Fixes
+
 * https://issues.couchbase.com/browse/PYCBC-592[PYCBC-592]
 Fix manifest to include extra files for distribution
+
 * https://issues.couchbase.com/browse/PYCBC-593[PYCBC-593]
 Restrict LCB versions to tagged &gt;=2.10.3, &gt;=3.0.0-alpha.3
 
