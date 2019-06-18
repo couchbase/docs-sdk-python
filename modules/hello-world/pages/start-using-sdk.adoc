@@ -1,5 +1,5 @@
 = Install and Start Using the Python SDK with Couchbase Server
-:page-aliases: ROOT:getting-started,ROOT:start-using
+:page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase
 :navtitle: Start Using the SDK
 
 [abstract]
