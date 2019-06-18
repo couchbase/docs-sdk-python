@@ -1,2 +1,3 @@
 = N1QL Queries from the SDK
 
+:page-aliases: ROOT:n1ql-queries,ROOT:n1ql-queries-with-sdk
