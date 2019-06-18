@@ -1,5 +1,6 @@
 = N1QL Queries Using the Python SDK with Couchbase Server
 :navtitle: N1QL from the SDK
+:page-aliases: n1ql-queries
 :page-topic-type: concept
 
 NOTE: See xref:n1ql-query.adoc[Couchbase Developer documentation for a quick intro to developing with N1QL]
