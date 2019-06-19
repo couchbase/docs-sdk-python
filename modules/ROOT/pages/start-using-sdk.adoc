@@ -119,7 +119,7 @@ Simply pass the key (and value, if applicable) to the relevant methods.
 [source,python]
 ----
 rv = bucket.get('document-id')
-                    print(rv.value)
+print(rv.value)
 ----
 
 [source,python]
