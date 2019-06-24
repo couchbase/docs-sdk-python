@@ -1,0 +1,3 @@
+= Documents
+
+:page-aliases: documents.adoc
