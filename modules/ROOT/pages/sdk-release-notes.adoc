@@ -36,13 +36,13 @@ pip install couchbase==2.5.6
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-480[PYCBC-480]:
-Augment Search, Admin and ClusterManager API docs and index.
+Augmented Search, Admin and ClusterManager API docs and index.
 
 * https://issues.couchbase.com/browse/PYCBC-581[PYCBC-581]:
-Document metric/meta properties for N1QLRequest, and update Analytics docs
+Documented metric/meta properties for N1QLRequest, and updated Analytics docs
 
 * https://issues.couchbase.com/browse/PYCBC-597[PYCBC-597]:
-Add buckets_list function to documentation index.
+Added buckets_list function to documentation index.
 
 == Python SDK 2.5.5 Release Notes (June 4 2019)
 
