@@ -21,19 +21,18 @@ When applications provide the CAS, server will check the application-provided ve
 
 CAS, on the server-side might be implemented along these lines
 
-[source,c]
+[source,python]
 ----
-uint Replace(string docid, object newvalue, uint oldCas=0) {
-    object existing = this.kvStore.get(docid);
-    if (!existing) {
-        throw DocumentDoesNotExist();
-    } else if (oldCas != 0 && oldCas != existing.cas) {
-        throw CasMismatch();
-    }
-    uint newCas = ++existing.cas;
-    existing.value = newValue;
-    return newCas;
-}
+def replace(self, docid:str, new_value:Any, oldCas:int):
+        existing = self.kvStore.get(docid)
+    if not existing:
+        raise couchbase.exceptions.NotFoundError()
+    elif oldCas != 0 and oldCas != existing.cas:
+        raise couchbase.exceptions.KeyExistsError()
+    existing.cas+=1
+    new_cas = existing.cas
+    existing.value = new_value
+    return new_cas
 ----
 
 == Demonstration
@@ -236,49 +235,18 @@ You can modify the time the lock is held for (though it can be no longer than 15
 
 Be sure to keep note of the _cas_ value when locking a document.
 You will need it when unlocking.
-The following blocks show how to use [.api]`lock` and [.api]`unlock` with the C SDK.
+The following blocks show how to use [.api]`lock` and [.api]`unlock` with the Python SDK.
 This process should be similar for other SDKs.
 
-[source,c]
+[source,python]
 ----
-lcb_CMDGET cmd = { 0 };
-LCB_CMD_SET_KEY(&cmd, "key", 3);
-cmd.lock = 1;
-cmd.exptime = 5;
-lcb_get3(instance, NULL, &cmd);
-lcb_wait(instance);
-----
-
-----
-static int unlock_only = 0;
-
-void get_handler(lcb_t instance, int cbtype, const lcb_RESPBASE *rb)
-{
-    const lcb_RESPGET *resp = (const lcb_RESPGET *)rb;
-
-    union {
-        lcb_CMDBASE base;
-        lcb_CMDSTORE store;
-        lcb_CMDUNLOCK unlock;
-    } u;
-
-    if (rb->rc == LCB_ETMPFAIL) {
-        printf("Key already locked!");
-    } else if (rb->rc == LCB_SUCCESS) {
-        memset(&u, 0, sizeof u);
-        LCB_CMD_SET_KEY(&u.base, rb->key, rb->nkey);
-        u.base.cas = rb->cas;
-        if (unlock_only) {
-            lcb_unlock3(instance, NULL, &u.unlock);
-        } else {
-            LCB_CMD_SET_VALUE(&u.store, "value", 5);
-            u.store.operation = LCB_REPLACE;
-            lcb_store3(instance, NULL, &u.store);
-        }
-    }
-}
+result=cb.lock("key",5)
+if unlock_only:
+    cb.unlock("key",result.cas)
+else:
+    cb.replace("key", "value", cas=result.cas)
 ----
 
-The handler will unlock the item either via an explicit unlock operation ([.api]`lcb_unlock3`) or implicitly via modifying the item with the correct CAS.
+The handler will unlock the item either via an explicit unlock operation ([.api]`couchbase.bucket.Bucket.unlock`) or implicitly via modifying the item with the correct CAS.
 
-If the item has already been locked, the server will respond with [.var]`LCB_ETMPFAIL` which means that the operation could not be executed temporarily, but may succeed later on.
+If the item has already been locked, the server will respond with [.var]`couchbase.exceptions.TemporaryFailError` which means that the operation could not be executed temporarily, but may succeed later on.
