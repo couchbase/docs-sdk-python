@@ -105,6 +105,7 @@ A common use case is discovering documentation expiration metadata, or TTL:
 from couchbase.cluster import Cluster, PasswordAuthenticator
 import datetime
 import logging
+import couchbase.subdocument as SD
 
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
