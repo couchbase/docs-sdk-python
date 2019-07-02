@@ -94,3 +94,50 @@ for row in result:
 
 print("Results returned are: %s" % results)
 ----
+
+== Virtual Extended Attributes Example
+
+Using the Sub-Document API, xref:sdk-xattr-overview.adoc#_virtual_extended_attributes[Virtual XATTR] can be used to fetch metadata about a document, via the `$document` virtual XATTR.
+A common use case is discovering documentation expiration metadata, or TTL:
+
+[source,python]
+----
+from couchbase.cluster import Cluster, PasswordAuthenticator
+import datetime
+import logging
+
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+
+key = "airline_17628"
+
+# open cluster and authenticate as Cluster Admin
+cluster = Cluster('couchbase://10.112.191.101')
+cluster.authenticate(PasswordAuthenticator('Administrator', 'password'))
+
+# open travel-sample bucket
+bucket = cluster.open_bucket('travel-sample')
+
+
+bucket.touch(key, 300)
+
+frag = bucket.lookup_in(key, SD.get("$document.exptime", xattr=True))
+
+expiry_time =int(frag['$document.exptime'])
+
+logging.info("Expiry value is {}".format(expiry_time))
+
+# Reset the expiry so that the document does not expire.
+bucket.touch(key)
+
+# Multiple paths can be access at once via subdoc. It's limited to 16 paths and xattrs have to be first.
+multi_frag = bucket.lookup_in(key, SD.get("$document.exptime", xattr=True), SD.get("$document.value_bytes", xattr=True), SD.get("callsign"))
+
+
+ttl = int(multi_frag["$document.exptime"])
+size=int(multi_frag["$document.value_bytes"])
+callsign=multi_frag["callsign"]
+
+logging.info("Expiry value is {}".format(ttl))
+logging.info("Size is {}".format(size))
+logging.info("Callsign is {}".format(callsign))
+----
