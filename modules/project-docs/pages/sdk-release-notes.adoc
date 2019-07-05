@@ -33,6 +33,36 @@ pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Python SDK 3.0.0 Alpha 3 Release Notes (July 5 2019)
+
+[source,bash]
+----
+pip install couchbase==3.0.0a3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha3/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-585[PYCBC-585]:
+Refined collections support for SDK3.
+
+* https://issues.couchbase.com/browse/PYCBC-589[PYCBC-589]:
+Migrated datastructures to SDK3.
+
+* https://issues.couchbase.com/browse/PYCBC-595[PYCBC-595]:
+Implemented multi-ops in Collection class.
+
+* https://issues.couchbase.com/browse/PYCBC-596[PYCBC-596]:
+Centralised Collections/Bucket functionality, giving 'legacy style' behavior within the context of a Collection.
+
+* https://issues.couchbase.com/browse/PYCBC-597[PYCBC-597]:
+Added buckets_list function to documentation index.
+
+* https://issues.couchbase.com/browse/PYCBC-601[PYCBC-601]:
+Use correct RPATH when using legacy build option (distutils).
+
+
 == Python SDK 3.0.0 Alpha 2 Release Notes (June 18 2019)
 
 [source,bash]
