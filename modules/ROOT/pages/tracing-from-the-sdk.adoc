@@ -26,7 +26,7 @@ bucket.tracing_orphaned_queue_size=queue_size
 This will set our threshold for key/value operations to one microsecond, log the found operations every second, and set the sample size to a very large value so everything will be logged.
 
 With these configs in place we are ready to run some operations.
-Below, we read some documentss from the travel-sample bucket and, if found, write them back with an `upsert` - giving us both read and write operations to log.
+Below, we read some documents from the travel-sample bucket and, if found, write them back with an `upsert` - giving us both read and write operations to log.
 
 [source,python]
 ----
