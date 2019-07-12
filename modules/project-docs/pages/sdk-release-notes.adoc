@@ -46,27 +46,27 @@ pip install couchbase==3.0.0a4
 
 
 * https://issues.couchbase.com/browse/PYCBC-611[PYCBC-611]:
-Diagnostics for SDK3
+Diagnostics for SDK3.
 
 * https://issues.couchbase.com/browse/PYCBC-612[PYCBC-612]:
-FTS for SDK3
+FTS for SDK3.
 
 * https://issues.couchbase.com/browse/PYCBC-613[PYCBC-613]:
-Analytics for SDK3
+Analytics for SDK3.
 
 * https://issues.couchbase.com/browse/PYCBC-614[PYCBC-614]:
-Run service commands directly from bootstrapped cluster
+Run service commands directly from bootstrapped cluster.
 
 * https://issues.couchbase.com/browse/PYCBC-571[PYCBC-571]:
-Services for SDK3
+Services for SDK3.
 
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-607[PYCBC-607]:
-Ensure couchbase_core is bootstrapped
+Ensure `couchbase_core` is bootstrapped.
 
 * https://issues.couchbase.com/browse/PYCBC-609[PYCBC-609]:
-Fix RPATH install for distutils
+Fix RPATH install for distutils.
 
 == Python SDK 3.0.0 Alpha 3 Release Notes (July 5 2019)
 
