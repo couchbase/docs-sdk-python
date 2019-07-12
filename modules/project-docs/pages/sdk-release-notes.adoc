@@ -33,6 +33,41 @@ pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Python SDK 3.0.0 Alpha 4 Release Notes (July 12 2019)
+
+[source,bash]
+----
+pip install couchbase==3.0.0a4
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha4/
+
+=== Enhancements
+
+
+* https://issues.couchbase.com/browse/PYCBC-611[PYCBC-611]:
+Diagnostics for SDK3
+
+* https://issues.couchbase.com/browse/PYCBC-612[PYCBC-612]:
+FTS for SDK3
+
+* https://issues.couchbase.com/browse/PYCBC-613[PYCBC-613]:
+Analytics for SDK3
+
+* https://issues.couchbase.com/browse/PYCBC-614[PYCBC-614]:
+Run service commands directly from bootstrapped cluster
+
+* https://issues.couchbase.com/browse/PYCBC-571[PYCBC-571]:
+Services for SDK3
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-607[PYCBC-607]:
+Ensure couchbase_core is bootstrapped
+
+* https://issues.couchbase.com/browse/PYCBC-609[PYCBC-609]:
+Fix RPATH install for distutils
+
 == Python SDK 3.0.0 Alpha 3 Release Notes (July 5 2019)
 
 [source,bash]
