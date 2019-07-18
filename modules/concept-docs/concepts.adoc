@@ -1,0 +1,8 @@
+= Concepts
+:navtitle: Concepts
+:page-topic-type: landing-page
+
+include::partial$alpha-warning.adoc[]
+
+include::6.5@sdk:shared:partial$concepts.adoc[tag=concepts]
+
