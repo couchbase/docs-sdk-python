@@ -15,4 +15,3 @@ include::6.5@sdk:shared:partial$data-model.adoc[tag=intro]
 include::6.5@sdk:shared:partial$data-model.adoc[tag=structures]
 
 == Creating a Data Structure
-
