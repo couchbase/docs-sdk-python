@@ -143,6 +143,7 @@ for row in bucket.n1ql_query(query):
 == API Reference
 
 The API reference is generated for each release and can be found linked from the xref:sdk-release-notes.adoc[release notes for your version of the Python SDK].
+The _latest_ version's API reference can be found https://docs.couchbase.com/sdk-api/couchbase-python-client/[here^].
 Most of the API documentation can also be accessed via `pydoc`.
 
 == Release Notes
