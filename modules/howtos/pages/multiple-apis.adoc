@@ -1,2 +1,16 @@
+= Choosing an API
+:navtitle: Choosing an API
+:page-topic-type: howto
+:page-aliases: ROOT:async-programming,ROOT:batching-operations
 
+[abstract]
 
+////
+Many Async choice
+
+Gevent
+Twisted
+Asyncio -- event loop, co-routines, futures
+
+also RQ -- Redis Q...
+////
