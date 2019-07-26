@@ -34,7 +34,7 @@ Issue https://issues.couchbase.com/browse/PYCBC-344[PYCBC-344^].
 
 * Added sub-document API support.
 This is an experimental API which can be used with Couchbase Server 4.5.
-There is a walkthrough http://blog.couchbase.com/2016/february/subdoc-explained[blog^] demonstrating the sub-document API, though the API in this release has some minor differences.
+There is a walkthrough https://blog.couchbase.com/subdoc-explained[blog^] demonstrating the sub-document API, though the API in this release has some minor differences.
 Issue https://issues.couchbase.com/browse/PYCBC-320[PYCBC-320^]
 * Improved and fixed sequence-number consistency for N1QL queries.
 Seqno-based consistency is a feature in Couchbase Server 4.5 and was implemented previously in the Python SDK.
