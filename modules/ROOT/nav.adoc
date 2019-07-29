@@ -9,19 +9,17 @@
 * xref:howtos:subdocument-operations.adoc[Sub-Document Operations]
 //  ** xref:howtos:sdk-xattr-example.adoc[Extended Attributes]
 * xref:howtos:n1ql-queries-with-sdk.adoc[Query]
-////
 * xref:howtos:analytics-using-sdk.adoc[Analytics]
- ** xref:howtos:advanced-analytics-querying.adoc[Advanced Analytics Querying]
-* xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search]
-* xref:howtos:view-queries-with-sdk.adoc[MapReduce Views]
+// ** xref:howtos:advanced-analytics-querying.adoc[Advanced Analytics Querying]
+//* xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search]
+//* xref:howtos:view-queries-with-sdk.adoc[MapReduce Views]
 
 .Advanced Data Operations
-* xref:howtos:durability.adoc[Durability]
+//* xref:howtos:durability.adoc[Durability]
 
 .Managing Couchbase
-* User Management
- ** xref:howtos:sdk-authentication-overview.adoc[Authentication]
-////
+//* User Management
+// ** xref:howtos:sdk-authentication-overview.adoc[Authentication]
 
 .Errors & Diagnostics
 * xref:howtos:error-handling.adoc[Error Handling]
@@ -39,10 +37,8 @@ https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
 
 .Project Docs
 * xref:project-docs:sdk-release-notes.adoc[Release Notes]
-////
-* xref:project-docs:compatibility-versions-features.adoc[Compatibility]
- ** xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating to SDK 3 API]
-////
+//* xref:project-docs:compatibility-versions-features.adoc[Compatibility]
+// ** xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating to SDK 3 API]
 * xref:project-docs:sdk-licenses.adoc[Licenses]
 * xref:project-docs:get-involved.adoc[Get involved]
  ** https://docs.couchbase.com/home/contribute/index.html[Improve the Docs]
