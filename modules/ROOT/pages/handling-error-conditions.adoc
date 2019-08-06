@@ -1,6 +1,7 @@
 = Handling Exceptions and Other Errors with the Python SDK in Couchbase
 :page-aliases: exception-handling
 :navtitle: Handling Errors
+:page-aliases: howtos:handling-errors,concept-docs:errors,ref:errors
 
 All Couchbase exceptions are derived from [.api]`CouchbaseError`.
 Exceptions may be caught via `except`.

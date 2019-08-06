@@ -1,6 +1,7 @@
 = Collecting Information and Logging in the Python SDK with Couchbase Server
 :navtitle: Collecting Information
 :page-aliases: logging
+:page-aliases: event-bus-metrics,logging,howtos:collecting-information-and-logging
 
 The Python SDK allows logging via the standard [.api]`logging` module, or via the [.api]`LCB_LOGLEVEL` environment variable.
 

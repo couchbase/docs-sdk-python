@@ -1,5 +1,5 @@
 = MapReduce Views Using the Python SDK with Couchbase Server
-:page-aliases: view-queries
+:page-aliases: view-queries,managing-views,querying-views,howtos:view-queries-with-sdk,concept-docs:understanding-views
 :navtitle: MapReduce Views
 
 [abstract]

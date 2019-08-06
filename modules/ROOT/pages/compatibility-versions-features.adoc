@@ -1,6 +1,5 @@
 = Compatibility
-
-:page-aliases: overview,migrating
+:page-aliases: overview,migrate,project-docs:compatibility,project-docs:integrations
 
 == Couchbase Version/SDK Version Matrix
 

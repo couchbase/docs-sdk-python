@@ -1,5 +1,6 @@
 = Core Operations
 :page-aliases: crud
+:page-aliases: documents,documents-basics,documents-atomic,concept-docs:concepts,concept-docs:documents
 include::partial$attributes.adoc[]
 
 [abstract]

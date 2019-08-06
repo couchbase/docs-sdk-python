@@ -1,6 +1,6 @@
 = Couchbase Python SDK Release Notes
 :page-partial:
-:page-aliases: relnotes-python-sdk,download-links,release-notes
+:page-aliases: relnotes-python-sdk,download-links,release-notes,project-docs:migrating-sdk-code-to-3.n,project-docs:sdk-release-notes
 
 // tag::latest[]
 == Installation

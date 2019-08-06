@@ -1,5 +1,6 @@
 = Client Settings Using the Python SDK with Couchbase Server
 :navtitle: Client Settings
+:page-aliases: env-config,ref:client-settings
 
 The Python SDK may be configured using the connection string when instantiating a [.api]`Bucket` object.
 

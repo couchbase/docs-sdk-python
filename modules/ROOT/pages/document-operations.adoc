@@ -1,6 +1,7 @@
 = CRUD Document Operations Using the Python SDK with Couchbase Server
 :navtitle: Document Operations
 :page-topic-type: concept
+:page-aliases: documents-creating,documents-updating,documents-retrieving,documents-deleting,howtos:kv-operations
 
 You can access documents in Couchbase using methods of the [.api]`couchbase.bucket.Bucket` object.
 The method for retrieving documents is [.api]`get()`, [.api]`get_in()` and [.api]``retrieve_in()``and the methods for mutating documents are [.api]`upsert()`, [.api]`insert()`, [.api]`replace()` and [.api]`mutate_in()`.
