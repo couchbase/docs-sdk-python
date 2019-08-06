@@ -39,6 +39,9 @@ pip install couchbase==2.5.7
 * https://issues.couchbase.com/browse/PYCBC-478[PYCBC-478]:
 Expose settings for compression min_size/min_ratio as documented in RFC
 
+* https://issues.couchbase.com/browse/PYCBC-565[PYCBC-565]:
+Python gcouchbase timeout error when attempting to connect to a bucket with authentication
+
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-446[PYCBC-446]:
