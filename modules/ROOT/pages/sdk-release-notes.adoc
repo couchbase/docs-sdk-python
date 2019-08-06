@@ -34,6 +34,12 @@ pip install couchbase==2.5.7
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.7/
 
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-478[PYCBC-478]:
+Expose settings for compression min_size/min_ratio as documented
+https://github.com/couchbaselabs/sdk-rfcs/blob/master/rfc/0030-compression.md#compression_min_size[here].
+
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-446[PYCBC-446]:
