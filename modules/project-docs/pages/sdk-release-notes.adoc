@@ -13,7 +13,7 @@ Release notes, installation instructions, and download archive for the Couchbase
 
 == Installation
 
-You may install previous versions of the SDK using pip (after installing the required xref:start-using-sdk.adoc[dependencies])
+You may install previous versions of the SDK using pip (after installing the required xref:hello-world:start-using-sdk.adoc[dependencies])
 
 [source,bash]
 ----
