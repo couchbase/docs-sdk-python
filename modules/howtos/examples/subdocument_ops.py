@@ -63,10 +63,15 @@ The latter saves even more bandwidth by not retrieving the contents of the path 
 .Retrieve sub-document value
 [source,csharp]
 ----
-"""var result = collection.LookupIn("customer123", ops =>
-ops.Get("addresses.delivery.country")
-);
-var country = result.ContentAs<string>(0); //"United Kingdom"
+"""
+from couchbase.collection import CBCollection
+import couchbase.subdocument as SD
+collection = CBCollection()
+#tag::content_as[]
+
+result = collection.lookup_in("customer123", [SD.get("addresses.delivery.country")])
+country = result.content_as[str](0) # "United Kingdom"
+#end::content_as[]
 """
 ----
 
@@ -74,12 +79,12 @@ var country = result.ContentAs<string>(0); //"United Kingdom"
 [source,csharp]
 ----
 """
-var result = collecton.LookupIn("customer123", ops =>
-ops.Exists("purchases.pending[-1]")
-);
-Console.WriteLine("Path exists? {0}", result.ContentAs<bool>(0));
+#tag::exists[]
+result = collection.lookup_in("customer123", [SD.exists("purchases.pending[-1]")])
+print("Path exists? {}".format(result.content_as[bool](0)))
 """
 # Path exists? false
+#end::exists[]
 ----
 
 Multiple operations can be combined as well:
@@ -88,14 +93,14 @@ Multiple operations can be combined as well:
                              [source,csharp]
                              ----
 """
-var result = collection.LookupIn("customer123", ops => {
-    ops.Get("addresses.delivery.country");
-ops.Exists("purchases.pending[-1]");
-});
+#tag::combine[]
+result = collection.lookup_in("customer123", (SD.get("addresses.delivery.country"), SD.exists("purchases.pending[-1]")))
 
-Console.WriteLine("{0}", result.ContentAs<string>(0));
-Console.WriteLine("Path exists? {0}", result.ContentAs<bool>(1));
-"""----
+print("{0}", result.content_as[str](0))
+print("Path exists? {0}", result.content_as[bool](1))
+#end::combine[]
+"""
+----
 
 == Mutating
 
@@ -106,9 +111,7 @@ Mutation operations modify one or more paths in the document.
 [source,csharp]
                  ----
 """
-bucket.MutateIn("customer123", ops =>
-                 ops.Upsert("fax", "311-555-0151")
-);
+collection.mutate_in("customer123", [SD.upsert("fax", "311-555-0151")])
 """
 ----
 
@@ -118,9 +121,7 @@ Likewise, the _subdoc-insert_ operation will only add the new value to the path 
 [source,csharp]
              ----
 """
-bucket.MutateIn("customer123", ops =>
-             ops.Insert("purchases.complete", new List<dynamic>{42, true, "None"})
-);
+collection.mutate_in("customer123", [SD.insert("purchases.complete", [42, True, "None"])])
 
 # SubdocPathExistsError
 """
@@ -132,10 +133,7 @@ Dictionary values can also be replaced or removed, and you may combine any numbe
         [source,csharp]
         ----
 """
-bucket.MutateIn("customer123", ops => {
-            ops.Remove("addresses.billing");
-ops.Replace("email", "dougr96@hotmail.com")
-});
+collection.mutate_in("customer123", (SD.remove("addresses.billing"), SD.replace("email", "dougr96@hotmail.com")))
 """
 ----
 
@@ -150,9 +148,7 @@ The _subdoc-array-prepend_ and _subdoc-array-append_ operations are true array p
 [source,csharp]
 ----
 """
-bucket.MutateIn("customer123",  ops =>
-ops.ArrayAppend("purchases.complete", 777)
-);
+collection.mutate_in("customer123",  SD.array_append("purchases.complete", 777))
 
 # purchases.complete is now [339, 976, 442, 666, 777]
 """
@@ -161,9 +157,7 @@ ops.ArrayAppend("purchases.complete", 777)
 [source,csharp]
 ----
 """
-bucket.MutateIn("customer123", ops =>
-ops.ArrayPrepend("purchases.abandoned", 18)
-);
+collection.mutate_in("customer123", [SD.array_prepend("purchases.abandoned", 18)])
 
 # purchases.abandoned is now [18, 157, 49, 999]
 """
@@ -176,10 +170,8 @@ If your document only needs to contain an array, you do not have to create a top
                                       [source,csharp]
                                       ----
 """
-bucket.Upsert("my_array", new List<int>());
-bucket.MutateIn("my_array", ops =>
-ops.ArrayAppend("", "some element")
-);
+collection.upsert("my_array", [])
+collection.mutate_in("my_array", [SD.array_append("", "some element")])
 
 # the document my_array is now ["some element"]
 """
@@ -192,9 +184,7 @@ If you wish to add multiple values to an array, you may do so by passing multipl
                              [source,csharp]
                              ----
 """
-bucket.MutateIn("my_array", ops =>
-                             ops.ArrayAppend(false, "", "elem1", "elem2", "elem3")
-);
+collection.mutate_in("my_array", [SD.array_append("", "elem1", "elem2", "elem3")])
 
 # the document my_array is now ["some_element", "elem1", "elem2", "elem3"]
 """
@@ -204,9 +194,7 @@ bucket.MutateIn("my_array", ops =>
                                          [source,csharp]
                                          ----
 """
-bucket.MutateIn(“my_array”, ops =>
-ops.ArrayAppend('', ['elem1', 'elem2', 'elem3']”)
-);
+collection.mutate_in("my_array",[SD.array_append('', 'elem1', 'elem2', 'elem3')])
 # the document my_array is now ["some_element", ["elem1", "elem2", "elem3"]]
 """
 ----
@@ -217,23 +205,16 @@ Note that passing multiple values to a single _array-append_ operation results i
 [source,csharp]
 ----
 """
-bucket.MutateIn("my_array", ops => {
-ops.ArrayAppend("", "elem1");
-ops.ArrayAppend("", "elem2");
-ops.ArrayAppend("", "elem3");
-});
-"""----
+collection.mutate_in("my_array", (SD.array_append("", "elem1"),SD.array_append("", "elem2"),SD.array_append("", "elem3")))
+"""
+----
 
 If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the <<subdoc-create-parents,_create-path_>> option:
 
     [source,csharp]
     ----
 """
-bucket.MutateIn("some_doc", ops =>
-    ops.ArrayAppend("some.array", "Hello", "World",
-                    options => options.WithCreateParents(true)
-)
-);
+collection.mutate_in("some_doc", [SD.array_append("some.array", "Hello", "World",create_parents=True)])
 """
 ----
 
@@ -245,15 +226,11 @@ This will do a check to determine if the given value exists or not before actual
     [source,csharp]
     ----
 """
-bucket.MutateIn("customer123", ops =>
-    ops.ArrayAddUnique("purchases.complete", 95)
-);
+collection.mutate_in("customer123", [SD.array_addunique("purchases.complete", 95)])
 
 # => Success
 
-bucket.MutateIn("customer123", ops =>
-ops.ArrayAddUnique("purchases.complete", 95)
-);
+collection.mutate_in("customer123", [SD.array_addunique("purchases.complete", 95)])
 
 # => SubdocPathExists exception!
 """
@@ -274,9 +251,7 @@ For example, to insert `"cruel"` as the second element in the array `["Hello", "
     [source,csharp]
     ----
 """
-    bucket.MutateIn("array", ops =>
-    ops.ArrayInsert("[1]", "cruel")
-);
+collection.mutate_in("array", [SD.array_insert("[1]", "cruel")])
 """
 ----
 
@@ -293,11 +268,9 @@ These operations are logically similar to the _counter_ operation on an entire d
     [source,csharp]
     ----
 """
-var result = bucket.MutateIn("customer123", ops =>
-                 ops.Counter("logins", 1)
-);
+result = collection.mutate_in("customer123", SD.counter("logins", 1))
 
-Console.WriteLine(result.Content(0)); #1
+print(collection.get("customer123").content['logins']) # 1
 
 """
                                        ----
@@ -308,14 +281,10 @@ The _subdoc-counter_ operation performs simple arithmetic against a numeric valu
 [source,csharp]
             ----
 """
-bucket.Upsert("player432", new
-{
-    gold = 1000
-});
+collection.upsert("player432", {'gold':1000})
 
-var result = bucket.MutateIn("player432", ops =>
-             ops.Counter("gold", -150)
-);
+result = collection.mutate_in("player432", SD.counter("gold", -150))
+
 # => player 432 now has 850 gold remaining
 """
 ----
@@ -377,16 +346,11 @@ Looking at the `some_field` field (which is really `level_0.level_1.level_2.leve
                                                   [source,csharp]
                                                   ----
 """
-bucket.MutateIn("customer123", ops =>
-                                                  ops.Upsert("level_0.level_1.foo.bar.phone",
-                                                             new
-{
-    num = "311-555-0101",
-          ext = 16
-},
-options => options.WithCreateParents(true)
-)
-);
+collection.mutate_in("customer123", [SD.upsert("level_0.level_1.foo.bar.phone",
+                                               dict(
+                                                   num="311-555-0101",
+                                                   ext=16
+                                               ), create_parents=True)])
 """
 ----
 
@@ -399,22 +363,14 @@ Subdoc mostly eliminates the need for tracking the xref:concurrent-mutations-clu
 [source,csharp]
 ----
 """
-bucket.MutateIn("customer123", ops =>
-ops.ArrayAppend("purchases.complete",
-                options => ops.WithCas(999)
-)
-);
+collection.mutate_in("customer123", [SD.array_append("purchases.complete",cas=999)])
 """
 ----
 
 [source,csharp]
 ----
 """
-bucket.MutateIn("customer123", ops =>
-ops.ArrayAppend("purchases.abandoned",
-                options => options.WithCas(998)
-)
-);
+collection.mutate_in("customer123", [SD.array_append("purchases.abandoned",cas=998)])
 """
 ----
 
