@@ -7,9 +7,7 @@
 [abstract]
 Release notes, installation instructions, and download archive for the Couchbase Python Client.
 
-// include::start-using-sdk.adoc[tag=prep]
-
-// include::start-using-sdk.adoc[tag=install]
+// include:hello-world:start-using-sdk.adoc[tag=prep]
 
 == Installation
 
@@ -27,6 +25,8 @@ install version 2.0.8:
 ----
 pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
 ----
+
+// include:hello-world:start-using-sdk.adoc[tag=install]
 
 == Upgrading to 3.x
 
