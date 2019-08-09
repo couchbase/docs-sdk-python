@@ -111,7 +111,9 @@ Mutation operations modify one or more paths in the document.
 [source,csharp]
                  ----
 """
+#tag::upsert[]
 collection.mutate_in("customer123", [SD.upsert("fax", "311-555-0151")])
+#end::upsert[]
 """
 ----
 
@@ -121,9 +123,11 @@ Likewise, the _subdoc-insert_ operation will only add the new value to the path 
 [source,csharp]
              ----
 """
+#tag::insert[]
 collection.mutate_in("customer123", [SD.insert("purchases.complete", [42, True, "None"])])
 
 # SubdocPathExistsError
+#end::insert[]
 """
 ----
 
@@ -133,9 +137,10 @@ Dictionary values can also be replaced or removed, and you may combine any numbe
         [source,csharp]
         ----
 """
+#tag::combine_dict[]
 collection.mutate_in("customer123", (SD.remove("addresses.billing"), SD.replace("email", "dougr96@hotmail.com")))
-"""
-----
+#end::combine_dict[]
+"""----
 
 NOTE: `mutateIn` is an _atomic_ operation.
     If any single `ops` fails, then the entire document is left unchanged.
@@ -148,18 +153,22 @@ The _subdoc-array-prepend_ and _subdoc-array-append_ operations are true array p
 [source,csharp]
 ----
 """
+#tag::arrayappend[]
 collection.mutate_in("customer123",  SD.array_append("purchases.complete", 777))
 
 # purchases.complete is now [339, 976, 442, 666, 777]
+#end::arrayappend[]
 """
 ----
 
 [source,csharp]
 ----
 """
+#tag::arrayprepend[]
 collection.mutate_in("customer123", [SD.array_prepend("purchases.abandoned", 18)])
 
 # purchases.abandoned is now [18, 157, 49, 999]
+#end::arrayprepend[]
 """
 ----
 
@@ -170,10 +179,12 @@ If your document only needs to contain an array, you do not have to create a top
                                       [source,csharp]
                                       ----
 """
+#tag::createarray[]
 collection.upsert("my_array", [])
 collection.mutate_in("my_array", [SD.array_append("", "some element")])
 
 # the document my_array is now ["some element"]
+#end::createarray[]
 """
 ----
 
@@ -184,9 +195,11 @@ If you wish to add multiple values to an array, you may do so by passing multipl
                              [source,csharp]
                              ----
 """
+#tag::addmulti[]
 collection.mutate_in("my_array", [SD.array_append("", "elem1", "elem2", "elem3")])
 
 # the document my_array is now ["some_element", "elem1", "elem2", "elem3"]
+#end::addmulti[]
 """
 ----
 
@@ -194,8 +207,10 @@ collection.mutate_in("my_array", [SD.array_append("", "elem1", "elem2", "elem3")
                                          [source,csharp]
                                          ----
 """
+#tag::addnestedarray[]
 collection.mutate_in("my_array",[SD.array_append('', 'elem1', 'elem2', 'elem3')])
 # the document my_array is now ["some_element", ["elem1", "elem2", "elem3"]]
+#end::addnestedarray[]
 """
 ----
 
@@ -205,7 +220,9 @@ Note that passing multiple values to a single _array-append_ operation results i
 [source,csharp]
 ----
 """
+#tag::addmultislow[]
 collection.mutate_in("my_array", (SD.array_append("", "elem1"),SD.array_append("", "elem2"),SD.array_append("", "elem3")))
+#end::addmultislow[]
 """
 ----
 
@@ -214,7 +231,9 @@ If you wish to create an array if it does not exist and also push elements to it
     [source,csharp]
     ----
 """
+#tag::createparentsarray[]
 collection.mutate_in("some_doc", [SD.array_append("some.array", "Hello", "World",create_parents=True)])
+#end::createparentsarray[]
 """
 ----
 
@@ -226,6 +245,7 @@ This will do a check to determine if the given value exists or not before actual
     [source,csharp]
     ----
 """
+#tag::arrayaddunique[]
 collection.mutate_in("customer123", [SD.array_addunique("purchases.complete", 95)])
 
 # => Success
@@ -233,6 +253,7 @@ collection.mutate_in("customer123", [SD.array_addunique("purchases.complete", 95
 collection.mutate_in("customer123", [SD.array_addunique("purchases.complete", 95)])
 
 # => SubdocPathExists exception!
+#end::arrayaddunique[]
 """
 ----
 
@@ -251,7 +272,9 @@ For example, to insert `"cruel"` as the second element in the array `["Hello", "
     [source,csharp]
     ----
 """
+#tag::arrayinsert[]
 collection.mutate_in("array", [SD.array_insert("[1]", "cruel")])
+#end::arrayinsert[]
 """
 ----
 
@@ -268,10 +291,12 @@ These operations are logically similar to the _counter_ operation on an entire d
     [source,csharp]
     ----
 """
+#tag::counter1[]
 result = collection.mutate_in("customer123", SD.counter("logins", 1))
 
 print(collection.get("customer123").content['logins']) # 1
 
+#end::counter1[]
 """
                                        ----
 
@@ -281,11 +306,13 @@ The _subdoc-counter_ operation performs simple arithmetic against a numeric valu
 [source,csharp]
             ----
 """
+#tag::counter2[]
 collection.upsert("player432", {'gold':1000})
 
 result = collection.mutate_in("player432", SD.counter("gold", -150))
 
 # => player 432 now has 850 gold remaining
+#end::counter2[]
 """
 ----
 
@@ -346,11 +373,13 @@ Looking at the `some_field` field (which is really `level_0.level_1.level_2.leve
                                                   [source,csharp]
                                                   ----
 """
+#tag::createparents[]
 collection.mutate_in("customer123", [SD.upsert("level_0.level_1.foo.bar.phone",
                                                dict(
                                                    num="311-555-0101",
                                                    ext=16
                                                ), create_parents=True)])
+#end::createparents[]
 """
 ----
 
@@ -363,14 +392,18 @@ Subdoc mostly eliminates the need for tracking the xref:concurrent-mutations-clu
 [source,csharp]
 ----
 """
+#tag::cas1[]
 collection.mutate_in("customer123", [SD.array_append("purchases.complete",cas=999)])
+#end::cas1[]
 """
 ----
 
 [source,csharp]
 ----
 """
+#tag::cas2[]
 collection.mutate_in("customer123", [SD.array_append("purchases.abandoned",cas=998)])
+#end::cas2[]
 """
 ----
 
