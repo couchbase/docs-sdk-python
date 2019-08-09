@@ -1,4 +1,4 @@
-= Sub-Document Operations with the Python SDK
+"""= Sub-Document Operations with the Python SDK
 :navtitle: Sub-Doc Operations
 :page-topic-type: howto
 include::partial$attributes.adoc[]
@@ -23,37 +23,37 @@ The _path_ follows N1QL syntax (see https://developer.couchbase.com/documentatio
 Considering the document:
 
 .customer123.json
-[source,json]
-----
+ [source,json]
+ ----
 {
-  "name": "Douglas Reynholm",
-  "email": "douglas@reynholmindustries.com",
-  "addresses": {
-    "billing": {
-      "line1": "123 Any Street",
-      "line2": "Anytown",
-      "country": "United Kingdom"
+    "name": "Douglas Reynholm",
+    "email": "douglas@reynholmindustries.com",
+    "addresses": {
+        "billing": {
+            "line1": "123 Any Street",
+            "line2": "Anytown",
+            "country": "United Kingdom"
+        },
+        "delivery": {
+            "line1": "123 Any Street",
+            "line2": "Anytown",
+            "country": "United Kingdom"
+        }
     },
-    "delivery": {
-      "line1": "123 Any Street",
-      "line2": "Anytown",
-      "country": "United Kingdom"
+    "purchases": {
+        "complete": [
+            339, 976, 442, 666
+        ],
+        "abandoned": [
+            157, 42, 999
+        ]
     }
-  },
-  "purchases": {
-    "complete": [
-      339, 976, 442, 666
-    ],
-    "abandoned": [
-      157, 42, 999
-    ]
-  }
 }
-----
+ ----
 
 The paths `name`, `addresses.billing.country` and `purchases.complete[0]` are all valid paths.
 
-== Retrieving
+                                                                                        == Retrieving
 
 
 The _lookup-in_ operations query the document for certain path(s); these path(s) are then returned.
@@ -61,107 +61,180 @@ You have a choice of actually retrieving the document path using the _subdoc-get
 The latter saves even more bandwidth by not retrieving the contents of the path if it is not needed.
 
 .Retrieve sub-document value
-[source,python]
+[source,csharp]
 ----
-include::example$subdocument_ops.py[tag=content_as]
+"""
+from couchbase.collection import CBCollection
+import couchbase.subdocument as SD
+collection = CBCollection()
+#tag::content_as[]
+
+result = collection.lookup_in("customer123", [SD.get("addresses.delivery.country")])
+country = result.content_as[str](0) # "United Kingdom"
+#end::content_as[]
+"""
 ----
 
 .Check existence of sub-document path
-[source,python]
+[source,csharp]
 ----
-include::example$subdocument_ops.py[tag=exists]
+"""
+#tag::exists[]
+result = collection.lookup_in("customer123", [SD.exists("purchases.pending[-1]")])
+print("Path exists? {}".format(result.content_as[bool](0)))
+"""
+# Path exists? false
+#end::exists[]
 ----
 
 Multiple operations can be combined as well:
 
-.Combine multiple lookup operations
-[source,python]
-----
-include::example$subdocument_ops.py[tag=combine]
+    .Combine multiple lookup operations
+                             [source,csharp]
+                             ----
+"""
+#tag::combine[]
+result = collection.lookup_in("customer123", (SD.get("addresses.delivery.country"), SD.exists("purchases.pending[-1]")))
+
+print("{0}", result.content_as[str](0))
+print("Path exists? {0}", result.content_as[bool](1))
+#end::combine[]
+"""
 ----
 
 == Mutating
 
 Mutation operations modify one or more paths in the document.
-The simplest of these operations is _subdoc-upsert_, which, similar to the fulldoc-level _upsert_, will either modify the value of an existing path or create it if it does not exist:
+    The simplest of these operations is _subdoc-upsert_, which, similar to the fulldoc-level _upsert_, will either modify the value of an existing path or create it if it does not exist:
 
 .Upserting a new sub-document
-[source,python]
-----
-include::example$subdocument_ops.py[tag=upsert]
+[source,csharp]
+                 ----
+"""
+#tag::upsert[]
+collection.mutate_in("customer123", [SD.upsert("fax", "311-555-0151")])
+#end::upsert[]
+"""
 ----
 
 Likewise, the _subdoc-insert_ operation will only add the new value to the path if it does not exist:
 
 .Inserting a sub-document
-[source,python]
-----
-include::example$subdocument_ops.py[tag=insert]
+[source,csharp]
+             ----
+"""
+#tag::insert[]
+collection.mutate_in("customer123", [SD.insert("purchases.complete", [42, True, "None"])])
+
+# SubdocPathExistsError
+#end::insert[]
+"""
 ----
 
 Dictionary values can also be replaced or removed, and you may combine any number of mutation operations within the same general _mutate-in_ API.
-Here's an example of one which replaces one path and removes another.
+    Here's an example of one which replaces one path and removes another.
 
-[source,python]
-----
-include::example$subdocument_ops.py[tag=combine_dict]
-----
+        [source,csharp]
+        ----
+"""
+#tag::combine_dict[]
+collection.mutate_in("customer123", (SD.remove("addresses.billing"), SD.replace("email", "dougr96@hotmail.com")))
+#end::combine_dict[]
+"""----
 
 NOTE: `mutateIn` is an _atomic_ operation.
-If any single `ops` fails, then the entire document is left unchanged.
+    If any single `ops` fails, then the entire document is left unchanged.
 
-== Array append and prepend
+                                                                == Array append and prepend
 
 The _subdoc-array-prepend_ and _subdoc-array-append_ operations are true array prepend and append operations.
-Unlike fulldoc _append_/_prepend_ operations (which simply concatenate bytes to the existing value), _subdoc-array-append_ and _subdoc-array-prepend_ are JSON-aware:
+    Unlike fulldoc _append_/_prepend_ operations (which simply concatenate bytes to the existing value), _subdoc-array-append_ and _subdoc-array-prepend_ are JSON-aware:
 
-[source,python]
+[source,csharp]
 ----
-include::example$subdocument_ops.py[tag=arrayappend]
+"""
+#tag::arrayappend[]
+collection.mutate_in("customer123",  SD.array_append("purchases.complete", 777))
+
+# purchases.complete is now [339, 976, 442, 666, 777]
+#end::arrayappend[]
+"""
 ----
 
-[source,python]
+[source,csharp]
 ----
-include::example$subdocument_ops.py[tag=arrayprepend]
+"""
+#tag::arrayprepend[]
+collection.mutate_in("customer123", [SD.array_prepend("purchases.abandoned", 18)])
+
+# purchases.abandoned is now [18, 157, 49, 999]
+#end::arrayprepend[]
+"""
 ----
 
 If your document only needs to contain an array, you do not have to create a top-level object wrapper to contain it.
-Simply initialize the document with an empty array and then use the empty path for subsequent sub-document array operations:
+    Simply initialize the document with an empty array and then use the empty path for subsequent sub-document array operations:
 
-.Creating and populating an array document
-[source,python]
-----
-include::example$subdocument_ops.py[tag=createarray]
+    .Creating and populating an array document
+                                      [source,csharp]
+                                      ----
+"""
+#tag::createarray[]
+collection.upsert("my_array", [])
+collection.mutate_in("my_array", [SD.array_append("", "some element")])
+
+# the document my_array is now ["some element"]
+#end::createarray[]
+"""
 ----
 
 If you wish to add multiple values to an array, you may do so by passing multiple values to the _array-append_, _array-prepend_, or _array-insert_ operations.
-Be sure to know the difference between passing a collection of multiple elements (in which case the collection is inserted as a single element in the array, as a sub-array) and passing multiple elements (in which case the elements are appended individually to the array):
+    Be sure to know the difference between passing a collection of multiple elements (in which case the collection is inserted as a single element in the array, as a sub-array) and passing multiple elements (in which case the elements are appended individually to the array):
 
 .Add multiple elements to an array
-[source,python]
-----
-include::example$subdocument_ops.py[tag=addmulti]
+                             [source,csharp]
+                             ----
+"""
+#tag::addmulti[]
+collection.mutate_in("my_array", [SD.array_append("", "elem1", "elem2", "elem3")])
+
+# the document my_array is now ["some_element", "elem1", "elem2", "elem3"]
+#end::addmulti[]
+"""
 ----
 
 .Add single array as element to existing array
-[source,python]
-----
-include::example$subdocument_ops.py[tag=addnestedarray]
+                                         [source,csharp]
+                                         ----
+"""
+#tag::addnestedarray[]
+collection.mutate_in("my_array",[SD.array_append('', 'elem1', 'elem2', 'elem3')])
+# the document my_array is now ["some_element", ["elem1", "elem2", "elem3"]]
+#end::addnestedarray[]
+"""
 ----
 
 Note that passing multiple values to a single _array-append_ operation results in greater performance increase and bandwidth savings than simply specifying a single _array-append_ for each element.
 
-.Adding multiple elements to array (slow)
-[source,python]
+        .Adding multiple elements to array (slow)
+[source,csharp]
 ----
-include::example$subdocument_ops.py[tag=addmultislow]
+"""
+#tag::addmultislow[]
+collection.mutate_in("my_array", (SD.array_append("", "elem1"),SD.array_append("", "elem2"),SD.array_append("", "elem3")))
+#end::addmultislow[]
+"""
 ----
 
 If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the <<subdoc-create-parents,_create-path_>> option:
 
-[source,python]
-----
-include::example$subdocument_ops.py[tag=createparentsarray]
+    [source,csharp]
+    ----
+"""
+#tag::createparentsarray[]
+collection.mutate_in("some_doc", [SD.array_append("some.array", "Hello", "World",create_parents=True)])
+#end::createparentsarray[]
+"""
 ----
 
 == Arrays as Unique Sets
@@ -169,9 +242,19 @@ include::example$subdocument_ops.py[tag=createparentsarray]
 Limited support also exists for treating arrays like unique sets, using the _subdoc-array-addunique_ command.
 This will do a check to determine if the given value exists or not before actually adding the item to the array:
 
-[source,python]
-----
-include::example$subdocument_ops.py[tag=arrayaddunique]
+    [source,csharp]
+    ----
+"""
+#tag::arrayaddunique[]
+collection.mutate_in("customer123", [SD.array_addunique("purchases.complete", 95)])
+
+# => Success
+
+collection.mutate_in("customer123", [SD.array_addunique("purchases.complete", 95)])
+
+# => SubdocPathExists exception!
+#end::arrayaddunique[]
+"""
 ----
 
 Note that currently the _addunique_ will fail with a _Path Mismatch_ error if the array contains JSON _floats_, _objects_, or _arrays_.
@@ -186,9 +269,13 @@ While _append_ will place a new item at the _end_ of an array and _prepend_ will
 The position is indicated by the last path component, which should be an array index.
 For example, to insert `"cruel"` as the second element in the array `["Hello", "world"]`, the code would look like:
 
-[source,python]
-----
-include::example$subdocument_ops.py[tag=arrayinsert]
+    [source,csharp]
+    ----
+"""
+#tag::arrayinsert[]
+collection.mutate_in("array", [SD.array_insert("[1]", "cruel")])
+#end::arrayinsert[]
+"""
 ----
 
 // for your examples, above, CD: “I feel like somewhere in this we should also just a an example path like "my.path[1]" too, just to show how to use the index with a nested path. I don't think it's necessarily clear.”
@@ -201,17 +288,32 @@ it must not point to an element which is out of bounds).
 Counter operations allow the manipulation of a _numeric_ value inside a document.
 These operations are logically similar to the _counter_ operation on an entire document:
 
-[source,python]
-----
-include::example$subdocument_ops.py[tag=counter1]
-----
+    [source,csharp]
+    ----
+"""
+#tag::counter1[]
+result = collection.mutate_in("customer123", SD.counter("logins", 1))
+
+print(collection.get("customer123").content['logins']) # 1
+
+#end::counter1[]
+"""
+                                       ----
 
 The _subdoc-counter_ operation performs simple arithmetic against a numeric value, either incrementing or decrementing the existing value.
-The new value is returned.
+    The new value is returned.
 
-[source,python]
-----
-include::example$subdocument_ops.py[tag=counter2]
+[source,csharp]
+            ----
+"""
+#tag::counter2[]
+collection.upsert("player432", {'gold':1000})
+
+result = collection.mutate_in("player432", SD.counter("gold", -150))
+
+# => player 432 now has 850 gold remaining
+#end::counter2[]
+"""
 ----
 
 The existing value for _subdoc-counter_ operations must be within range of a 64 bit signed integer.
@@ -219,9 +321,9 @@ If the value does not exist, the _subdoc-counter_ operation will create it (and 
 
 Note that there are several differences between _subdoc-counter_ and the full-document _counter_ operations:
 
-* Sub-document counters have a range of -9223372036854775807 to 9223372036854775807 (i.e. `Iint64.MinValue` and `Int64.MaxValue), whereas full-document counters have a range of 0 to 18446744073709551615 (`UInt64.MaxValue`)
-* Sub-document counter operations protect against overflow and underflow, returning an error if the operation would exceed the range.
-Full-document counters will use normal C semantics for overflow (in which the overflow value is carried over above 0), and will silently fail on underflow, setting the value to 0 instead.
+    * Sub-document counters have a range of -9223372036854775807 to 9223372036854775807 (i.e. `Iint64.MinValue` and `Int64.MaxValue), whereas full-document counters have a range of 0 to 18446744073709551615 (`UInt64.MaxValue`)
+                                                                                                                                                                                          * Sub-document counter operations protect against overflow and underflow, returning an error if the operation would exceed the range.
+                                                                                                                                                                                                                                                                                                                             Full-document counters will use normal C semantics for overflow (in which the overflow value is carried over above 0), and will silently fail on underflow, setting the value to 0 instead.
 * Sub-document counter operations can operate on any numeric value within a document, while full-document counter operations require a specially formatted counter document with only the counter value.
 
 == Executing multiple operations
@@ -242,7 +344,7 @@ While their statuses are independent of each other, you should note that operati
 == Creating parents
 
 Sub-document mutation operations such as _subdoc-upsert_ or _subdoc-insert_ will fail if the _immediate parent_ is not present in the document.
-Consider:
+    Consider:
 
 [source,json]
 ----
@@ -260,52 +362,68 @@ Consider:
 ----
 
 Looking at the `some_field` field (which is really `level_0.level_1.level_2.level_3.some_field`), its _immediate_ parent is `level_3`.
-If we were to attempt to insert another field, `level_0.level_1.level_2.level_3.another_field`, it would succeed because the immediate parent is present.
-However if we were to attempt to _subdoc-insert_ to `level_1.level_2.foo.bar` it would fail, because `level_1.level_2.foo` (which would be the immediate parent) does not exist.
-Attempting to perform such an operation would result in a Path Not Found error.
+    If we were to attempt to insert another field, `level_0.level_1.level_2.level_3.another_field`, it would succeed because the immediate parent is present.
+    However if we were to attempt to _subdoc-insert_ to `level_1.level_2.foo.bar` it would fail, because `level_1.level_2.foo` (which would be the immediate parent) does not exist.
+    Attempting to perform such an operation would result in a Path Not Found error.
 
-By default the automatic creation of parents is disabled, as a simple typo in application code can result in a rather confusing document structure.
-Sometimes it is necessary to have the server create the hierarchy however.
-In this case, the _create-path_ option may be used.
+    By default the automatic creation of parents is disabled, as a simple typo in application code can result in a rather confusing document structure.
+    Sometimes it is necessary to have the server create the hierarchy however.
+    In this case, the _create-path_ option may be used.
 
-[source,python]
-----
-include::example$subdocument_ops.py[tag=createparents]
+                                                  [source,csharp]
+                                                  ----
+"""
+#tag::createparents[]
+collection.mutate_in("customer123", [SD.upsert("level_0.level_1.foo.bar.phone",
+                                               dict(
+                                                   num="311-555-0101",
+                                                   ext=16
+                                               ), create_parents=True)])
+#end::createparents[]
+"""
 ----
 
 == CAS Semantics
 
 Subdoc mostly eliminates the need for tracking the xref:concurrent-mutations-cluster.adoc[CAS] value.
-Subdoc operations are atomic and therefore if two different threads access two different sub-documents then no conflict will arise.
-For example the following two blocks can execute concurrently without any risk of conflict:
+    Subdoc operations are atomic and therefore if two different threads access two different sub-documents then no conflict will arise.
+    For example the following two blocks can execute concurrently without any risk of conflict:
 
-[source,python]
+[source,csharp]
 ----
-include::example$subdocument_ops.py[tag=cas1]
+"""
+#tag::cas1[]
+collection.mutate_in("customer123", [SD.array_append("purchases.complete",cas=999)])
+#end::cas1[]
+"""
 ----
 
-[source,python]
+[source,csharp]
 ----
-include::example$subdocument_ops.py[tag=cas2]
+"""
+#tag::cas2[]
+collection.mutate_in("customer123", [SD.array_append("purchases.abandoned",cas=998)])
+#end::cas2[]
+"""
 ----
 
 Even when modifying the _same_ part of the document, operations will not necessarily conflict.
-For example, two concurrent _subdoc-array-append_ operations to the same array will both succeed, never overwriting the other.
+    For example, two concurrent _subdoc-array-append_ operations to the same array will both succeed, never overwriting the other.
 
-While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_: Sometimes it's important to ensure the entire document didn't change state since the last operation, such as in the case _subdoc-remove_ operations to ensure that the element being removed was not already replaced by something else.
+    While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_: Sometimes it's important to ensure the entire document didn't change state since the last operation, such as in the case _subdoc-remove_ operations to ensure that the element being removed was not already replaced by something else.
 
 == Error handling
 
 Subdoc operations have their own set of errors.
-When programming with subdoc, be prepared for any of the full-document errors (such as _Document Not Found_) as well as special sub-document errors which are received when certain constraints are not satisfied.
+    When programming with subdoc, be prepared for any of the full-document errors (such as _Document Not Found_) as well as special sub-document errors which are received when certain constraints are not satisfied.
 Some of the errors include:
 
-* *Path does not exist*: When retrieving a path, this means the path does not exist in the document.
-When inserting or upserting a path, this means the _immediate parent_ does not exist.
-* *Path already exists*: In the context of an _insert_, it means the given path already exists.
-In the context of _array-add-unique_, it means the given value already exists.
-* *Path mismatch*: This means the path may exist in the document, but that there is a type conflict between the path in the document and the path in the command.
-Consider the document:
+    * *Path does not exist*: When retrieving a path, this means the path does not exist in the document.
+    When inserting or upserting a path, this means the _immediate parent_ does not exist.
+                                                                                   * *Path already exists*: In the context of an _insert_, it means the given path already exists.
+    In the context of _array-add-unique_, it means the given value already exists.
+                                                                           * *Path mismatch*: This means the path may exist in the document, but that there is a type conflict between the path in the document and the path in the command.
+    Consider the document:
 +
 [source,json]
 ----
@@ -316,7 +434,7 @@ The path `tags.sierra` is a mismatch, since `tags` is actually an array, while t
 
 * *Document not JSON*: This means you are attempting to modify a binary document using sub-document operations.
 * *Invalid path*: This means the path is invalid for the command.
-Certain commands such as _subdoc-array-insert_ expect array elements as their final component, while others such as _subdoc-upsert_ and _subdoc-insert_ expect dictionary (object) keys.
+    Certain commands such as _subdoc-array-insert_ expect array elements as their final component, while others such as _subdoc-upsert_ and _subdoc-insert_ expect dictionary (object) keys.
 
 If a Sub-Document command fails a top-level error is reported (_Multi Command Failure_), rather than an individual error code (e.g. _Path Not Found_).
 When receiving a top-level error code, you should traverse the results of the command to see which individual code failed.
@@ -347,7 +465,7 @@ For example:
 must be referenced as `literal\"quote.array`.
 
 If the path also has special path characters (i.e.
-a dot or brackets) it may be escaped using N1QL escapes.
+                                              a dot or brackets) it may be escaped using N1QL escapes.
 Considering the document
 
 [source,json]
@@ -356,11 +474,11 @@ Considering the document
 ----
 
 A path such as
- \`literal[]bracket`.\`literal.dot`.
+\`literal[]bracket`.\`literal.dot`.
 You can use double-backticks (pass:c[``]) to reference a literal backtick.
 
 If you need to combine both JSON _and_ path-syntax literals you can do so by escaping the component from any JSON string characters (e.g.
-a quote or backslash) and then encapsulating it in backticks (`pass:c[`path`]`).
+                                                                                                                                     a quote or backslash) and then encapsulating it in backticks (`pass:c[`path`]`).
 
 NOTE: Currently, paths cannot exceed 1024 characters, and cannot be more than 32 levels deep.
 
@@ -369,3 +487,4 @@ NOTE: Currently, paths cannot exceed 1024 characters, and cannot be more than 32
 XDCR only replicates full documents.
 Sub-documents are only replicated as part of the full document.
 
+"""
