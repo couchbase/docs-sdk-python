@@ -66,6 +66,7 @@ The latter saves even more bandwidth by not retrieving the contents of the path 
 """
 from couchbase.collection import CBCollection
 import couchbase.subdocument as SD
+from couchbase.durability import Durability
 collection = CBCollection()
 #tag::content_as[]
 
@@ -405,12 +406,20 @@ collection.mutate_in("customer123", [SD.array_append("purchases.complete",cas=99
 collection.mutate_in("customer123", [SD.array_append("purchases.abandoned",cas=998)])
 #end::cas2[]
 """
+== Durability
 ----
 
-Even when modifying the _same_ part of the document, operations will not necessarily conflict.
-    For example, two concurrent _subdoc-array-append_ operations to the same array will both succeed, never overwriting the other.
+In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability.adoc#synchronous-durability[Synchronous Replication], 
+which uses the concept of xref:6.5@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
 
-    While CAS is no longer so strongly required to ensure document updates are preserved, as Sub-Doc reduces the chance of losing a mutation, it may still be needed to ensure document state remains consistent over multiple invocations of _mutate-in_: Sometimes it's important to ensure the entire document didn't change state since the last operation, such as in the case _subdoc-remove_ operations to ensure that the element being removed was not already replaced by something else.
+[source,python]
+----
+"""
+#tag:new_durability[]
+collection.mutate_in("key",[SD.insert("name", "mike")], durability_level=Durability.MAJORITY)
+#end:new_durability[]
+"""
+----
 
 == Error handling
 
