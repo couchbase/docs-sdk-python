@@ -104,11 +104,26 @@ Here, we have add _Durability_ options, namely `PersistTo` and `ReplicateTo`.
     In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:https://docs.couchbase.com/python-sdk/2.5.5/durability.html[6.0 Durability documentation] -- covering  how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
     Couchbase Data Platform 6.5 refines these two options, with xref:synchronous-replication.adoc[Synchronous Replication] -- although they remain essentially the same in use -- as well as adding the option of xref:transactions.adoc[atomic document transactions].
 
+The following example demonstrates using the newer durability features available in Couchbase server 6.5 onwards.
+
+[source,python]
+----
+"""
+# tag::upsert_syncrep[]
+from couchbase.durability import Durability
+
+document = dict(foo="bar", bar="foo")
+result = collection.upsert("document-key", document,
+                           cas=12345, expiration=Durations.minutes(1),
+                           durability_level=Durability.MAJORITY)
+# end::upsert_syncrep[]
+"""
+----
 
 [TIP]
-    .Sub-Document Operations
-                  ====
-                  All of these operations involve fetching the complete document from the Cluster.
+.Sub-Document Operations
+====
+All of these operations involve fetching the complete document from the Cluster.
 Where the number of operations or other circumstances make bandwidth a significant issue, the SDK can work on just a specific _path_ of the document with xref:subdocument-operations.adoc[Sub-Docunent Operations].
 ====
 
