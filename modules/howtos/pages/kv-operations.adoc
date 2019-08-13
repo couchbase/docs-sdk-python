@@ -75,9 +75,14 @@ include::example$kv_operations.py[tag=expiration]
 Here, we have added _Durability_ options, namely `PersistTo` and `ReplicateTo`.
 In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:https://docs.couchbase.com/python-sdk/2.5.5/durability.html[6.0 Durability documentation] -- covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
 Couchbase Data Platform 6.5 refines these two options, with xref:synchronous-replication.adoc[Synchronous Replication] -- although they remain essentially the same in use.
-// No longer quite true.
-// NEEDS ATTENTION
+// -- as well as adding the option of xref:transactions.adoc[atomic document transactions].
 
+The following example demonstrates using the newer durability features available in Couchbase server 6.5 onwards.
+
+[source,python]
+----
+include::example$kv_operations.py[tag=upsert_syncrep]
+----
 
 [TIP]
 .Sub-Document Operations
