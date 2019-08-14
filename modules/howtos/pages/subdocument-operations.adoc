@@ -26,7 +26,7 @@ IMPORTANT: The Sub-Document operations described on this page are for _Key-Value
 (Sub-Document N1QL queries are explained in the section xref:n1ql-queries-with-sdk.adoc[Querying with N1QL].)
 
 In order to use Sub-Document operations you need to specify a _path_ indicating the location of the Sub-Document.
-The _path_ follows <<Path syntax,N1QL syntax>>.
+The _path_ follows <<path-syntax,N1QL syntax>>.
 Considering the document:
 
 .customer123.json
