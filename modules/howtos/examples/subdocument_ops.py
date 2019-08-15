@@ -341,7 +341,7 @@ When submitting multiple _retrieval_ operations within a single _lookup-in_ comm
 This means that it is possible for some retrieval operations to succeed and others to fail.
 While their statuses are independent of each other, you should note that operations submitted within a single _lookup-in_ are all executed against the same _version_ of the document.
 
-[#subdoc-create-parents]
+[#subdoc_create_path]
 == Creating parents
 
 Sub-document mutation operations such as _subdoc-upsert_ or _subdoc-insert_ will fail if the _immediate parent_ is not present in the document.

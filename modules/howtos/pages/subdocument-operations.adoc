@@ -297,7 +297,7 @@ Even when modifying the _same_ part of the document, operations will not necessa
 For example, two concurrent _arrayappend_ operations to the same array will both succeed, never overwriting the other.
 
 
-So in some cases the application will not need to supply a xref:concurrent-mutations-cluster.adoc[CAS] value to protect
+So in some cases the application will not need to supply a CAS value to protect
 against concurrent modifications.
 
 If CAS is required then it can be provided like this:
@@ -311,14 +311,7 @@ include::example$subdocument_ops.py[tag=cas2]
 
 == Durability
 
-Couchbase's xref:2.7@dotnet-sdk::durability.adoc[traditional durability], using `PersistTo` and `ReplicateTo`, is still available, particuarly for talking to Couchbase Server 6.0 and earlier:
-
-[source,python]
-----
-include::example$subdocument_ops.py[tag=old_durability]
-----
-
-In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability.adoc#synchronous-durability[Synchronous Replication], 
+In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability.adoc#synchronous-durability[Synchronous Replication],
 which uses the concept of xref:6.5@server:learn:data/durability.adoc#majority[majority] to indicate the number of configured Data Service nodes to which commitment is required:
 
 [source,python]
