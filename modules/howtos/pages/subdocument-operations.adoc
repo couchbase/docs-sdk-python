@@ -167,7 +167,7 @@ Note that passing multiple values to a single _array-append_ operation results i
 include::example$subdocument_ops.py[tag=addmultislow]
 ----
 
-If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the <<subdoc-create-parents,_create-path_>> option:
+If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the <<subdoc_create_path,_create-path_>> option:
 
 [source,python]
 ----
