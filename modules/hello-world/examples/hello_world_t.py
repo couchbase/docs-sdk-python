@@ -3,7 +3,7 @@
 [source,python]
 ----
 """
-# tag::intro[]
+#tag::intro[]
 from couchbase.cluster import Cluster, ClusterOptions
 from couchbase_core.cluster import PasswordAuthenticator
 
