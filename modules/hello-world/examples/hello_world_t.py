@@ -3,18 +3,18 @@
 [source,python]
 ----
 """
-#tag::intro[]
-from couchbase.cluster import Cluster
+# tag::intro[]
+from couchbase.cluster import Cluster, ClusterOptions
 from couchbase_core.cluster import PasswordAuthenticator
-cluster = Cluster('couchbase://localhost')
-authenticator = PasswordAuthenticator('username', 'password')
-cluster.authenticate(authenticator)
+
+cluster = Cluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
 cb = cluster.bucket('bucket-name')
-cb_coll=cb.default_collection()
-cb_coll.upsert('u:king_arthur', {'name': 'Arthur', 'email': 'kingarthur@couchbase.com', 'interests': ['Holy Grail', 'African Swallows']})
+cb_coll = cb.default_collection()
+cb_coll.upsert('u:king_arthur',
+               {'name': 'Arthur', 'email': 'kingarthur@couchbase.com', 'interests': ['Holy Grail', 'African Swallows']})
 # OperationResult<RC=0x0, Key=u'u:king_arthur', CAS=0xb1da029b0000>
 
-print(cb_coll.get('u:king_arthur').contentAs[str])
+print(cb_coll.get('u:king_arthur').content_as[str])
 # {u'interests': [u'Holy Grail', u'African Swallows'], u'name': u'Arthur', u'email': u'kingarthur@couchbase.com'}
 
 ## The CREATE PRIMARY INDEX step is only needed the first time you run this script
@@ -33,18 +33,16 @@ for row in row_iter: print(row)
 
 To connect to a Couchbase bucket, you must use Couchbase _Role-Based Access Control_ (RBAC).
 This is fully described in the section xref:6.0@server:security:security-authorization.adoc[Authorization].
-An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
+An _authenticator_, containing username and password, should be defined, and then passed to the Cluster constructor.
 Following successful authentication, the bucket can be opened.
 
 [source,python]
 ----
 """
 #tag::connecting[]
-from couchbase.cluster import Cluster
+from couchbase.cluster import Cluster, ClusterOptions
 from couchbase_core.cluster import PasswordAuthenticator
-cluster = Cluster('couchbase://localhost')
-authenticator = PasswordAuthenticator('username', 'password')
-cluster.authenticate(authenticator)
+cluster = Cluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
 bucket = cluster.bucket('bucket-name')
 coll = bucket.default_collection()
 #end::connecting[]
