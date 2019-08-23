@@ -45,6 +45,9 @@ pip install couchbase==3.0.0a5
 
 === Enhancements
 
+* https://issues.couchbase.com/browse/PYCBC-616[PYCBC-616]:
+Migrate acouchbase to SDK3
+
 * https://issues.couchbase.com/browse/PYCBC-621[PYCBC-621]:
 Update Cluster constructor docs to indicate mandatory authenticator
 
