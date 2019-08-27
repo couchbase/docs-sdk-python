@@ -34,7 +34,7 @@ Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it
  so no need to install it separately.
 
 
-== Python SDK 3.0.0 Release Notes (August 23 2019)
+== Python SDK 3.0.0 Alpha 5 Release Notes (August 23 2019)
 
 [source,bash]
 ----
