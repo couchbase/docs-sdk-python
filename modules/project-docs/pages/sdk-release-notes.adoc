@@ -33,6 +33,51 @@ include:hello-world:start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+
+== Python SDK 3.0.0 Release Notes (August 23 2019)
+
+[source,bash]
+----
+pip install couchbase==3.0.0a5
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-616[PYCBC-616]:
+Migrate [.api]`acouchbase` module to SDK3
+
+* https://issues.couchbase.com/browse/PYCBC-621[PYCBC-621]:
+Update Cluster constructor docs to indicate mandatory authenticator
+
+* https://issues.couchbase.com/browse/PYCBC-623[PYCBC-623]:
+Document Git dependency
+
+* https://issues.couchbase.com/browse/PYCBC-624[PYCBC-624]:
+Update Hello World example to indicate mandatory authenticator argument
+
+* https://issues.couchbase.com/browse/PYCBC-625[PYCBC-625]:
+Make multi-ops explicitly visible in Collection class
+
+* https://issues.couchbase.com/browse/PYCBC-627[PYCBC-627]:
+Fix eager_resources setting, fix 2.7 numpydoc incompatibility
+
+* https://issues.couchbase.com/browse/PYCBC-570[PYCBC-570]:
+Python: Author docs for SubDocument LookupIn
+
+* https://issues.couchbase.com/browse/PYCBC-603[PYCBC-603]:
+Python: SubDoc mutateIn Docs authoring
+
+* https://issues.couchbase.com/browse/PYCBC-626[PYCBC-626]:
+Add durability to subdoc, touch and counter operations
+
+* https://issues.couchbase.com/browse/PYCBC-606[PYCBC-606]:
+Synchronous Replication snippets
+
+* https://issues.couchbase.com/browse/PYCBC-633[PYCBC-633]:
+Rename KV-style Bucket classes to `Client` for SDK3 code
+
 == Python SDK 3.0.0 Alpha 4 Release Notes (July 12 2019)
 
 [source,bash]
