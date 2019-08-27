@@ -76,7 +76,7 @@ Add durability to subdoc, touch and counter operations
 Synchronous Replication snippets
 
 * https://issues.couchbase.com/browse/PYCBC-633[PYCBC-633]:
-Rename KV-style Bucket classes to *Client* for SDK3 code
+Rename KV-style Bucket classes to `Client` for SDK3 code
 
 == Python SDK 3.0.0 Alpha 4 Release Notes (July 12 2019)
 
