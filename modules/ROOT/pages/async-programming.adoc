@@ -215,7 +215,7 @@ for row in resiter:
 
 == Asyncio (Python 3.5+)
 
-https://docs.python.org/3/library/asyncio.html[asyncio^] is another asynchronous module which ships with Python version 3.5 and later.
+https://docs.python.org/3/library/asyncio.html[Asyncio^] is another asynchronous module which ships with Python version 3.5 and later.
 The _asyncio_ module is supported in Couchbase via the experimental [.api]`acouchbase` module.
 The [.api]`acouchbase.bucket.Bucket` object returns [.api]`asyncio.Future` objects rather than actual results.
 
