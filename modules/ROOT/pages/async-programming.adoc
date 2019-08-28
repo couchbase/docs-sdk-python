@@ -130,7 +130,7 @@ def do_view_query(cb):
 
 == Gevent
 
-http://www.gevent.org[gevent^] is a high performance asynchronous framework.
+http://www.gevent.org[Gevent^] is a high performance asynchronous framework.
 It is very powerful in that it allows for a (mostly) traditional synchronous coding style.
 It accomplishes this by using coroutines known as [.term]_greenlets_ or [.term]_eventlets_.
 
