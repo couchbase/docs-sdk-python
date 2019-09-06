@@ -415,9 +415,9 @@ which uses the concept of xref:6.5@server:learn:data/durability.adoc#majority[ma
 [source,python]
 ----
 """
-#tag:new_durability[]
+#tag::new_durability[]
 collection.mutate_in("key",[SD.insert("name", "mike")], durability_level=Durability.MAJORITY)
-#end:new_durability[]
+#end::new_durability[]
 """
 ----
 
