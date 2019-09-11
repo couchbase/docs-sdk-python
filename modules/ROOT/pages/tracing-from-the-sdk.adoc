@@ -18,8 +18,9 @@ cluster = Cluster("couchbase://{hostname}".format(hostname=hostname));
 cluster.authenticate("username", "password");
 bucket = cluster.open_bucket(**options)
 queue_size=100000000
-bucket.tracing_threshold_kv=1
-bucket.threshold_logging_tracer_interval=1e9
+bucket.tracing_threshold_kv = 1e-6
+bucket.tracing_orphaned_queue_flush_interval = 1
+bucket.tracing_threshold_queue_flush_interval = 1
 bucket.tracing_threshold_queue_size=queue_size
 bucket.tracing_orphaned_queue_size=queue_size
 ----
