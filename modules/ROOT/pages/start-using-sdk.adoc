@@ -39,7 +39,8 @@ It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
 == Installation on Mac OS X
 
-To install the library on Mac OS X, first install the de-facto package manager for OS X: http://brew.sh/[homebrew^].
+As with the Linux installation, first install libcouchbase (LCB) following the instructions xref:2.10@c-sdk::sdk-release-notes.adoc[here].
+For Mac OS X, first install the _de facto_ package manager for OS X: http://brew.sh/[homebrew^].
 Once _homebrew_ is configured:
 
 [source,bash]
@@ -51,6 +52,14 @@ pip install couchbase
 
 NOTE: The above example uses the Python supplied by homebrew and not the vendor-supplied Python which ships with OS X.
 The Python SDK will still work with the vendor-supplied Python (though _pip install_ may be a privileged command), but it is recommended to use Homebrew's Python instead.
+
+The libcouchbase and python installations can both be combined, adding LCB to the brew intall step for the homebrew version of Python, before installing the Python SDK with pip:
+
+[source,bash]
+----
+brew install libcouchbase python
+----
+
 
 == Installing on Microsoft Windows
 
