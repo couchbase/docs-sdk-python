@@ -127,7 +127,7 @@ include::example$hello_world_t.py[tag=n1ql]
 == Additional Resources
 
 
-The API reference is generated for each release and can be found linked from the xref:relnotes-python-sdk.adoc[release notes for your version of the Python SDK].
+The API reference is generated for each release and can be found linked from the xref:project-docs:sdk-release-notes.adoc[release notes for your version of the Python SDK].
 Most of the API documentation can also be accessed via `pydoc`.
 
 // xref:project-docsmigrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.

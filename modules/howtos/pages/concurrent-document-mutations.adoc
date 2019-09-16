@@ -1,0 +1,4 @@
+= Concurrent Document Mutations
+:navtitle: Concurrent Document Mutations
+:page-topic-type: howto
+:page-aliases: ROOT:concurrent-mutations-cluster,ROOT:cas
