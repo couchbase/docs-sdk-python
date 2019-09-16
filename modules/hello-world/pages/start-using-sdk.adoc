@@ -16,6 +16,10 @@ As such they are likely to change without notice.
 This alpha code should not be used in production.
 
 Documentation is incomplete, subject to change, and likely to contain broken links.
+
+Please note the 'pip' comnmands below will install the latest prerelease version.
+If you wish to install a specific version, use 'pip install couchbase==<version number>' substituting the appropriate version number.
+You can see the pip command line arguments to install specific versions on the xref:project-docs:sdk-release-notes.adoc[release notes page].
 ====
 
 Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
@@ -35,7 +39,7 @@ It should work on Python 2.7, but is not officially supported.
 ----
 # Only needed during first-time setup:
 sudo apt-get install build-essential python3-dev python3-pip
-sudo pip3 install --pre couchbase-3.0.0a4
+sudo pip3 install --pre couchbase
 ----
 
 .RHEL and CentOS
@@ -43,7 +47,7 @@ sudo pip3 install --pre couchbase-3.0.0a4
 ----
 # Only needed during first-time setup:
 sudo yum install gcc gcc-c++ python-devel python-pip
-sudo pip install --pre couchbase-3.0.0a4
+sudo pip3 install --pre couchbase
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
@@ -58,7 +62,7 @@ Once _Homebrew_ is configured:
 ----
 brew update # get list of latest packages
 brew install python
-pip install --pre couchbase-3.0.0a4
+sudo pip3 install --pre couchbase
 ----
 
 NOTE: The above example uses the Python supplied by Homebrew and not the vendor-supplied Python which ships with OS X.
@@ -68,7 +72,7 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 
 [source,shell]
 ----
-pip install --pre couchbase-3.0.0a4
+sudo pip3 install --pre couchbase
 ----
 
 // end::install[]
@@ -86,7 +90,7 @@ include::example$hello_world_t.py[tag=intro]
 === Connecting
 
 To connect to a Couchbase bucket, you must use Couchbase _Role-Based Access Control_ (RBAC).
-This is fully described in the section xref:6.5@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
+This is fully described in the section xref:6.5@server:manage:manage-security/manage-users.nd-roles.adoc[Authorization].
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
 Following successful authentication, the bucket can be opened:
 
