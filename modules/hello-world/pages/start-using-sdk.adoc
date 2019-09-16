@@ -47,7 +47,7 @@ sudo pip3 install --pre couchbase
 ----
 # Only needed during first-time setup:
 sudo yum install gcc gcc-c++ python-devel python-pip
-sudo pip3 install --pre couchbase
+sudo pip install --pre couchbase
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
@@ -62,7 +62,7 @@ Once _Homebrew_ is configured:
 ----
 brew update # get list of latest packages
 brew install python
-sudo pip3 install --pre couchbase
+pip install --pre couchbase
 ----
 
 NOTE: The above example uses the Python supplied by Homebrew and not the vendor-supplied Python which ships with OS X.
@@ -72,7 +72,7 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 
 [source,shell]
 ----
-sudo pip3 install --pre couchbase
+pip install --pre couchbase
 ----
 
 // end::install[]
