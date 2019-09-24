@@ -19,18 +19,16 @@ Please see xref:compatibility-versions-features.adoc#platform-compatibility[the 
 First, install libcouchbase following the instructions xref:2.10@c-sdk::sdk-release-notes.adoc[here].
 
 The Couchbase Python SDK 2.5 will run any any version of Python above 2.7 or 3.5 (Python 3.x only on Windows).
-
 Other pre-requisites will depend upon your Operating System platform.
 
 Once libcouchbase is installed, please follow the instructions specific to your platform, _below_:
 
-* xref#installing-on-linux[GNU/Linux]
-* xref:installation-on-mac-os-x[MacOS-X]
-* xref#installing-on-microsoft-windows[MS Windows]
+* xref:#installing-on-linux[GNU/Linux]
+* xref:#installing-on-mac-os-x[MacOS-X]
+* xref:#installing-on-microsoft-windows[MS Windows]
 
 
 == Installing on Linux
-
 
 .Debian and Ubuntu
 [source,bash]
@@ -52,7 +50,7 @@ sudo pip install couchbase
 NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
 It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
-== Installation on Mac OS X
+== Installing on Mac OS X
 
 As with the Linux installation, first install libcouchbase (LCB) following the instructions xref:2.10@c-sdk::sdk-release-notes.adoc[here].
 For Mac OS X, first install the _de facto_ package manager for OS X: http://brew.sh/[homebrew^].
