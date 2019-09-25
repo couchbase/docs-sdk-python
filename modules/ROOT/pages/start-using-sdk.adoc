@@ -20,7 +20,8 @@ First, install libcouchbase following the instructions xref:2.10@c-sdk::sdk-rele
 Note that the Windows installation handles this automatically.
 
 The Couchbase Python SDK 2.5 will run any any version of Python above 2.7 or 3.5 
-(Python 3.x only on Windows -- with 3.6 and above _strongly_ recommended, in order to ensure libcouchbase is automatically installed via Python wheel).
+(Python 3.x only on Windows -- with 3.6 and above strongly recommended, in order to ensure libcouchbase and the compiled C bindings are automatically installed via Python wheel, rather than requiring manual installation/compilation).
+
 Other prerequisites will depend upon your Operating System platform.
 
 Once libcouchbase is installed, please follow the instructions specific to your platform, _below_:
