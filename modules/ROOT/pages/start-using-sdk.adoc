@@ -17,9 +17,11 @@ Please see xref:compatibility-versions-features.adoc#platform-compatibility[the 
 == Requirements
 
 First, install libcouchbase following the instructions xref:2.10@c-sdk::sdk-release-notes.adoc[here].
+Note that the Windows installation handles this automatically.
 
-The Couchbase Python SDK 2.5 will run any any version of Python above 2.7 or 3.5 (Python 3.x only on Windows).
-Other pre-requisites will depend upon your Operating System platform.
+The Couchbase Python SDK 2.5 will run any any version of Python above 2.7 or 3.5 
+(Python 3.x only on Windows -- with 3.6 and above _strongly_ recommended, in order to ensure libcouchbase is automatically installed via Python wheel).
+Other prerequisites will depend upon your Operating System platform.
 
 Once libcouchbase is installed, please follow the instructions specific to your platform, _below_:
 
@@ -35,7 +37,7 @@ Once libcouchbase is installed, please follow the instructions specific to your 
 ----
 # Only needed during first-time setup:
 sudo apt-get install build-essential python-dev python-pip
-sudo pip install couchbase
+sudo -H pip install couchbase
 ----
 
 .RHEL and CentOS
@@ -44,7 +46,7 @@ sudo pip install couchbase
 
 # Only needed during first-time setup:
 sudo yum install gcc gcc-c++ python-devel python-pip
-sudo pip install couchbase
+sudo -H pip install couchbase
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
