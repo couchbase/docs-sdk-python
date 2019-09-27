@@ -34,6 +34,36 @@ Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it
  so no need to install it separately.
 
 
+== Python SDK 3.0.0 Alpha 6 Release Notes (September 27 2019)
+
+[source,bash]
+----
+pip install couchbase==3.0.0a6
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha6/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-638[PYCBC-638]:
+`scope` and `collection` methods now marked as "uncommitted".
+
+* https://issues.couchbase.com/browse/PYCBC-584[PYCBC-584]:
+fulldoc insert with subdoc upsert now supported with LCB V4 API.
+
+* https://issues.couchbase.com/browse/PYCBC-644[PYCBC-644]:
+Updates to reflect C code changes for logging, subdocs, `LCB_STORE_**`, `lcb_*3`, and `enable_mutation_tokens` refactorings.
+
+* https://issues.couchbase.com/browse/PYCBC-645[PYCBC-645]:
+Changes made to handle new safety checks in LCB for bad hostname.
+
+* https://issues.couchbase.com/browse/PYCBC-652[PYCBC-652]:
+Refactored for new `lcb_createopts_**` API.
+
+* https://issues.couchbase.com/browse/PYCBC-654[PYCBC-654]:
+Refactored for temporary removal of `observe`/`endure`/`mctx` code from LCB3 for client-side durability changes.
+
+
 == Python SDK 3.0.0 Alpha 5 Release Notes (August 23 2019)
 
 [source,bash]
@@ -41,7 +71,7 @@ Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it
 pip install couchbase==3.0.0a5
 ----
 
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha5/
 
 === Enhancements
 
