@@ -46,22 +46,22 @@ pip install couchbase==3.0.0a6
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-638[PYCBC-638]:
-`scope` and `collection` methods should be marked as "uncommitted"
+`scope` and `collection` methods now marked as "uncommitted".
 
 * https://issues.couchbase.com/browse/PYCBC-584[PYCBC-584]:
-Support fulldoc insert with subdoc upsert with LCB V4 API
+fulldoc insert with subdoc upsert now supported with LCB V4 API.
 
 * https://issues.couchbase.com/browse/PYCBC-644[PYCBC-644]:
-Update C code for logging, subdocs, `LCB_STORE_**`, `lcb_*3`, `enable_mutation_tokens` refactorings
+Updates to reflect C code changes for logging, subdocs, `LCB_STORE_**`, `lcb_*3`, and `enable_mutation_tokens` refactorings.
 
 * https://issues.couchbase.com/browse/PYCBC-645[PYCBC-645]:
-Handle new safety checks in LCB for bad hostname
+Changes made to handle new safety checks in LCB for bad hostname.
 
 * https://issues.couchbase.com/browse/PYCBC-652[PYCBC-652]:
-Refactor for new `lcb_createopts_**` API
+Refactored for new `lcb_createopts_**` API.
 
 * https://issues.couchbase.com/browse/PYCBC-654[PYCBC-654]:
-Refactor for temp removal of `observe`/`endure`/`mctx` code from LCB3
+Refactored for temporary removal of `observe`/`endure`/`mctx` code from LCB3 for client-side durability changes.
 
 
 == Python SDK 3.0.0 Alpha 5 Release Notes (August 23 2019)
