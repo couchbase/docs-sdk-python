@@ -63,6 +63,8 @@ Refactored for new `lcb_createopts_**` API.
 * https://issues.couchbase.com/browse/PYCBC-654[PYCBC-654]:
 Refactored for temporary removal of `observe`/`endure`/`mctx` code from LCB3 for client-side durability changes.
 
+* https://issues.couchbase.com/browse/PYCBC-657[PYCBC-657]:
+Refactored for libcouchbase 3.0.0 Beta 1.
 
 == Python SDK 3.0.0 Alpha 5 Release Notes (August 23 2019)
 
