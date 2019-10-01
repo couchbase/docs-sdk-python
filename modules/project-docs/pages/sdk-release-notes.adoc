@@ -1,4 +1,4 @@
-= Couchbase Python Release Notes and Archives
+= Couchbase Python SDK Release Notes and Archives
 :navtitle: Release Notes
 :page-partial:
 :page-topic-type: project-doc
