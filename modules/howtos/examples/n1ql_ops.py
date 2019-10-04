@@ -1,4 +1,9 @@
-= N1QL Queries from the SDK
+from couchbase_core.mutation_state import  MutationState
+from couchbase.cluster import Cluster
+cluster=Cluster("localhost")
+bucket=cluster.bucket("default")
+collection=bucket.default_collection()
+"""= N1QL Queries from the SDK
 :navtitle: N1QL from the SDK
 :page-topic-type: howto
 :page-aliases: n1ql-query
@@ -43,13 +48,26 @@ Note that both parameters and options are optional.
 .Positional parameter example:
 [source,python]
 ----
-include::example$n1l_ops.py[tag=positional]
+"""
+#tag::positional[]
+result = collection.query(
+    "SELECT x.* FROM `default` WHERE x.Type=$1",
+    'User')
+#end::positional[]
+
+"""
 ----
 
 .Named parameter example:
 [source,python]
 ----
-include::example$n1l_ops.py[tag=named]
+"""
+#tag::named[]
+result = collection.query(
+    "SELECT x.* FROM `default` WHERE x.Type=$type",
+    type='User')
+#end::named[]
+"""
 ----
 
 The complete code for this page's example can be found at xref:[??]
@@ -62,8 +80,20 @@ In most cases your query will return more than one result, and you may be lookin
 
 [source,python]
 ----
-include::example$n1l_ops.py[tag=iterating]
-----
+"""
+#tag::iterating[]
+
+result = cluster.query(
+    "SELECT x.* FROM `default` WHERE x.Type=$1",
+    'User')
+
+# iterate over rows
+for row in result:
+    # each row is an instance of the query call
+    name = row['username']
+    age = row['age']
+#end::iterating[]
+"""----
 
 == Scan Consistency
 
@@ -81,7 +111,26 @@ Select this when consistency is always more important than performance.
 .ScanConsisteny (RYOW)
 [source,python]
 ----
-include::example$n1l_ops.py[tag=consistency]
+"""
+#tag::consistency[]
+
+# create / update document (mutation)
+upsert_result = collection.upsert("id",  dict( name = "Mike", type = "User" ))
+
+# create mutation state from mutation results
+state = MutationState()
+state.add_results(upsert_result)
+
+# use mutation state with query option
+from couchbase_core.n1ql import N1QLQuery
+query=N1QLQuery(
+    "SELECT x.* FROM `default` WHERE x.Type=$1",
+    'User')
+query.consistent_with(state)
+result = cluster.query(query)
+#end::consistency[]
+
+"""
 ----
 
 == Streaming Large Result Sets
@@ -100,4 +149,4 @@ Be sure to check that xref:concept-docs:http-services.adoc[your use case fits yo
 * The http://query.pub.couchbase.com/tutorial/#1[N1QL interactive tutorial] is a good introduction to the basics of N1QL use.
 * For scaling up queries, be sure to xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[read up on Indexes].
 * N1QL is for operational queries; for analytical workloads, read more on xref:concept-docs:http-services.adoc#Long-Running-Queries-&-Big-Data[when to choose CBAS], our implementation of SQL++.
-
+"""
