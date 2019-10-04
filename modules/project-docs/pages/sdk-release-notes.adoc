@@ -33,6 +33,28 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Python SDK 3.0.0 Beta 1 Release Notes (October 4 2019)
+
+[source,bash]
+----
+pip install couchbase==3.0.0b1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-beta1/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-637[PYCBC-637]:
+Add static Cluster.connect factory method.
+
+* https://issues.couchbase.com/browse/PYCBC-630[PYCBC-630]:
+Add Datastructures v2 for SDK3.
+
+* https://issues.couchbase.com/browse/PYCBC-660[PYCBC-660]:
+Rename lcb_cmdfts_query to lcb_cmdfts_payload.
+
+* https://issues.couchbase.com/browse/PYCBC-661[PYCBC-661]:
+Safeguards for property access when debugging partially constructed `Client` instances.
 
 == Python SDK 3.0.0 Alpha 6 Release Notes (September 27 2019)
 
