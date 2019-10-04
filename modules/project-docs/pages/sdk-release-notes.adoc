@@ -59,6 +59,9 @@ Safeguards for property access when debugging partially constructed `Client` ins
 * https://issues.couchbase.com/browse/PYCBC-664[PYCBC-664]:
 Add create bucket management API
 
+* https://issues.couchbase.com/browse/PYCBC-665[PYCBC-665]:
+Add create user management API
+
 == Python SDK 3.0.0 Alpha 6 Release Notes (September 27 2019)
 
 [source,bash]
