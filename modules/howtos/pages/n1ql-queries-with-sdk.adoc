@@ -99,5 +99,5 @@ Be sure to check that xref:concept-docs:http-services.adoc[your use case fits yo
 * The xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[Server doc N1QL intro] introduces a complete guide to the N1QL language, including all of the latest additions.
 * The http://query.pub.couchbase.com/tutorial/#1[N1QL interactive tutorial] is a good introduction to the basics of N1QL use.
 * For scaling up queries, be sure to xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[read up on Indexes].
-* N1QL is for operational queries; for analytical workloads, read more on xref:concept-docs:http-services.adoc#Long-Running-Queries-&-Big-Data[when to choose CBAS], our implementation of SQL++.
+* N1QL is for operational queries; for analytical workloads, read more on xref:concept-docs:http-services.adoc#Long-Running-Queries-&-Big-Data[when to choose Analytics Service], our implementation of SQL++.
 
