@@ -45,22 +45,22 @@ pip install couchbase==3.0.0b1
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-637[PYCBC-637]:
-Add static Cluster.connect factory method.
+Added static `Cluster.connect` factory method.
 
 * https://issues.couchbase.com/browse/PYCBC-630[PYCBC-630]:
-Add Datastructures v2 for SDK3.
+Added Datastructures v2 for SDK3.
 
 * https://issues.couchbase.com/browse/PYCBC-660[PYCBC-660]:
-Rename lcb_cmdfts_query to lcb_cmdfts_payload.
+Renamed `lcb_cmdfts_query` to `lcb_cmdfts_payload`.
 
 * https://issues.couchbase.com/browse/PYCBC-661[PYCBC-661]:
-Safeguards for property access when debugging partially constructed `Client` instances.
+Safeguards added for property access when debugging partially constructed `Client` instances.
 
 * https://issues.couchbase.com/browse/PYCBC-664[PYCBC-664]:
-Add create bucket management API
+Added create bucket management API
 
 * https://issues.couchbase.com/browse/PYCBC-665[PYCBC-665]:
-Add create user management API
+Added create user management API
 
 == Python SDK 3.0.0 Alpha 6 Release Notes (September 27 2019)
 
