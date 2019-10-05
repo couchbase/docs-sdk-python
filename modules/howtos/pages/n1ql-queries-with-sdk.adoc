@@ -43,17 +43,16 @@ Note that both parameters and options are optional.
 .Positional parameter example:
 [source,python]
 ----
-include::example$n1l_ops.py[tag=positional]
+include::example$n1ql_ops.py[tag=positional]
 ----
 
 .Named parameter example:
 [source,python]
 ----
-include::example$n1l_ops.py[tag=named]
+include::example$n1ql_ops.py[tag=named]
 ----
 
-The complete code for this page's example can be found at xref:[example$n1l_ops.py]
-
+The complete code for this page's example can be found at xref:example$n1ql_ops.py[n1ql_ops.py].
 
 
 == Handling Results
@@ -62,7 +61,7 @@ In most cases your query will return more than one result, and you may be lookin
 
 [source,python]
 ----
-include::example$n1l_ops.py[tag=iterating]
+include::example$n1ql_ops.py[tag=iterating]
 ----
 
 == Scan Consistency
@@ -81,7 +80,7 @@ Select this when consistency is always more important than performance.
 .ScanConsistency (RYOW)
 [source,python]
 ----
-include::example$n1l_ops.py[tag=consistency]
+include::example$n1ql_ops.py[tag=consistency]
 ----
 
 == Streaming Large Result Sets
