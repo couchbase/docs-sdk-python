@@ -1,0 +1,5 @@
+These pages cover the Alpha of the Couchbase PHP SDK. 
+As such they are likely to change without notice. 
+This alpha code should not be used in production.
+
+Documentation is incomplete, subject to change, and likely to contain broken links.
