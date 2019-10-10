@@ -23,6 +23,13 @@ If you wish to install a specific version, use 'pip install couchbase==<version 
 You can see the pip command line arguments to install specific versions on the xref:project-docs:sdk-release-notes.adoc[release notes page].
 ====
 
+The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as a xref:concept-docs:collections.adoc[developer preview]).
+The 3.0 Python SDK introduces comprehensive PEP-484 style type annotations and overloads.
+
+
+
+== Requirements
+
 Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
 You may need cmake to install, although the installer will attempt to download it from PyPI automatically.
 
