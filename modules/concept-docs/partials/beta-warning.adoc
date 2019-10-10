@@ -1,4 +1,4 @@
-These pages cover the Alpha of the Couchbase PHP SDK. 
+These pages cover the Alpha of the Couchbase Python SDK. 
 As such they are likely to change without notice. 
 This alpha code should not be used in production.
 
