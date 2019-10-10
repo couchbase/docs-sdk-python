@@ -24,7 +24,7 @@ You can see the pip command line arguments to install specific versions on the x
 ====
 
 The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as a xref:concept-docs:collections.adoc[developer preview]).
-The 3.0 Python SDK introduces comprehensive PEP-484 style type annotations and overloads.
+The 3.0 Python SDK introduces comprehensive PEP-484 style type annotations.
 
 
 
