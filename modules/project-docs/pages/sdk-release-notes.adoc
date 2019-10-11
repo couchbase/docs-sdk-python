@@ -33,7 +33,7 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
-== Python SDK 3.0.0 Beta 1 Release Notes (October 4 2019)
+== Python SDK 3.0.0 Beta 1 Release Notes (October 11 2019)
 
 [source,bash]
 ----
