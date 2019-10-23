@@ -83,7 +83,7 @@ docs-sdk-common/modules/shared/partials/views.adoc
 You can use MapReduce views to create queryable indexes in Couchbase Server.
 
 // tag::views-intro[]
-WARNING: Although still maintained and supported for legacy use, Views date from the earliest days of Couchbase Server development, and as such are rarely the best choice over, say, xref:[our Query service] for your application, see xref:dotnet-sdk:concept-docs:http-services.adoc[our guide to choosing the right service].
+WARNING: Although still maintained and supported for legacy use, Views date from the earliest days of Couchbase Server development, and as such are rarely the best choice over, say, xref:[our Query service] for your application, see xref:concept-docs:http-services.adoc[our guide to choosing the right service].
 
 The normal CRUD methods allow you to look up a document by its ID.
 A MapReduce (_view_ query) allows you to lookup one or more documents based on various criteria.
