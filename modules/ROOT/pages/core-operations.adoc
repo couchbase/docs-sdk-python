@@ -132,7 +132,7 @@ If you wish to only modify certain parts of a document, you can use xref:subdocu
 cb.mutate_in('docid', subdoc.array_addunique('tags', 'fast'))
 ----
 
-or xref:{version-server}@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
+or xref:6.0@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
 
 [source,sql]
 ----
