@@ -12,11 +12,11 @@ It depends on the C SDK, _libcouchbase_, which it uses for performance and relia
 
 [WARNING]
 ====
-These pages cover the Alpha of the Couchbase Python SDK. 
-As such they are likely to change without notice. 
-This alpha code should not be used in production.
+These pages cover the Beta release of the Couchbase Python SDK. 
+The API interface is stable, but could change for bug fixes during the Beta process. 
+New features are likely to be added.
 
-Documentation is incomplete, subject to change, and likely to contain broken links.
+Documentation is incomplete, subject to change, and could contain broken links.
 
 Please note the 'pip' comnmands below will install the latest prerelease version.
 If you wish to install a specific version, use 'pip install couchbase==<version number>' substituting the appropriate version number.
