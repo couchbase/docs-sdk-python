@@ -36,7 +36,7 @@ pip install couchbase==2.5.9
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-659[PYCBC-659]:
-Cover new services in Ping command
+Analytics & Eventing are now covered by Health Check's Ping command
 
 == Python SDK 2.5.8 Release Notes (September 3 2019)
 
