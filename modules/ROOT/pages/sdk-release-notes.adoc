@@ -35,6 +35,15 @@ pip install couchbase==2.5.9
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.9/
 
+=== Known issues
+
+* https://issues.couchbase.com/browse/PYCBC-653[PYCBC-653]:
+This version of the SDK will not work with Python 2.7.
+Use Python 3, or stay at Python SDK 2.5.7 for now:
+----
+pip install couchbase==2.5.7
+----
+
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-659[PYCBC-659]:
@@ -48,6 +57,15 @@ pip install couchbase==2.5.8
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.8/
+
+=== Known issues
+
+* https://issues.couchbase.com/browse/PYCBC-653[PYCBC-653]:
+This version of the SDK will not work with Python 2.7.
+Use Python 3, or stay at Python SDK 2.5.7 for now:
+----
+pip install couchbase==2.5.7
+----
 
 === Enhancements
 
