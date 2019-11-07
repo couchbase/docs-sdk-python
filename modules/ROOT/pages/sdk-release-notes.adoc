@@ -40,6 +40,7 @@ pip install couchbase==2.5.9
 * https://issues.couchbase.com/browse/PYCBC-653[PYCBC-653]:
 This version of the SDK will not work with Python 2.7.
 Use Python 3, or stay at Python SDK 2.5.7 for now:
++
 ----
 pip install couchbase==2.5.7
 ----
@@ -63,6 +64,7 @@ pip install couchbase==2.5.8
 * https://issues.couchbase.com/browse/PYCBC-653[PYCBC-653]:
 This version of the SDK will not work with Python 2.7.
 Use Python 3, or stay at Python SDK 2.5.7 for now:
++
 ----
 pip install couchbase==2.5.7
 ----
