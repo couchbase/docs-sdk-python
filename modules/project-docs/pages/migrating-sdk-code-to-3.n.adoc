@@ -14,10 +14,10 @@ Individual behaviour changes across services are explained here.
 include::partial$beta-warning.adoc[]
 
 
-include::6.5@sdk:shared:migration.adoc[tag=intro]
+include::6.5@sdk:shared:partial$migration.adoc[tag=intro]
 
 
-include::6.5@sdk:shared:migration.adoc[tag=terms]
+include::6.5@sdk:shared:partial$migration.adoc[tag=terms]
 
 As an example here is a KeyValue document fetch:
 
@@ -35,13 +35,13 @@ Compare this to a N1QL query:
 QueryResult queryResult = cluster.query("select 1=1", queryOptions().timeout(Duration.ofSeconds(3));
 ----
 
-include::6.5@sdk:shared:migration.adoc[tag=terms2]
+include::6.5@sdk:shared:partial$migration.adoc[tag=terms2]
 
 
-include::6.5@sdk:shared:migration.adoc[tag=new]
+include::6.5@sdk:shared:partial$migration.adoc[tag=new]
 
 
-include::6.5@sdk:shared:migration.adoc[tag=lang]
+include::6.5@sdk:shared:partial$migration.adoc[tag=lang]
 
 
 
