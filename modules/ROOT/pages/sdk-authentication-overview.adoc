@@ -60,9 +60,9 @@ bucket_name = "default"
 # the script in etc/x509-cert will generate these
 
 clientdir = "etc/x509-cert/SSLCA/clientdir"
-options = dict(certpath=os.path.join(clientdir, "client.pem"),
-    truststorepath=os.path.join(clientdir, "trust.pem"),
-    keypath=os.path.join(clientdir, "client.key"))
+options = dict(cert_path=os.path.join(clientdir, "client.pem"),
+    trust_store_path=os.path.join(clientdir, "trust.pem"),
+    key_path=os.path.join(clientdir, "client.key"))
 
 # create a Cluster object
 
