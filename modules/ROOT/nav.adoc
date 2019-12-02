@@ -29,7 +29,7 @@
 * xref:concept-docs:concepts.adoc[Overview]
 * xref:concept-docs:collections.adoc[Collections & Scope]
 * xref:concept-docs:data-model.adoc[Data Model]
-// * xref:concept-docs:errors.adoc[Errors and Diagnostics]
+* xref:concept-docs:errors.adoc[Errors and Diagnostics]
 ** xref:concept-docs:health-check.adoc[Health Check]
 * xref:concept-docs:durability-replication-failure-considerations.adoc[Failure Considerations]
 * xref:concept-docs:encryption.adoc[Field Level Encryption]
