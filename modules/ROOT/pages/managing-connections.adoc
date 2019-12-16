@@ -9,6 +9,8 @@ It contains best practices as well as information on the connection string,  SSL
 
 include::6.0@sdk:shared:partial$lcb-pars-shared.adoc[tag=connstr-intro]
 
+IMPORTANT: Any Cluster nodes addresses passed in to establish (bootstrap) the connection should be for data (KV) nodes.
+
 == Connecting to a Bucket
 
 All Couchbase Server-resources are protected by _Role-Based Access Control_ (RBAC).
