@@ -1,0 +1,81 @@
+= Caching Example Use Case
+
+[abstract]
+A walk-through of the basics of Key-Value operations with Couchbase, through the lens of a REST api caching layer.
+
+This example uses https://pypi.org/project/Flask/[Flask] as a web-framework for a Python REST API. Flask has no direct support for async, but another code sample is available demonstrating this whole application using the acouchbase async API xref::howtos:caching_async.py[here]. You can also find the xref::howtos:caching_flask.py[full code for *this* example here].
+
+== Basic endpoint
+Our first basic endpoints will be a get and set call, using HTTP methods `GET` and `POST`; and Couchbase methods `get` and `insert` respectively.
+
+[source,python]
+----
+@app.route("/<key>", methods=["GET"]) 
+def get(key):
+    res = COLLECTION.get(key)
+    return flask.jsonify(res.content_as[dict])
+
+@app.route("/<key>", methods=["POST"]) 
+def post(key):
+    COLLECTION.insert(key, flask.request.json, expiration = EXPIRY)
+    return "OK"
+----
+
+This is about as simple of an API as we can make, and allows us to set and get arbitrary JSON from any key we specify. We also include the `expiration` parameter, which will automatically delete the document (ie invalidate the cache) after the set amount of time.
+
+But there's many ways this could be improved. For example, what happens in the case of a cache miss? With this code, our view throws an error and Flask returns us a HTTP 500 page. We can fix this by handling the `KeyNotFoundException` thrown by the get call. Then we can either respond with a HTTP 404, or add a function to get a value from our persistent storage medium.
+
+[source,python]
+----
+@app.route("/<key>", methods=["GET"]) 
+def get(key):
+    try:
+        res = COLLECTION.get(key)
+        return flask.jsonify(res.content_as[dict])
+    except KeyNotFoundException:
+        val = getFromPersistent(key)
+        return flask.jsonify(val)
+        # alternatively...
+        # return "Key not found", 404
+----
+
+We can also improve the POST function to deal with some of the errors it may encounter. Even if something unexpected happens, we can still be helpful by including the error in the 500 response, by catching any `CouchbaseError` as a fallback.
+
+[source,python]
+----
+@app.route("/<key>", methods=["POST"]) 
+def post(key):
+    try:
+        COLLECTION.insert(key, flask.request.json, expiration = EXPIRY)
+        return "OK"
+    except KeyExistsException:
+        return "Key already exists", 409
+    except CouchbaseError as e:
+        return "Unexpected error: {}".format(e), 500
+----
+
+The last thing we'll do is add `PUT` and `DELETE` endpoints, matching up to the couchbase operations `upsert` and `remove`, and apply the same error handling.
+
+[source,python]
+----
+@app.route("/<key>", methods=["PUT"]) 
+def put(key):
+    try:
+        COLLECTION.upsert(key, flask.request.json, expiration = EXPIRY)
+        return "OK"
+    except CouchbaseError as e:
+        return "Unexpected error: {}".format(e), 500
+
+@app.route("/<key>", methods=["DELETE"]) 
+def delete(key):
+    try:
+        COLLECTION.remove(key)
+        return "OK"
+    except KeyNotFoundException:
+        # Document already deleted / never existed
+        return "Key does not exist", 404
+    except CouchbaseError as e:
+        return "Unexpected error: {}".format(e), 500
+----
+
+You can find the full contextualized code from this sample xref::howtos:caching_flask.py[here].
