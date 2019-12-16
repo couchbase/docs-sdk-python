@@ -136,6 +136,8 @@ Once defined, the authenticator can be passed to other clusters, as appropriate.
 
 See xref:managing-connections.adoc[Managing Connections Using the Python SDK with Couchbase Server] for more connection options and details about the connection string.
 
+IMPORTANT: Any Cluster nodes addresses passed in to establish (bootstrap) the connection should be for data (KV) nodes.
+
 == Document Operations
 
 xref:core-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the [.api]`Bucket` class such as [.api]`Bucket.get` and [.api]`Bucket.upsert`.
