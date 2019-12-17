@@ -1,4 +1,6 @@
 = Caching Example Use Case
+:navtitle: KV Caching Example
+:page-topic-type: howto
 
 [abstract]
 A walk-through of the basics of Key-Value operations with Couchbase, through the lens of a REST api caching layer.
