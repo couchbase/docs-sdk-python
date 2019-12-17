@@ -9,7 +9,9 @@ This example uses https://pypi.org/project/Flask/[Flask] as a web-framework for 
 Flask has no direct support for async, but another code sample is available demonstrating this whole application using the Couchbase async API https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_async.py[here]. 
 You can also find the https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[full code for _this_ example here].
 
-== Basic endpoint
+
+== Basic Endpoint
+
 Our first basic endpoints will be a get and set call, using HTTP methods `GET` and `POST` and Couchbase methods `get` and `insert` respectively:
 
 [source,python]
@@ -27,6 +29,9 @@ def post(key):
 
 This is the simplest API we can make -- allowing us to set and get arbitrary JSON from any key we specify. 
 We also include the `expiration` parameter, which will automatically delete the document (invalidate the cache) after a set amount of time.
+
+
+== Cache Miss
 
 There are many ways this can and should be improved upon for real world use. 
 What happens in the case of a cache miss? 
@@ -48,6 +53,9 @@ def get(key):
         # return "Key not found", 404
 ----
 
+
+== Error Handling
+
 We can also improve the POST function to deal with some of the errors it may encounter. 
 Even if something unexpected happens, we can still be helpful by including the error in the 500 response, and by catching any `CouchbaseError` as a fallback:
 
@@ -67,4 +75,9 @@ include::example$caching_flask.py[tag=del]
         return "Unexpected error: {}".format(e), 500
 ----
 
-You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[here].
+
+== Additional Resources
+
+* You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[here].
+
+* Selecting an 6.5@server:learn:buckets-memory-and-storage/buckets.adoc#bucket-types[ephemeral bucket] for the advantages of purely in-memory storage may make sense as a design decision.
