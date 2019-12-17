@@ -38,7 +38,7 @@ pip install couchbase==2.5.10
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-653[PYCBC-653]:
-Fix Pip install problem for Python 2.7
+Fixed `pip install` problem for Python 2.7.
 
 == Python SDK 2.5.9 Release Notes (November 6 2019)
 
