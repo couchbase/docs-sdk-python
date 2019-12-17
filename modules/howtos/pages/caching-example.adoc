@@ -1,4 +1,4 @@
-= Caching Example Use Case
+= Caching Example for Python SDK
 :navtitle: KV Caching Example
 :page-topic-type: howto
 
