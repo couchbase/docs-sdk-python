@@ -53,16 +53,16 @@ Even if something unexpected happens, we can still be helpful by including the e
 
 [source,python]
 ----
-include::example$[tag=post]
+include::example$caching_flask.py[tag=post]
 ----
 
 The last thing we'll do is add `PUT` and `DELETE` endpoints, matching up to the Couchbase operations `upsert` and `remove`, and apply the same error handling once more:
 
 [source,python]
 ----
-include::example$[tag=put]
+include::example$caching_flask.py[tag=put]
 
-include::example$[tag=del]
+include::example$caching_flask.py[tag=del]
     except CouchbaseError as e:
         return "Unexpected error: {}".format(e), 500
 ----
