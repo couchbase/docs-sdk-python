@@ -152,6 +152,8 @@ NOTE: Increment & Decrement are considered part of the ‘binary’ API, and as 
 
 == Additional Resources
 
+A https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[complete Caching example] for the Python 3.0 SDK, using Flask, is xref:caching-example.adoc[worked through here].
+
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
 // For working with metadata on a document, reference our xref:sdk-xattr-example.adoc[Extended Attributes] pages.
 
