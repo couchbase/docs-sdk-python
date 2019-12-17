@@ -20,20 +20,20 @@ def getFromPersistent(key):
 
 @app.route("/<key>", methods=["GET"]) 
 def get(key):
-    # try:
+    try:
         res = COLLECTION.get(key)
         return flask.jsonify(res.content_as[dict])
-    # except KeyNotFoundException:
-    #     try:
-    #         val = getFromPersistent(key)
-    #         COLLECTION.insert(key, val, expiration = EXPIRY)
-    #         return flask.jsonify(val)
-    #     except KeyNotFoundException:
-    #         return "Key not found", 404
-    #     except CouchbaseError as e:
-    #         return "Unexpected error: {}".format(e), 500
-    # except CouchbaseError as e:
-    #     return "Unexpected error: {}".format(e), 500
+    except KeyNotFoundException:
+        try:
+            val = getFromPersistent(key)
+            COLLECTION.insert(key, val, expiration = EXPIRY)
+            return flask.jsonify(val)
+        except KeyNotFoundException:
+            return "Key not found", 404
+        except CouchbaseError as e:
+            return "Unexpected error: {}".format(e), 500
+    except CouchbaseError as e:
+        return "Unexpected error: {}".format(e), 500
 
 # tag::post[]
 @app.route("/<key>", methods=["POST"]) 
