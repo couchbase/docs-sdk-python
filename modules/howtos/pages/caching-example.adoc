@@ -65,4 +65,4 @@ include::example$[del]
         return "Unexpected error: {}".format(e), 500
 ----
 
-You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.pyy[here].
+You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[here].
