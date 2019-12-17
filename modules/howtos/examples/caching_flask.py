@@ -35,7 +35,7 @@ def get(key):
     # except CouchbaseError as e:
     #     return "Unexpected error: {}".format(e), 500
 
-
+# tag::post[]
 @app.route("/<key>", methods=["POST"]) 
 def post(key):
     try:
@@ -45,7 +45,9 @@ def post(key):
         return "Key already exists", 409
     except CouchbaseError as e:
         return "Unexpected error: {}".format(e), 500
+# end::post[]
 
+# tag::put[]
 @app.route("/<key>", methods=["PUT"]) 
 def put(key):
     try:
@@ -53,7 +55,9 @@ def put(key):
         return "OK"
     except CouchbaseError as e:
         return "Unexpected error: {}".format(e), 500
+# end::put[]
 
+# tag::del[]
 @app.route("/<key>", methods=["DELETE"]) 
 def delete(key):
     try:
@@ -62,6 +66,7 @@ def delete(key):
     except KeyNotFoundException:
         # Document already deleted / never existed
         return "Key does not exist", 404
+# end::del[]
 
 cluster = Cluster('couchbase://10.112.195.101', ClusterOptions(PasswordAuthenticator('Administrator', 'password')))
 cb = cluster.bucket('default')
