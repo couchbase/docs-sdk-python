@@ -1,0 +1,36 @@
+= Scan Consistency Using the Python SDK with Couchbase Server
+:navtitle: Using Scan Consistency
+:page-topic-type: howto
+
+[abstract]
+You can balance performance against consistency in N1QL queries via the Couchbase Python client and the AtPlus option.
+
+[#scan_consistency]
+--
+Setting a https://developer.couchbase.com/documentation/server/5.1/architecture/querying-data-with-n1ql.html#story-h2-2[Scan Consistency^], lets you choose between `NOT_BOUNDED` (the default), for sharpest performance; `REQUEST_PLUS`, for strongest consistency; and `AT_PLUS`, for a good balance between increased performance and completeness of results.
+
+The following example -- for which mutation tokens must be enabled during connection -- shows AT_PLUS in action, using `consistentWith(MutationState)`:
+
+[source,python]
+----
+#!/usr/bin/env python
+import time
+
+from couchbase.bucket import Bucket
+from couchbase.n1ql import N1QLQuery, MutationState
+
+TIMESTAMP = str(time.time())
+
+cb = Bucket('couchbase://localhost/default?fetch_mutation_tokens=true')
+rv = cb.upsert('ndoc', {'timestamp': TIMESTAMP})
+
+ms = MutationState()
+ms.add_results(rv)
+
+query = N1QLQuery('SELECT * from default WHERE timestamp=$1', TIMESTAMP)
+query.consistent_with(ms)
+print query.encoded
+
+for row in cb.n1ql_query(query):
+    print row
+----
