@@ -81,3 +81,7 @@ include::example$caching_flask.py[tag=del]
 * You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[here].
 
 * Selecting an xref:6.5@server:learn:buckets-memory-and-storage/buckets.adoc#bucket-types[ephemeral or Memcached bucket] for the advantages of purely in-memory storage may make sense as a design decision.
+
+* A webinar, a whitepaper, and other high-level information on choosing Couchbase as a caching layer is https://www.couchbase.com/caching-comparison[on the main Couchbase website].
+
+// the .NET port of this page could add a link to https://blog.couchbase.com/distributed-caching-aspnet-couchbase/
