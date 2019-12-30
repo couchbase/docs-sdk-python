@@ -33,6 +33,100 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Python SDK 3.0.0 Beta 2 Release Notes (December 30 2019)
+
+[source,bash]
+----
+pip install couchbase==3.0.0b2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-beta2/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-680[PYCBC-680]:
+UpsertOptions should use 'expiry' rather than 'expiration'.
+
+* https://issues.couchbase.com/browse/PYCBC-692[PYCBC-692]:
+Implement Collection.exists
+
+* https://issues.couchbase.com/browse/PYCBC-693[PYCBC-693]:
+Fix UpsertOptions constructor
+
+* https://issues.couchbase.com/browse/PYCBC-697[PYCBC-697]:
+Migrate to timedelta/datetime from FiniteDuration/Seconds etc
+
+* https://issues.couchbase.com/browse/PYCBC-709[PYCBC-709]:
+Convert from lcb_strerror to lcb_strerror_short
+
+* https://issues.couchbase.com/browse/PYCBC-717[PYCBC-717]:
+Tighten up lookup test with nonexistent path
+
+* https://issues.couchbase.com/browse/PYCBC-721[PYCBC-721]:
+Implement collection.drop_collection and drop_scope
+
+* https://issues.couchbase.com/browse/PYCBC-647[PYCBC-647]:
+Support View design documents for SDK3
+
+* https://issues.couchbase.com/browse/PYCBC-725[PYCBC-725]:
+Adjust to latest error name refactorings in LCB3
+
+* https://issues.couchbase.com/browse/PYCBC-631[PYCBC-631]:
+Add query service fast prepare support
+
+* https://issues.couchbase.com/browse/PYCBC-646[PYCBC-646]:
+View management
+
+* https://issues.couchbase.com/browse/PYCBC-666[PYCBC-666]:
+Add timeouts to management/get/store calls
+
+* https://issues.couchbase.com/browse/PYCBC-678[PYCBC-678]:
+Update sphinx-autodoc-typehints to attempt to use type comments
+
+* https://issues.couchbase.com/browse/PYCBC-679[PYCBC-679]:
+Get rid of obsolete coll/scope injection calls
+
+* https://issues.couchbase.com/browse/PYCBC-683[PYCBC-683]:
+N1QL Query Index Management
+
+* https://issues.couchbase.com/browse/PYCBC-718[PYCBC-718]:
+Refactor error handling for libcouchbase 3.0.0 Beta 2
+
+* https://issues.couchbase.com/browse/PYCBC-720[PYCBC-720]:
+Parameterise patch type for libcouchbase
+
+* https://issues.couchbase.com/browse/PYCBC-728[PYCBC-728]:
+Make CouchbaseError.Params constructor type-safe
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-699[PYCBC-699]:
+Operate on non-default collection again
+
+* https://issues.couchbase.com/browse/PYCBC-705[PYCBC-705]:
+Fix segfault in test_importworks
+
+* https://issues.couchbase.com/browse/PYCBC-708[PYCBC-708]:
+Several similar admin test failures
+
+* https://issues.couchbase.com/browse/PYCBC-712[PYCBC-712]:
+Don't test collections on older servers
+
+* https://issues.couchbase.com/browse/PYCBC-715[PYCBC-715]:
+Fix cluster arguments for analytics operations
+
+* https://issues.couchbase.com/browse/PYCBC-727[PYCBC-727]:
+Analytics test fixes
+
+* https://issues.couchbase.com/browse/PYCBC-690[PYCBC-690]:
+Set up Combination Testing for SDK 3 - Python 3.x Win and Linux
+
+* https://issues.couchbase.com/browse/PYCBC-700[PYCBC-700]:
+Fix Python 2/3 compatibility issues
+
+* https://issues.couchbase.com/browse/PYCBC-724[PYCBC-724]:
+Fix PYCBC git tag detection code for x.y.z where z>9
+
 == Python SDK 3.0.0 Beta 1 Release Notes (October 11 2019)
 
 [source,bash]
