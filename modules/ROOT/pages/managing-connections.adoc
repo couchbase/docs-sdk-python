@@ -68,9 +68,10 @@ Until this is fixed, the user can authenticate by instead calling the `couchbase
 
 [source,python]
 ----
-bucket=Bucket('couchbases://{hostname}/{bucketname}?certpath={cert_path}'.format(hostname=hostname,
-                                                                                 bucketname=bucketname,
-                                                                                 cert_path=cert_path),
+connstr = 'couchbases://{hostname}/{bucketname}?certpath={cert_path}'.format(hostname=hostname,
+                                                                             bucketname=bucketname,
+                                                                             cert_path=cert_path)
+bucket=Bucket(connstr,
               username=username,
               password=password)
 ----
