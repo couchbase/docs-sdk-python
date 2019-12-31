@@ -60,10 +60,11 @@ include::6.0@sdk:pages:partial$max-connections.adoc[tag=limits]
 
 include::2.8@c-sdk::page$managing-connections.adoc[tag=group]
 
-[NOTE]
+[IMPORTANT]
 ====
 It is not currently possible to use `couchbase.cluster.Cluster` to connect with a custom SSL certificate and
-password authentication. There is a JIRA issue logged for this https://issues.couchbase.com/browse/PYCBC-702[here].
+password authentication. 
+There is a JIRA issue logged for this https://issues.couchbase.com/browse/PYCBC-702[here].
 Until this is fixed, the user can authenticate by instead calling the `couchbase.bucket.Bucket` constructor as follows:
 
 [source,python]
@@ -80,9 +81,8 @@ From Couchbase Python Client 2.5.1, [.api]`AlternateAddress` is implemented, for
 It is on by default, if the server provides a topology that includes a multi-network configuration.
 Whichever network is selected at bootstrap will be logged.
 
-If using __Docker Swarm__, or otherwise running the SDK inside the NAT, then you will want to disable with `?network=default` in the connection string, or an xref:client-settings.adoc[environmental setting] can be made.
+If using _Docker Swarm_, or otherwise running the SDK inside the NAT, then you will want to disable with `?network=default` in the connection string, or an xref:client-settings.adoc[environmental setting] can be made.
 
 Note that any SSL/TLS certificates must be set up at the point where the connections are being made.
 The Couchbase SDKs will honor any valid SSL/TLS certificates.
-
 ====
