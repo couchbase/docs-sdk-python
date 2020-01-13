@@ -255,7 +255,7 @@ except couchbase.exceptions.CASMismatchException:
 try:
     collection.upsert("my-key", {}, durability_level=Durability.PERSIST_TO_MAJORITY)
 except couchbase.exceptions.DurabilitySyncWriteAmbiguousException:
-    # synchronous durability request has not completed, it is unknown whether the request met the durability requirements or not
+    # durable write request has not completed, it is unknown whether the request met the durability requirements or not
     pass
 #end::DurabilitySyncWriteAmbiguousException[]
 
