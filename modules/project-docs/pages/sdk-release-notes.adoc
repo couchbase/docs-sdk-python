@@ -33,7 +33,7 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
-== Python SDK 3.0.0 Beta 3 Release Notes (January 17 2019)
+== Python SDK 3.0.0 Beta 3 Release Notes (January 20 2020)
 
 [source,bash]
 ----
@@ -63,6 +63,9 @@ FTS Index Management for SDK3.
 Add Search Index manager for SDK3.
 
 === Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-768[PYCBC-768]:
+Refactor durability params to prevent impossible combinations
 
 * https://issues.couchbase.com/browse/PYCBC-639[PYCBC-639]:
 Example N1QL statements do seem to work in "Hello Couchbase" example.
