@@ -65,7 +65,7 @@ Add Search Index manager for SDK3.
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-768[PYCBC-768]:
-Refactor durability params to prevent impossible combinations
+Refactored durability params to prevent impossible combinations.
 
 * https://issues.couchbase.com/browse/PYCBC-639[PYCBC-639]:
 Example N1QL statements do seem to work in "Hello Couchbase" example.
