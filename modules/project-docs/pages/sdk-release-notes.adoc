@@ -64,6 +64,12 @@ Add Search Index manager for SDK3.
 
 === Fixes
 
+* https://issues.couchbase.com/browse/PYCBC-760[PYCBC-760]
+Fixed Collection.exists implementation.
+
+* https://issues.couchbase.com/browse/PYCBC-640[PYCBC-640]
+Implemented replica reads according to RFC.
+
 * https://issues.couchbase.com/browse/PYCBC-768[PYCBC-768]:
 Refactored durability params to prevent impossible combinations.
 
