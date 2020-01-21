@@ -33,6 +33,88 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Python SDK 3.0.0 Beta 3 Release Notes (January 20 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.0b3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-beta3/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-766[PYCBC-766]:
+Bumped LCB requirement to 3.0.0.
+
+* https://issues.couchbase.com/browse/PYCBC-757[PYCBC-757]:
+Refactored for FTS/N1QL/durability LCB changes.
+
+* https://issues.couchbase.com/browse/PYCBC-758[PYCBC-758]:
+Reflected renaming of `lcb_wait3` to `lcb_wait` in LCB.
+
+* https://issues.couchbase.com/browse/PYCBC-765[PYCBC-765]:
+Expose Collection properties and Datastructures in Sphinx docs.
+
+* https://issues.couchbase.com/browse/PYCBC-610[PYCBC-610]:
+FTS Index Management for SDK3.
+
+* https://issues.couchbase.com/browse/PYCBC-750[PYCBC-750]:
+Add Search Index manager for SDK3.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-760[PYCBC-760]
+Fixed Collection.exists implementation.
+
+* https://issues.couchbase.com/browse/PYCBC-640[PYCBC-640]
+Implemented replica reads according to RFC.
+
+* https://issues.couchbase.com/browse/PYCBC-768[PYCBC-768]:
+Refactored durability params to prevent impossible combinations.
+
+* https://issues.couchbase.com/browse/PYCBC-639[PYCBC-639]:
+Example N1QL statements do seem to work in "Hello Couchbase" example.
+
+* https://issues.couchbase.com/browse/PYCBC-667[PYCBC-667]:
+Fixed Upsert Group fails with 'roles: value must be supplied'.
+
+* https://issues.couchbase.com/browse/PYCBC-674[PYCBC-674]:
+Fixed deprecation warnings from sdk2 when running sdk3.
+
+* https://issues.couchbase.com/browse/PYCBC-675[PYCBC-675]:
+Brough Result objects in line with RFC, removed unidiomatic interfaces.
+
+* https://issues.couchbase.com/browse/PYCBC-694[PYCBC-694]:
+Completed query implementation.
+
+* https://issues.couchbase.com/browse/PYCBC-753[PYCBC-753]:
+Collection APIs marked volatile.
+
+* https://issues.couchbase.com/browse/PYCBC-763[PYCBC-763]:
+Corrected MutateInResult.content_as implementation.
+
+* https://issues.couchbase.com/browse/PYCBC-764[PYCBC-764]:
+Delete or renamed remaining SDK2 references in main API:
+Renamed SDK2/sdk2 to Core/core where applicable. 
+Removed classes & methods inapplicable to SDK3.
+
+* https://issues.couchbase.com/browse/PYCBC-704[PYCBC-704]:
+Implemented `*CollectionOptions` for Collection management API.
+
+* https://issues.couchbase.com/browse/PYCBC-716[PYCBC-716]:
+Tests should no longer try to do 6.5-specific tests against a 6.0 server.
+
+* https://issues.couchbase.com/browse/PYCBC-686[PYCBC-686]:
+Applyed new naming convention for interfaces/protocols.
+
+* https://issues.couchbase.com/browse/PYCBC-687[PYCBC-687]:
+Support added for Python 3.8.
+
+* https://issues.couchbase.com/browse/PYCBC-761[PYCBC-761]:
+Added timeout to `lookup_in` operation.
+
+
 == Python SDK 3.0.0 Beta 2 Release Notes (December 30 2019)
 
 [source,bash]
