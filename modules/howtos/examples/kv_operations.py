@@ -41,7 +41,8 @@ Here is the _Insert_ operation at its simplest:
     Insert
 """
 import couchbase.cluster
-from couchbase import Durations, PersistTo, ReplicateTo
+from couchbase import RemoveOptions, TouchOptions, DeltaValue, SignedInt64
+
 cluster=couchbase.cluster.Cluster("fred")
 cb=cluster.bucket("keith")
 collection=cb.default_collection()
@@ -59,8 +60,10 @@ Options may be added to operations:
 Insert (with options)
 """
 #tag::insert_w_options[]
+from couchbase.durability import ClientDurability, ServerDurability, Durability, ReplicateTo, PersistTo
+from datetime import timedelta
 document = {"foo":"bar", "bar":"foo"}
-result = collection.insert("document-key", document, expiration = Durations.seconds(5))
+result = collection.insert("document-key", document, expiry=timedelta(seconds=5))
 #end::insert_w_options[]
 """----
 
@@ -78,7 +81,7 @@ We will add to these options for the _Replace_ example:
 """
 #tag::replace[]
 document = {"foo":"bar","bar":"foo"}
-result = collection.replace("document-key", document, cas = 12345, expiration = Durations.minutes(1))
+result = collection.replace("document-key", document, cas = 12345, expiry = timedelta(minutes=1))
 #end::replace[]
 """
 ----
@@ -91,12 +94,11 @@ xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-buck
 [source,python]
                        ----
 """
-#tag::expiration[]
-document = {"foo":"bar","bar":"foo"}
-result = collection.upsert("document-key", document, cas = 12345, expiration = Durations.minutes(1),
-                           persist_to = PersistTo.ONE,
-                           replicate_to = ReplicateTo.ONE)
-#end::expiration[]
+# tag::expiration[]
+document = {"foo": "bar", "bar": "foo"}
+result = collection.upsert("document-key", document, cas=12345, expiry=timedelta(minutes=1),
+                           durability=ClientDurability(ReplicateTo.ONE, PersistTo.ONE))
+# end::expiration[]
 """
 ----
 
@@ -114,8 +116,8 @@ from couchbase.durability import Durability
 
 document = dict(foo="bar", bar="foo")
 result = collection.upsert("document-key", document,
-                           cas=12345, expiration=Durations.minutes(1),
-                           durability_level=Durability.MAJORITY)
+                           cas=12345, expiry=timedelta(minutes=1),
+                           durability=ServerDurability(Durability.MAJORITY))
 # end::upsert_syncrep[]
 """
 ----
@@ -152,9 +154,7 @@ When removing a document, you will have the same concern for durability as with 
 """
 #tag::remove_old_durability[]
 result = collection.remove("document-key",
-                           cas=12345,
-                           persist_to=PersistTo.ONE,
-                           replicate_to=ReplicateTo.ONE)
+                           RemoveOptions(cas=12345, durability=ClientDurability(PersistTo.ONE, ReplicateTo.ONE)))
 #end::remove_old_durability[]
 """
 ----
@@ -168,7 +168,7 @@ Using `Touch()`, you can set expiration values on documents to handle transient 
     ----
 """
 #tag::touch[]
-result = collection.touch("document-key", Durations.seconds(10))
+result = collection.touch("document-key",TouchOptions(expiry=timedelta(seconds=10)))
 #end::touch[]
 
 """
@@ -184,7 +184,7 @@ The value of a document can be increased or decreased atomically using `.increme
 // increment binary value by 1, if document doesn’t exist, seed it at 1000
 """
 #tag::increment[]
-collection.increment("document-key", 1, 1000)
+collection.increment("document-key", DeltaValue(1), initial=SignedInt64(1000))
 #end::increment[]
 """
 ---
@@ -197,7 +197,7 @@ collection.increment("document-key", 1, 1000)
        // - Expiration (TimeSpan)
 """
 #tag::increment_w_expiration[]
-collection.increment("document-key", 1, 1000, expiration=Durations.days(1))
+collection.increment("document-key", DeltaValue(1), initial=SignedInt64(1000), expiry=timedelta(days=1))
 #end::increment_w_expiration[]
 """
 
@@ -207,7 +207,7 @@ collection.increment("document-key", 1, 1000, expiration=Durations.days(1))
  // decrement binary value by 1, if document doesn’t exist, seed it at 1000
 """
 #tag::decrement[]
-collection.decrement("document-key", 1, 1000)
+collection.decrement("document-key", DeltaValue(1), initial=SignedInt64(1000))
 #end::decrement[]
 """
 ----
@@ -220,7 +220,7 @@ collection.decrement("document-key", 1, 1000)
        // - Expiration (TimeSpan)
 """
 #tag::decrement_w_expiration[]
-collection.decrement("document-key", 1, 1000, Durations.days(1))
+collection.decrement("document-key", DeltaValue(1), initial=SignedInt64(1000), expiry=timedelta(days=1))
 #end::decrement_w_expiration[]
 """
 ----
