@@ -19,4 +19,4 @@ Binary distributions are made under Couchbase's own license agreements.
 
 == Dependencies
 
-Any dependencies may have their https://www.couchbase.com/legal/agreements[own, separate licenses].
+Any dependencies may have their https://www.couchbase.com/legal/agreements#ThirdPartyComponents[own, separate licenses].
