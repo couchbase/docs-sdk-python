@@ -20,9 +20,8 @@ print(cb_coll.get('u:king_arthur').content_as[str])
 ## The CREATE PRIMARY INDEX step is only needed the first time you run this script
 cluster.query('CREATE PRIMARY INDEX ON bucket-name')
 
-from couchbase_core.n1ql import N1QLQuery
-row_iter = cluster.query(N1QLQuery('SELECT name FROM bucket-name WHERE ' + \
-                                   '$1 IN interests', 'African Swallows'))
+from couchbase.cluster import QueryOptions
+row_iter = cluster.query('SELECT name FROM bucket-name WHERE $1 IN interests', QueryOptions(positional_parameters=['African Swallows']))
 for row in row_iter: print(row)
 # {u'name': u'Arthur'}
 #end::intro[]
@@ -76,19 +75,4 @@ coll.upsert('document-id', {'application': 'data'})
 #end::docopsupsert[]
 """----
 
-== N1QL Queries
-
-Couchbase N1QL queries are performed by creating a [.api]`N1QLQuery` object and passing that to the [.api]`Bucket.n1ql_query()` method:
-
-[source,python]
-----
-"""
-#tag::n1ql[]
-from couchbase_core.n1ql import N1QLQuery
-query = N1QLQuery("""SELECT airportname, city, country FROM `travel-sample` """
-                  """WHERE type="airport" AND city=$my_city""", my_city="Reno")
-for row in cluster.query(query):
-    print(row)
-#end::n1ql[]
-"""----
 """
