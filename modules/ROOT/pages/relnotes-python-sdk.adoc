@@ -1,4 +1,4 @@
 = Couchbase Python SDK Release Notes
 :page-aliases: sdk-release-notes
 
-include::2.5@python-sdk::page$sdk-release-notes.adoc[tag=latest]
+include::2.3@python-sdk::page$sdk-release-notes.adoc[tag=latest]
