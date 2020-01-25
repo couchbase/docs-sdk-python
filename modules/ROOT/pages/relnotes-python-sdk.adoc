@@ -1,1 +1,1 @@
-include::2.3@python-sdk::page$sdk-release-notes.adoc[tag=latest]
+include::2.3@python-sdk::page$relnotes-python-sdk.adoc[tag=latest]
