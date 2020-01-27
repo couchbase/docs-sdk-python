@@ -128,7 +128,7 @@ include::example$hello_world_t.py[tag=docopsupsert]
 
 === N1QL Queries
 
-Couchbase N1QL queries are performed by creating a `N1QLQuery` object and passing that to the `Bucket.n1ql_query()` method:
+Couchbase N1QL queries are performed by running the `Cluster.query` method.
 
 [source,python]
 ----

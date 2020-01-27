@@ -75,4 +75,21 @@ coll.upsert('document-id', {'application': 'data'})
 #end::docopsupsert[]
 """----
 
+== N1QL Queries
+
+Couchbase N1QL queries are performed by creating a [.api]`N1QLQuery` object and passing that to the [.api]`Bucket.n1ql_query()` method:
+
+[source,python]
+----
+"""
+#tag::n1ql[]
+from couchbase.cluster import QueryOptions
+
+query_result = cluster.query("""SELECT airportname, city, country FROM `travel-sample` """
+                             """WHERE type="airport" AND city=$my_city""",
+                             QueryOptions(named_parameters={'my_city': "Reno"}))
+for row in query_result:
+    print(row)
+#end::n1ql[]
+"""----
 """
