@@ -1,1 +1,4 @@
+= Couchbase Python SDK Release Notes
+:page-aliases: sdk-release-notes,download-links,release-notes,project-docs:migrating-sdk-code-to-3.n,project-docs:sdk-release-notes
+
 include::2.3@python-sdk::page$relnotes-python-sdk.adoc[tag=latest]
