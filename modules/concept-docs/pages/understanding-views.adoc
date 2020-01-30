@@ -1,8 +1,1 @@
-= Understanding Views 
-:nav-title: Understanding Views
-:page-topic-type: concept
-
-[abstract]
-MapReduce Views.
-
-include::partial$beta-warning.adoc[]
+include::6.5@sdk:pages:partial$views.adoc[]
