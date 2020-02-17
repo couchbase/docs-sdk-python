@@ -46,7 +46,7 @@ It should work on Python 2.7, but is not officially supported.
 [source,bash]
 ----
 # Only needed during first-time setup:
-sudo apt-get install build-essential python3-dev python3-pip
+sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
 sudo pip3 install --pre couchbase
 ----
 
@@ -54,7 +54,7 @@ sudo pip3 install --pre couchbase
 [source,bash]
 ----
 # Only needed during first-time setup:
-sudo yum install gcc gcc-c++ python-devel python-pip
+sudo yum install gcc gcc-c++ python-devel python-pip cmake
 sudo pip install --pre couchbase
 ----
 
@@ -144,7 +144,7 @@ Most of the API documentation can also be accessed via `pydoc`.
 
 // xref:project-docsmigrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
-Couchbase welcomes community contributions to the Java SDK.
+Couchbase welcomes community contributions to the Python SDK.
 The Python SDK source code is available on link:https://github.com/couchbase/couchbase-python-client[GitHub].
 
 Information on new features, fixes, known issues as well as information on how to install older release versions is xref:project-docs:sdk-release-notes.adoc[in the release notes].
@@ -153,4 +153,4 @@ Information on new features, fixes, known issues as well as information on how t
 
 Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
 
-An unofficial module, https://github.com/couchbaselabs/couchbase-python-cffi[couchbase_ffi^] uses ffi rather than the CPython C API to implement the internals of the library, and may be used with PyPy.
+Please let us know if you require a PyPy-compatible version of the SDK.
