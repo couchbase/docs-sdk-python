@@ -28,49 +28,49 @@ class ManagingConnections(object):
       cluster = Cluster.connect("couchbase://192.168.56.101,192.168.56.102", ClusterOptions(PasswordAuthenticator("username", "password")))
       #end::multinodeconnect[]
 
+    #
+    # def test_customenv(self):
+    #   #tag::customenv[]
+    #   env = ClusterEnvironment.builder()
+    #       .build();
+    #   # Customize client settings by calling methods on the builder
+    #
+    #   # Create a cluster using the environment's custom client settings.
+    #   cluster = Cluster.connect("127.0.0.1", ClusterOptions
+    #       .clusterOptions("username", "password")
+    #       .environment(env))
+    #
+    #   # Shut down gracefully. Shut down the environment
+    #   # after all associated clusters are disconnected.
+    #   cluster.disconnect()
+    #   env.shutdown()
+    #   #end::customenv[]
+    #
+    #
+    # def test_shareclusterenv(self):
+    #   #tag::shareclusterenvironment[]
+    #   env = ClusterEnvironment.builder()\
+    #       .timeoutConfig(TimeoutConfig.kvTimeout(Duration.ofSeconds(5)))\
+    #       .build()
+    #
+    #   clusterA = Cluster.connect(
+    #       "clusterA.example.com",
+    #       ClusterOptions("username", "password")
+    #           .environment(env));
+    #
+    #   clusterB = Cluster.connect(
+    #       "clusterB.example.com",
+    #       ClusterOptions("username", "password")
+    #           .environment(env));
 
-    def test_customenv(self):
-      #tag::customenv[]
-      env = ClusterEnvironment.builder()
-          .build();
-      # Customize client settings by calling methods on the builder
-
-      # Create a cluster using the environment's custom client settings.
-      cluster = Cluster.connect("127.0.0.1", ClusterOptions
-          .clusterOptions("username", "password")
-          .environment(env))
-
-      # Shut down gracefully. Shut down the environment
-      # after all associated clusters are disconnected.
-      cluster.disconnect()
-      env.shutdown()
-      #end::customenv[]
-
-
-    def test_shareclusterenv(self):
-      #tag::shareclusterenvironment[]
-      env = ClusterEnvironment.builder()\
-          .timeoutConfig(TimeoutConfig.kvTimeout(Duration.ofSeconds(5)))\
-          .build()
-
-      clusterA = Cluster.connect(
-          "clusterA.example.com",
-          ClusterOptions("username", "password")
-              .environment(env));
-
-      clusterB = Cluster.connect(
-          "clusterB.example.com",
-          ClusterOptions("username", "password")
-              .environment(env));
-
-      # ...
-
-      # For a graceful shutdown, disconnect from the clusters
-      # AND shut down the custom environment when then program ends.
-      clusterA.disconnect();
-      clusterB.disconnect();
-      env.shutdown();
-      #end::shareclusterenvironment[]
+    # # ...
+    #
+    #   # For a graceful shutdown, disconnect from the clusters
+    #   # AND shut down the custom environment when then program ends.
+    #   clusterA.disconnect();
+    #   clusterB.disconnect();
+    #   env.shutdown();
+    #end::shareclusterenvironment[]
 
 #
 #     // todo use this example when beta 2 is released.
