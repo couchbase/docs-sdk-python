@@ -23,7 +23,7 @@ include::example$managing_connections.py[tag=simpleconnect,indent=0]
 ----
 
 NOTE: If you are connecting to a version of Couchbase Server older than 6.5, it will be more efficient if the addresses are those of data (KV) nodes.
-You will in any case, with 6.0 and earlier, need to open a ``Bucket` instance before connecting to any other HTTP services (such as _Query_ or _Search_.
+You will in any case, with 6.0 and earlier, need to open a ``Bucket` instance before connecting to any other HTTP services (such as _Query_ or _Search_).
 
 In a production environment, your connection string should include the addresses of multiple server nodes in case some are currently unavailable.
 Multiple addresses may be specified in a connection string by delimiting them with commas:
