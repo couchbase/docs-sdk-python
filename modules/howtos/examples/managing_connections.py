@@ -90,18 +90,16 @@ class ManagingConnections(object):
 
       #tag::connectionstringparams[]
       cluster = Cluster.connect(
-          "127.0.0.1?io.maxHttpConnections=23&io.networkResolution=external", "username", "password")
+          "couchbases://127.0.0.1?compression=inout&log_redaction=on", ClusterOptions(PasswordAuthenticator("username", "password")))
       #end::connectionstringparams[]
 
       #tag::blockingtoasync[]
-      cluster = Cluster.connect("127.0.0.1", "username", "password")
+      cluster = Cluster.connect("127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")))
       bucket = cluster.bucket("travel-sample")
 
-      # Same API as Bucket, but completely async with CompletableFuture
-      asyncBucket = bucket.async()
-
-      # Same API as Bucket, but completely reactive with Flux and Mono
-      reactiveBucket = bucket.reactive()
+      # Same API as Bucket, but completely async with asyncio Futures
+      from acouchbase.bucket import Bucket
+      async_bucket=Bucket("couchbase://127.0.0.1/default")
 
       cluster.disconnect()
       #end::blockingtoasync[]
@@ -136,4 +134,4 @@ class ManagingConnections(object):
       env = ClusterEnvironment.builder()
           .ioConfig(IoConfig.enableDnsSrv(true))
           .build()
-       #end::dnssrv[]
+      #end::dnssrv[]
