@@ -61,12 +61,12 @@ Just as in a URI, the first parameter is prefixed by a question mark (`?`).
 
 .Simple connection string with one seed node
 ----
-127.0.0.1
+couchbase://127.0.0.1
 ----
 
 .Connection string with two seed nodes
 ----
-nodeA.example.com,nodeB.example.com
+couchbase://nodeA.example.com,nodeB.example.com
 ----
 
 .Connection string with two parameters
