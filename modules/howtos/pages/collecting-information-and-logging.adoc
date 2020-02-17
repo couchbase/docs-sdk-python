@@ -1,8 +1,35 @@
 = Collecting Information & Logging
-:nav-title: Logging
 :page-topic-type: howto
+:navtitle: Collecting Information
+:page-aliases: logging
+:page-aliases: event-bus-metrics,logging
 
 [abstract]
-Logging
+
+Logging.
 
 include::partial$beta-warning.adoc[]
+
+The Python SDK allows logging via the standard [.api]`logging` module, or via the [.api]`LCB_LOGLEVEL` environment variable.
+
+[source,python]
+----
+import logging
+import sys
+
+import couchbase
+from couchbase.cluster import Cluster, ClusterOptions
+from couchbase_core.cluster import PasswordAuthenticator
+
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+couchbase.enable_logging()
+
+cluster = Cluster('couchbase://localhost/default',ClusterOptions(PasswordAuthenticator("default","password")))
+bucket=cluster.bucket("fred")
+coll=bucket.default_collection()
+coll.upsert('key', ['value'])
+----
+
+// TODO: link to LCB 3 logging docs when available
+
+The logging itself is done by the underlying C SDK - see guide https://docs.couchbase.com/c-sdk/2.10/collecting-information-and-logging.html[here].
