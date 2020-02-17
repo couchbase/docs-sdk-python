@@ -25,7 +25,7 @@ class ManagingConnections(object):
 
     def test_multinodeconnect(self):
       #tag::multinodeconnect[]
-      cluster = Cluster.connect("192.168.56.101,192.168.56.102", "username", "password")
+      cluster = Cluster.connect("couchbase://192.168.56.101,192.168.56.102", ClusterOptions(PasswordAuthenticator("username", "password")))
       #end::multinodeconnect[]
 
 

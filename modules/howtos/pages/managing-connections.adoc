@@ -71,7 +71,7 @@ nodeA.example.com,nodeB.example.com
 
 .Connection string with two parameters
 ----
-couchbases://127.0.0.1?compression=inout&redaction
+couchbases://127.0.0.1?compression=inout&redaction=on
 ----
 
 The full list of recognized parameters is documented in the client settings reference.
