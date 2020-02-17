@@ -79,6 +79,9 @@ Any client setting with a system property name may also be specified as a connec
 
 A connection string may optionally be prefixed by either `"couchbase://"` or `"couchbases://"`.
 
+For more detailed documentation please refer to the https://docs.couchbase.com/c-sdk/2.10/managing-connections.html[libcouchbase connection string documentation].
+// TODO: update this when the LCB 3.x connstr docs are up
+
 [#connection-lifecycle]
 == Connection Lifecycle
 
@@ -191,7 +194,6 @@ include::example$managing_connections.py[tag=tls,indent=0]
 ----
 
 Then use this custom `Cluster` when opening the connection to the cluster.
-See <<cluster-environment>> for an example of creating a `Cluster` with a custom environment.
 
 If you want to verify it's actually working, you can use a tool like [.cmd]`tcpdump`.
 For example, an unencrypted upsert request looks like this (using `sudo tcpdump -i lo0 -A -s 0 port 11210`):
