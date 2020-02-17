@@ -22,6 +22,7 @@
 .Managing Couchbase
 //* User Management
 // ** xref:howtos:sdk-authentication-overview.adoc[Authentication]
+* xref:howtos:managing-connections.adoc[Managing Connections]
 
 .Errors & Diagnostics
 * xref:howtos:error-handling.adoc[Error Handling]
