@@ -32,4 +32,4 @@ coll.upsert('key', ['value'])
 
 // TODO: link to LCB 3 logging docs when available
 
-The logging itself is done by the underlying C SDK - see guide https://docs.couchbase.com/c-sdk/2.10/collecting-information-and-logging.html[here].
+// The logging itself is done by the underlying C SDK -- see guide xref:3.0@c-sdk:howtos:collecting-information-and-logging.adoc[here].
