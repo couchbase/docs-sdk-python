@@ -8,5 +8,16 @@ Client settings
 
 include::partial$beta-warning.adoc[]
 
+The Python SDK may be configured using the connection string when instantiating a [.api]`Cluster` object.
+
 == Timeout Options
 
+In addition to the connection string, the [.api]`Collection` object offers a few object attributes which can be used to configure settings during runtime:
+
+* `timeout` for key-value operation timeouts (equivalent to `operation_timeout` in the connection string)
+* `views_timeout` to adjust the timeout for MapReduce queries
+* `n1ql_timeout` to adjust the timeout for N1QL querties
+
+Below follows the C settings section:
+
+include::2.8@c-sdk::page$client-settings.adoc[tag=group]
