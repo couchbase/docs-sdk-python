@@ -19,6 +19,7 @@ Please see xref:compatibility-versions-features.adoc#platform-compatibility[the 
 First, you will need to install libcouchbase.
 
 See https://github.com/couchbase/couchbase-python-client/blob/release25/README.rst#prerequisites to see the minimum version you will require.
+The latest patch release of libcouchbase 2.10 should always be fine with the latest Python 2.5 SDK.
 
 Install the latest compatible version of libcouchbase, following the instructions xref:2.10@c-sdk::sdk-release-notes.adoc[here].
 Note that the Windows installation handles this automatically.
