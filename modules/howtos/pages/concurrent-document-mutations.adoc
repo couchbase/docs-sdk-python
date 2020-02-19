@@ -59,7 +59,7 @@ var lockedCas = getRes.cas;
 await collection.unlock('key', lockedCas);
  */
 
-await collection.upsert('key', 'new value', {cas: lockedCas});
+await collection.upsert('key', 'new value', {cas: lockedCas}); // don't do an upsert here, do a get
 ----
 
 The handler will unlock the item either via an explicit unlock operation ([.api]`unlock`) or implicitly via modifying the item with the correct CAS.
