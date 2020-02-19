@@ -71,7 +71,7 @@ Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date informa
  - discuss cert auth
  - discuss encryption config
 ////
-IMPORTANT: Python SDK 3.x has a minimum required Python version of 3.0, although we recommend running the latest version (i.e. at the time of writing Python 3.8) with the highest patch version available.
+IMPORTANT: Python SDK 3.0 has a minimum required Python version of 3.5, although we recommend running the latest version (i.e. at the time of writing Python 3.8) with the highest patch version available.
 
 Note that the transitive dependency list has changed.
 As a refresher, Python SDK 2 depended on the following packages:
