@@ -396,22 +396,22 @@ In addition, the datastructure APIs have been renamed and moved:
 [options="header"]
 |====
 | SDK 2                          | SDK 3
-|`Bucket.mapAdd`                 | `Collection.map_add`
-|`Bucket.mapGet`                 | `Collection.map_get`
-|`Bucket.mapRemove`              | `Collection.map_remove`
-|`Bucket.mapSize`                | `Collection.map_size`
-|`Bucket.listGet`                | `Collection.list_get`
-|`Bucket.listAppend`             | `Collection.list_append`
-|`Bucket.listRemove`             | `Collection.list_remove`
-|`Bucket.listPrepend`            | `Collection.list_prepend`
-|`Bucket.listSet`                | `Collection.list_set`
-|`Bucket.listSize`               | `Collection.list_size`
-|`Bucket.setAdd`                 | `Collection.set_add`
-|`Bucket.setContains`            | `Collection.set_contains`
-|`Bucket.setRemove`              | `Collection.set_remove`
-|`Bucket.setSize`                | `Collection.set_size`
-|`Bucket.queuePush`              | `Collection.queue_push`
-|`Bucket.queuePop`               | `Collection.queue_pop`
+|`Bucket.map_add`                 | `Collection.map_add`
+|`Bucket.map_get`                 | `Collection.map_get`
+|`Bucket.map_remove`              | `Collection.map_remove`
+|`Bucket.map_size`                | `Collection.map_size`
+|`Bucket.list_get`                | `Collection.list_get`
+|`Bucket.list_append`             | `Collection.list_append`
+|`Bucket.list_remove`             | `Collection.list_remove`
+|`Bucket.list_prepend`            | `Collection.list_prepend`
+|`Bucket.list_set`                | `Collection.list_set`
+|`Bucket.list_size`               | `Collection.list_size`
+|`Bucket.set_add`                 | `Collection.set_add`
+|`Bucket.set_contains`            | `Collection.set_contains`
+|`Bucket.set_remove`              | `Collection.set_remove`
+|`Bucket.set_size`                | `Collection.set_size`
+|`Bucket.queue_push`              | `Collection.queue_push`
+|`Bucket.queue_pop`               | `Collection.queue_pop`
 |====
 
 There are two important API changes:
