@@ -12,12 +12,18 @@ The Python SDK may be configured using the connection string when instantiating 
 
 == Timeout Options
 
-In addition to the connection string, the [.api]`Collection` object offers a few object attributes which can be used to configure settings during runtime:
+// TODO: update to couchbase.bucket.Bucket if we move these there - related JIRA: https://issues.couchbase.com/browse/PYCBC-815
+// Currently this is per-Collection but we may start sharing
+// LCB instances over multiple Collections, with a couchbase.bucket.Bucket
+// owning the shared LCB 'Bucket-type' instance
+
+In addition to the connection string, the [.api]`couchbase_core.client.Client` object offers a few object attributes which can be used to configure settings during runtime:
 
 * `timeout` for key-value operation timeouts (equivalent to `operation_timeout` in the connection string)
 * `views_timeout` to adjust the timeout for MapReduce queries
 * `n1ql_timeout` to adjust the timeout for N1QL querties
 
-Below follows the C settings section:
+// TODO: enable when LCB3 settings are available - related JIRA: https://issues.couchbase.com/browse/PYCBC-814
+// Below follows the C settings section:
 
-include::2.8@c-sdk::page$client-settings.adoc[tag=group]
+// include::2.8@c-sdk::page$client-settings.adoc[tag=group]
