@@ -45,7 +45,7 @@ from couchbase_v2 import COMPRESS_INOUT
 #tag::connstr[]
 # Will set the compression type to inout
 Cluster.connect(
-    "127.0.0.1?compression=inout",ClusterOptions(PasswordAuthenticator(
+    "couchbases://127.0.0.1?compression=inout",ClusterOptions(PasswordAuthenticator(
     "user",
     "pass")))
 
@@ -55,12 +55,12 @@ collection.compression = COMPRESS_INOUT
 
 #natag::rbac[]
 # add convenience overload when available
-Cluster.connect("127.0.0.1", PasswordAuthenticator("username", "password"))
+Cluster.connect("couchbases://127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")))
 #naend::rbac[]
 
 #tag::rbac-full[]
 Cluster.connect(
-    "127.0.0.1",
+    "couchbases://127.0.0.1",
     ClusterOptions(PasswordAuthenticator("username", "password")))
 #end::rbac-full[]
 
@@ -69,7 +69,7 @@ import os
 #tag::certauth[]
 cert_dir=os.path.join(os.path.curdir,"cert_dir")
 
-Cluster.connect("127.0.0.1", ClusterOptions(
+Cluster.connect("couchbases://127.0.0.1", ClusterOptions(
     CertAuthenticator(cert_path="cert.pem",
                       key_path="key.crt",
                       trust_store_path="trust_store.pem"
@@ -77,7 +77,7 @@ Cluster.connect("127.0.0.1", ClusterOptions(
 #end::certauth[]
 
 #tag::simpleget[]
-cluster = Cluster.connect("127.0.0.1", ClusterOptions(PasswordAuthenticator("user", "pass")))
+cluster = Cluster.connect("couchbases://127.0.0.1", ClusterOptions(PasswordAuthenticator("user", "pass")))
 bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()
 
@@ -85,7 +85,7 @@ get_result = collection.get("airline_10")
 
 #end::simpleget[]
 
-cluster = Cluster.connect("127.0.0.1", ClusterOptions(PasswordAuthenticator("user", "pass")))
+cluster = Cluster.connect("couchbases://127.0.0.1", ClusterOptions(PasswordAuthenticator("user", "pass")))
 bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()
 
@@ -163,7 +163,7 @@ bucket.query(
 bucket.query(
     "select * from bucket where type = $1",
     "airport")
-
+# end::queryparameterized_sdk2[]
 del bucket
 
 # tag::queryparameterized[]

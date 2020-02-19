@@ -62,7 +62,7 @@ include::6.5@sdk:shared:partial$migration.adoc[tag=lang]
 The Python SDK 3.x is available for download from the same resources as the previous generation. Builds can be found on PyPi.
 Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date information.
 
-
+////
  - discuss new dependencies if needed
  - discuss configuration old and new, especially if certain
    custom options are not present anymore (why they are not used)
@@ -70,7 +70,7 @@ Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date informa
    new one
  - discuss cert auth
  - discuss encryption config
-
+////
 IMPORTANT: Python SDK 3.x has a minimum required Python version of 3.0, although we recommend running the latest version (i.e. at the time of writing Python 3.8) with the highest patch version available.
 
 Note that the transitive dependency list has changed.
@@ -383,9 +383,11 @@ The following table describes the SDK 2 KV APIs and where they are now located i
 |`Bucket.touch`           |`Collection.touch`
 |`Bucket.lookup_in`       |`Collection.lookup_in`
 |`Bucket.mutate_in`       |`Collection.mutate_in`
+////
 |`Bucket.counter`         |`BinaryCollection.increment` and `BinaryCollection.decrement`
 |`Bucket.append`          |`BinaryCollection.append`
 |`Bucket.prepend`         |`BinaryCollection.prepend`
+////
 |====
 
 In addition, the datastructure APIs have been renamed and moved:
@@ -422,7 +424,7 @@ The signatures now look very similar.
 The concept of the `Document` as a type is gone in SDK 3 and instead you need to pass in the properties explicitly.
 This makes it very clear what is returned, especially on the response side.
 ////
-In SKD3, the `get` method returns a `GetResult`, and the `upsert` does returns `MutationResult`.
+In SDK3, the `get` method returns a `GetResult`, and the `upsert` returns `MutationResult`.
 
 Each of those results only contains the fields that the specific method can actually return, making it impossible to accidentally try to access the `expiry` on the `Result` after a mutation, for example.
 
@@ -441,18 +443,18 @@ include::example$migrating.py[tag=customtimeout,indent=0]
 
 In SDK 2, the `get_from_replica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
 We have identified this as a potential source of confusion and as a result split it up in two methods that simplify usage significantly.
-There is now a `getAllReplicas` method and a `getAnyReplica` method.
+There is now a `get_all_replicas` method and a `get_any_replica` method.
 
 * `get_all_replicas` asks the active node and all available replicas and returns the results as a stream.
 * `get_any_replica` uses `get_all_replicas`, and returns the first result obtained.
 
 Unless you want to build some kind of consensus between the different replica responses, we recommend `get_any_replica` for a fallback to a regular `get` when the active node times out.
-
+////
 NOTE: Operations which cannot be performed on JSON documents have been moved to the `BinaryCollection`, accessible through `Collection.binary()`.
 These operations include `append`, `prepend`, `increment`, and `decrement` (previously called `counter` in SDK 2).
 These operations should only be used against non-json data.
 Similar functionality is available through `mutateIn` on JSON documents.
-
+////
 === Query
 
 N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK 2 with its SDK 3 equivalent:
@@ -469,7 +471,6 @@ include::example$migrating.py[tag=querysimple_sdk2,indent=0]
 include::example$migrating.py[tag=querysimple,indent=0]
 ----
 
-Note that there is no `N1qlQuery.simple` any more -- parameter option have been moved to the `queryOptions()` for consistency reasons.
 The following shows how to do named and positional parameters in SDK 2, and their SDK 3 counterparts:
 
 [source,python]
@@ -640,8 +641,8 @@ com.couchbase.client.core.error.ViewNotFoundException: The queried view is not f
 
 == Management APIs
 
-//// - discusses how to migrate from each old management api to the new one
-//// - where it is found, what exceptions it throws, etc.
+// - discusses how to migrate from each old management api to the new one
+// - where it is found, what exceptions it throws, etc.
 
 
 In SDK 2, the management APIs were centralized in the `Admin` class at the cluster level and the `BucketManager` class at the bucket level.
