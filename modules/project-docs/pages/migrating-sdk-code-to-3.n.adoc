@@ -90,8 +90,7 @@ Additionally these are supported optionally in SDK 2 and SDK 3.
 * **Twisted**
 * **gevent**
 
-
-If you are pulling in the SDK through a package manager (recommended), all mandatory dependencies will be resolved for you automatically.
+TIP: If you are pulling in the SDK through a package manager (recommended), all mandatory dependencies will be resolved for you automatically.
 
 
 
@@ -134,7 +133,7 @@ At the end of this guide you'll find a xref:#configurations-options-reference[re
 
 === Authentication
 
-Since SDK 2 supports Couchbase Server clusters older than 5.0, it had to support both Role-Based access control as well as bucket-level passwords.
+Since SDK 2 supports Couchbase Server clusters older than 5.0, it had to support both Role-Based Access Control (RBAC) as well as bucket-level passwords.
 The minimum cluster version supported by SDK 3 is Server 5.0, which means that only RBAC is supported.
 This is why you can set the username and password when directly connecting:
 
