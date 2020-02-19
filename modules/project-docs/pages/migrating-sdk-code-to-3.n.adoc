@@ -115,14 +115,14 @@ The default settings can still be customized through either the connection strin
 The SDK has elaborate reflection logic in place to parse "flat" string values and apply them to the builder, which means that you can now configure more properties than in SDK 2.
 Note that the property paths have changed.
 
+////
 [source,python]
-
 ----
 include::example$migrating.py[tag=sysprops,indent=0]
 ----
+////
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=connstr,indent=0]
 ----
