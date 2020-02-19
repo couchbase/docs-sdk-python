@@ -59,10 +59,9 @@ include::6.5@sdk:shared:partial$migration.adoc[tag=lang]
 
 ===  Installation and Configuration
 
- - where to get the new artifacts / vs old place
-
 The Python SDK 3.x is available for download from the same resources as the previous generation. Builds can be found on PyPi.
 Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date information.
+
 
  - discuss new dependencies if needed
  - discuss configuration old and new, especially if certain
@@ -167,11 +166,12 @@ Please see the xref:howtos:authentication.adoc[documentation on certificate-base
 
 == Connection Lifecycle
 
-- discuss bootstrapping
-- important: bootstrapping is now "lazy" so also discuss how to do the eager
-checks and any impact it might have on the first op being slow?
+// - discuss bootstrapping
+//- important: bootstrapping is now "lazy" so also discuss how to do the eager
+// checks and any impact it might have on the first op being slow?
 
 From a high-level perspective, bootstrapping and shutdown is very similar to SDK 2.
+////
 One notable difference is that the `Collection` is introduced and that the individual methods like `bucket` immediately return, and do not throw an exception.
 Compare SDK 2: the `openBucket` method would not work if it could not open the bucket.
 
@@ -208,22 +208,23 @@ Here is the SDK 3 equivalent:
 ----
 include::example$migrating.py[tag=simpleget,indent=0]
 ----
-
+////
 `Collections` will be generally available with an upcoming Couchbase Server release, but the SDK already encodes it in its API to be future-proof.
 If you are using a Couchbase Server version which does not support `Collections`, always use the `default_collection()` method to access the KV API; it will map to the full bucket.
 
+////
 IMPORTANT: You'll notice that `bucket(str)` returns immediately, even if the bucket resources are not completely opened.
 This means that the subsequent `get` operation may be dispatched even before the socket is open in the background.
 The SDK will handle this case transparently, and reschedule the operation until the bucket is opened properly.
 This also means that if a bucket could not be opened (say, because no server was reachable) the operation will time out.
 Please check the logs to see the cause of the timeout (in this case, you'll see socket connect rejections).
-
+////
 Also note, you will now find Query, Search, and Analytics at the `Cluster` level.
 This is where they logically belong.
 If you are using Couchbase Server 6.5 or later, you will be able to perform cluster-level queries even if no bucket is open.
 If you are using an earlier version of the cluster you must open at least one bucket, otherwise cluster-level queries will fail.
 
-
+////
 === Serialization and Transcoding
 
  - describe how it works for your language, how to override and any platform-specific
@@ -263,13 +264,13 @@ While a transcoder can handle many different storage types, the serializer is sp
 On all JSON-only APIs (i.e. Sub-doc, Query, Search,...) you'll only find a `Serializer`, not a `Transcoder`, in the operation options.
 Usually there is no need to override it unless you want to provide your own implementation (i.e. if you have your own POJO mapping json logic in place, and want to reuse it).
 
-
+////
 == Exception Handling
 
-- discuss new exception hierarchy in principle and how users should
-approach it when migrating
-- explain maybe new error handling strategies that are in place,
-around retry strategies especially and their behavior
+//- discuss new exception hierarchy in principle and how users should
+//approach it when migrating
+//- explain maybe new error handling strategies that are in place,
+// around retry strategies especially and their behavior
 
 How to _handle_ exceptions is unchanged from SDK 2.
 You should still use `try/catch` on the blocking APIs and the corresponding async methods on the other APIs.
@@ -278,13 +279,12 @@ There have been changes made in the following areas:
 - Exception hierarchy and naming.
 - Proactive retry where possible.
 
-
 === Exception Hierarchy
 
 The exception hierarchy is now unified under a `CouchbaseException`.
 // TODO: update after ErrorContexts exposed
 //Each `CouchbaseException` has an associated `ErrorContext` which is populated with as much info as possible and then dumped alongside the stack trace if an error happens.
-
+////
 Here is an example of the error context if a N1QL query is performed with an invalid syntax (i.e. `select 1= from`):
 
 [source]
@@ -307,7 +307,9 @@ As an example, consider the javadoc for the `Collection.get` API:
 ----
 
 These exceptions extend `CouchbaseException`, but both the `TimeoutException` and the `DocumentNotFoundException` can be caught individually if specific logic should be executed to handle them.
+////
 
+////
 === Proactive Retry
 
 One reason why the APIs do not expose a long list of exceptions is that the SDK now retries as many operations as it can if it can do so safely.
@@ -323,7 +325,9 @@ When migrating your SDK 2 exception handling code to SDK 3, make sure to wrap ev
 You can likely remove your user-level retry code for temporary failures, backpressure exception, and so on.
 One notable exception from this is the `CasMismatchException`, which is still thrown since it requires more app-level code to handle (most likely identical to SDK 2).
 
+////
 
+////
 === Logging and Events
 
  - discuss any changes to the logging infrastructure or event system if made
@@ -353,13 +357,11 @@ Please see xref:howtos:collecting-information-and-logging.adoc[the logging docum
    and discusses old vs. new
 
 The following section discusses each service in detail and covers specific bits that have not been covered by the more generic sections above.
+////
 
-==== Key Value
+== Key Value
 
- - don't forget the get replica changes!
-
-
-The Key/Value (KV) API is now located under the `Collection` interface, so even if you do not use collections, the `defaultCollection()` needs to be opened in order to access it.
+The Key/Value (KV) API is now located under the `Collection` interface, so even if you do not use collections, the `default_collection()` call needs to be opened in order to access it.
 
 The following table describes the SDK 2 KV APIs and where they are now located in SDK 3:
 
@@ -370,7 +372,7 @@ The following table describes the SDK 2 KV APIs and where they are now located i
 |`Bucket.upsert`          |`Collection.upsert`
 |`Bucket.get`             |`Collection.get`
 |`Bucket.exists`          |`Collection.exists`
-|`Bucket.get_from_replica`|`Collection.get_any_replica`and_`collection_get_all_replicas`
+|`Bucket.get_from_replica`|`Collection.get_any_replica` and `collection_get_all_replicas`
 |`Bucket.get_and_lock`    |`Collection.get_and_lock`
 |`Bucket.get_and_touch`   |`Collection.get_and_touch`
 |`Bucket.insert`          |`Collection.insert`
@@ -392,22 +394,22 @@ In addition, the datastructure APIs have been renamed and moved:
 [options="header"]
 |====
 | SDK 2                          | SDK 3
-|`Bucket.mapAdd`                 | `Collection.map`
-|`Bucket.mapGet`                 | `Collection.map`
-|`Bucket.mapRemove`              | `Collection.map`
-|`Bucket.mapSize`                | `Collection.map`
-|`Bucket.listGet`                | `Collection.list`
-|`Bucket.listAppend`             | `Collection.list`
-|`Bucket.listRemove`             | `Collection.list`
-|`Bucket.listPrepend`            | `Collection.list`
-|`Bucket.listSet`                | `Collection.list`
-|`Bucket.listSize`               | `Collection.list`
-|`Bucket.setAdd`                 | `Collection.set`
-|`Bucket.setContains`            | `Collection.set`
-|`Bucket.setRemove`              | `Collection.set`
-|`Bucket.setSize`                | `Collection.set`
-|`Bucket.queuePush`              | `Collection.queue`
-|`Bucket.queuePop`               | `Collection.queue`
+|`Bucket.mapAdd`                 | `Collection.map_add`
+|`Bucket.mapGet`                 | `Collection.map_get`
+|`Bucket.mapRemove`              | `Collection.map_remove`
+|`Bucket.mapSize`                | `Collection.map_size`
+|`Bucket.listGet`                | `Collection.list_get`
+|`Bucket.listAppend`             | `Collection.list_append`
+|`Bucket.listRemove`             | `Collection.list_remove`
+|`Bucket.listPrepend`            | `Collection.list_prepend`
+|`Bucket.listSet`                | `Collection.list_set`
+|`Bucket.listSize`               | `Collection.list_size`
+|`Bucket.setAdd`                 | `Collection.set_add`
+|`Bucket.setContains`            | `Collection.set_contains`
+|`Bucket.setRemove`              | `Collection.set_remove`
+|`Bucket.setSize`                | `Collection.set_size`
+|`Bucket.queuePush`              | `Collection.queue_push`
+|`Bucket.queuePop`               | `Collection.queue_pop`
 |====
 
 There are two important API changes:
@@ -416,13 +418,17 @@ There are two important API changes:
 * On the response side, the return types have been unified.
 
 The signatures now look very similar.
+////
 The concept of the `Document` as a type is gone in SDK 3 and instead you need to pass in the properties explicitly.
 This makes it very clear what is returned, especially on the response side.
+////
+In SKD3, the `get` method returns a `GetResult`, and the `upsert` does returns `MutationResult`.
 
-Thus, the `get` method does not return a `Document` but a `GetResult` instead, and the `upsert` does not return a `Document` but a `MutationResult`.
-Each of those results only contains the field that the specific method can actually return, making it impossible to accidentally try to access the `expiry` on the `Document` after a mutation, for example.
+Each of those results only contains the fields that the specific method can actually return, making it impossible to accidentally try to access the `expiry` on the `Result` after a mutation, for example.
 
-Instead of having many overloads, all optional params are now part of the `Option` block.
+Optional parameters are now accessible via `couchbase.options.OptionBlock` derivatives, or via named parameters (with the latter overriding
+the former).
+
 All required params are still part of the method signature, making it clear what is required and what is not (or has default values applied if not overridden).
 
 The timeout can be overridden on every operation and now takes a `datetime.timedelta` object from the Python standard library.
@@ -478,55 +484,24 @@ include::example$migrating.py[tag=queryparameterized_sdk2,indent=0]
 ----
 include::example$migrating.py[tag=queryparameterized,indent=0]
 ----
-
+////
 If you want to use prepared statements, the `adhoc()` method is still available on the `QueryOptions`, alongside every other option that used to be exposed on the SDK 2 Query options.
 
 Much of the non-row metadata has been moved into a specific `QueryMetaData` section:
-
 .Query Metadata Changes
 [options="header"]
 |====
-| SDK 2                             | SDK 3
-|`N1qlQueryResult.signature`        | `QueryResult.metaData.signature`
-|`N1qlQueryResult.info`             | `QueryResult.metaData.metrics`
-|`N1qlQueryResult.profileInfo`      | `QueryResult.metaData.profile`
-|`N1qlQueryResult.parseSuccess`     | removed
-|`N1qlQueryResult.finalSuccess`     | removed
-|`N1qlQueryResult.status`           | `QueryResult.metaData.status`
-|`N1qlQueryResult.errors`           | throws an Exception on `QueryResult`
-|`N1qlQueryResult.requestId`        | `QueryResult.metaData.requestId`
-|`N1qlQueryResult.clientContextId`  | `QueryResult.metaData.clientContextId`
+| SDK 2                     | SDK 3
+|`N1QLRequest.metrics`      | `QueryResult.metrics`
+|`N1QLRequest.profile`      | `QueryResult.profile`
+
 |====
+////
 
-It is no longer necessary to check for a specific error in the stream: if an error happened during processing it will throw an exception at the top level of the query.
-The reactive streaming API will terminate the rows' `Flux` with an exception as well as soon as it is discovered.
-This makes error handling much easier in both the blocking and non-blocking cases.
 
-While in SDK 2 you had to manually check for errors (otherwise you'd get an empty row collection):
+==== Analytics
 
-[source,python]
-
-----
-N1qlQueryResult queryResult = bucket.query(N1qlQuery.simple("select 1="));
-if (!queryResult.errors().isEmpty()) {
-  // errors contain [{"msg":"syntax error - at end of input","code":3000}]
-}
-----
-
-In SDK 3 the top level `query` method will throw an exception:
-
-[source]
-----
-Exception in thread "main" com.couchbase.client.core.error.ParsingFailedException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,"message":"syntax error - at end of input"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:51703","lastDispatchedTo":"127.0.0.1:8093","requestId":5,"requestType":"QueryRequest","retried":0,"service":{"operationId":"1c623a77-196a-4890-96cd-9d4f3f596477","statement":"select 1=","type":"query"},"timeoutMs":75000,"timings":{"dispatchMicros":13798,"totalMicros":70789}}
-	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
-	at com.couchbase.client.java.Cluster.query(Cluster.java:225)
-----
-
-Not only does it throw a `CouchbaseException`, it also tries to map it to a specific exception type and include extensive contextual information for a better troubleshooting experience.
-
-=== Analytics
-
-Analytics querying, like N1QL, is also moved to the `Cluster` level: it is now accessible through the `Cluster.analyticsQuery` method.
+Analytics querying, like N1QL, is also moved to the `Cluster` level: it is now accessible through the `Cluster.analytics_query` method.
 As with the Query service, parameters for the Analytics queries have moved into the `AnalyticsOptions`:
 
 [source,python]
@@ -540,7 +515,7 @@ include::example$migrating.py[tag=analyticssimple,indent=0]
 ----
 include::example$migrating.py[tag=analyticsparameterized,indent=0]
 ----
-
+////
 Also, errors will now be thrown as top level exceptions and it is no longer necessary to explicitly check for errors:
 
 [source,python]
@@ -557,7 +532,9 @@ com.couchbase.client.core.error.DatasetNotFoundException: The analytics dataset 
 	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
 	at com.couchbase.client.java.Cluster.analyticsQuery(Cluster.java:250)
 ----
+////
 
+////
 === Search
 
 The Search API has changed a bit in SDK 3 so that it aligns with the other query APIs.
@@ -569,8 +546,11 @@ Here is a SDK 2 Search query with some options, and its SDK 3 equivalent:
 [source,python]
 
 ----
-//  SDK 2 search query
-SearchQueryResult searchResult = bucket.query(new SearchQuery(
+# SDK 2 search query
+from couchbase_v2.cluster import Cluster, PasswordAuthenticator
+cluster=Cluster("couchbase://127.0.0.1","default","password")
+bucket=cluster.open_bucket("default")
+search_result = bucket.query(new SearchQuery(
   "indexname",
   SearchQuery.queryString("airports")).limit(5).fields("a", "b", "c"),
   2,
@@ -607,7 +587,9 @@ If you want to be absolutely sure that you didn't get only partial data, you can
 ----
 include::example$migrating.py[tag=searchcheck,indent=0]
 ----
+////
 
+////
 === Views
 
 Views have stayed at the `Bucket` level, because it does not have the concept of collections and is scoped at the bucket level on the server as well.
@@ -654,15 +636,17 @@ com.couchbase.client.core.error.ViewNotFoundException: The queried view is not f
 
 ----
 
+////
+
 == Management APIs
 
- - discusses how to migrate from each old management api to the new one
- - where it is found, what exceptions it throws, etc.
+//// - discusses how to migrate from each old management api to the new one
+//// - where it is found, what exceptions it throws, etc.
 
 
 In SDK 2, the management APIs were centralized in the `Admin` class at the cluster level and the `BucketManager` class at the bucket level.
 Since SDK 3 provides more management APIs, they have been split up in their respective domains.
-So for example when in SDK 2 you needed to remove a bucket you would call `ClusterManager.removeBucket` you will now find it under `BucketManager.dropBucket`.
+So for example when in SDK 2 you needed to remove a bucket you would call `Admin.bucket_remove` you will now find it under `BucketManager.drop_bucket`.
 Also, creating a N1QL index now lives in the `QueryIndexManager`, which is accessible through the `Cluster`.
 
 The following table provides a mapping from the SDK 2 management APIs to those of SDK 3:
@@ -700,6 +684,7 @@ The following table provides a mapping from the SDK 2 management APIs to those o
 | `BucketManager.n1ql_index_watch`           | `QueryIndexManager.watch_indexes`
 |====
 
+////
 Extra Java stuff to be ported if possible
 
 
@@ -825,3 +810,4 @@ Note that some options have been removed, and others have different ways to conf
 |`propagateParentSpan`         | removed
 |====
 
+////
