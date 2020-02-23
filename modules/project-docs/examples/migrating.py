@@ -53,10 +53,10 @@ Cluster.connect(
 collection.compression = COMPRESS_INOUT
 #end::connstr[]
 
-#natag::rbac[]
+#tag::rbac[]
 # add convenience overload when available
 Cluster.connect("couchbases://127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")))
-#naend::rbac[]
+#end::rbac[]
 
 #tag::rbac-full[]
 Cluster.connect(
