@@ -1,12 +1,36 @@
 = Client Settings
 :nav-title: Client Settings
 :page-topic-type: reference
-:page-aliases: ROOT:client-settings
+:page-aliases: ROOT:client-settings,ROOT:configuring-the-client,ROOT:env-config
 
 [abstract]
 Client settings
 
 include::partial$beta-warning.adoc[]
 
-== Timeout Options
+NOTE: Other Client Settings will be added to this document at a later date.
 
+=== Timeout Options Reference
+
+Name: *Key-Value Timeout*::
+Builder Method: `TimeoutConfig.kvTimeout(Duration)`
++
+Default: `2.5s` -- _but see TIP, below_
++
+System Property: `com.couchbase.env.timeout.kvTimeout`
++
+The Key/Value default timeout is used on operations which are performed on a specific key if not overridden by a custom timeout.
+This includes all commands like get(), getFromReplica() and all mutation commands, but does not include operations that are performed with enhanced durability requirements.
++
+TIP: xref:concept-docs:durability-replication-failure-considerations.adoc#synchronous-writes[Durable Write operations] have their own timeout setting, `kvDurableTimeout`, see below.
+
+Name: *Key-Value Durable Operation Timeout*::
+Builder Method: `TimeoutConfig.kvDurableTimeout(Duration)`
++
+Default: `10s`
++
+System Property: `com.couchbase.env.timeout.kvDurableTimeout`
++
+Key/Value operations with enhanced durability requirements may take longer to complete, so they have a separate default timeout.
++
+WARNING: The `kvDurableTimeout` property is not part of the stable API and may change or be removed at any time.
