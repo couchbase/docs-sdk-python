@@ -33,6 +33,154 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+
+== Python SDK 3.0.0 Release Notes (May 1 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
+
+
+== Python SDK 3.0.0 Release Notes (May 1 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
+
+=== Fixes
+
+
+* https://issues.couchbase.com/browse/PYCBC-784[PYCBC-784]:
+Remove/move/mark "internal" Admin methods/class.
+
+* https://issues.couchbase.com/browse/PYCBC-793[PYCBC-793]:
+Cluster.bucket needs kwargs for the tests to work against the mock
+
+* https://issues.couchbase.com/browse/PYCBC-796[PYCBC-796]:
+Move some tests on sdk2 to sdk3
+
+* https://issues.couchbase.com/browse/PYCBC-797[PYCBC-797]:
+Bucket.ping needs to respect the timeout in the options if any
+
+* https://issues.couchbase.com/browse/PYCBC-824[PYCBC-824]:
+QueryResult has a few fields that are not implemented yet
+
+* https://issues.couchbase.com/browse/PYCBC-831[PYCBC-831]:
+Cluster settings like compression, tracing, etc.. should be set at Cluster initialisation only
+
+* https://issues.couchbase.com/browse/PYCBC-832[PYCBC-832]:
+Test issues with cluster and opening new buckets
+
+* https://issues.couchbase.com/browse/PYCBC-835[PYCBC-835]:
+diagnostics hangs on any server < 6.5
+
+* https://issues.couchbase.com/browse/PYCBC-854[PYCBC-854]:
+ping() needs to be at the cluster level as well
+
+* https://issues.couchbase.com/browse/PYCBC-860[PYCBC-860]:
+Don't pass a bucket name for cluster connections by default
+
+* https://issues.couchbase.com/browse/PYCBC-863[PYCBC-863]:
+iterable_wrapper failing for some async operations
+
+* https://issues.couchbase.com/browse/PYCBC-869[PYCBC-869]:
+Cattrs library doesn't work with python 3.5.2
+
+* https://issues.couchbase.com/browse/PYCBC-874[PYCBC-874]:
+Do cluster ops on 6.5-DP
+
+* https://issues.couchbase.com/browse/PYCBC-875[PYCBC-875]:
+ViewQuery segfaults in bindings
+
+* https://issues.couchbase.com/browse/PYCBC-878[PYCBC-878]:
+Tx stuff seems to have broken imports recently
+
+* https://issues.couchbase.com/browse/PYCBC-881[PYCBC-881]:
+Make (txcouchbase|acouchbase).cluster.Cluster.connect return an instance of the relevant class
+
+* https://issues.couchbase.com/browse/PYCBC-882[PYCBC-882]:
+Fix dropped imports
+
+* https://issues.couchbase.com/browse/PYCBC-883[PYCBC-883]:
+Some remaining exceptions not listed in Error Handling RFC
+
+* https://issues.couchbase.com/browse/PYCBC-898[PYCBC-898]:
+Correct threshold naming for search and query
+
+* https://issues.couchbase.com/browse/PYCBC-899[PYCBC-899]:
+Import error in search tests
+
+* https://issues.couchbase.com/browse/PYCBC-902[PYCBC-902]:
+Add more coverage to integration tests
+
+* https://issues.couchbase.com/browse/PYCBC-903[PYCBC-903]:
+Further improve Async API/docstrings
+
+* https://issues.couchbase.com/browse/PYCBC-905[PYCBC-905]:
+Pip install fails for latest sdk commits on python 3.5.x
+
+* https://issues.couchbase.com/browse/PYCBC-908[PYCBC-908]:
+Add some missing View result types
+
+* https://issues.couchbase.com/browse/PYCBC-897[PYCBC-897]:
+Update 'long_description' settings to conform with PyPi
+
+
+////
+
+To be confirmed:
+
+* https://issues.couchbase.com/browse/PYCBC-910[PYCBC-910]:
+Factor CBCollectionShared into CBCollectionBase
+
+* https://issues.couchbase.com/browse/PYCBC-911[PYCBC-911]:
+Remove content_as_array as not in RFC
+
+////
+
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-744[PYCBC-744]:
+Ensure precedence between named param and option block is described
+
+* https://issues.couchbase.com/browse/PYCBC-864[PYCBC-864]:
+Provide asyncio access to Cluster, also analytics and search.
+
+* https://issues.couchbase.com/browse/PYCBC-707[PYCBC-707]:
+Sweep through tests, examine why some are skipped
+
+* https://issues.couchbase.com/browse/PYCBC-840[PYCBC-840]:
+Add testing for 6.5 with DP enabled
+
+* https://issues.couchbase.com/browse/PYCBC-845[PYCBC-845]:
+Nightlies need to build and test (against mock) on more platforms
+
+* https://issues.couchbase.com/browse/PYCBC-847[PYCBC-847]:
+Consolidate exceptions into one place
+
+* https://issues.couchbase.com/browse/PYCBC-870[PYCBC-870]:
+We need to test on MacOS
+
+* https://issues.couchbase.com/browse/PYCBC-873[PYCBC-873]:
+CMake: Skip PythonLibs search for Hybrid builds, remove -pthreads
+
+* https://issues.couchbase.com/browse/PYCBC-886[PYCBC-886]:
+Expiry not properly returned or set
+
+* https://issues.couchbase.com/browse/PYCBC-895[PYCBC-895]:
+Improve navigability/API docs for async, remove factories
+
+* https://issues.couchbase.com/browse/PYCBC-896[PYCBC-896]:
+Remove unused code (unshared collection, v2 async code)
+
+
 == Python SDK 3.0.0 Beta 3 Release Notes (January 20 2020)
 
 [source,bash]
