@@ -33,6 +33,190 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+
+== Python SDK 3.0.0 Beta 4 (RC) Release Notes (April 3 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.0b4
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0b4/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-816[PYCBC-816]:
+Migrate txcouchbase to SDK3
+
+* https://issues.couchbase.com/browse/PYCBC-805[PYCBC-805]:
+Provide async access to Cluster
+
+* https://issues.couchbase.com/browse/PYCBC-658[PYCBC-658]:
+Provide txcouchbase support for durability
+
+* https://issues.couchbase.com/browse/PYCBC-826[PYCBC-826]:
+Implement acouchbase for Windows
+
+* https://issues.couchbase.com/browse/PYCBC-622[PYCBC-622]:
+Document/configure Git dependency
+
+* https://issues.couchbase.com/browse/PYCBC-673[PYCBC-673]:
+Prefer locally bundled lcb include for installs
+
+* https://issues.couchbase.com/browse/PYCBC-681[PYCBC-681]:
+Make OptionBlock arguments discoverable
+
+* https://issues.couchbase.com/browse/PYCBC-698[PYCBC-698]:
+Fixed test failures against real servers
+
+* https://issues.couchbase.com/browse/PYCBC-711[PYCBC-711]:
+Create AnalyticsIndexManager, fix analytics queries, with v3 tests
+
+* https://issues.couchbase.com/browse/PYCBC-719[PYCBC-719]:
+The ViewIteratorTests all are skipping when they should not
+
+* https://issues.couchbase.com/browse/PYCBC-723[PYCBC-723]:
+bucket.ping needs to be implemented
+
+* https://issues.couchbase.com/browse/PYCBC-732[PYCBC-732]:
+QueryIndexManager interface work, plus fixes for failing tests
+
+* https://issues.couchbase.com/browse/PYCBC-746[PYCBC-746]:
+Remove NodeManager from API
+
+* https://issues.couchbase.com/browse/PYCBC-747[PYCBC-747]:
+Remove generic Manager API
+
+* https://issues.couchbase.com/browse/PYCBC-752[PYCBC-752]:
+ViewIndexManager needs proper SDK3 interface.
+
+* https://issues.couchbase.com/browse/PYCBC-754[PYCBC-754]:
+Fix invalid named args in Collection.get
+
+* https://issues.couchbase.com/browse/PYCBC-771[PYCBC-771]:
+Mark multi-operations as volatile until sdk-rfc done
+
+* https://issues.couchbase.com/browse/PYCBC-785[PYCBC-785]:
+Expose ErrorContexts
+
+* https://issues.couchbase.com/browse/PYCBC-794[PYCBC-794]:
+Implement Cluster.disconnect
+
+* https://issues.couchbase.com/browse/PYCBC-798[PYCBC-798]:
+Ping is returning 'scope' instead of 'namespace'
+
+* https://issues.couchbase.com/browse/PYCBC-801[PYCBC-801]:
+Reflect optional nature of parameters in OptionBlock constructors
+
+* https://issues.couchbase.com/browse/PYCBC-803[PYCBC-803]:
+Reinstate non-hybrid (pure CMake) build
+
+* https://issues.couchbase.com/browse/PYCBC-815[PYCBC-815]:
+Share lcb_INSTANCE objects between collections
+
+* https://issues.couchbase.com/browse/PYCBC-817[PYCBC-817]:
+Collection get_and_touch, get_and_lock need to be SDK3-ized
+
+* https://issues.couchbase.com/browse/PYCBC-838[PYCBC-838]:
+Client Durability support.
+
+* https://issues.couchbase.com/browse/PYCBC-473[PYCBC-473]:
+Add FTS Index Management
+
+* https://issues.couchbase.com/browse/PYCBC-691[PYCBC-691]:
+Set up Combination Testing for SDK 3 - Server 5.5, 6.0, 6.5
+
+* https://issues.couchbase.com/browse/PYCBC-729[PYCBC-729]:
+Add necessary build tools to the readme.md
+
+* https://issues.couchbase.com/browse/PYCBC-777[PYCBC-777]:
+Complete KV doc for GA
+
+* https://issues.couchbase.com/browse/PYCBC-779[PYCBC-779]:
+Getting Started Tidy Up
+
+* https://issues.couchbase.com/browse/PYCBC-781[PYCBC-781]:
+Managing Connections - SDK3
+
+* https://issues.couchbase.com/browse/PYCBC-841[PYCBC-841]:
+Update integration testing Jenkins node labels
+
+* https://issues.couchbase.com/browse/PYCBC-844[PYCBC-844]:
+Convert integration tests to nightlies
+
+* https://issues.couchbase.com/browse/PYCBC-743[PYCBC-743]:
+Mark all ErrorContexts as Uncommitted
+
+* https://issues.couchbase.com/browse/PYCBC-751[PYCBC-751]:
+AnalyticsIndexes manager missing on Cluster
+
+* https://issues.couchbase.com/browse/PYCBC-775[PYCBC-775]:
+Migrate collection attributes to use timedelta for durations
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-774[PYCBC-774]:
+Proper implementation for Collection.get_all_replicas
+
+* https://issues.couchbase.com/browse/PYCBC-782[PYCBC-782]:
+Fix durability_level on collection.remove
+
+* https://issues.couchbase.com/browse/PYCBC-789[PYCBC-789]:
+N1QL query request to create index appears to fail
+
+* https://issues.couchbase.com/browse/PYCBC-792[PYCBC-792]:
+Cluster.diagnostics always times out
+
+* https://issues.couchbase.com/browse/PYCBC-795[PYCBC-795]:
+ViewManager needs to wrap http calls for proper exceptions
+
+* https://issues.couchbase.com/browse/PYCBC-799[PYCBC-799]:
+Ensure v3 tests all pass on Jenkins against real servers
+
+* https://issues.couchbase.com/browse/PYCBC-800[PYCBC-800]:
+Fix BucketMissingException when trying to connect to Cluster
+
+* https://issues.couchbase.com/browse/PYCBC-807[PYCBC-807]:
+Correct CollectionManager docstrings
+
+* https://issues.couchbase.com/browse/PYCBC-808[PYCBC-808]:
+Fix AnalyticsOptions code
+
+* https://issues.couchbase.com/browse/PYCBC-818[PYCBC-818]:
+Collection.exists always returning true
+
+* https://issues.couchbase.com/browse/PYCBC-829[PYCBC-829]:
+Collection.get_and_lock should not get and lock in 2 commands
+
+* https://issues.couchbase.com/browse/PYCBC-850[PYCBC-850]:
+CBCollectionShared not passing through collection name
+
+* https://issues.couchbase.com/browse/PYCBC-855[PYCBC-855]:
+ViewResult recurses infinitely on some platforms
+
+* https://issues.couchbase.com/browse/PYCBC-857[PYCBC-857]:
+Address some missing error context types
+
+* https://issues.couchbase.com/browse/PYCBC-859[PYCBC-859]:
+Bucket exception parsing broken by server message change
+
+* https://issues.couchbase.com/browse/PYCBC-756[PYCBC-756]:
+Append, Prepend, Increment, Decrement need to move to BinaryCollection
+
+* https://issues.couchbase.com/browse/PYCBC-749[PYCBC-749]:
+Remove additional overloads for query and search
+
+* https://issues.couchbase.com/browse/PYCBC-806[PYCBC-806]:
+Various PEP8 formatting fixes
+
+* https://issues.couchbase.com/browse/PYCBC-809[PYCBC-809]:
+PEP8/MyPy warning removal
+
+* https://issues.couchbase.com/browse/PYCBC-839[PYCBC-839]:
+CreateCollection CollectionSpec must include MaxTTL
+
+
+
 == Python SDK 3.0.0 Beta 3 Release Notes (January 20 2020)
 
 [source,bash]
