@@ -37,7 +37,5 @@ include::example$Auth.scala[tag=auth,indent=0]
 ----
 
 
-== LDAP
+include::6.5@sdk:shared:partial$auth-overview.adoc[tag=ldap]
 
-If you are on a network where access is controlled by LDAP, the SDK will work transparently with it.
-No special configuration is needed.
