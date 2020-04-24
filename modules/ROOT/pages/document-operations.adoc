@@ -199,6 +199,9 @@ Traceback (most recent call last):
 couchbase.exceptions._NotFoundError_0xD (generated, catch NotFoundError): <Key=u'expires', RC=0xD[The key does not exist on the server], Operational Error, Results=1, C Source=(src/multiresult.c,309)>
 ....
 
+include::6.5@sdk:shared:partial$documents.adoc[tag=exp-note]
+
+
 == Atomic document modifications
 
 Additional atomic document modifications can be performing using the Python SDK.
