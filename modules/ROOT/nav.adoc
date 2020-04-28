@@ -16,7 +16,7 @@
 //* xref:howtos:view-queries-with-sdk.adoc[MapReduce Views]
 
 .Advanced Data Operations
-// * xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
+* xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
 //* xref:howtos:durability.adoc[Durability]
 
 .Managing Couchbase
