@@ -11,33 +11,24 @@ include::6.5@sdk:shared:partial$cas.adoc[tag=example]
 
 include::6.5@sdk:shared:partial$cas.adoc[tag=errors]
 
-[source,javascript]
+[source,python]
 ----
-async function incrementVisitCount(collection, userId) {
-    var maxRetries = 10;
-    for(var i = 0; i < maxRetries; ++i) {
-        // Get the current document contents
-        var getRes = await collection.get(userId);
+def increment_visit_count(collection, user_id):
+    for _ in range(10):
+        # Get the current document contents
+        res = collection.get(user_id)
 
-        // Increment the visit count
-        var userDoc = getRes.value;
-        userDoc.visitCount++;
+        # Increment the visit count
+        user_doc = res.content_as[dict]
+        user_doc.visitCount+= 1
 
-        try {
-            // Attempt to replace the document using CAS
-            await collection.replace(userId, userDoc, {cas: getRes.cas});
-        } catch (e) {
-            // Check if the error thrown is a cas mismatch, if it is, we retry
-            if (e instanceof couchbase.CasMismatchError) {
-                continue;
-            }
-            throw e;
-        }
-
-        // If no errors occured during the replace, we can exit our retry loop
-        break;
-    }
-}
+        try:
+            # Attempt to replace the document using CAS
+            return collection.replace(user_id, user_doc, ReplaceOptions(cas=res.cas))
+        except (CASMismatchException, DocumentExistsException):
+            # if doc is locked, we get DocumentExistsException
+            # if doc was changed between the get and the replace, we get CASMismatchException
+            continue
 ----
 
 Sometimes more logic is needed when performing updates, for example, if a property is mutually exclusive with another property; only one or the other can exist, but not both.
@@ -49,17 +40,34 @@ include::6.5@sdk:shared:partial$cas.adoc[tag=format]
 
 include::6.5@sdk:shared:partial$cas.adoc[tag=locking]
 
-[source,javascript]
+[source,python]
 ----
-var getRes = await collection.getAndLock('key');
+# get doc, lock for 10 seconds
+get_res = collection.get_and_lock('key', timedelta(seconds=10))
 
-var lockedCas = getRes.cas;
+locked_cas = get_res.cas
 
-/** an example of simply unlocking the document:
-await collection.unlock('key', lockedCas);
- */
+# an example of simply unlocking the document:
+# collection.unlock('key', locked_cas);
+#
 
-await collection.upsert('key', 'new value', {cas: lockedCas}); // don't do an upsert here, do a get
+# this should raise an exception
+try:
+    collection.replace('key', 'new value')
+except DocumentExistsException:
+    print("this is why we lock")
+
+
+# this will also fail as well, since a get while locked
+# will not return a valid CAS.
+try:
+    bad_cas = collection.get('key').cas
+    collection.replace('key', 'new value', ReplaceOptions(cas=bad_cas))
+except DocumentExistsException:
+    print("this is also why we lock")
+
+# this will succeed
+collection.replace('key', 'new value', ReplaceOptions(cas=locked_cas))
 ----
 
 The handler will unlock the item either via an explicit unlock operation ([.api]`unlock`) or implicitly via modifying the item with the correct CAS.
