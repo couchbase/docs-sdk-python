@@ -374,17 +374,11 @@ Add some missing View result types
 * https://issues.couchbase.com/browse/PYCBC-897[PYCBC-897]:
 Update 'long_description' settings to conform with PyPi
 
-////
-
-To be confirmed:
-
 * https://issues.couchbase.com/browse/PYCBC-910[PYCBC-910]:
 Factor CBCollectionShared into CBCollectionBase
 
 * https://issues.couchbase.com/browse/PYCBC-911[PYCBC-911]:
 Remove content_as_array as not in RFC
-
-////
 
 
 == Python SDK 3.0.0 Beta 3 Release Notes (January 20 2020)
