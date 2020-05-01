@@ -23,7 +23,7 @@ You may need cmake to install, although the installer will attempt to download i
 The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
 It should work on Python 2.7, but is not officially supported.
 
-// end::prep
+// end::prep[]
 
 // tag::install[]
 
