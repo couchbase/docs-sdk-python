@@ -43,6 +43,16 @@ pip install couchbase==3.0.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
 
+=== Known issues
+
+We aim to fix these as soon as possible:
+
+* https://issues.couchbase.com/browse/PYCBC-834[PYCBC-834]
+Intermittent segfault in collection.exists
+
+* https://issues.couchbase.com/browse/PYCBC-833[PYCBC-833]
+get_all_replicas segfaults
+
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-816[PYCBC-816]:
