@@ -43,9 +43,15 @@ pip install couchbase==3.0.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
 
+WARNING: Whilst we have made our best efforts to
+update the API documentation to accurately reflect the
+functionality provided, there are still some known documentation
+issues to be resolved. We aim to fix these as soon as possible.
+
 === Known issues
 
-We aim to fix these as soon as possible:
+* https://issues.couchbase.com/browse/PYCBC-912[PYCBC-912]
+Generated docs need a second pass
 
 * https://issues.couchbase.com/browse/PYCBC-834[PYCBC-834]
 Intermittent segfault in collection.exists
