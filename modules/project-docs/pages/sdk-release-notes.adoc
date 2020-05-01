@@ -2,12 +2,13 @@
 :navtitle: Release Notes
 :page-partial:
 :page-topic-type: project-doc
-:page-aliases: ROOT:relnotes-python-sdk,ROOT:downolad-links,ROOT:release-notes
+:page-aliases: ROOT:relnotes-python-sdk,ROOT:download-links,ROOT:release-notes,ROOT:sdk-release-notes
 
 [abstract]
 Release notes, installation instructions, and download archive for the Couchbase Python Client.
 
 include::hello-world:page$start-using-sdk.adoc[tag=prep]
+
 
 == Installation
 
@@ -19,11 +20,11 @@ pip install git+https://github.com/couchbase/couchbase-python-client@VERSION
 ----
 
 where VERSION is the version you wish to install. For example, to
-install version 2.0.8:
+install version 2.5.4:
 
 [source,bash]
 ----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.0.8
+pip install git+http://github.com/couchbase/couchbase-python-client@2.5.4
 ----
 
 include::hello-world:page$start-using-sdk.adoc[tag=install]
@@ -34,7 +35,7 @@ Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it
  so no need to install it separately.
 
 
-== Python SDK 3.0.0 Release Notes (1 May 2020)
+== Version 3.0.0 (1 May 2020)
 
 [source,bash]
 ----
@@ -43,233 +44,232 @@ pip install couchbase==3.0.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
 
-WARNING: Whilst we have made our best efforts to
-update the API documentation to accurately reflect the
-functionality provided, there are still some known documentation
-issues to be resolved. We aim to fix these as soon as possible.
+WARNING: Whilst we have made our best efforts to update the API documentation to accurately reflect the functionality provided, 
+there are still some known documentation issues to be resolved. 
+We aim to fix these as soon as possible.
+
 
 === Known issues
 
 * https://issues.couchbase.com/browse/PYCBC-912[PYCBC-912]
-Generated docs need a second pass
+Generated docs need a second pass.
 
 * https://issues.couchbase.com/browse/PYCBC-834[PYCBC-834]
-Intermittent segfault in collection.exists
+Intermittent segfault in collection.exists.
 
 * https://issues.couchbase.com/browse/PYCBC-833[PYCBC-833]
-get_all_replicas segfaults
+get_all_replicas segfaults.
 
-There also appears to be an issue in libcouchbase that impacts
-on the Python Client:
+And an issue in libcouchbase that impacts upon the Python Client:
 
 * https://issues.couchbase.com/browse/CCBC-1218[CCBC-128]
-Segfault in lcbtrace_span_add_tag_uint64
+Segfault in lcbtrace_span_add_tag_uint64.
 
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-816[PYCBC-816]:
-Migrate txcouchbase to SDK3
+Migrate txcouchbase to SDK3.
 
 * https://issues.couchbase.com/browse/PYCBC-805[PYCBC-805]:
-Provide async access to Cluster
+Provide async access to Cluster.
 
 * https://issues.couchbase.com/browse/PYCBC-658[PYCBC-658]:
-Provide txcouchbase support for durability
+Provide txcouchbase support for durability.
 
 * https://issues.couchbase.com/browse/PYCBC-826[PYCBC-826]:
-Implement acouchbase for Windows
+Implement acouchbase for Windows.
 
 * https://issues.couchbase.com/browse/PYCBC-622[PYCBC-622]:
-Document/configure Git dependency
+Document/configure Git dependency.
 
 * https://issues.couchbase.com/browse/PYCBC-673[PYCBC-673]:
-Prefer locally bundled lcb include for installs
+Prefer locally bundled lcb include for installs.
 
 * https://issues.couchbase.com/browse/PYCBC-681[PYCBC-681]:
-Make OptionBlock arguments discoverable
+Make OptionBlock arguments discoverable.
 
 * https://issues.couchbase.com/browse/PYCBC-698[PYCBC-698]:
-Fixed test failures against real servers
+Fixed test failures against real servers.
 
 * https://issues.couchbase.com/browse/PYCBC-711[PYCBC-711]:
-Create AnalyticsIndexManager, fix analytics queries, with v3 tests
+Create AnalyticsIndexManager, fix analytics queries, with v3 tests.
 
 * https://issues.couchbase.com/browse/PYCBC-719[PYCBC-719]:
-The ViewIteratorTests all are skipping when they should not
+The ViewIteratorTests all are skipping when they should not.
 
 * https://issues.couchbase.com/browse/PYCBC-723[PYCBC-723]:
-bucket.ping needs to be implemented
+bucket.ping needs to be implemented.
 
 * https://issues.couchbase.com/browse/PYCBC-732[PYCBC-732]:
-QueryIndexManager interface work, plus fixes for failing tests
+QueryIndexManager interface work, plus fixes for failing tests.
 
 * https://issues.couchbase.com/browse/PYCBC-746[PYCBC-746]:
-Remove NodeManager from API
+Remove NodeManager from API.
 
 * https://issues.couchbase.com/browse/PYCBC-747[PYCBC-747]:
-Remove generic Manager API
+Remove generic Manager API.
 
 * https://issues.couchbase.com/browse/PYCBC-752[PYCBC-752]:
 ViewIndexManager needs proper SDK3 interface.
 
 * https://issues.couchbase.com/browse/PYCBC-754[PYCBC-754]:
-Fix invalid named args in Collection.get
+Fix invalid named args in Collection.get.
 
 * https://issues.couchbase.com/browse/PYCBC-771[PYCBC-771]:
-Mark multi-operations as volatile until sdk-rfc done
+Mark multi-operations as volatile until sdk-rfc done.
 
 * https://issues.couchbase.com/browse/PYCBC-785[PYCBC-785]:
-Expose ErrorContexts
+Expose ErrorContexts.
 
 * https://issues.couchbase.com/browse/PYCBC-794[PYCBC-794]:
-Implement Cluster.disconnect
+Implement Cluster.disconnect.
 
 * https://issues.couchbase.com/browse/PYCBC-798[PYCBC-798]:
-Ping is returning 'scope' instead of 'namespace'
+Ping is returning 'scope' instead of 'namespace'.
 
 * https://issues.couchbase.com/browse/PYCBC-801[PYCBC-801]:
-Reflect optional nature of parameters in OptionBlock constructors
+Reflect optional nature of parameters in OptionBlock constructors.
 
 * https://issues.couchbase.com/browse/PYCBC-803[PYCBC-803]:
-Reinstate non-hybrid (pure CMake) build
+Reinstate non-hybrid (pure CMake) build.
 
 * https://issues.couchbase.com/browse/PYCBC-815[PYCBC-815]:
-Share lcb_INSTANCE objects between collections
+Share lcb_INSTANCE objects between collections.
 
 * https://issues.couchbase.com/browse/PYCBC-817[PYCBC-817]:
-Collection get_and_touch, get_and_lock need to be SDK3-ized
+Collection get_and_touch, get_and_lock need to be SDK3-ized.
 
 * https://issues.couchbase.com/browse/PYCBC-838[PYCBC-838]:
 Client Durability support.
 
 * https://issues.couchbase.com/browse/PYCBC-473[PYCBC-473]:
-Add FTS Index Management
+Add FTS Index Management.
 
 * https://issues.couchbase.com/browse/PYCBC-691[PYCBC-691]:
-Set up Combination Testing for SDK 3 - Server 5.5, 6.0, 6.5
+Set up Combination Testing for SDK 3 - Server 5.5, 6.0, 6.5.
 
 * https://issues.couchbase.com/browse/PYCBC-729[PYCBC-729]:
-Add necessary build tools to the readme.md
+Add necessary build tools to the readme.md.
 
 * https://issues.couchbase.com/browse/PYCBC-777[PYCBC-777]:
-Complete KV doc for GA
+Complete KV doc for GA.
 
 * https://issues.couchbase.com/browse/PYCBC-779[PYCBC-779]:
-Getting Started Tidy Up
+Getting Started docs Tidy Up.
 
 * https://issues.couchbase.com/browse/PYCBC-781[PYCBC-781]:
-Managing Connections - SDK3
+Managing Connections doc.
 
 * https://issues.couchbase.com/browse/PYCBC-841[PYCBC-841]:
-Update integration testing Jenkins node labels
+Update integration testing Jenkins node labels.
 
 * https://issues.couchbase.com/browse/PYCBC-844[PYCBC-844]:
-Convert integration tests to nightlies
+Convert integration tests to nightlies.
 
 * https://issues.couchbase.com/browse/PYCBC-743[PYCBC-743]:
-Mark all ErrorContexts as Uncommitted
+Mark all ErrorContexts as Uncommitted.
 
 * https://issues.couchbase.com/browse/PYCBC-751[PYCBC-751]:
-AnalyticsIndexes manager missing on Cluster
+AnalyticsIndexes manager missing on Cluster.
 
 * https://issues.couchbase.com/browse/PYCBC-775[PYCBC-775]:
-Migrate collection attributes to use timedelta for durations
+Migrate collection attributes to use timedelta for durations.
 
 * https://issues.couchbase.com/browse/PYCBC-744[PYCBC-744]:
-Ensure precedence between named param and option block is described
+Ensure precedence between named param and option block is described.
 
 * https://issues.couchbase.com/browse/PYCBC-864[PYCBC-864]:
 Provide asyncio access to Cluster, also analytics and search.
 
 * https://issues.couchbase.com/browse/PYCBC-707[PYCBC-707]:
-Sweep through tests, examine why some are skipped
+Sweep through tests, examine why some are skipped.
 
 * https://issues.couchbase.com/browse/PYCBC-840[PYCBC-840]:
-Add testing for 6.5 with DP enabled
+Add testing for 6.5 with DP enabled.
 
 * https://issues.couchbase.com/browse/PYCBC-845[PYCBC-845]:
-Nightlies need to build and test (against mock) on more platforms
+Nightlies need to build and test (against mock) on more platforms.
 
 * https://issues.couchbase.com/browse/PYCBC-847[PYCBC-847]:
-Consolidate exceptions into one place
+Consolidate exceptions into one place.
 
 * https://issues.couchbase.com/browse/PYCBC-870[PYCBC-870]:
-We need to test on MacOS
+Testing on MacOS.
 
 * https://issues.couchbase.com/browse/PYCBC-873[PYCBC-873]:
-CMake: Skip PythonLibs search for Hybrid builds, remove -pthreads
+CMake: Skip PythonLibs search for Hybrid builds, remove -pthreads.
 
 * https://issues.couchbase.com/browse/PYCBC-886[PYCBC-886]:
-Expiry not properly returned or set
+Expiry not properly returned or set.
 
 * https://issues.couchbase.com/browse/PYCBC-895[PYCBC-895]:
-Improve navigability/API docs for async, remove factories
+Improve navigability/API docs for async, remove factories.
 
 * https://issues.couchbase.com/browse/PYCBC-896[PYCBC-896]:
-Remove unused code (unshared collection, v2 async code)
+Remove unused code (unshared collection, v2 async code).
+
 
 === Fixes
 
-
 * https://issues.couchbase.com/browse/PYCBC-774[PYCBC-774]:
-Proper implementation for Collection.get_all_replicas
+Proper implementation for Collection.get_all_replicas.
 
 * https://issues.couchbase.com/browse/PYCBC-782[PYCBC-782]:
-Fix durability_level on collection.remove
+Fix durability_level on collection.remove.
 
 * https://issues.couchbase.com/browse/PYCBC-789[PYCBC-789]:
-N1QL query request to create index appears to fail
+N1QL query request to create index appears to fail.
 
 * https://issues.couchbase.com/browse/PYCBC-792[PYCBC-792]:
-Cluster.diagnostics always times out
+Cluster.diagnostics always times out.
 
 * https://issues.couchbase.com/browse/PYCBC-795[PYCBC-795]:
-ViewManager needs to wrap http calls for proper exceptions
+ViewManager needs to wrap http calls for proper exceptions.
 
 * https://issues.couchbase.com/browse/PYCBC-799[PYCBC-799]:
-Ensure v3 tests all pass on Jenkins against real servers
+Ensure v3 tests all pass on Jenkins against real servers.
 
 * https://issues.couchbase.com/browse/PYCBC-800[PYCBC-800]:
-Fix BucketMissingException when trying to connect to Cluster
+Fix BucketMissingException when trying to connect to Cluster.
 
 * https://issues.couchbase.com/browse/PYCBC-807[PYCBC-807]:
-Correct CollectionManager docstrings
+Correct CollectionManager docstrings.
 
 * https://issues.couchbase.com/browse/PYCBC-808[PYCBC-808]:
-Fix AnalyticsOptions code
+Fix AnalyticsOptions code.
 
 * https://issues.couchbase.com/browse/PYCBC-818[PYCBC-818]:
-Collection.exists always returning true
+Collection.exists always returning true.
 
 * https://issues.couchbase.com/browse/PYCBC-829[PYCBC-829]:
-Collection.get_and_lock should not get and lock in 2 commands
+Collection.get_and_lock should not get and lock in 2 commands.
 
 * https://issues.couchbase.com/browse/PYCBC-850[PYCBC-850]:
-CBCollectionShared not passing through collection name
+CBCollectionShared not passing through collection name.
 
 * https://issues.couchbase.com/browse/PYCBC-855[PYCBC-855]:
-ViewResult recurses infinitely on some platforms
+ViewResult recurses infinitely on some platforms.
 
 * https://issues.couchbase.com/browse/PYCBC-857[PYCBC-857]:
-Address some missing error context types
+Address some missing error context types.
 
 * https://issues.couchbase.com/browse/PYCBC-859[PYCBC-859]:
-Bucket exception parsing broken by server message change
+Bucket exception parsing broken by server message change.
 
 * https://issues.couchbase.com/browse/PYCBC-756[PYCBC-756]:
-Append, Prepend, Increment, Decrement need to move to BinaryCollection
+Append, Prepend, Increment, Decrement need to move to BinaryCollection.
 
 * https://issues.couchbase.com/browse/PYCBC-749[PYCBC-749]:
-Remove additional overloads for query and search
+Remove additional overloads for query and search.
 
 * https://issues.couchbase.com/browse/PYCBC-806[PYCBC-806]:
-Various PEP8 formatting fixes
+Various PEP8 formatting fixes.
 
 * https://issues.couchbase.com/browse/PYCBC-809[PYCBC-809]:
-PEP8/MyPy warning removal
+PEP8/MyPy warning removal.
 
 * https://issues.couchbase.com/browse/PYCBC-839[PYCBC-839]:
-CreateCollection CollectionSpec must include MaxTTL
+CreateCollection CollectionSpec must include MaxTTL.
 
 * https://issues.couchbase.com/browse/PYCBC-760[PYCBC-760]
 Fixed Collection.exists implementation.
@@ -325,1164 +325,84 @@ Added timeout to `lookup_in` operation.
 Remove/move/mark "internal" Admin methods/class.
 
 * https://issues.couchbase.com/browse/PYCBC-793[PYCBC-793]:
-Cluster.bucket needs kwargs for the tests to work against the mock
+Cluster.bucket needs kwargs for the tests to work against the mock.
 
 * https://issues.couchbase.com/browse/PYCBC-796[PYCBC-796]:
-Move some tests on sdk2 to sdk3
+Move some tests on sdk2 to sdk3.
 
 * https://issues.couchbase.com/browse/PYCBC-797[PYCBC-797]:
-Bucket.ping needs to respect the timeout in the options if any
+Bucket.ping needs to respect the timeout in the options if any.
 
 * https://issues.couchbase.com/browse/PYCBC-824[PYCBC-824]:
-QueryResult has a few fields that are not implemented yet
+QueryResult has a few fields that are not implemented yet.
 
 * https://issues.couchbase.com/browse/PYCBC-831[PYCBC-831]:
-Cluster settings like compression, tracing, etc.. should be set at Cluster initialisation only
+Cluster settings like compression, tracing, etc.. should be set at Cluster initialisation only.
 
 * https://issues.couchbase.com/browse/PYCBC-832[PYCBC-832]:
-Test issues with cluster and opening new buckets
+Test issues with cluster and opening new buckets.
 
 * https://issues.couchbase.com/browse/PYCBC-835[PYCBC-835]:
-diagnostics hangs on any server < 6.5
+Diagnostics hangs on any server < 6.5.
 
 * https://issues.couchbase.com/browse/PYCBC-854[PYCBC-854]:
-ping() needs to be at the cluster level as well
+ping() needs to be at the cluster level as well.
 
 * https://issues.couchbase.com/browse/PYCBC-860[PYCBC-860]:
-Don't pass a bucket name for cluster connections by default
+Don't pass a bucket name for cluster connections by default.
 
 * https://issues.couchbase.com/browse/PYCBC-863[PYCBC-863]:
-iterable_wrapper failing for some async operations
+iterable_wrapper failing for some async operations.
 
 * https://issues.couchbase.com/browse/PYCBC-869[PYCBC-869]:
-Cattrs library doesn't work with python 3.5.2
+Cattrs library doesn't work with python 3.5.2.
 
 * https://issues.couchbase.com/browse/PYCBC-874[PYCBC-874]:
-Do cluster ops on 6.5-DP
+Do cluster ops on 6.5-DP.
 
 * https://issues.couchbase.com/browse/PYCBC-875[PYCBC-875]:
-ViewQuery segfaults in bindings
+ViewQuery segfaults in bindings.
 
 * https://issues.couchbase.com/browse/PYCBC-878[PYCBC-878]:
-Tx stuff seems to have broken imports recently
+Tx stuff seems to have broken imports recently.
 
 * https://issues.couchbase.com/browse/PYCBC-881[PYCBC-881]:
-Make (txcouchbase|acouchbase).cluster.Cluster.connect return an instance of the relevant class
+Make (txcouchbase|acouchbase).cluster.Cluster.connect return an instance of the relevant class.
 
 * https://issues.couchbase.com/browse/PYCBC-882[PYCBC-882]:
-Fix dropped imports
+Fix dropped imports.
 
 * https://issues.couchbase.com/browse/PYCBC-883[PYCBC-883]:
-Some remaining exceptions not listed in Error Handling RFC
+Some remaining exceptions not listed in Error Handling RFC.
 
 * https://issues.couchbase.com/browse/PYCBC-898[PYCBC-898]:
-Correct threshold naming for search and query
+Correct threshold naming for search and query.
 
 * https://issues.couchbase.com/browse/PYCBC-899[PYCBC-899]:
-Import error in search tests
+Import error in search tests.
 
 * https://issues.couchbase.com/browse/PYCBC-902[PYCBC-902]:
-Add more coverage to integration tests
+Add more coverage to integration tests.
 
 * https://issues.couchbase.com/browse/PYCBC-903[PYCBC-903]:
-Further improve Async API/docstrings
+Further improve Async API/docstrings.
 
 * https://issues.couchbase.com/browse/PYCBC-905[PYCBC-905]:
-Pip install fails for latest sdk commits on python 3.5.x
+Pip install fails for latest sdk commits on python 3.5.x.
 
 * https://issues.couchbase.com/browse/PYCBC-908[PYCBC-908]:
-Add some missing View result types
+Add some missing View result types.
 
 * https://issues.couchbase.com/browse/PYCBC-897[PYCBC-897]:
-Update 'long_description' settings to conform with PyPi
+Update 'long_description' settings to conform with PyPi.
 
 * https://issues.couchbase.com/browse/PYCBC-910[PYCBC-910]:
-Factor CBCollectionShared into CBCollectionBase
+Factor CBCollectionShared into CBCollectionBase.
 
 * https://issues.couchbase.com/browse/PYCBC-911[PYCBC-911]:
-Remove content_as_array as not in RFC
+Remove content_as_array as not in RFC.
 
 
-== Python SDK 3.0.0 Beta 3 Release Notes (January 20 2020)
+== Pre-releases
 
-[source,bash]
-----
-pip install couchbase==3.0.0b3
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-beta3/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-766[PYCBC-766]:
-Bumped LCB requirement to 3.0.0.
-
-* https://issues.couchbase.com/browse/PYCBC-757[PYCBC-757]:
-Refactored for FTS/N1QL/durability LCB changes.
-
-* https://issues.couchbase.com/browse/PYCBC-758[PYCBC-758]:
-Reflected renaming of `lcb_wait3` to `lcb_wait` in LCB.
-
-* https://issues.couchbase.com/browse/PYCBC-765[PYCBC-765]:
-Expose Collection properties and Datastructures in Sphinx docs.
-
-* https://issues.couchbase.com/browse/PYCBC-610[PYCBC-610]:
-FTS Index Management for SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-750[PYCBC-750]:
-Add Search Index manager for SDK3.
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-760[PYCBC-760]
-Fixed Collection.exists implementation.
-
-* https://issues.couchbase.com/browse/PYCBC-640[PYCBC-640]
-Implemented replica reads according to RFC.
-
-* https://issues.couchbase.com/browse/PYCBC-768[PYCBC-768]:
-Refactored durability params to prevent impossible combinations.
-
-* https://issues.couchbase.com/browse/PYCBC-639[PYCBC-639]:
-Example N1QL statements do seem to work in "Hello Couchbase" example.
-
-* https://issues.couchbase.com/browse/PYCBC-667[PYCBC-667]:
-Fixed Upsert Group fails with 'roles: value must be supplied'.
-
-* https://issues.couchbase.com/browse/PYCBC-674[PYCBC-674]:
-Fixed deprecation warnings from sdk2 when running sdk3.
-
-* https://issues.couchbase.com/browse/PYCBC-675[PYCBC-675]:
-Brough Result objects in line with RFC, removed unidiomatic interfaces.
-
-* https://issues.couchbase.com/browse/PYCBC-694[PYCBC-694]:
-Completed query implementation.
-
-* https://issues.couchbase.com/browse/PYCBC-753[PYCBC-753]:
-Collection APIs marked volatile.
-
-* https://issues.couchbase.com/browse/PYCBC-763[PYCBC-763]:
-Corrected MutateInResult.content_as implementation.
-
-* https://issues.couchbase.com/browse/PYCBC-764[PYCBC-764]:
-Delete or renamed remaining SDK2 references in main API:
-Renamed SDK2/sdk2 to Core/core where applicable. 
-Removed classes & methods inapplicable to SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-704[PYCBC-704]:
-Implemented `*CollectionOptions` for Collection management API.
-
-* https://issues.couchbase.com/browse/PYCBC-716[PYCBC-716]:
-Tests should no longer try to do 6.5-specific tests against a 6.0 server.
-
-* https://issues.couchbase.com/browse/PYCBC-686[PYCBC-686]:
-Applyed new naming convention for interfaces/protocols.
-
-* https://issues.couchbase.com/browse/PYCBC-687[PYCBC-687]:
-Support added for Python 3.8.
-
-* https://issues.couchbase.com/browse/PYCBC-761[PYCBC-761]:
-Added timeout to `lookup_in` operation.
-
-
-== Python SDK 3.0.0 Beta 2 Release Notes (December 30 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0b2
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-beta2/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-680[PYCBC-680]:
-UpsertOptions should use 'expiry' rather than 'expiration'.
-
-* https://issues.couchbase.com/browse/PYCBC-692[PYCBC-692]:
-Implement Collection.exists
-
-* https://issues.couchbase.com/browse/PYCBC-693[PYCBC-693]:
-Fix UpsertOptions constructor
-
-* https://issues.couchbase.com/browse/PYCBC-697[PYCBC-697]:
-Migrate to timedelta/datetime from FiniteDuration/Seconds etc
-
-* https://issues.couchbase.com/browse/PYCBC-709[PYCBC-709]:
-Convert from lcb_strerror to lcb_strerror_short
-
-* https://issues.couchbase.com/browse/PYCBC-717[PYCBC-717]:
-Tighten up lookup test with nonexistent path
-
-* https://issues.couchbase.com/browse/PYCBC-721[PYCBC-721]:
-Implement collection.drop_collection and drop_scope
-
-* https://issues.couchbase.com/browse/PYCBC-647[PYCBC-647]:
-Support View design documents for SDK3
-
-* https://issues.couchbase.com/browse/PYCBC-725[PYCBC-725]:
-Adjust to latest error name refactorings in LCB3
-
-* https://issues.couchbase.com/browse/PYCBC-631[PYCBC-631]:
-Add query service fast prepare support
-
-* https://issues.couchbase.com/browse/PYCBC-646[PYCBC-646]:
-View management
-
-* https://issues.couchbase.com/browse/PYCBC-666[PYCBC-666]:
-Add timeouts to management/get/store calls
-
-* https://issues.couchbase.com/browse/PYCBC-678[PYCBC-678]:
-Update sphinx-autodoc-typehints to attempt to use type comments
-
-* https://issues.couchbase.com/browse/PYCBC-679[PYCBC-679]:
-Get rid of obsolete coll/scope injection calls
-
-* https://issues.couchbase.com/browse/PYCBC-683[PYCBC-683]:
-N1QL Query Index Management
-
-* https://issues.couchbase.com/browse/PYCBC-718[PYCBC-718]:
-Refactor error handling for libcouchbase 3.0.0 Beta 2
-
-* https://issues.couchbase.com/browse/PYCBC-720[PYCBC-720]:
-Parameterise patch type for libcouchbase
-
-* https://issues.couchbase.com/browse/PYCBC-728[PYCBC-728]:
-Make CouchbaseError.Params constructor type-safe
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-699[PYCBC-699]:
-Operate on non-default collection again
-
-* https://issues.couchbase.com/browse/PYCBC-705[PYCBC-705]:
-Fix segfault in test_importworks
-
-* https://issues.couchbase.com/browse/PYCBC-708[PYCBC-708]:
-Several similar admin test failures
-
-* https://issues.couchbase.com/browse/PYCBC-712[PYCBC-712]:
-Don't test collections on older servers
-
-* https://issues.couchbase.com/browse/PYCBC-715[PYCBC-715]:
-Fix cluster arguments for analytics operations
-
-* https://issues.couchbase.com/browse/PYCBC-727[PYCBC-727]:
-Analytics test fixes
-
-* https://issues.couchbase.com/browse/PYCBC-690[PYCBC-690]:
-Set up Combination Testing for SDK 3 - Python 3.x Win and Linux
-
-* https://issues.couchbase.com/browse/PYCBC-700[PYCBC-700]:
-Fix Python 2/3 compatibility issues
-
-* https://issues.couchbase.com/browse/PYCBC-724[PYCBC-724]:
-Fix PYCBC git tag detection code for x.y.z where z>9
-
-== Python SDK 3.0.0 Beta 1 Release Notes (October 11 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0b1
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-beta1/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-637[PYCBC-637]:
-Added static `Cluster.connect` factory method.
-
-* https://issues.couchbase.com/browse/PYCBC-630[PYCBC-630]:
-Added Datastructures v2 for SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-660[PYCBC-660]:
-Renamed `lcb_cmdfts_query` to `lcb_cmdfts_payload`.
-
-* https://issues.couchbase.com/browse/PYCBC-661[PYCBC-661]:
-Safeguards added for property access when debugging partially constructed `Client` instances.
-
-* https://issues.couchbase.com/browse/PYCBC-664[PYCBC-664]:
-Added create bucket management API
-
-* https://issues.couchbase.com/browse/PYCBC-665[PYCBC-665]:
-Added create user management API
-
-== Python SDK 3.0.0 Alpha 6 Release Notes (September 27 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0a6
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha6/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-638[PYCBC-638]:
-`scope` and `collection` methods now marked as "uncommitted".
-
-* https://issues.couchbase.com/browse/PYCBC-584[PYCBC-584]:
-fulldoc insert with subdoc upsert now supported with LCB V4 API.
-
-* https://issues.couchbase.com/browse/PYCBC-644[PYCBC-644]:
-Updates to reflect C code changes for logging, subdocs, `LCB_STORE_**`, `lcb_*3`, and `enable_mutation_tokens` refactorings.
-
-* https://issues.couchbase.com/browse/PYCBC-645[PYCBC-645]:
-Changes made to handle new safety checks in LCB for bad hostname.
-
-* https://issues.couchbase.com/browse/PYCBC-652[PYCBC-652]:
-Refactored for new `lcb_createopts_**` API.
-
-* https://issues.couchbase.com/browse/PYCBC-654[PYCBC-654]:
-Refactored for temporary removal of `observe`/`endure`/`mctx` code from LCB3 for client-side durability changes.
-
-* https://issues.couchbase.com/browse/PYCBC-657[PYCBC-657]:
-Refactored for libcouchbase 3.0.0 Beta 1.
-
-== Python SDK 3.0.0 Alpha 5 Release Notes (August 23 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0a5
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha5/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-616[PYCBC-616]:
-Migrate [.api]`acouchbase` module to SDK3
-
-* https://issues.couchbase.com/browse/PYCBC-621[PYCBC-621]:
-Update Cluster constructor docs to indicate mandatory authenticator
-
-* https://issues.couchbase.com/browse/PYCBC-623[PYCBC-623]:
-Document Git dependency
-
-* https://issues.couchbase.com/browse/PYCBC-624[PYCBC-624]:
-Update Hello World example to indicate mandatory authenticator argument
-
-* https://issues.couchbase.com/browse/PYCBC-625[PYCBC-625]:
-Make multi-ops explicitly visible in Collection class
-
-* https://issues.couchbase.com/browse/PYCBC-627[PYCBC-627]:
-Fix eager_resources setting, fix 2.7 numpydoc incompatibility
-
-* https://issues.couchbase.com/browse/PYCBC-570[PYCBC-570]:
-Python: Author docs for SubDocument LookupIn
-
-* https://issues.couchbase.com/browse/PYCBC-603[PYCBC-603]:
-Python: SubDoc mutateIn Docs authoring
-
-* https://issues.couchbase.com/browse/PYCBC-626[PYCBC-626]:
-Add durability to subdoc, touch and counter operations
-
-* https://issues.couchbase.com/browse/PYCBC-606[PYCBC-606]:
-Synchronous Replication snippets
-
-* https://issues.couchbase.com/browse/PYCBC-633[PYCBC-633]:
-Rename KV-style Bucket classes to `Client` for SDK3 code
-
-== Python SDK 3.0.0 Alpha 4 Release Notes (July 12 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0a4
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha4/
-
-=== Enhancements
-
-
-* https://issues.couchbase.com/browse/PYCBC-611[PYCBC-611]:
-Diagnostics for SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-612[PYCBC-612]:
-FTS for SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-613[PYCBC-613]:
-Analytics for SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-614[PYCBC-614]:
-Run service commands directly from bootstrapped cluster.
-
-* https://issues.couchbase.com/browse/PYCBC-571[PYCBC-571]:
-Services for SDK3.
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-607[PYCBC-607]:
-Ensure `couchbase_core` is bootstrapped.
-
-* https://issues.couchbase.com/browse/PYCBC-609[PYCBC-609]:
-Fix RPATH install for distutils.
-
-== Python SDK 3.0.0 Alpha 3 Release Notes (July 5 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0a3
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha3/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-585[PYCBC-585]:
-Refined collections support for SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-589[PYCBC-589]:
-Migrated datastructures to SDK3.
-
-* https://issues.couchbase.com/browse/PYCBC-595[PYCBC-595]:
-Implemented multi-ops in Collection class.
-
-* https://issues.couchbase.com/browse/PYCBC-596[PYCBC-596]:
-Centralised Collections/Bucket functionality, giving 'legacy style' behavior within the context of a Collection.
-
-* https://issues.couchbase.com/browse/PYCBC-597[PYCBC-597]:
-Added buckets_list function to documentation index.
-
-* https://issues.couchbase.com/browse/PYCBC-601[PYCBC-601]:
-Use correct RPATH when using legacy build option (distutils).
-
-
-== Python SDK 3.0.0 Alpha 2 Release Notes (June 18 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0a2
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha2/
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-592[PYCBC-592]: 
-Fixed manifest to include extra files for distribution.
-
-* https://issues.couchbase.com/browse/PYCBC-593[PYCBC-593]: 
-Restrict LCB versions to tagged &gt;=2.10.3, &gt;=3.0.0-alpha.3.
-
-== Python SDK 3.0.0 Alpha 1 Release Notes (June 14 2019)
-
-[source,bash]
-----
-pip install couchbase==3.0.0a1
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0-alpha1/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-540[PYCBC-540]:
-Added Basic CRUD for SDK 3.0.
-
-* https://issues.couchbase.com/browse/PYCBC-541[PYCBC-541]:
-Added Basic Query for SDK 3.0.
-
-* https://issues.couchbase.com/browse/PYCBC-564[PYCBC-564]:
-Added Synchronous Durability Operations.
-
-* https://issues.couchbase.com/browse/PYCBC-566[PYCBC-566]:
-KV Operations Doc at draft level.
-
-* https://issues.couchbase.com/browse/PYCBC-583[PYCBC-583]:
-Python Doc on Error Handling for SDK 3 (v1).
-
-* https://issues.couchbase.com/browse/PYCBC-546[PYCBC-546]:
-Update CMakeLists.txt to pull in libcouchbase and other deps.
-
-* https://issues.couchbase.com/browse/PYCBC-561[PYCBC-561]:
-Update Error Handling for SDK3 Python.
-
-* https://issues.couchbase.com/browse/PYCBC-562[PYCBC-562]:
-Move to libcouchbase 3.0.0 and LCB API v4.
-
-* https://issues.couchbase.com/browse/PYCBC-582[PYCBC-582]:
-Made touch tests more reliable.
-
-* https://issues.couchbase.com/browse/PYCBC-588[PYCBC-588]:
-Fixed Centos compilation.
-
-== Upgrading 2.x
-
-Versions of the Python SDK prior to 3.0.0 do not bundle libcouchbase.
-Be sure to xref:2.10@c-sdk::sdk-release-notes.adoc.adoc[upgrade your LCB installation] before making a major upgrade to the Couchbase Python client.
-
-
-== Python SDK 2.5.4 Release Notes (February 5 2019)
-
-[source,bash]
-----
-pip install couchbase==2.5.4
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.4/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-558[PYCBC-558]:         
-Better document libcouchbase dependency. The minimum version number is retrieved from a centralised location.
-
-== Python SDK 2.5.3 Release Notes (January 8 2019)
-
-[source,bash]
-----
-pip install couchbase==2.5.3
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.3/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-520[PYCBC-520]:
-Installation will now check which version of LCB is installed. If it's not sufficient for the Python Client version, an error message will suggest which minimum version needs installing.
-
-== Python SDK 2.5.2 Release Notes (December 4 2018)
-
-[source,bash]
-----
-pip install couchbase==2.5.2
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.2/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-547[PYCBC-547]:
-Allow the user to set deferred query timeout easily
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-542[PYCBC-542]:
-Correct the "plain text" example in n1ql_query API documentation
-
-* https://issues.couchbase.com/browse/PYCBC-543[PYCBC-543]:
-Handle multiresult exception entries without a success field
-
-* https://issues.couchbase.com/browse/PYCBC-550[PYCBC-550]:
-Correct the txcouchbase get_multi example
-
-* https://issues.couchbase.com/browse/PYCBC-554[PYCBC-554]:
-Mandate installation of PEP484 typing module on all systems
-
-* https://issues.couchbase.com/browse/PYCBC-548[PYCBC-548]:
-Fix AnalyticsIngester docs
-
-== Python SDK 2.5.1 Release Notes (November 6 2018)
-
-[source,bash]
-----
-pip install couchbase==2.5.1
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.1/
-
-Please note, with the end of support for Microsoft Visual Studio 2008 (VC9), which is required to build
-binary extensions for Python 2.7 on Windows, with this release we no longer build for Python 2.7 on Windows.
-
-However, we are now shipping binary wheels for Python 3 on Windows, which means that you can now download Windows
-binaries (if available for your Python 3 version) simply by running the pip command above, rather than manually downloading the binaries or sources.
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-531[PYCBC-531]:
-Analytics KV Ingress for Python
-
-* https://issues.couchbase.com/browse/PYCBC-532[PYCBC-532]:
-Analytics Deferred Queries for Python
-
-* https://issues.couchbase.com/browse/PYCBC-493[PYCBC-493]:
-Add alternate name/alternate port config support
-
-* https://issues.couchbase.com/browse/PYCBC-515[PYCBC-515]:
-Reject unsupported Python versions in setup.py
-
-* https://issues.couchbase.com/browse/PYCBC-535[PYCBC-535]:
-Support Python 3.7 Async Interface
-
-== Python SDK 2.5.0 Release Notes (October 2 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.5.0
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.0/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-523[PYCBC-523]:
-add parameterized query support for analytics
-
-* https://issues.couchbase.com/browse/PYCBC-524[PYCBC-524]:
-Update Analytics support for beta
-
-* https://issues.couchbase.com/browse/PYCBC-526[PYCBC-526]:
-Add N1QL query metrics option and server results
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-528[PYCBC-528]:
-Handle keyless exceptions in multiresult
-
-== Python SDK 2.4.2 Release Notes (September 7 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.4.2
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.4.2/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-521[PYCBC-521] -
-Enable tracing by default
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-522[PYCBC-522] - 
-Fix remaining lost spans
-* https://issues.couchbase.com/browse/PYCBC-525[PYCBC-525] -
-Remove libxml2-python3 from dev_requirements.txt
-
-== Python SDK 2.4.1 Release Notes (August 17 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.4.1
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.4.1/
-
-Due to a known issue [PYCBC-522]: In this release, Response Time Observability and tracing are available, but off by default due to tracing contexts being lost in some instances.
-
-This may be enabled with "enable_tracing=true" on the connection string, and is likely suitable for most applications.  
-Once resolved, it will be enabled by default in a future 2.4 release.  
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-504[PYCBC-504] - 
-In python 3.7 'async' is a keyword. The package 'couchbase.async' have to be renamed
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-499[PYCBC-499] -
-Admin user_upsert with external type results in error due to
-password field being sent
-* https://issues.couchbase.com/browse/PYCBC-507[PYCBC-507] -
-overhead too high with tracing enabled
-
-//
-
-* https://issues.couchbase.com/browse/PYCBC-505[PYCBC-505] -
-Future-proof handling of tag strings
-* https://issues.couchbase.com/browse/PYCBC-511[PYCBC-511] - Fix
-lost tracing spans
-* https://issues.couchbase.com/browse/PYCBC-518[PYCBC-518] -
-Further lost span fixes
-
-== Python SDK 2.4.0 Release Notes (July 4 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.4.0
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.4.0/
-
-Due to a known issue [PYCBC-507]: In this release, Response Time
-Observability and tracing are available, but off by default owing to an
-unacceptable level of overhead in the SDK and libcouchbase.
-
-This may be enabled with "enable_tracing=true" on the connection
-string,and is likely suitable for most applications.  Once resolved, it
-will be enabled by default in a future 2.4 release.  
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-439[PYCBC-439] -
-Support FTS queries in Async wrappers
-* https://issues.couchbase.com/browse/PYCBC-500[PYCBC-500] - Use
-common error and exceptions with FLE
-* https://issues.couchbase.com/browse/PYCBC-503[PYCBC-503] -
-Update Travis APT source to use up-to-date libcouchbase
-* https://issues.couchbase.com/browse/PYCBC-482[PYCBC-482] - add
-tracing context to timeout response
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-485[PYCBC-485] -
-missing threshold logging tracer output with simple test
-* https://issues.couchbase.com/browse/PYCBC-487[PYCBC-487] - No
-support for CertAuthenticator
-* https://issues.couchbase.com/browse/PYCBC-488[PYCBC-488] -
-Cert auth does not raise mixed mode errors with cert and auth
-* https://issues.couchbase.com/browse/PYCBC-489[PYCBC-489] -
-Cert auth and open bucket with password do not raise error
-
-//
-
-* https://issues.couchbase.com/browse/PYCBC-496[PYCBC-496] -
-cluster_manager() method causes a crash
-* https://issues.couchbase.com/browse/PYCBC-506[PYCBC-506] -
-Disable tracing unless specified in connection string
-* https://issues.couchbase.com/browse/PYCBC-502[PYCBC-502] - Fix
-ImportError in preliminary analytics support
-* https://issues.couchbase.com/browse/PYCBC-508[PYCBC-508] - Fix
-Windows compilation problems
-* https://issues.couchbase.com/browse/PYCBC-509[PYCBC-509] -
-Support official 'desc' keyword for FTS Sort
-
-== Python SDK 2.4.0-beta2 Release Notes (June 5 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.4.0-beta2
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.4.0b2/
-
-=== Enhancements
-
-//
-
-* https://issues.couchbase.com/browse/PYCBC-481[PYCBC-481] -
-Field encryption packaging/distribution change
-* https://issues.couchbase.com/browse/PYCBC-486[PYCBC-486] -
-Document Threshold Logger parameters
-* https://issues.couchbase.com/browse/PYCBC-490[PYCBC-490] -
-Interpolate printf-style logging input to logging function using
-vsnprintf
-* https://issues.couchbase.com/browse/PYCBC-492[PYCBC-492] -
-Update Travis configuration to reflect supported platforms
-* https://issues.couchbase.com/browse/PYCBC-494[PYCBC-494] -
-Support get_key_id method for Crypto V1
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-491[PYCBC-491] -
-Crash when only Threshold Tracer is enabled, not parent tracer
-
-== Python SDK 2.4.0-beta Release Notes (May 16 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.4.0-beta
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.4.0-beta/
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-452[PYCBC-452] -
-Implement Log Redaction
-* https://issues.couchbase.com/browse/PYCBC-465[PYCBC-465] - Add
-Snappy Compression Feature
-* https://issues.couchbase.com/browse/PYCBC-468[PYCBC-468] - Add
-encrypted field support to Python SDK
-* https://issues.couchbase.com/browse/PYCBC-469[PYCBC-469] -
-Field Encryption, Asymmetric Key Support
-* https://issues.couchbase.com/browse/PYCBC-474[PYCBC-474] - Add
-Profile N1QL Query Parameter
-* https://issues.couchbase.com/browse/PYCBC-464[PYCBC-464] -
-Tracing Server Duration, Zombie Responses
-
-== Python SDK 2.3.5 Release Notes (May 1 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.3.5
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.3.5
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-477[PYCBC-477] -
-PrefixQuery causes error with unicode characters
-* https://issues.couchbase.com/browse/PYCBC-472[PYCBC-472] -
-Evaluate/merge "TypeError: _assign_kwargs() got an unexpected
-keyword argument ' PR
-
-== Python SDK 2.4.0a2 Release Notes (April 13 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.4.0-dp2
-----
-
-This is an Alpha developer preview of operation duration observability
-(also known as tracing). 
-
-You will need to follow the instructions here on GitHub to install this
-feature:
-
-https://github.com/couchbase/couchbase-python-client/blob/master/README.rst
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.4.0a2
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-460[PYCBC-460] -
-Per-Operation Tracing
-* https://issues.couchbase.com/browse/PYCBC-462[PYCBC-462] -
-Operation Tracing Phase 1
-
-== Python SDK 2.4.0a1 Release Notes (February 26 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.4.0a1
-----
-
-This is an Alpha developer preview of log redaction and compression.
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.4.0a1
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-452[PYCBC-452] -
-Implement Log Redaction
-* https://issues.couchbase.com/browse/PYCBC-465[PYCBC-465] - Add
-Snappy Compression Feature
-
-== Python SDK 2.3.4 Release Notes (February 14 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.3.4
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.3.4
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-451[PYCBC-451] -
-Python SDK Documentation could use example of upsert involving JSON
-text
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-455[PYCBC-455] -
-Test/fix compilation on MacOS High Sierra
-
-//
-
-* https://issues.couchbase.com/browse/PYCBC-458[PYCBC-458] -
-Clang and Python warnings during installation of Python SDK 2.3.2
-* https://issues.couchbase.com/browse/PYCBC-463[PYCBC-463] -
-TXIoEvent errors out application upon connection loss
-
-== Python SDK 2.3.3 Release Notes (January 12 2018)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.3.3
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.3.3
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-412[PYCBC-412] - add
-health check function into lcb check
-* https://issues.couchbase.com/browse/PYCBC-453[PYCBC-453] -
-Implement Certificate Authentication
-* https://issues.couchbase.com/browse/PYCBC-451[PYCBC-451] -
-Python SDK Documentation could use example of upsert involving JSON
-text
-
-== Python SDK 2.3.2 Release Notes (December 7 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.3.2
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.3.2
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-445[PYCBC-445] -
-Implement/test support for KV with homogenous IPv6
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-450[PYCBC-450] -
-N1QL Consistency documentation say default is 'none' should be
-'not_bounded'
-
-== Python SDK 2.3.1 Release Notes (November 8 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.3.1
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.3.1
-
-=== Enhancements
-
-//
-
-* https://issues.couchbase.com/browse/PYCBC-419[PYCBC-419] -
-Fast fail View queries for Ephemeral buckets
-* https://issues.couchbase.com/browse/PYCBC-412[PYCBC-412] - add
-health check function into lcb check
-
-== Python SDK 2.3.0 Release Notes (October 25 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.3.0
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.3.0
-
-=== Enhancements
-
-* https://issues.couchbase.com/browse/PYCBC-442[PYCBC-442] -
-Update required version of libcouchbase in Prerequisites
-* https://issues.couchbase.com/browse/PYCBC-397[PYCBC-397] - SDK
-Enhanced Error Messages
-* https://issues.couchbase.com/browse/PYCBC-420[PYCBC-420] -
-Expose more N1QL Query Options
-* https://issues.couchbase.com/browse/PYCBC-424[PYCBC-424] -
-Rename subdoc create / upsert flags to match RFC
-* https://issues.couchbase.com/browse/PYCBC-428[PYCBC-428] -
-Update README with details on how to authenticate with CB server 5.0
-* https://issues.couchbase.com/browse/PYCBC-433[PYCBC-433] - Add
-Cluster.Authenticate('username', 'password') shortcut
-
-=== Fixes
-
-* https://issues.couchbase.com/browse/PYCBC-434[PYCBC-434] - Fix
-bad host test
-* https://issues.couchbase.com/browse/PYCBC-435[PYCBC-435] -
-get_fulldoc and upsert_fulldoc should not be in subdoc API
-* https://issues.couchbase.com/browse/PYCBC-436[PYCBC-436] -
-Should not encode forward slash '/' in connection string query
-string parameters
-
-== Python SDK 2.2.6 Release Notes (August 25 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.2.5
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.2.6
-
-* Add Couchbase 5.0 User Management API
-* Update ClusterManager to be compatible with Couchbase 5.0
-* Fix bug where cluster.open_manager() would only work on localhost
-* Fix bug where duplicate N1QL queries were submitted
-
-== Python SDK 2.2.5 Release Notes (June 6 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.2.5
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.2.5
-
- 
-
-*This version has a https://issues.couchbase.com/browse/PYCBC-408[known
-defect] which may result in duplicate N1QL statements being sent.* 
-This may cause unwanted mutations or spurious errors when using the
-N1QL _UPDATE_ or _INSERT_ statements. You may work around this by either
-stricter criteria for update, for example _WHERE meta().cas = xyz._ The
-issue affects versions 2.2.3-2.2.5 (inclusive) and will be fixed in
-version 2.2.6
-
-// -
-
-* Couchbase 5.0 Subdocument additions including:
- ** Full-doc get/set for use with xattrs
- ** get_count to get number of items/elements within
-dictionary/array
- ** insert_doc/create_doc option for mutate_in
-* Fix bug where connection string options were not passed when using
-Cluster interface
-* Fix bug where GEvent timer was not calling base class initializer
-
-== Python SDK 2.2.4 Release Notes (May 2 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.2.4
-----
-
-​*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.2.4
-
-*This version has a https://issues.couchbase.com/browse/PYCBC-408[known
-defect] which may result in duplicate N1QL statements being sent.* 
-This may cause unwanted mutations or spurious errors when using the
-N1QL _UPDATE_ or _INSERT_ statements. You may work around this by either
-stricter criteria for update, for example _WHERE meta().cas = xyz._ The
-issue affects versions 2.2.3-2.2.5 (inclusive) and will be fixed in
-version 2.2.6
-
-* Add new FTS query types. This adds GeoDistanceQuery,
-GeoBoundingBoxQuery, and TermRangeQuery types.
-* Add new advanced FTS sorting options. You can now use
-couchbase.fulltext.Sort* classes in addition to a list of sort
-fields for couchbase.fulltext.Params.sort
-* Fixed memory leak when using the Item API. This leak would be
-triggered if passing an Item with an existing value to
-a _get()_ call. In those cases, the prior value would leak memory
-and never have its reference count decremented.
-* Add new user management functionality in the cluster manager
-(Bucket.cluster_manager()). These functions have the user_*
-prefix and allow retrieval and modification of built-in Couchbase
-users.
-
-== Python SDK 2.2.3 Release Notes (April 4 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.2.3
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.2.3
-
-*This version has a https://issues.couchbase.com/browse/PYCBC-408[known
-defect] which may result in duplicate N1QL statements being sent.* 
-This may cause unwanted mutations or spurious errors when using the
-N1QL _UPDATE_ or _INSERT_ statements. You may work around this by either
-stricter criteria for update, for example _WHERE meta().cas = xyz._ The
-issue affects versions 2.2.3-2.2.5 (inclusive) and will be fixed in
-version 2.2.6.
-
- 
-
-* Add experimental Couchbase Analytics support. This offers an
-interface very similar to N1QL. You can issue a query using
-the _Bucket._analytics_query()_ method. Requires
-libcouchbase >= 2.7.3
-* Add __Authenticator __and _Cluster_ interface, for parity with other
-SDKs. See the _couchbase.cluster_ module for more information.
-
-== Python SDK 2.2.2 Release Notes (March 7 2017)
-
-[source.python]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.2.2
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.2.2
-
-* Fix typo in _Bucket.queue_size()_ method which caused it to fail.
-
-== Python SDK 2.2.1 Release Notes (February 7 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.2.1
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.2.1
-
-* Provide some better convenience functionality for SubdocResult
-* Add experimental Xattr support (Requires libcouchbase >= 2.7.0)
-
- 
-
-== Python SDK 2.2.0 Release Notes (January 3 2017)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.2.0
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.2.0
-
-* Update the FTS (couchbase.fulltext) API to support
-the _sort_ parameter. (couchbase.fulltext.Params.sort)
-* Rename fulltext.StringQuery to QueryStringQuery
-* Don't crash in debuggers when an exception is thrown. This would
-previously assume (assert in C) that the current exception's
-reference count is fixed at 1 when rethrowing. This isn't valid in
-debuggers which may intercept exception and their frames beforehand.
-* Remove 'experimental' designation from data structure API.
-
-== Python SDK 2.1.3 Release Notes (December 6 2016)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.1.3
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.1.3
-
-* [https://issues.couchbase.com/browse/PYCBC-366[PYCBC-366]]: Fix
-crash on get_multi and Item API. If specific options were passed
-via ItemOptionsDict, it would crash the interpreter.
-* Don't assume FTS search parameters use ASCII encoding. This fixes an
-encoding issue where certain unicode characters caused an exception
-when found in a search term.
-* Fix bug in FTS where invalid arguments to the Python API (e.g.
-search()) would cause the current exception state to be clobbered,
-resulting in a confused interpreter and an even more confusing
-error.
-* Rename data structure API names to be in conformity with SDK-RFC.
-
-== Python SDK 2.1.2 Release Notes (November 1 2016)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.1.2
-----
-
-*API
-Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.1.2
-
-* Make N1QL scan consistency constants more similar to the ones used
-on the server. You may now use _couchbase.n1ql.REQUEST_PLUS,
-couchbase.n1ql.STATEMENT_PLUS_ in addition
-to _couchbase.n1ql.CONISTENCY_REQUEST_
-* Allow cross-bucket ('cluster-level') queries. You can now query
-across multiple protected buckets by doing the following:
- ** Bucket.add_bucket_creds(bucket_name, bucket_password) for
-each password protected bucket you wish to access. This only
-needs to be done once.
- ** For each query (couchbase.n1ql.N1QLQuery) you can set
-the __cross_bucket=True __property.
-* The _design_list_ method has been added to the BucketManager
-(i.e. _couchbase.bucket.bucket_manager())_ class. You can now list
-all design documents belonging to a bucket.
-
-== Python SDK 2.1.1 Release Notes (September 30 2016)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.1.1
-----
-
-*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.1.1
-
-* Updated links in README
-* Added experimental http://docs.couchbase.com/sdk-api/couchbase-python-client-2.1.1/api/datastructures.html[datastructure
-support]
-
-== Python SDK 2.1.0 Release Notes (June 21 2016)
-
-[source,bash]
-----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.1.0
-----
-
-* Fix exception on _SubdocResult.access_ok_. This would previously
-result in an exception due to a typo when referencing a library
-constant
-* Fix bug in index management when specifying non-primary indexes.
-Previously the fields in the indexes would be ignored or wrongly
-encoded when sent to the server. This fix goes in conjunction with
-fixes in the C SDK 2.6.1
+Numerous _Alpha_ and _Beta_ releases were made in the run-up to the 3.0 release, and although unsupported, the release notes and download links are retained for archive purposes xref:3.0-pre-release-notes.adoc[here].
