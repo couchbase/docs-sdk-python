@@ -1,6 +1,5 @@
 name: python-sdk
 version: '3.0'
-prerelease: BETA
 title: Python SDK
 start_page: hello-world:start-using-sdk.adoc
 nav:
