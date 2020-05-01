@@ -10,19 +10,6 @@ It depends on the C SDK, _libcouchbase_, which it uses for performance and relia
 
 // tag::prep[]
 
-[WARNING]
-====
-These pages cover the Beta release of the Couchbase Python SDK. 
-The API interface is stable, but could change for bug fixes during the Beta process. 
-New features are likely to be added.
-
-Documentation is incomplete, subject to change, and could contain broken links.
-
-Please note the 'pip' comnmands below will install the latest prerelease version.
-If you wish to install a specific version, use 'pip install couchbase==<version number>' substituting the appropriate version number.
-You can see the pip command line arguments to install specific versions on the xref:project-docs:sdk-release-notes.adoc[release notes page].
-====
-
 The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as a xref:concept-docs:collections.adoc[developer preview]).
 The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 

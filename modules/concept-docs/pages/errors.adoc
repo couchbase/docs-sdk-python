@@ -6,7 +6,6 @@
 [abstract]
 When the unexpected happens, take a step-by-step approach. .
 
-include::partial$beta-warning.adoc[]
 
 == General Approach to Python Exceptions
 

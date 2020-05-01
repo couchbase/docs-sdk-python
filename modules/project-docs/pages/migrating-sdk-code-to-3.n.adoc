@@ -11,9 +11,6 @@ Retry behaviour is more proactive, and lazy bootstrapping moves all error handli
 Individual behaviour changes across services are explained here.
 
 
-include::partial$beta-warning.adoc[]
-
-
 include::6.5@sdk:shared:partial$migration.adoc[tag=intro]
 
 

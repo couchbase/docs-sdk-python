@@ -7,15 +7,6 @@
 [abstract]
 Errors, handling them from the Python SDK.
 
-// Required attributes:
-[WARNING]
-====
-These pages cover the _Alpha_ of the Couchbase Python SDK.
-As such they are likely to change without notice.
-This alpha code _should not_ be used in production.
-
-Documentation is incomplete, subject to change, and likely to contain broken links.
-====
 
 Errors are inevitable.
 The developer’s job is to be prepared for whatever is likely to come up -- and to try and be prepared for anything that conceivably could come up.
