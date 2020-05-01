@@ -44,7 +44,7 @@ pip install couchbase==3.0.0
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
 
 
-== Python SDK 3.0.0 Release Notes (May 1 2020)
+== Python SDK 3.0.0 Release Notes (1 May 2020)
 
 [source,bash]
 ----
