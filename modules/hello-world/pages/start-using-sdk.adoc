@@ -125,11 +125,11 @@ include::example$hello_world_t.py[tag=n1ql]
 
 == Additional Resources
 
-// The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
+The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
 Older API references are linked from their respective sections in the xref:project-docs:sdk-release-notes.adoc[Release Notes].
 Most of the API documentation can also be accessed via `pydoc`.
 
-xref:project-docsmigrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
+xref:project-docs:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
 Couchbase welcomes community contributions to the Python SDK.
 The Python SDK source code is available on link:https://github.com/couchbase/couchbase-python-client[GitHub].
