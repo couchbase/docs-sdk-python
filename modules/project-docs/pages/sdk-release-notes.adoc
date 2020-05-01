@@ -56,7 +56,7 @@ get_all_replicas segfaults
 There also appears to be an issue in libcouchbase that impacts
 on the Python Client:
 
-https://issues.couchbase.com/browse/CCBC-1218[CCBC-128]
+* https://issues.couchbase.com/browse/CCBC-1218[CCBC-128]
 Segfault in lcbtrace_span_add_tag_uint64
 
 === Enhancements
