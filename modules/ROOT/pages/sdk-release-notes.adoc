@@ -39,10 +39,11 @@ pip install couchbase==2.5.12
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-714[PYCBC-714]:
-Python SDK throwing SystemError
+Python SDK throwing `SystemError` fixed with modification to `PyErr_Restore`.
 
 * https://issues.couchbase.com/browse/PYCBC-914[PYCBC-914]:
-Avoid environment markers to support older Python 2.7/PIP installations
+Some very old Python distributions come with pip/setuptools that can't properly handle Environment Markers. 
+Avoiding environment markers as a workaround for this.
 
 * https://issues.couchbase.com/browse/PYCBC-917[PYCBC-917]:
 Fallback for detecting older pip versions
