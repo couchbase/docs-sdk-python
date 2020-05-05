@@ -41,9 +41,6 @@ pip install couchbase==2.5.12
 * https://issues.couchbase.com/browse/PYCBC-714[PYCBC-714]:
 Python SDK throwing SystemError
 
-* https://issues.couchbase.com/browse/PYCBC-909[PYCBC-909]:
-Gerrit trigger broken for release25 branch
-
 * https://issues.couchbase.com/browse/PYCBC-914[PYCBC-914]:
 Avoid environment markers to support older Python 2.7/PIP installations
 
