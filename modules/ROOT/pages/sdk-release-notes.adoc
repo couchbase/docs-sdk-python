@@ -27,6 +27,30 @@ New versions of the Python SDK take advantage of features added in recent versio
 
 
 
+== Python SDK 2.5.12 Release Notes (May 5 2020)
+
+[source,bash]
+----
+pip install couchbase==2.5.12
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-2.5.12/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-714[PYCBC-714]:
+Python SDK throwing SystemError
+
+* https://issues.couchbase.com/browse/PYCBC-909[PYCBC-909]:
+Gerrit trigger broken for release25 branch
+
+* https://issues.couchbase.com/browse/PYCBC-914[PYCBC-914]:
+Avoid environment markers to support older Python 2.7/PIP installations
+
+* https://issues.couchbase.com/browse/PYCBC-917[PYCBC-917]:
+Fallback for detecting older pip versions
+
+
 == Python SDK 2.5.11 Release Notes (March 2 2020)
 
 [source,bash]
