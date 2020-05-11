@@ -18,7 +18,7 @@ print(cb_coll.get('u:king_arthur').content_as[str])
 # {u'interests': [u'Holy Grail', u'African Swallows'], u'name': u'Arthur', u'email': u'kingarthur@couchbase.com'}
 
 ## The CREATE PRIMARY INDEX step is only needed the first time you run this script
-cluster.query('CREATE PRIMARY INDEX ON bucket-name')
+cluster.query_indexes().create_primary_index('bucket-name')
 
 from couchbase.cluster import QueryOptions
 row_iter = cluster.query('SELECT name FROM bucket-name WHERE $1 IN interests', QueryOptions(positional_parameters=['African Swallows']))
