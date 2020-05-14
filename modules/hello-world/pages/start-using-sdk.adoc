@@ -57,7 +57,7 @@ Once _Homebrew_ is configured:
 ----
 brew update # get list of latest packages
 brew install python
-pip install couchbase
+pip3 install couchbase
 ----
 
 NOTE: The above example uses the Python supplied by Homebrew and not the vendor-supplied Python which ships with OS X.
