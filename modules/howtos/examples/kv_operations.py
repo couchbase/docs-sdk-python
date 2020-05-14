@@ -41,8 +41,7 @@ Here is the _Insert_ operation at its simplest:
     Insert
 """
 import couchbase.cluster
-from couchbase import RemoveOptions, TouchOptions, DeltaValue, SignedInt64
-
+from couchbase.collection import DeltaValue, SignedInt64, RemoveOptions
 cluster=couchbase.cluster.Cluster("fred")
 cb=cluster.bucket("keith")
 collection=cb.default_collection()
@@ -168,7 +167,7 @@ Using `Touch()`, you can set expiration values on documents to handle transient 
     ----
 """
 #tag::touch[]
-result = collection.touch("document-key",TouchOptions(expiry=timedelta(seconds=10)))
+result = collection.touch("document-key", timedelta(seconds=10))
 #end::touch[]
 
 """
