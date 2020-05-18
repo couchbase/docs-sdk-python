@@ -6,6 +6,7 @@
 [abstract]
 You can use MapReduce views to create queryable indexes in Couchbase Data Platform.
 
+////
 include::6.5@sdk:shared:partial$views.adoc[tag=views-intro]
 
 include::6.5@sdk:shared:partial$views.adoc[tag=example-beer]
@@ -120,3 +121,4 @@ Paris, Vienna, Berlin and New York) under [.param]`geo`, and each city's coordin
 The following spatial view map function could be used to find landmarks within Europe, as a _"by_location"_ view in a _"spatial"_ design document:
 // end::example-geo-travel[]
 
+////
