@@ -423,5 +423,5 @@ Fixed Centos compilation.
 == Upgrading 2.x
 
 Versions of the Python SDK prior to 3.0.0 do not bundle libcouchbase.
-Be sure to xref:2.10@c-sdk::sdk-release-notes.adoc.adoc[upgrade your LCB installation] before making a major upgrade to the Couchbase Python client.
+Be sure to xref:c-sdk:project-docs:sdk-release-notes.adoc.adoc[upgrade your LCB installation] before making a major upgrade to the Couchbase Python client.
 
