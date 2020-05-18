@@ -4,14 +4,14 @@
 :page-aliases: ROOT:document-operations,ROOT:crud
 
 
-The complete code sample used on this page can be downloaded from link:https://github.com/couchbase/docs-sdk-python/tree/3.0dp1/modules/hello-world/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
 
 == Documents
 
 A _document_ refers to an entry in the database (other databases may refer to the same concept as a _row_).
 A document has an ID (_primary key_ in other databases), which is unique to the document and by which it can be located.
 The document also has a value which contains the actual application data.
-See xref::concept-docs:documents.adoc[the concept guide to _Documents_] for a deeper dive into documents in the Couchbase Data Platform.
+See xref:concept-docs:documents.adoc[the concept guide to _Documents_] for a deeper dive into documents in the Couchbase Data Platform.
 Or read on, for a hands-on introduction to working with documents from the Python SDK.
 
 == CRUD Operations
