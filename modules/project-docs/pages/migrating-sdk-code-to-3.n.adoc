@@ -157,7 +157,7 @@ The reason why you can pass in a specific authenticator is that you can also use
 include::example$migrating.py[tag=certauth,indent=0]
 ----
 
-Please see the xref:howtos:authentication.adoc[documentation on certificate-based authentication] for detailed information on how to configure this properly.
+// Please see the xref:howtos:authentication.adoc[documentation on certificate-based authentication] for detailed information on how to configure this properly.
 
 
 == Connection Lifecycle
