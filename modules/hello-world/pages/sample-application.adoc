@@ -4,3 +4,9 @@
 
 [abstract]
 The Python SDK tutorial bridges the gap between simple and advanced concepts by walking through a complete web application.
+
+
+
+== Data Model
+
+See the xref:ref:travel-app-data-model.adoc[Travel App Data Model] reference page for more information about the sample data set used.
