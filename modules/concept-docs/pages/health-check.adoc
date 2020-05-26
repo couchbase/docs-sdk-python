@@ -1,1 +1,120 @@
-include::6.5@sdk:pages:partial$health-check.adoc[]
+= Health Check
+:nav-title: Health Check
+:page-topic-type: concept
+:page-aliases: ROOT:health-check
+
+[abstract]
+Health Check provides ping() and diagnostics() tests for the health of the network and the cluster.
+
+
+include::6.5@sdk:pages:partial$health-check.adoc[tag="intro"]
+
+include::6.5@sdk:pages:partial$health-check.adoc[tag="users"]
+
+include::6.5@sdk:pages:partial$health-check.adoc[tag="ping"]
+
+[source,javascript]
+----
+let services = [couchbase.ServiceType.KeyValue, couchbase.ServiceType.Query]
+bucket.ping(services, (err, res) => {
+    console.log(res)
+})
+/*
+{
+    "config_rev":1822,
+    "id":"0x102f09dc0",
+    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
+    "services":{
+        "kv":[
+            {
+                "id":"0x104802900",
+                "latency_us":1542,
+                "local":"10.112.195.1:51707",
+                "remote":"10.112.195.101:11210",
+                "scope":"travel-sample",
+                "status":"ok"
+            },
+            {
+                "id":"0x1029253d0",
+                "latency_us":6639,
+                "local":"10.112.195.1:51714",
+                "remote":"10.112.195.103:11210",
+                "scope":"travel-sample",
+                "status":"ok"
+            },
+            {
+                "id":"0x102924bc0",
+                "latency_us":1240660,
+                "local":"10.112.195.1:51713",
+                "remote":"10.112.195.102:11210",
+                "scope":"travel-sample",
+                "status":"timeout"
+            }
+        ],
+        "n1ql":[
+            {
+                "id":"0x10291d980",
+                "latency_us":3787,
+                "local":"10.112.195.1:51710",
+                "remote":"10.112.195.101:8093",
+                "status":"ok"
+            },
+            {
+                "id":"0x1029240f0",
+                "latency_us":9321,
+                "local":"10.112.195.1:51712",
+                "remote":"10.112.195.103:8093",
+                "status":"ok"
+            },
+            {
+                "id":"0x102923350",
+                "latency_us":7003363,
+                "local":"10.112.195.1:51711",
+                "remote":"10.112.195.102:8093",
+                "status":"timeout"
+            }
+        ]
+    },
+    "version":1
+}
+*/
+----
+
+include::6.5@sdk:pages:partial$health-check.adoc[tag="diag"]
+
+
+[source,javascript]
+----
+bucket.diagnostics((err, res) => {
+    console.log(res)
+})
+/*
+{
+    "id":"0x10290d100","kv":[
+        {
+            "id":"0000000072b21d66",
+            "last_activity_us":2363294,
+            "local":"10.112.195.1:51473",
+            "remote":"10.112.195.101:11210",
+            "status":"connected"
+        },
+        {
+            "id":"000000000ba84e5e",
+            "last_activity_us":7369021,
+            "local":"10.112.195.1:51486",
+            "remote":"10.112.195.102:11210",
+            "status":"connected"
+        },
+        {
+            "id":"0000000077689398",
+            "last_activity_us":4855640,
+            "local":"10.112.195.1:51409",
+            "remote":"10.112.195.103:11210",
+            "status":"connected"
+        }
+    ],
+    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
+    "version":1
+}
+*/
+----
