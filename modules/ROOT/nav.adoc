@@ -54,7 +54,9 @@
 // ** xref:concept-docs:rbac.adoc[RBAC]
 
 .Reference
-https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
+* https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
+* xref:ref:travel-app-data-model.adoc[Travel Sample Data Model]
+
 
 .Project Docs
 * xref:project-docs:sdk-release-notes.adoc[Release Notes]
