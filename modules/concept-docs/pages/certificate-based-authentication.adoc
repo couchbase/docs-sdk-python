@@ -1,10 +1,1 @@
-= Certificate-Based Authentication
-:nav-title: Cert Auth
-:page-topic-type: concept
-:page-aliases: 
-
-[abstract]
-Certificates.
-
-
-
+include::6.5@sdk:pages:partial$certificates.adoc[]
