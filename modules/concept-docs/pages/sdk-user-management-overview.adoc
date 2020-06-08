@@ -1,9 +1,1 @@
-= User Management
-:nav-title: User Management
-:page-topic-type: concept
-:page-aliases: 
-
-[abstract]
-Users, permissions, authentication.
-
-
+https://open.spotify.com/playlist/2qUMSrt3Zdj3SEEp4L1Nl7?si=bgHbgqHiRPincpzceOrSBg
