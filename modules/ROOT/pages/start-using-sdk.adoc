@@ -64,9 +64,10 @@ As with the Linux installation, first install libcouchbase (LCB) following the i
 For Mac OS X, first install the _de facto_ package manager for OS X: http://brew.sh/[homebrew^].
 Once _homebrew_ is configured:
 
-[source,bash]
+[source,console]
 ----
 brew update # get list of latest packages
+brew install libcouchbase@2
 brew install python
 pip install couchbase
 ----
@@ -76,10 +77,15 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 
 The libcouchbase and python installations can both be combined, adding LCB to the brew install step for the homebrew version of Python, before installing the Python SDK with pip:
 
-[source,bash]
+[source,console]
 ----
-brew install libcouchbase python
+brew install libcouchbase@2 python
+pip install couchbase
 ----
+
+See the xref:2.10@c-sdk::start-using-sdk.adoc#install-osx[LCB installation pages] if you have more complex requirements. 
+Please note that unless libcouchbase 2 is the first version in include/link search paths (see hints on non-tap install on this page), Python client 2.x will not build correctly via pip. 
+You can explicilty link to these by installing using `setup.py --include-dir <include_dir> --library-dir <library-dir>` mentioned in the https://github.com/couchbase/couchbase-python-client/blob/master/README.rst#building[README.MD file on GitHub], however.
 
 
 == Installing on Microsoft Windows
