@@ -83,7 +83,7 @@ brew install libcouchbase@2 python
 pip install couchbase
 ----
 
-See the xref:2.10@c-sdk::start-using-sdk.adoc#install-osx[LCB installation pages] if you have more complex requirements.
+See the xref:2.10@c-sdk::start-using-sdk.adoc#install-osx[LCB installation pages] if you have more complex requirements. Please not that unless libcouchbase 2 is the first version in include/link search paths (see hints on non-tap install on this page), Python client 2.x will not build correctly via pip. You can explicilty link to these by installing using setup.py --include-dir <include_dir> --library-dir <library-dir> mentioned in the README.MD file on GitHub, however.
 
 == Installing on Microsoft Windows
 
