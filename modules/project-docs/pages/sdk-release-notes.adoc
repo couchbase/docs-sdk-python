@@ -35,6 +35,61 @@ Python SDK 3.0.0 automatically bundles libcouchbase (downloading and building it
  so no need to install it separately.
 
 
+== Python SDK 3.0.1 Release Notes (June 10 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.1/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-714[PYCBC-714]:
+Python SDK throwing SystemError
+
+* https://issues.couchbase.com/browse/PYCBC-833[PYCBC-833]:
+get_all_replicas segfaults
+
+* https://issues.couchbase.com/browse/PYCBC-834[PYCBC-834]:
+Intermittent segfault in collection.exists
+
+* https://issues.couchbase.com/browse/PYCBC-912[PYCBC-912]:
+Generated docs need a second pass
+
+* https://issues.couchbase.com/browse/PYCBC-918[PYCBC-918]:
+Version 3 needs access to bucket "default" to connect
+
+* https://issues.couchbase.com/browse/PYCBC-924[PYCBC-924]:
+CBCollection.__new__ invoking type superconstructor on some platforms
+
+* https://issues.couchbase.com/browse/PYCBC-928[PYCBC-928]:
+Bootstrap timing out on Centos
+
+* https://issues.couchbase.com/browse/PYCBC-930[PYCBC-930]:
+Using `cert_path=` in ClusterOptions hit inner_cause='cert_path' is an invalid keyword argument for this function, C Source=(src/bucket.c,1047)
+
+* https://issues.couchbase.com/browse/PYCBC-934[PYCBC-934]:
+Some Query OptionBlocks not passing kwargs to constructor
+
+* https://issues.couchbase.com/browse/PYCBC-936[PYCBC-936]:
+QueryScanConsistency object should be an Enum
+
+* https://issues.couchbase.com/browse/PYCBC-937[PYCBC-937]:
+Rename CBAS to ANALYTICS/Analytics to match LCB/RFC
+
+* https://issues.couchbase.com/browse/PYCBC-939[PYCBC-939]:
+Unpin some dev_requirements entries
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-670[PYCBC-670]:
+add CentOS 8 verification testing
+
+* https://issues.couchbase.com/browse/PYCBC-916[PYCBC-916]:
+Add standard clang-format to repository
+
 == Version 3.0.0 (1 May 2020)
 
 [source,bash]
