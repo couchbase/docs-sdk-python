@@ -31,7 +31,7 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 
 == Upgrading to 3.x
 
-Python SDK 3.0 automatically bundles libcouchbase (downloading and building it if necessary),
+Python SDK 3.n automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
 
