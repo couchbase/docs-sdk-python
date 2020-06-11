@@ -94,7 +94,7 @@ If you are working at the _Cluster_ level, then add to the `cluster()` in the xr
 
 [source,java]
 ----
-Cluster cluster = Cluster.connect("127.0.0.1", "Administrator", "password");
+Cluster cluster = Cluster.connect("127.0.0.1", "username", "password");
 cluster.waitUntilReady(Duration.ofSeconds(10));
 Bucket bucket = cluster.bucket("travel-sample");
 Collection collection = bucket.defaultCollection();
@@ -106,7 +106,7 @@ Or more fully:
 ----
 public class ClusterExample {
   public static void main(String... args) throws Exception {
-    Cluster cluster = Cluster.connect("127.0.0.1", "Administrator", "password");
+    Cluster cluster = Cluster.connect("127.0.0.1", "username", "password");
     cluster.waitUntilReady(Duration.ofSeconds(10));
     Bucket bucket = cluster.bucket("travel-sample");
     Collection collection = bucket.defaultCollection();
