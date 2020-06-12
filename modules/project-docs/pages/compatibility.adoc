@@ -71,5 +71,7 @@ See the notes there for Support details.
 
 |===
 
+include::6.5@sdk:shared:partial$network-requirements.adoc
+
 
 include::6.5@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
