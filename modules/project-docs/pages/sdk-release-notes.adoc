@@ -35,7 +35,7 @@ Python SDK 3.n automatically bundles libcouchbase (downloading and building it i
  so no need to install it separately.
 
 
-== Version 3.0.1 (10 June 2020)
+== Version 3.0.1 (12 June 2020)
 
 Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bugfixes over the last stable release.
 
@@ -53,6 +53,9 @@ Added CentOS 8 verification testing.
 
 * https://issues.couchbase.com/browse/PYCBC-916[PYCBC-916]:
 Added standard clang-format to repository.
+
+* https://issues.couchbase.com/browse/PYCBC-947[PYCBC-947]:
+Pin LCB to 3.0.2
 
 === Bug Fixes
 
