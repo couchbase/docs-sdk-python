@@ -9,3 +9,6 @@ Client settings
 
 == Timeout Options
 
+// section on wide area network support
+
+include::6.5@sdk:shared:partial$client-settings-wide-network.adoc[]
