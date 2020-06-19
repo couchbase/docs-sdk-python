@@ -26,8 +26,8 @@ The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
 
 // tag::install[]
 
-NOTE: Currently the Python Client requires the OpenSSL headers and libraries that the Python client itself was built
-against to be installed prior to the client itself. Better packaging for OpenSSL support is currently being developed.
+NOTE: Currently the Python Client requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself. 
+Better packaging for OpenSSL support is currently being developed.
 
 == Installing on Linux
 
@@ -85,10 +85,9 @@ pip install couchbase
 
 NOTE: Because the Windows client is packaged as binary wheel,
 it currently is compiled without OpenSSL support, to allow it to be run without OpenSSL.
-We are working on providing OpenSSL support for Windows shortly - it is possible
-to build and run against an OpenSSL compiled for Windows manually given the
-correct version of the OpenSSL headers and libraries are visible to the compiler, and
-the OpenSSL dynamic libraries are in the PATH at runtime.
+We are working on providing OpenSSL support for Windows shortly -- 
+it is possible to build and run against an OpenSSL compiled for Windows manually given the correct version of the OpenSSL headers and libraries are visible to the compiler, 
+and the OpenSSL dynamic libraries are in the PATH at runtime.
 
 // end::install[]
 
