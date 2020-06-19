@@ -200,6 +200,8 @@ NOTE: Any TLS certificates must be set up at the point where the connections are
 [#ssl]
 == Secure Connections
 
+WARNING: If the client cannot load or was not built with OpenSSL, attempting an SSL connection will result in a 'FEATURE_UNAVAILABLE'.
+
 Couchbase Server Enterprise Edition supports full encryption of client-side traffic using Transport Layer Security (TLS).
 That includes key-value type operations, queries, and configuration communication.
 Make sure you have the Enterprise Edition of Couchbase Server before proceeding with configuring encryption on the client side.
