@@ -208,4 +208,4 @@ Diagnostic methods are available to check on the xref:health-check.adoc[health i
 Logging methods are dependent upon the platform and SDK used.
 We offer xref:collecting-information-and-logging.adoc[recommendations and practical examples].
 
-We have a xref:ref:error-codes.adoc[listing of error messages], with some pointers to what to do when you encounter them.
+// We have a xref:ref:error-codes.adoc[listing of error messages], with some pointers to what to do when you encounter them.
