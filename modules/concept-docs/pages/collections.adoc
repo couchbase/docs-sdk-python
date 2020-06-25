@@ -22,8 +22,8 @@ bucket.collection("flights")
 And for  a non-default scope:
 [source,python]
 ----
-bucket.scope("marlowe_agency").collection("flights") too
+bucket.scope("marlowe_agency").collection("flights")
 ----
 
 * Please see the xref:6.5@server:developer-preview:collections/collections-overview.adoc[Collections Overview documents] in the Server docs.
-*  To see Collections in action, take a look at our xref:howtos:working-with-collections.adoc[Collections-enabled Travel Sample page].
+// * To see Collections in action, take a look at our xref:howtos:working-with-collections.adoc[Collections-enabled Travel Sample page].
