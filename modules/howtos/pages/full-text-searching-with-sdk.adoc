@@ -58,25 +58,25 @@ You can combine them with `conjuncts` and `disjuncts` respectively.
 [options="header"]
 |====
 | Name       | Description
-| `queryString(String query)` | Accept query strings, which express query-requirements in a special syntax.
-| `match(String match)` | A match query analyzes input text, and uses the results to query an index.
-| `matchPhrase(String matchPhrase)` | The input text is analyzed, and a phrase query is built with the terms resulting from the analysis.
-| `prefix(String prefix)` | A prefix query finds documents containing terms that start with the specified prefix.
-| `regexp(String regexp)` | A regexp query finds documents containing terms that match the specified regular expression.
-| `termRange()` | A term range query finds documents containing a term in the specified field within the specified range.
-| `numericRange()` | A numeric range query finds documents containing a numeric value in the specified field within the specified range.
-| `dateRange()` | A date range query finds documents containing a date value, in the specified field within the specified range.
-| `disjuncts(SearchQuery... queries)` | A disjunction query contains multiple child queries. Its result documents must satisfy a configurable min number of child queries.
-| `conjuncts(SearchQuery... queries)` | A conjunction query contains multiple child queries. Its result documents must satisfy all of the child queries.
-| `wildcard(String wildcard)` | A wildcard query uses a wildcard expression, to search within individual terms for matches.
-| `docId(String... docIds)` | A doc ID query returns the indexed document or documents among the specified set.
-| `booleanField(boolean value)` | A boolean field query searches fields that contain boolean true or false values.
-| `term(String term)` | Performs an exact match in the index for the provided term.
-| `phrase(String... terms)` | A phrase query searches for terms occurring in the specified position and offsets.
-| `matchAll()` | Matches all documents in an index, irrespective of terms.
-| `matchNone()` | Matches no documents in the index.
-| `geoBoundingBox(double topLeftLon, double topLeftLat, double bottomRightLon, double bottomRightLat)` | Searches inside the given bounding box coordinates.
-| `geoDistance(double locationLon, double locationLat, String distance)` | Searches inside the distance from the given location coordinate.
+| `QueryStringQuery(query)` | Accept query strings, which express query-requirements in a special syntax.
+| `MatchQuery(String match)` | A match query analyzes input text, and uses the results to query an index.
+| `MatchPhraseQuery(String matchPhrase)` | The input text is analyzed, and a phrase query is built with the terms resulting from the analysis.
+| `PrefixQuery(String prefix)` | A prefix query finds documents containing terms that start with the specified prefix.
+| `RegexQuery(String regexp)` | A regexp query finds documents containing terms that match the specified regular expression.
+| `TermRangeQuery()` | A term range query finds documents containing a term in the specified field within the specified range.
+| `NumericRangeQuery()` | A numeric range query finds documents containing a numeric value in the specified field within the specified range.
+| `DateRangeQuery()` | A date range query finds documents containing a date value, in the specified field within the specified range.
+| `DisjunctionQuery(SearchQuery... queries)` | A disjunction query contains multiple child queries. Its result documents must satisfy a configurable min number of child queries.
+| `ConjunctionQuery(SearchQuery... queries)` | A conjunction query contains multiple child queries. Its result documents must satisfy all of the child queries.
+| `WildcardQuery(String wildcard)` | A wildcard query uses a wildcard expression, to search within individual terms for matches.
+| `DocIdQuery(String... docIds)` | A doc ID query returns the indexed document or documents among the specified set.
+| `BooleanFieldQuery(bool value)` | A boolean field query searches fields that contain boolean true or false values.
+| `TermQuery(String term)` | Performs an exact match in the index for the provided term.
+| `PhraseQuery(String... terms)` | A phrase query searches for terms occurring in the specified position and offsets.
+| `MatchAllQuery()` | Matches all documents in an index, irrespective of terms.
+| `MatchNoneQuery()` | Matches no documents in the index.
+| `GeoBoundingBoxQuery(double topLeftLon, double topLeftLat, double bottomRightLon, double bottomRightLat)` | Searches inside the given bounding box coordinates.
+| `GeoDistanceQuery     (d          ouble locationLon, double locationLat, String distance)` | Searches inside the distance from the given location coordinate.
 |====
 
 == The Search Result
@@ -85,7 +85,7 @@ Once the search query is executed successfully, the server starts sending back t
 
 [source,python]
 ----
-include::example$Sßearch.java[tag=squery,indent=0]
+include::example$search.py[tag=squery,indent=0]
 
 A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
 
@@ -152,15 +152,15 @@ The search service provides an array of options to customize your query. The fol
 | Name       | Description
 | `limit(int)` | Allows to limit the number of hits returned.
 | `skip(int)` | Allows to skip the first N hits of the results returned.
-| `explain(boolean)` | Adds additional explain debug information to the result.
+| `explain(bool)` | Adds additional explain debug information to the result.
 | `scanConsistency(SearchScanConsistency)` | Specifies a different consistency level for the result hits.
 | `consistentWith(MutationState)` | Allows to be consistent with previously performed mutations.
-| `highlight(HighlightStyle, String...)` | Specifies highlighting rules for matched fields.
+| `highlight(HighlightStyle, str...)` | Specifies highlighting rules for matched fields.
 | `sort(Object)` | Allows to provide custom sorting rules.
-| `facets(Map<String, SearchFacet>)` | Allows to fetch facets in addition to the regular hits.
-| `fields(String...)` | Specifies fields to be included.
+| `facets(Map<str, SearchFacet>)` | Allows to fetch facets in addition to the regular hits.
+| `fields(str...)` | Specifies fields to be included.
 | `serializer(JsonSerializer)` | Allows to use a different serializer for the decoding of the rows.
-| `raw(String, Object)` | Escape hatch to add arguments that are not covered by these options.
+| `raw(str, Object)` | Escape hatch to add arguments that are not covered by these options.
 |====
 
 === Limit and Skip
