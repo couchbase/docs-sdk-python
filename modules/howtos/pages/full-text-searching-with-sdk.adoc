@@ -76,71 +76,8 @@ You can combine them with `conjuncts` and `disjuncts` respectively.
 | `MatchAllQuery()` | Matches all documents in an index, irrespective of terms.
 | `MatchNoneQuery()` | Matches no documents in the index.
 | `GeoBoundingBoxQuery(double topLeftLon, double topLeftLat, double bottomRightLon, double bottomRightLat)` | Searches inside the given bounding box coordinates.
-| `GeoDistanceQuery     (d          ouble locationLon, double locationLat, String distance)` | Searches inside the distance from the given location coordinate.
+| `GeoDistanceQuery(double locationLon, double locationLat, String distance)` | Searches inside the distance from the given location coordinate.
 |====
-
-== The Search Result
-
-Once the search query is executed successfully, the server starts sending back the resultant hits.
-
-[source,python]
-----
-include::example$search.py[tag=squery,indent=0]
-
-A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
-
-== Working with Results
-
-The result of a search query has three components: hits, facets, and metdata. 
-Hits are the documents that match the query. 
-Facets allow the aggregation of information collected on a particular result set. 
-Metdata holds additional information not directly related to your query, 
-such as success total hits and how long the query took to execute in the cluster.
-
-[source,csharp]
-.Iterating hits
-----
-foreach (var hit in result.Hits)
-{
-    string documentId = hit.Id;
-    double score = hit.Score;
-    ...
-}
-----
-
-[source,csharp]
-.Iterating facets
-----
-foreach (var facet in result.Facets)
-{
-    var name = facet.Name;
-    var total = facet.Total;
-    ...
-}
-----
-
-
-[source,python]
-----
-The `SearchRow` contains the following methods:
-
-.SearchRow
-[options="header"]
-|====
-| `index()` | The name of the FTS index that gave this result.
-| `id()` | The id of the matching document.
-| `score()` | The score of this hit.
-| `explanation()` | If enabled provides an explanation in JSON form.
-| `locations()` | The individual locations of the hits as `SearchRowLocations`.
-| `fragments()` | The fragments for each field that was requested as highlighted.
-| `fieldsAs(final Class<T> target)` | Access to the returned fields, decoded via a `Class` type.
-| `fieldsAs(final TypeRef<T> target)` | Access to the returned fields, decoded via a `TypeRef` type.
-|====
-
-Note that the `SearchMetaData` also contains potential `errors`, because the SDK will keep streaming results if the initial response came back successfully. 
-This makes sure that even with partial data usually search results are useable,
-so if you absolutely need to check if all partitions are present in the result double check the error 
-(and not only catch an exception on the query itself).
 
 == Search Options
 
@@ -163,39 +100,25 @@ The search service provides an array of options to customize your query. The fol
 | `raw(str, Object)` | Escape hatch to add arguments that are not covered by these options.
 |====
 
+== The Search Result
+
+Once the search query is executed successfully, the server starts sending back the resultant hits.
+
+[source,python]
+----
+include::example$search.py[tag=squery,indent=0]
+
+A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
+
 === Limit and Skip
 
 It is possible to limit the returned results to a maximum amount using the `limit` option. 
 If you want to skip the first N records it can be done with the `skip` option.
 
-[source,java]
+[source,python]
 
-var result = cluster.SearchQuery(
-    “index-name”,
-    new ConjunctionQuery(
-        new DateRangeQuery()
-            .Start(DateTime.Parse("2019-01-01"), true)
-            .Start(DateTime.Parse("2019-02-01"), false),
-        new MatchQuery("Swanky")
-);
 ----
 include::example$search.py[tag=limit,indent=0]
-----
-
-== Consistency
-
-Like the Couchbase Query Service,
-FTS allows `RequestPlus` queries -- _Read-Your-Own_Writes (RYOW)_ consistency, ensuring results contain information from updated indexes:
-
-[source,csharp]
-----
-var result = cluster.SearchQuery(
-    “travel-sample-index-hotel-description”,
-    new MatchQuery(“swanky”),
-    options => {
-        options.WithConsistency(ScanConsistency.RequestPlus);
-    }
-);
 ----
 
 === ScanConsistency and ConsistentWith
@@ -207,7 +130,10 @@ There are two ways to control consistency: either by supplying a custom `SearchS
 At the moment the cluster only supports `consistentWith`, which is why you only see `SearchScanConsistency.NOT_BOUNDED` in the enum which is the default setting. 
 The way to make sure that recently written documents show up in the rfc works as follows (commonly referred to "read your own writes" -- RYOW):
 
-[source,java]
+Like the Couchbase Query Service,
+FTS allows `RequestPlus` queries -- _Read-Your-Own_Writes (RYOW)_ consistency, ensuring results contain information from updated indexes:
+
+[source,python]
 ----
 include::example$search.py[tag=ryow,indent=0]
 ----
@@ -218,7 +144,7 @@ It is possible to enable highlighting for matched fields.
 You can either rely on the default highlighting style or provide a specific one. 
 The following snippet uses HTML formatting for two fields:
 
-[source,java]
+[source,python]
 ----
 include::example$search.py[tag=highlight,indent=0]
 ----
@@ -228,7 +154,7 @@ include::example$search.py[tag=highlight,indent=0]
 By default the search engine will sort the results in descending order by score. 
 This behavior can be modified by providing a different sorting order which can also be nested.
 
-[source,java]
+[source,python]
 ----
 include::example$search.py[tag=sort,indent=0]
 ----
@@ -252,6 +178,56 @@ You can tell the search engine to include the full content of a certain number o
 ----
 include::example$search.py[tag=fields,indent=0]
 ----
+
+== Working with Results
+
+The result of a search query has three components: hits, facets, and metdata.
+Hits are the documents that match the query.
+Facets allow the aggregation of information collected on a particular result set.
+Metdata holds additional information not directly related to your query,
+such as success total hits and how long the query took to execute in the cluster.
+
+[source,csharp]
+.Iterating hits
+----
+foreach (var hit in result.Hits)
+{
+string documentId = hit.Id;
+double score = hit.Score;
+...
+}
+----
+
+[source,csharp]
+.Iterating facets
+----
+foreach (var facet in result.Facets)
+{
+var name = facet.Name;
+var total = facet.Total;
+...
+}
+----
+The `SearchRow` contains the following methods:
+
+.SearchRow
+[options="header"]
+|====
+| `index()` | The name of the FTS index that gave this result.
+| `id()` | The id of the matching document.
+| `score()` | The score of this hit.
+| `explanation()` | If enabled provides an explanation in JSON form.
+| `locations()` | The individual locations of the hits as `SearchRowLocations`.
+| `fragments()` | The fragments for each field that was requested as highlighted.
+| `fieldsAs(final Class<T> target)` | Access to the returned fields, decoded via a `Class` type.
+| `fieldsAs(final TypeRef<T> target)` | Access to the returned fields, decoded via a `TypeRef` type.
+|====
+
+Note that the `SearchMetaData` also contains potential `errors`, because the SDK will keep streaming results if the initial response came back successfully.
+This makes sure that even with partial data usually search results are useable,
+so if you absolutely need to check if all partitions are present in the result double check the error
+(and not only catch an exception on the query itself).
+
 
 === Custom JSON Serializer
 
