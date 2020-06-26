@@ -1,2 +1,246 @@
-= Analytics using the SDK
+= Analytics using the .NET SDK
+:page-topic-type: howto
+:page-edition: Enterprise Edition:
 
+[abstract]
+Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
+
+
+
+For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, Couchbase Data Platform offers the xref:6.5@server:analytics:introduction.adoc[Couchbase Analytics Service (CBAS)].
+This is the analytic counterpart to our xref:n1ql-queries-with-sdk.adoc[operational data focussed Query Service].
+The analytics service is available in Couchbase Data Platform 6.0 and later (developer preview in 5.5).
+
+
+== Getting Started
+
+After familiarizing yourself with our xref:6.5@server:analytics:primer-beer.adoc[introductory primer],
+in particular creating a dataset and linking it to a bucket to shadow the operational data, 
+try Couchbase Analytics using the .NET SDK.
+Intentionally, the API for analytics is very similar to that of the query service. 
+In .NET SDK 2.6 and 2.7, Analytics was only available on the `Bucket` object;
+in .NET SDK 3.0, Analytics queries are submitted using the Cluster reference, not a Bucket or Collection:
+
+[source,csharp]
+----
+var result = await cluster.AnalyticsQueryAsync<dynamic>("SELECT \"hello\" as greeting;");
+
+foreach (var row in result.Rows)
+{
+    Console.WriteLine(row.greeting);
+}
+----
+
+
+== Queries
+
+A query can either be `simple` or be `parameterized`. If parameters are used, they can either be `positional` or `named`. 
+Here is one example of each:
+
+[source,csharp]
+----
+var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = 'France';");
+----
+
+The query may be performed with positional parameters:
+
+[source,csharp]
+----
+var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = ?;")
+    .AddPositionalParameter("France");
+----
+
+Alternatively, the query may be performed with named parameters:
+
+[source,csharp]
+----
+var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = $country;")
+    .AddNamedParameter("country", "France");
+----
+
+NOTE: As timeouts are propagated to the server by the client, a timeout set on the client side may be used to stop the processing of a request, in order to save system resources.
+See example in the next section.
+
+
+== Fluent API
+
+Additional parameters may be sent as part of the query, using the fluent API.
+There are currently three parameters:
+
+* *Client Context ID*, sets a context ID that is returned back as part of the result.
+Uses the `ClientContextId(String)` builder; default is a random UUID 
+* *Server Side Timeout*, customizes the timeout sent to the server. 
+Does not usually have to be set, as the client sets it based on the timeout on the operation. 
+Uses the `Timeout(TimeSpan)` builder, and defaults to the Analytics timeout set on the client (75s).
+This can be adjusted at the xref:ref:client-settings.adoc#timeout-options[cluster global config level].
+* *Priority*, set if the request should have priority over others.
+The `Priority(boolean)` builder defaults to `false`.
+
+
+Here, we give the request priority over others, and set a custom, server-side timeout value:
+
+[source,csharp]
+----
+var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = 'France';",
+    options =>
+    {
+        options.WithPriority(true);
+        options.WithTimeout(TimeSpan.FromSeconds(100));
+    }
+);
+----
+
+
+== Handling the Response
+
+After checking that `QueryStatus` is success, we iterate over the rows.
+These rows may contain various sorts of data and metadata, 
+depending upon the nature of the query, 
+as you will have seen when working through our xref:6.5@server:analytics:primer-beer.adoc[introductory primer].
+
+[source,csharp]
+----
+try
+{
+    var result = await cluster.AnalyticsQueryAsync<dynamic>("SELECT \"hello\" as greeting;");
+
+    if (result.Rows.Any()) // check there are results
+    {
+        foreach (var row in result.Rows)
+        {
+            Console.WriteLine($“Greeting: {row.greeting}”);
+        }
+    }
+}
+catch (AnalyticsException exception)
+{
+    foreach (var error in exception.Errors)
+    {
+        Console.WriteLine($”Error: {error.Message}”);
+    }
+}
+----
+
+Check the xref:[Errors] list for possible values to be returned in the `List<Error>`, should `QueryStatus` return as `Errors`.
+
+// Move these to Error reference doc?
+Common errors are listed in our xref:ref:error-codes.adoc#analytics-errors[Errors Reference doc], with exceptions caused by resource unavailability (such as timeouts and _Operation cannot be performed during rebalance_ messages) leading to an xref:howtos:error-handling.adoc#retry[automatic retry] by the SDK.
+
+////
+Moving these to error reference doc
+----
+21002: Request timed out and will be cancelled
+23000: Analytics Service is temporarily unavailable
+23003: Operation cannot be performed during rebalance
+23007: Job queue is full with [string] jobs
+----
+////
+
+=== MetaData
+
+The `Metrics` object contains useful metadata, such as `ElapsedTime`, and `ResultCount`.
+Here is a snippet using several items of metadata
+
+[source,csharp]
+----
+var result = await cluster.AnalyticsQueryAsync<dynamic>("SELECT \"hello\" as greeting;");
+
+Console.WriteLine($”Elapsed time: {result.MetaData.Metrics.ElapsedTime}”);
+Console.WriteLine($”Execution time: {result.MetaData.Metrics.ExecutionTime}”);
+Console.WriteLine($”Result count: {result.MetaData.Metrics.ResultCount}”);
+Console.WriteLine($”Error count: {result.MetaData.Metrics.ErrorCount}”);
+----
+
+For a listing of available `Metrics` in `MetaData`, see the xref:concept-docs:analytics-for-sdk-users.adoc[Understanding Analytics] SDK doc.
+
+
+== Advanced Analytics Topics
+
+From Couchbase Data Platform 6.5, _Deferred Queries_ and _KV Ingestion_ are added to CBAS.
+
+
+=== Deferred queries
+
+Deferred queries enable the decoupling of the long-running query execution from the result.
+A handle is created, allowing the in-progress query to be checked, and the result returned later, without locking up resources or network bandwidth.
+
+WARNING: In Couchbase Data Platform 6.5, Deferred Queries is in _Developer Preview_. 
+In .NET SDK 3.0, Deferred Queries have an Interface Level of xref:project-docs:compatibility.adoc#interface-stability[Volatile].
+
+Deferred querying is enabled with `options.WithDeferred(true)`, 
+and by checking `QueryStatus` as appropriate to the task at hand.
+
+[source,csharp]
+----
+// execute deferred query
+var result = await _fixture.Cluster.AnalyticsQueryAsync<TestRequest>(
+    statement, 
+    options => options.WithDeferred(true)
+);
+
+// periodically check for results
+while (true)
+{
+    await Task.Delay(TimeSpan.FromSeconds(5));
+
+    // use result object to query for current status
+    var status = await result.Handle.GetStatusAsync();
+    switch (status)
+    {
+        case QueryStatus.Running: // still waiting
+            continue;
+        case QueryStatus.Completed: // results ready to be queried
+        case QueryStatus.Success: 
+
+            // get result rows
+            foreach (var row in result.Handle.GetRows())
+            {
+                
+            }
+
+            break;
+        default: // something went wrong ..
+            break;
+    }
+}
+----
+
+A Deferred query handle can be stored and then recreated, 
+to query a result at a later time or in another process.
+
+[source,csharp]
+----
+// get serialized (JSON) representation of query
+var json = _fixture.Cluster.ExportDeferredAnalyticsQueryHandle(result.Handle);
+
+// repopulate query using serialized query
+var handle = _fixture.Cluster.ImportDeferredAnalyticsQueryHandle<dynamic>(json);
+----
+
+
+=== KV ingest
+
+You can ingest the results of an Analytics query directly back into a given collection. 
+This then allows the results themselves to be queried in turn.
+
+NOTE: In .NET SDK 3.0, KV Ingest has an Interface Level of xref:project-docs:compatibility.adoc#interface-stability[Uncommited].
+
+[source,csharp]
+----
+await cluster.IngestAsync<dynamic>(
+    statement,
+    collection,
+    options =>
+    {
+        options.WithTimeout(TimeSpan.FromSeconds(75));
+        options.WithExpiration(TimeSpan.FromDays(1));
+    }
+);
+----
+
+////
+== Additional Resources 
+
+To learn more about using N1QL for Analytics -- the first commercial implementation of SQL++ -- see our link:https://sqlplusplus-tutorial.couchbase.com[Tutorial Introduction to SQL++ for SQL users].
+
+////
