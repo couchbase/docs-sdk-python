@@ -65,7 +65,7 @@ Here is an example:
 
 [source,csharp]
 ----
-var result = bucket.ViewQuery<Type>(“design-doc”, “view-name”, options =>
+var result = bucket.ViewQuery<Type>("design-doc", "view-name", options =>
     options.WithLimit
 
 // also need sdk-common file below
