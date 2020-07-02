@@ -64,11 +64,14 @@ The latter saves even more bandwidth by not retrieving the contents of the path 
 [source,csharp]
 ----
 """
-from couchbase.collection import CBCollection
+
+#tag::content_as[]
+import couchbase.collection
 import couchbase.subdocument as SD
 from couchbase.durability import Durability
-collection = CBCollection()
-#tag::content_as[]
+
+
+collection = couchbase.collection.Collection()
 
 result = collection.lookup_in("customer123", [SD.get("addresses.delivery.country")])
 country = result.content_as[str](0) # "United Kingdom"
