@@ -68,8 +68,6 @@ The latter saves even more bandwidth by not retrieving the contents of the path 
 .Retrieve sub-document value
 [source,python]
 ----
-import couchbase.subdocument as SD
-
 include::example$subdocument_ops.py[tag=content_as]
 ----
 
