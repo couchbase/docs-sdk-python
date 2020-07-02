@@ -25,7 +25,7 @@ The .NET SDK exposes an API for performing FTS queries which abstracts some of t
 Search queries are executed at Cluster level (not bucket or collection).
 Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
 """
-
+from couchbase.cluster import Cluster
 class Search:
     cluster = Cluster.connect("localhost", "Administrator", "password")
     bucket = cluster.bucket("travel-sample")

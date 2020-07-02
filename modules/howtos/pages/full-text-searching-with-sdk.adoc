@@ -49,7 +49,7 @@ If you fail to do so, the SDK will return a `FeatureNotAvailableException` with 
 
 == Search Queries
 
-The second mandatory argument in the example above used `SearchQuery.queryString("query")` to specify the query to run against the search index. 
+The second mandatory argument in the example above used `SearchQuery.queryString("query")` to specify the query to run against the search index.
 The query string is the simplest form, but there are many more available. 
 The table below lists all of them with a short description of each. 
 You can combine them with `conjuncts` and `disjuncts` respectively.
@@ -59,24 +59,24 @@ You can combine them with `conjuncts` and `disjuncts` respectively.
 |====
 | Name       | Description
 | `QueryStringQuery(query)` | Accept query strings, which express query-requirements in a special syntax.
-| `MatchQuery(String match)` | A match query analyzes input text, and uses the results to query an index.
-| `MatchPhraseQuery(String matchPhrase)` | The input text is analyzed, and a phrase query is built with the terms resulting from the analysis.
-| `PrefixQuery(String prefix)` | A prefix query finds documents containing terms that start with the specified prefix.
-| `RegexQuery(String regexp)` | A regexp query finds documents containing terms that match the specified regular expression.
+| `MatchQuery(match: str)` | A match query analyzes input text, and uses the results to query an index.
+| `MatchPhraseQuery(match_phrase: str)` | The input text is analyzed, and a phrase query is built with the terms resulting from the analysis.
+| `PrefixQuery(prefix: str)` | A prefix query finds documents containing terms that start with the specified prefix.
+| `RegexQuery(regexp: str)` | A regexp query finds documents containing terms that match the specified regular expression.
 | `TermRangeQuery()` | A term range query finds documents containing a term in the specified field within the specified range.
 | `NumericRangeQuery()` | A numeric range query finds documents containing a numeric value in the specified field within the specified range.
 | `DateRangeQuery()` | A date range query finds documents containing a date value, in the specified field within the specified range.
 | `DisjunctionQuery(SearchQuery... queries)` | A disjunction query contains multiple child queries. Its result documents must satisfy a configurable min number of child queries.
 | `ConjunctionQuery(SearchQuery... queries)` | A conjunction query contains multiple child queries. Its result documents must satisfy all of the child queries.
-| `WildcardQuery(String wildcard)` | A wildcard query uses a wildcard expression, to search within individual terms for matches.
-| `DocIdQuery(String... docIds)` | A doc ID query returns the indexed document or documents among the specified set.
-| `BooleanFieldQuery(bool value)` | A boolean field query searches fields that contain boolean true or false values.
-| `TermQuery(String term)` | Performs an exact match in the index for the provided term.
+| `WildcardQuery(wildcard: str)` | A wildcard query uses a wildcard expression, to search within individual terms for matches.
+| `DocIdQuery(docIds*: str)` | A doc ID query returns the indexed document or documents among the specified set.
+| `BooleanFieldQuery(value: bool)` | A boolean field query searches fields that contain boolean true or false values.
+| `TermQuery(term: str)` | Performs an exact match in the index for the provided term.
 | `PhraseQuery(String... terms)` | A phrase query searches for terms occurring in the specified position and offsets.
 | `MatchAllQuery()` | Matches all documents in an index, irrespective of terms.
 | `MatchNoneQuery()` | Matches no documents in the index.
-| `GeoBoundingBoxQuery(double topLeftLon, double topLeftLat, double bottomRightLon, double bottomRightLat)` | Searches inside the given bounding box coordinates.
-| `GeoDistanceQuery(double locationLon, double locationLat, String distance)` | Searches inside the distance from the given location coordinate.
+| `GeoBoundingBoxQuery(topLeftLon: double, topLeftLat: double, bottomRightLon: double, bottomRightLat: dobule)` | Searches inside the given bounding box coordinates.
+| `GeoDistanceQuery(locationLon: double, locationLat: dobule, distance: str)` | Searches inside the distance from the given location coordinate.
 |====
 
 == Search Options
