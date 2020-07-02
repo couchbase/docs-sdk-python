@@ -31,14 +31,17 @@ Here is a simple MatchQuery that looks for the text “swanky” using a defined
 include::example$search.py[tag=simple,indent=0]
 ----
 
-All simple query types are created in the same manner, some have additional properties, which can be seen in common query type descriptions.
-Couchbase FTS's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
-Here is a date range query that looks for dates between 1st January 2019 and 31st January:
+A search query is always performed at the `Cluster` level, using the `search_query` method.
+It takes the name of the index and the type of query  as required arguments and then allows to provide additional options if needed
+(in the example above, no options are specified).
 
-[source,python]
+Once a result returns you can iterate over the returned rows, and/or access the `SearchMetaData` associated with the query. 
+/// If something goes wrong during the execution of the search query, a subclass of the `CouchbaseException` will be thrown that also provides additional context on the operation:
+/// [source,python]
+/// ----
+/// Exception in thread "main" com.couchbase.client.core.error.IndexNotFoundException: Index not found {"completed":true,"coreId":1,"httpStatus":400,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53818","lastDispatchedTo":"127.0.0.1:8094","requestId":3,"requestType":"SearchRequest","service":{"indexName":"unknown-index","type":"search"},"status":"INVALID_ARGS","timeoutMs":75000,"timings":{"dispatchMicros":18289,"totalMicros":1359398}}
 ----
-Exception in thread "main" com.couchbase.client.core.error.IndexNotFoundException: Index not found {"completed":true,"coreId":1,"httpStatus":400,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53818","lastDispatchedTo":"127.0.0.1:8094","requestId":3,"requestType":"SearchRequest","service":{"indexName":"unknown-index","type":"search"},"status":"INVALID_ARGS","timeoutMs":75000,"timings":{"dispatchMicros":18289,"totalMicros":1359398}}
-----
+Couchbase Search's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
 
 [NOTE]
 .Open Buckets and Cluster-Level Queries
