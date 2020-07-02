@@ -124,14 +124,17 @@ If you want to skip the first N records it can be done with the `skip` option.
 include::example$search.py[tag=limit,indent=0]
 ----
 
+
+////
+TODO: update when https://issues.couchbase.com/browse/PYCBC-969 is fixed
 === ScanConsistency and ConsistentWith
 
 By default, all search queries will return the data from whatever is in the index at the time of query. 
 These semantics can be tuned if needed so that the hits returned include the most recently performed mutations, at the cost of slightly higher latency since the index needs to be updated first.
 
-There are two ways to control consistency: either by supplying a custom `SearchScanConsistency` or using `consistentWith`.
-At the moment the cluster only supports `consistentWith`, which is why you only see `SearchScanConsistency.NOT_BOUNDED` in the enum which is the default setting. 
-The way to make sure that recently written documents show up in the rfc works as follows (commonly referred to "read your own writes" -- RYOW):
+You can control consistency by supplying a SearchScanConsistency value to the `consistent_with` parameter in SearchOptions or search_query's named parameters.
+ which is why you only see `SearchScanConsistency.NOT_BOUNDED` in the enum which is the default setting.
+To ensure recently written documents show up use the following approach (commonly referred to "read your own writes" -- RYOW):
 
 Like the Couchbase Query Service,
 FTS allows `RequestPlus` queries -- _Read-Your-Own_Writes (RYOW)_ consistency, ensuring results contain information from updated indexes:
@@ -140,6 +143,8 @@ FTS allows `RequestPlus` queries -- _Read-Your-Own_Writes (RYOW)_ consistency, e
 ----
 include::example$search.py[tag=ryow,indent=0]
 ----
+////
+
 
 === Highlight
 
