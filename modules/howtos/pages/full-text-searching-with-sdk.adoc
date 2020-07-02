@@ -12,14 +12,11 @@
 You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
 
 
-
 Full Text Search or FTS allows you to create, manage, and query full text indexes on JSON documents stored in Couchbase buckets.
 It uses natural language processing for querying documents, provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
 Some of the supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
-The .NET SDK exposes an API for performing FTS queries which abstracts some of the complexity of using the underlying REST API.
+The Python SDK exposes an API for performing FTS queries which abstracts some of the complexity of using the underlying REST API.
 
-
-// As of Couchbase Server 6.5, FTS...
 
 == Examples
 
@@ -232,7 +229,7 @@ This in turn makes it possible to serialize rows into POJOs or other structures 
 
 Please see the documentation on transcoding and serialization for more information.
 
-== asyncio And Twisted APIs
+== asyncio and Twisted APIs
 
 In addition to the blocking API on `Cluster`, the SDK provides Twisted and asyncio APIs on `txcouchbase.cluster.TxCluster` or `acouchbase.cluster.Cluster` respectively.
 If you are in doubt of which API to use, we recommend looking at acouchbase first:
