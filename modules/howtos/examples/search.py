@@ -293,9 +293,11 @@ The result of a search query has three components: hits, facets, and metdata.
 .Iterating hits
 ----
 """
+#tag::simpleresult[]
 for hit in result.hits():
     document_id = hit.id
     score = hit.score
+#end::simpleresult[]
 """
 ----
 
@@ -303,9 +305,11 @@ for hit in result.hits():
 Iterating facets
                ----
 """
+#tag::simplefacetresult[]
 for facet in result.facets():
     name = facet.name
     total = facet.total
+#end::simplefacetresult[]
 """
 ----
 The `SearchRow` contains the following methods:
