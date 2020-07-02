@@ -61,6 +61,7 @@ Note that some of the features are dependent on the underlying C library (_libco
 
 
 .Couchbase Server and SDK Supported Version Matrix
+[.table-merge-cells] 
 [cols="<25,.^23,.^24,.^18,.^19"]
 |===
 | | Server 4.0, 4.1 | Server 4.5, 4.6 | Server 5.x | Server 6.0, 6.5
