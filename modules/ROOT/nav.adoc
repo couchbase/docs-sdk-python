@@ -56,7 +56,7 @@
 
 .Reference
 * https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
-// * xref:ref:error-codes.adoc[Error Messages] 
+* xref:ref:error-codes.adoc[Error Messages] 
 * xref:ref:travel-app-data-model.adoc[Travel Sample Data Model]
 
 
