@@ -87,23 +87,23 @@ You can combine them with `conjuncts` and `disjuncts` respectively.
 
 == Search Options
 
-The search service provides an array of options to customize your query. The following table lists them all:
+The cluster.search_query function provides an array of named parameters to customize your query via **kwargs or SearchOptions. The following table lists them all:
 
 .Available Search Options
 [options="header"]
 |====
 | Name       | Description
-| `limit(int)` | Allows to limit the number of hits returned.
-| `skip(int)` | Allows to skip the first N hits of the results returned.
-| `explain(bool)` | Adds additional explain debug information to the result.
-| `scan_consistency(SearchScanConsistency)` | Specifies a different consistency level for the result hits.
-| `consistent_with(MutationState)` | Allows to be consistent with previously performed mutations.
-| `highlight(HighlightStyle, *fields: str)` | Specifies highlighting rules for matched fields.
-| `sort(object)` | Allows to provide custom sorting rules.
-| `facets(Map[str, SearchFacet])` | Allows to fetch facets in addition to the regular hits.
-| `fields(*fields: str)` | Specifies fields to be included.
-| `serializer(JsonSerializer)` | Allows to use a different serializer for the decoding of the rows.
-| `raw(str, object)` | Escape hatch to add arguments that are not covered by these options.
+| `limit: int` | Allows to limit the number of hits returned.
+| `skip: int` | Allows to skip the first N hits of the results returned.
+| `explain: bool` | Adds additional explain debug information to the result.
+| `scan_consistency: SearchScanConsistency` | Specifies a different consistency level for the result hits.
+| `consistent_with: MutationState` | Allows to be consistent with previously performed mutations.
+| `highlight_style: HighlightStyle` | Specifies highlighting rules for matched fields.
+| `highlight_fields: List[str]` | Specifies fields to highlight.
+| `sort: List[str]` | Allows to provide custom sorting rules.
+| `facets: Map[str, SearchFacet]` | Allows to fetch facets in addition to the regular hits.
+| `fields: List[str]` | Specifies fields to be included.
+| `raw: JSON` | Escape hatch to add arguments that are not covered by these options.
 |====
 
 
