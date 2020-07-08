@@ -1,246 +1,200 @@
-= Analytics using the .NET SDK
+= Analytics using the SDK
+:navtitle: Analytics using the SDK
 :page-topic-type: howto
-:page-edition: Enterprise Edition:
+:page-aliases: analytics-query
+:page-edition: Enterprise Edition
+:lang: Java
+:version: 3.0.0
+:example-source: 3.0@java-sdk:howtos:example$Analytics.java
+:example-source-lang: java
 
 [abstract]
 Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
 
-
-
-For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, Couchbase Data Platform offers the xref:6.5@server:analytics:introduction.adoc[Couchbase Analytics Service (CBAS)].
+For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, the Couchbase Data Platform offers the xref:6.5@server:analytics:introduction.adoc[Couchbase Analytics Service (CBAS)].
 This is the analytic counterpart to our xref:n1ql-queries-with-sdk.adoc[operational data focussed Query Service].
-The analytics service is available in Couchbase Data Platform 6.0 and later (developer preview in 5.5).
-
+The analytics service is available in Couchbase Data Platform 6.0 and later.
 
 == Getting Started
 
 After familiarizing yourself with our xref:6.5@server:analytics:primer-beer.adoc[introductory primer],
-in particular creating a dataset and linking it to a bucket to shadow the operational data, 
-try Couchbase Analytics using the .NET SDK.
-Intentionally, the API for analytics is very similar to that of the query service. 
-In .NET SDK 2.6 and 2.7, Analytics was only available on the `Bucket` object;
-in .NET SDK 3.0, Analytics queries are submitted using the Cluster reference, not a Bucket or Collection:
+in particular creating a dataset and linking it to a bucket, try Couchbase Analytics using the Java SDK.
+Intentionally, the API for analytics is nearly identical to that of the query service.
 
-[source,csharp]
+Before starting, here's all imports used in the following examples:
+
+[source,java]
 ----
-var result = await cluster.AnalyticsQueryAsync<dynamic>("SELECT \"hello\" as greeting;");
-
-foreach (var row in result.Rows)
-{
-    Console.WriteLine(row.greeting);
-}
+include::example$Analytics.java[tag=imports,indent=0]
 ----
 
+Here's a complete example of doing an analytics query and handling the results:
 
-== Queries
-
-A query can either be `simple` or be `parameterized`. If parameters are used, they can either be `positional` or `named`. 
-Here is one example of each:
-
-[source,csharp]
+[source,java]
 ----
-var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = 'France';");
+include::example$Analytics.java[tag=simple,indent=0]
 ----
 
-The query may be performed with positional parameters:
+Let's break it down. An analytics query is always performed at the `Cluster` level, using the `analyticsQuery` method. It takes the statement as a required argument and then allows to provide additional options if needed (in the example above, no options are specified).
 
-[source,csharp]
-----
-var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = ?;")
-    .AddPositionalParameter("France");
-----
+Once a result returns you can iterate the returned rows and/or accessing the `AnalyticsMetaData` associated with the query. If something goes wrong during the execution of the query, a derivate of the `CouchbaseException` will be thrown that also provides additional context on the operation:
 
-Alternatively, the query may be performed with named parameters:
-
-[source,csharp]
+[source,java]
 ----
-var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = $country;")
-    .AddNamedParameter("country", "France");
+Exception in thread "main" com.couchbase.client.core.error.ParsingFailureException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":24000,"message":"Syntax error: In line 1 >>select 1=;<< Encountered \"=\" at column 9. "}], ... }
 ----
 
-NOTE: As timeouts are propagated to the server by the client, a timeout set on the client side may be used to stop the processing of a request, in order to save system resources.
-See example in the next section.
+[NOTE]
+.Open Buckets and Cluster-Level Queries
+====
+If you are using a cluster older than Couchbase Server 6.5, it is required that there is at least one bucket open before performing a cluster-level query. If you fail to do so, the SDK will return a `FeatureNotAvailableException` with a descriptive error message asking you to open one.
+====
 
+== Paramerterized Queries
+Supplying parameters as individual arguments to the query allows the analytics engine to optimize the parsing and planning of the query. You can either supply these parameters by name or by position.
 
-== Fluent API
+The first example shows how to provide them by name:
 
-Additional parameters may be sent as part of the query, using the fluent API.
-There are currently three parameters:
-
-* *Client Context ID*, sets a context ID that is returned back as part of the result.
-Uses the `ClientContextId(String)` builder; default is a random UUID 
-* *Server Side Timeout*, customizes the timeout sent to the server. 
-Does not usually have to be set, as the client sets it based on the timeout on the operation. 
-Uses the `Timeout(TimeSpan)` builder, and defaults to the Analytics timeout set on the client (75s).
-This can be adjusted at the xref:ref:client-settings.adoc#timeout-options[cluster global config level].
-* *Priority*, set if the request should have priority over others.
-The `Priority(boolean)` builder defaults to `false`.
-
-
-Here, we give the request priority over others, and set a custom, server-side timeout value:
-
-[source,csharp]
+[source,java]
 ----
-var result = await cluster.AnalyticsQueryAsync<dynamic>("select airportname, country from airports where country = 'France';",
-    options =>
-    {
-        options.WithPriority(true);
-        options.WithTimeout(TimeSpan.FromSeconds(100));
-    }
-);
+include::example$Analytics.java[tag=named,indent=0]
+----
+
+The second example by position:
+
+[source,java]
+----
+include::example$Analytics.java[tag=positional,indent=0]
+----
+
+What style you choose is up to you, for readability in more complex queries we generally recommend using the named parameters.
+
+Note that you cannot use parameters in all positions. If you put it in an unsupported place the server will respond with a `ParsingFailureException`.
+
+== The Analytics Result
+
+When performing an analytics query, the response you receive is an `AnalyticsResult`. If no exception gets raised the request succeeded and provides access to both the rows returned and also associated `AnalyticsMetaData`.
+
+Rows can be consumed either through a `JsonObject` directly, turned into a java collection instance (like a `Map`) or into your POJO of choice mapping directly to your domain logic. 
+
+[source,java]
+----
+include::example$Analytics.java[tag=rowsasobject,indent=0]
 ----
 
 
-== Handling the Response
+The `AnalyticsMetaData` provides insight into some basic profiling/timing information as well as information like the `clientContextId`.
 
-After checking that `QueryStatus` is success, we iterate over the rows.
-These rows may contain various sorts of data and metadata, 
-depending upon the nature of the query, 
-as you will have seen when working through our xref:6.5@server:analytics:primer-beer.adoc[introductory primer].
+.AnalyticsMetaData
+[options="header"]
+|====
+| Name       | Description
+| `String requestId()` | Returns the request identifer of this request.
+| `String clientContextId()` | Returns the context ID either generated by the SDK or supplied by the user.
+| `AnalyticsStatus status()` | An enum simply representing the state of the result.
+| `AnalyticsMetrics metrics()` | Returns metrics provided by analytics for the request.
+| `Optional<JsonObject> signature()` | If a signature is present, it will be available to consume in a generic fashion.
+| `List<AnalyticsWarning> warnings()` | Non-fatal errors are available to consume as warnings on this method.
+|====
 
-[source,csharp]
+For example, here is how you can print the `executionTime` of a query:
+
+[source,java]
 ----
-try
-{
-    var result = await cluster.AnalyticsQueryAsync<dynamic>("SELECT \"hello\" as greeting;");
-
-    if (result.Rows.Any()) // check there are results
-    {
-        foreach (var row in result.Rows)
-        {
-            Console.WriteLine($“Greeting: {row.greeting}”);
-        }
-    }
-}
-catch (AnalyticsException exception)
-{
-    foreach (var error in exception.Errors)
-    {
-        Console.WriteLine($”Error: {error.Message}”);
-    }
-}
+include::example$Analytics.java[tag=printmetrics,indent=0]
 ----
 
-Check the xref:[Errors] list for possible values to be returned in the `List<Error>`, should `QueryStatus` return as `Errors`.
+== Analytics Options
+The analytics service provides an array of options to customize your query. The following table lists them all:
 
-// Move these to Error reference doc?
-Common errors are listed in our xref:ref:error-codes.adoc#analytics-errors[Errors Reference doc], with exceptions caused by resource unavailability (such as timeouts and _Operation cannot be performed during rebalance_ messages) leading to an xref:howtos:error-handling.adoc#retry[automatic retry] by the SDK.
+.Available Analytics Options
+[options="header"]
+|====
+| Name       | Description
+| `clientContextId(String)` | Sets a context ID returned by the service for debugging purposes.
+| `parameters(JsonArray)` | Allows to set positional arguments for a parameterized query.
+| `parameters(JsonObject)` | Allows to set named arguments for a parameterized query.
+| `priority(boolean)` | Assigns a different server-side priority to the query.
+| `raw(String, Object)` | Escape hatch to add arguments that are not covered by these options.
+| `readonly(boolean)` | Tells the client and server that this query is readonly.
+| `scanConsistency(AnalyticsScanConsistency)` | Sets a different scan consistency for this query.
+| `serializer(JsonSerializer)` | Allows to use a different serializer for the decoding of the rows.
+|====
 
-////
-Moving these to error reference doc
+=== Scan Consistency
+
+By default, the analytics engine will return whatever is currently in the index at the time of query (this mode is also called `AnalyticsScanConsistency.NOT_BOUNDED`). If you need to include everything that has just been written, a different scan consistency must be chosen. If `AnalyticsScanConsistency.REQUEST_PLUS` is chosen, it will likely take a bit longer to return the results but the analytics engine will make sure that it is as up-to-date as possible.
+
+[source,java]
 ----
-21002: Request timed out and will be cancelled
-23000: Analytics Service is temporarily unavailable
-23003: Operation cannot be performed during rebalance
-23007: Job queue is full with [string] jobs
-----
-////
-
-=== MetaData
-
-The `Metrics` object contains useful metadata, such as `ElapsedTime`, and `ResultCount`.
-Here is a snippet using several items of metadata
-
-[source,csharp]
-----
-var result = await cluster.AnalyticsQueryAsync<dynamic>("SELECT \"hello\" as greeting;");
-
-Console.WriteLine($”Elapsed time: {result.MetaData.Metrics.ElapsedTime}”);
-Console.WriteLine($”Execution time: {result.MetaData.Metrics.ExecutionTime}”);
-Console.WriteLine($”Result count: {result.MetaData.Metrics.ResultCount}”);
-Console.WriteLine($”Error count: {result.MetaData.Metrics.ErrorCount}”);
-----
-
-For a listing of available `Metrics` in `MetaData`, see the xref:concept-docs:analytics-for-sdk-users.adoc[Understanding Analytics] SDK doc.
-
-
-== Advanced Analytics Topics
-
-From Couchbase Data Platform 6.5, _Deferred Queries_ and _KV Ingestion_ are added to CBAS.
-
-
-=== Deferred queries
-
-Deferred queries enable the decoupling of the long-running query execution from the result.
-A handle is created, allowing the in-progress query to be checked, and the result returned later, without locking up resources or network bandwidth.
-
-WARNING: In Couchbase Data Platform 6.5, Deferred Queries is in _Developer Preview_. 
-In .NET SDK 3.0, Deferred Queries have an Interface Level of xref:project-docs:compatibility.adoc#interface-stability[Volatile].
-
-Deferred querying is enabled with `options.WithDeferred(true)`, 
-and by checking `QueryStatus` as appropriate to the task at hand.
-
-[source,csharp]
-----
-// execute deferred query
-var result = await _fixture.Cluster.AnalyticsQueryAsync<TestRequest>(
-    statement, 
-    options => options.WithDeferred(true)
-);
-
-// periodically check for results
-while (true)
-{
-    await Task.Delay(TimeSpan.FromSeconds(5));
-
-    // use result object to query for current status
-    var status = await result.Handle.GetStatusAsync();
-    switch (status)
-    {
-        case QueryStatus.Running: // still waiting
-            continue;
-        case QueryStatus.Completed: // results ready to be queried
-        case QueryStatus.Success: 
-
-            // get result rows
-            foreach (var row in result.Handle.GetRows())
-            {
-                
-            }
-
-            break;
-        default: // something went wrong ..
-            break;
-    }
-}
-----
-
-A Deferred query handle can be stored and then recreated, 
-to query a result at a later time or in another process.
-
-[source,csharp]
-----
-// get serialized (JSON) representation of query
-var json = _fixture.Cluster.ExportDeferredAnalyticsQueryHandle(result.Handle);
-
-// repopulate query using serialized query
-var handle = _fixture.Cluster.ImportDeferredAnalyticsQueryHandle<dynamic>(json);
+include::example$Analytics.java[tag=scanconsistency,indent=0]
 ----
 
 
-=== KV ingest
+=== Client Context Id
 
-You can ingest the results of an Analytics query directly back into a given collection. 
-This then allows the results themselves to be queried in turn.
+The SDK will always send a client context ID with each query, even if none is provided by the user. By default a UUID will be generated that is mirrored back from the analytics engine and can be used for debugging purposes. A custom string can always be provided if you want to introduce application-specific semantics into it (so that for example in a network dump it shows up with a certain identifier). Whatever is chosen, we recommend making sure it is unique so different queries can be distinguished during debugging or monitoring.
 
-NOTE: In .NET SDK 3.0, KV Ingest has an Interface Level of xref:project-docs:compatibility.adoc#interface-stability[Uncommited].
-
-[source,csharp]
+[source,java]
 ----
-await cluster.IngestAsync<dynamic>(
-    statement,
-    collection,
-    options =>
-    {
-        options.WithTimeout(TimeSpan.FromSeconds(75));
-        options.WithExpiration(TimeSpan.FromDays(1));
-    }
-);
+include::example$Analytics.java[tag=clientcontextid,indent=0]
 ----
 
-////
-== Additional Resources 
 
-To learn more about using N1QL for Analytics -- the first commercial implementation of SQL++ -- see our link:https://sqlplusplus-tutorial.couchbase.com[Tutorial Introduction to SQL++ for SQL users].
+=== Priority
 
-////
+By default, every analytics query has the same priority on the server. By setting this boolean flag to true, you are indicating that you need expedited dispatch in the analytice engine for this request.
+
+[source,java]
+----
+include::example$Analytics.java[tag=priority,indent=0]
+----
+
+
+=== Readonly
+
+If the query is marked as readonly, both the server and the SDK can improve processing of the operation. On the client side, the SDK can be more liberal with retries because it can be sure that there are no state-mutating side-effects happening. The query engine will ensure that actually no data is mutated when parsing and planning the query.
+
+[source,java]
+----
+include::example$Analytics.java[tag=readonly,indent=0]
+----
+
+=== Custom JSON Serializer
+
+Like with all JSON apis, it is possible to customize the JSON serializer. It allows to plug in your own library (like GSON) or custom configured mappings on your own Jackson serializer. This in turn makes it possible to serialize rows into POJOs or other structures that your application defines and the SDK has no idea about.
+
+Please see the documentation transcoding and serialization for more information.
+
+== Reactive And Async APIs
+
+In addition to the blocking API on `Cluster`, the SDK provides reactive and async APIs on `ReactiveCluster` or `AsyncCluster` respectively. If you are in doubt of which API to use, we recommend looking at the reactive first. It builds on top of reactor, a powerful library that allows you to compose reactive computations and deal with error handling and other related concerns (like retry) in an elegant manner. The async API on the other hand exposes a `CompletableFuture` and is more meant for lower level integration into other libraries or if you need the last drop of performance.
+
+Also, there is another reason you want to use the reactive API: streaming large results with backpressure from the application side. Both the blocking and async APIs have no means of signalling backpressure in a good way, so if you need it the reactive API is your best option.
+
+[TIP]
+.Advanced Reactive Concepts Ahead
+====
+Please see the guides on reactive programming for more information on the basics, this guide is diving straight into their impact on querying analytics.
+====
+
+A simple reactive query is similar to the blocking one:
+
+
+[source,java]
+----
+include::example$Analytics.java[tag=simplereactive,indent=0]
+----
+
+This query will stream all rows as they become available form the server. If you want to manually control the data flow (which is important if you are streaming a lot of rows which could cause a potential out of memory situation) you can do this by using explicit `request()` calls.
+
+[source,java]
+----
+include::example$Analytics.java[tag=backpressure,indent=0]
+----
+
+In this example we initially request a batch size of 10 rows (so streaming can begin). 
+Then as each row gets streamed it is written to a `process()` method which does whatever it needs to do to process. 
+Then a counter is decremented, and once all of the 10 outstanding rows are processed another batch is loaded. 
+Please note that with reactive code, if your `process()` method equivalent is blocking, you *must* move it onto another scheduler so that the I/O threads are not stalled. 
+We always recommend not blocking in the first place in reactive code.
