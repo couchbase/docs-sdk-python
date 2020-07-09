@@ -20,6 +20,13 @@ The Python SDK exposes an API for performing FTS queries which abstracts some of
 
 == Examples
 
+Here are all the imports required for the examples below:
+
+[source,python]
+----
+include::example$search.py[tag=imports,indent=0]
+----
+
 Search queries are executed at Cluster level (not bucket or collection).
 Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
 
