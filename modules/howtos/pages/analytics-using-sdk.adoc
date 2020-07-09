@@ -35,7 +35,7 @@ Here's a complete example of doing an analytics query and handling the results:
 include::example$analytics.py[tag=simple,indent=0]
 ----
 
-Let's break it down. An analytics query is always performed at the `Cluster` level, using the `analyticsQuery` method. It takes the statement as a required argument and then allows to provide additional options if needed (in the example above, no options are specified).
+Let's break it down. An analytics query is always performed at the `Cluster` level, using the `analytics_query` method. It takes the statement as a required argument and then allows to provide additional options if needed (in the example above, no options are specified).
 
 Once a result returns you can iterate over the returned rows.
 
