@@ -3,10 +3,10 @@
 :page-topic-type: howto
 :page-aliases: analytics-query
 :page-edition: Enterprise Edition
-:lang: Java
+:lang: Python
 :version: 3.0.0
-:example-source: 3.0@java-sdk:howtos:example$Analytics.java
-:example-source-lang: java
+:example-source: 3.0@python-sdk:howtos:example$analytics.py
+:example-source-lang: Python
 
 [abstract]
 Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
@@ -18,31 +18,43 @@ The analytics service is available in Couchbase Data Platform 6.0 and later.
 == Getting Started
 
 After familiarizing yourself with our xref:6.5@server:analytics:primer-beer.adoc[introductory primer],
-in particular creating a dataset and linking it to a bucket, try Couchbase Analytics using the Java SDK.
+in particular creating a dataset and linking it to a bucket, try Couchbase Analytics using the Python SDK.
 Intentionally, the API for analytics is nearly identical to that of the query service.
 
 Before starting, here's all imports used in the following examples:
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=imports,indent=0]
+include::example$analytics.py[tag=imports,indent=0]
 ----
 
 Here's a complete example of doing an analytics query and handling the results:
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=simple,indent=0]
+include::example$analytics.py[tag=simple,indent=0]
 ----
 
 Let's break it down. An analytics query is always performed at the `Cluster` level, using the `analyticsQuery` method. It takes the statement as a required argument and then allows to provide additional options if needed (in the example above, no options are specified).
 
-Once a result returns you can iterate the returned rows and/or accessing the `AnalyticsMetaData` associated with the query. If something goes wrong during the execution of the query, a derivate of the `CouchbaseException` will be thrown that also provides additional context on the operation:
+Once a result returns you can iterate over the returned rows.
 
-[source,java]
+////
+//// TODO: fix once https://issues.couchbase.com/browse/PYCBC-977 resolved
+and/or access the `AnalyticsMetaData` associated with the query.
+////
+
+If something goes wrong during the execution of the query, a derivative of the `CouchbaseException` will be thrown that also provides additional context on the operation.
+
+////
+TODO: update
+
+[source,py]
 ----
 Exception in thread "main" com.couchbase.client.core.error.ParsingFailureException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":24000,"message":"Syntax error: In line 1 >>select 1=;<< Encountered \"=\" at column 9. "}], ... }
 ----
+////
+
 
 [NOTE]
 .Open Buckets and Cluster-Level Queries
@@ -50,21 +62,21 @@ Exception in thread "main" com.couchbase.client.core.error.ParsingFailureExcepti
 If you are using a cluster older than Couchbase Server 6.5, it is required that there is at least one bucket open before performing a cluster-level query. If you fail to do so, the SDK will return a `FeatureNotAvailableException` with a descriptive error message asking you to open one.
 ====
 
-== Paramerterized Queries
+== Parameterized Queries
 Supplying parameters as individual arguments to the query allows the analytics engine to optimize the parsing and planning of the query. You can either supply these parameters by name or by position.
 
 The first example shows how to provide them by name:
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=named,indent=0]
+include::example$analytics.py[tag=named,indent=0]
 ----
 
 The second example by position:
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=positional,indent=0]
+include::example$analytics.py[tag=positional,indent=0]
 ----
 
 What style you choose is up to you, for readability in more complex queries we generally recommend using the named parameters.
@@ -75,34 +87,40 @@ Note that you cannot use parameters in all positions. If you put it in an unsupp
 
 When performing an analytics query, the response you receive is an `AnalyticsResult`. If no exception gets raised the request succeeded and provides access to both the rows returned and also associated `AnalyticsMetaData`.
 
-Rows can be consumed either through a `JsonObject` directly, turned into a java collection instance (like a `Map`) or into your POJO of choice mapping directly to your domain logic. 
+Rows can be consumed directly, or via a serialiser.
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=rowsasobject,indent=0]
+include::example$analytics.py[tag=rowsasobject,indent=0]
 ----
 
 
+
+////
+
+TODO: fix once https://issues.couchbase.com/browse/PYCBC-977 resolved
 The `AnalyticsMetaData` provides insight into some basic profiling/timing information as well as information like the `clientContextId`.
 
 .AnalyticsMetaData
 [options="header"]
 |====
 | Name       | Description
-| `String requestId()` | Returns the request identifer of this request.
-| `String clientContextId()` | Returns the context ID either generated by the SDK or supplied by the user.
-| `AnalyticsStatus status()` | An enum simply representing the state of the result.
-| `AnalyticsMetrics metrics()` | Returns metrics provided by analytics for the request.
-| `Optional<JsonObject> signature()` | If a signature is present, it will be available to consume in a generic fashion.
-| `List<AnalyticsWarning> warnings()` | Non-fatal errors are available to consume as warnings on this method.
+| `request_id() -> str` | Returns the request identifer of this request.
+| `client_context_id() -> str` | Returns the context ID either generated by the SDK or supplied by the user.
+| `status() -> AnalyticsStatus` | An enum simply representing the state of the result.
+| `metrics() -> AnalyticsMetrics` | Returns metrics provided by analytics for the request.
+| `signature() -> JSON` | If a signature is present, it will be available to consume in a generic fashion.
+| `warnings() -> Iterable[AnalyticsWarning]` | Non-fatal errors are available to consume as warnings on this method.
 |====
 
 For example, here is how you can print the `executionTime` of a query:
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=printmetrics,indent=0]
+include::example$analytics.py[tag=printmetrics,indent=0]
 ----
+////
+
 
 == Analytics Options
 The analytics service provides an array of options to customize your query. The following table lists them all:
@@ -111,33 +129,40 @@ The analytics service provides an array of options to customize your query. The 
 [options="header"]
 |====
 | Name       | Description
-| `clientContextId(String)` | Sets a context ID returned by the service for debugging purposes.
-| `parameters(JsonArray)` | Allows to set positional arguments for a parameterized query.
-| `parameters(JsonObject)` | Allows to set named arguments for a parameterized query.
-| `priority(boolean)` | Assigns a different server-side priority to the query.
-| `raw(String, Object)` | Escape hatch to add arguments that are not covered by these options.
-| `readonly(boolean)` | Tells the client and server that this query is readonly.
-| `scanConsistency(AnalyticsScanConsistency)` | Sets a different scan consistency for this query.
-| `serializer(JsonSerializer)` | Allows to use a different serializer for the decoding of the rows.
+| `client_context_id: str` | Sets a context ID returned by the service for debugging purposes.
+| `positional_parameters: Iterable[str]` | Allows to set positional arguments for a parameterized query.
+| `named_parameters: Dict[str,str]` | Allows to set named arguments for a parameterized query.
+| `priority: bool` | Assigns a different server-side priority to the query.
+| `raw: Dict[str, Any]` | Escape hatch to add arguments that are not covered by these options.
+| `read_only: bool` | Tells the client and server that this query is readonly.
 |====
 
+
+////
+//// TODO: uncomment pending https://issues.couchbase.com/browse/PYCBC-976
+| `scan_consistency: AnalyticsScanConsistency` | Sets a different scan consistency for this query.
+|====
+
+TODO: uncomment pending https://issues.couchbase.com/browse/PYCBC-976
 === Scan Consistency
 
 By default, the analytics engine will return whatever is currently in the index at the time of query (this mode is also called `AnalyticsScanConsistency.NOT_BOUNDED`). If you need to include everything that has just been written, a different scan consistency must be chosen. If `AnalyticsScanConsistency.REQUEST_PLUS` is chosen, it will likely take a bit longer to return the results but the analytics engine will make sure that it is as up-to-date as possible.
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=scanconsistency,indent=0]
+include::example$analytics.py[tag=scanconsistency,indent=0]
 ----
+////
+
 
 
 === Client Context Id
 
 The SDK will always send a client context ID with each query, even if none is provided by the user. By default a UUID will be generated that is mirrored back from the analytics engine and can be used for debugging purposes. A custom string can always be provided if you want to introduce application-specific semantics into it (so that for example in a network dump it shows up with a certain identifier). Whatever is chosen, we recommend making sure it is unique so different queries can be distinguished during debugging or monitoring.
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=clientcontextid,indent=0]
+include::example$analytics.py[tag=clientcontextid,indent=0]
 ----
 
 
@@ -145,9 +170,9 @@ include::example$Analytics.java[tag=clientcontextid,indent=0]
 
 By default, every analytics query has the same priority on the server. By setting this boolean flag to true, you are indicating that you need expedited dispatch in the analytice engine for this request.
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=priority,indent=0]
+include::example$analytics.py[tag=priority,indent=0]
 ----
 
 
@@ -155,46 +180,13 @@ include::example$Analytics.java[tag=priority,indent=0]
 
 If the query is marked as readonly, both the server and the SDK can improve processing of the operation. On the client side, the SDK can be more liberal with retries because it can be sure that there are no state-mutating side-effects happening. The query engine will ensure that actually no data is mutated when parsing and planning the query.
 
-[source,java]
+[source,py]
 ----
-include::example$Analytics.java[tag=readonly,indent=0]
+include::example$analytics.py[tag=readonly,indent=0]
 ----
 
 === Custom JSON Serializer
 
-Like with all JSON apis, it is possible to customize the JSON serializer. It allows to plug in your own library (like GSON) or custom configured mappings on your own Jackson serializer. This in turn makes it possible to serialize rows into POJOs or other structures that your application defines and the SDK has no idea about.
+Like with all JSON apis, it is possible to customize the JSON serializer. It allows to plug in your own library. This in turn makes it possible to serialize rows into PODs or other structures that your application defines and the SDK has no idea about.
 
 Please see the documentation transcoding and serialization for more information.
-
-== Reactive And Async APIs
-
-In addition to the blocking API on `Cluster`, the SDK provides reactive and async APIs on `ReactiveCluster` or `AsyncCluster` respectively. If you are in doubt of which API to use, we recommend looking at the reactive first. It builds on top of reactor, a powerful library that allows you to compose reactive computations and deal with error handling and other related concerns (like retry) in an elegant manner. The async API on the other hand exposes a `CompletableFuture` and is more meant for lower level integration into other libraries or if you need the last drop of performance.
-
-Also, there is another reason you want to use the reactive API: streaming large results with backpressure from the application side. Both the blocking and async APIs have no means of signalling backpressure in a good way, so if you need it the reactive API is your best option.
-
-[TIP]
-.Advanced Reactive Concepts Ahead
-====
-Please see the guides on reactive programming for more information on the basics, this guide is diving straight into their impact on querying analytics.
-====
-
-A simple reactive query is similar to the blocking one:
-
-
-[source,java]
-----
-include::example$Analytics.java[tag=simplereactive,indent=0]
-----
-
-This query will stream all rows as they become available form the server. If you want to manually control the data flow (which is important if you are streaming a lot of rows which could cause a potential out of memory situation) you can do this by using explicit `request()` calls.
-
-[source,java]
-----
-include::example$Analytics.java[tag=backpressure,indent=0]
-----
-
-In this example we initially request a batch size of 10 rows (so streaming can begin). 
-Then as each row gets streamed it is written to a `process()` method which does whatever it needs to do to process. 
-Then a counter is decremented, and once all of the 10 outstanding rows are processed another batch is loaded. 
-Please note that with reactive code, if your `process()` method equivalent is blocking, you *must* move it onto another scheduler so that the I/O threads are not stalled. 
-We always recommend not blocking in the first place in reactive code.
