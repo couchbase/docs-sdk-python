@@ -25,14 +25,15 @@ The .NET SDK exposes an API for performing FTS queries which abstracts some of t
 Search queries are executed at Cluster level (not bucket or collection).
 Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
 """
-# tag: imports[]
+# tag::imports[]
 from couchbase.cluster import Cluster, ClusterOptions, PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 from couchbase.search import QueryStringQuery, SearchQuery, SearchOptions, PrefixQuery, HighlightStyle, SortField, \
     SortScore, TermFacet
+from couchbase.mutation_state import MutationState
+
 import logging
-# end: imports[]
-from mutation_state import MutationState
+# end::imports[]
 
 
 class Search:
