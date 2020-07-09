@@ -1,15 +1,26 @@
+from typing import Union
+from couchbase_core import IterableWrapper
+from couchbase.analytics import AnalyticsResult
+
 # tag::imports[]
-from couchbase.cluster import Cluster
-# end::imports[]
+
+from couchbase.cluster import Cluster, ClusterOptions
 from couchbase.exceptions import CouchbaseException
-from couchbase.cluster import AnalyticsOptions
+from couchbase.cluster import AnalyticsOptions, PasswordAuthenticator
+
+
+# end::imports[]
+
+
+class AnalyticsScanConsistency(object):
+    pass
 
 
 class Analytics(object):
 
     def main(self, args):
         # tag::simple[]
-        cluster = Cluster.connect("localhost", "Administrator", "password")
+        cluster = Cluster.connect("localhost", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
         try:
             result = cluster.analytics_query("select \"hello\" as greeting")
 
@@ -36,39 +47,43 @@ class Analytics(object):
             "France")
         # end::positional[]
 
-        # tag::scanconsistency[]
-        result = cluster.analytics_query(
-            "select ...",
-            scan_consistency=AnalyticsScanConsistency.REQUEST_PLUS)
-        # end::scanconsistency[]
+        # TODO: uncoment pending https://issues.couchbase.com/browse/PYCBC-976
+        # # tag::scanconsistency[]
+        # result = cluster.analytics_query(
+        #     "select ...",
+        #     scan_consistency=AnalyticsScanConsistency.REQUEST_PLUS)
+        # # end::scanconsistency[]
 
         # tag::clientcontextid[]
+        import uuid
         result = cluster.analyticsQuery(
         "select ...",
-        analyticsOptions().clientContextId("user-44" + UUID.randomUUID().toString()))
+        AnalyticsOptions(client_context_id="user-44{}".format(uuid.uuid4())))
 
         # end::clientcontextid[]
 
         # tag::priority[]
         result = cluster.analytics_query(
             "select ...",
-            analyticsOptions().priority(true)
+            AnalyticsOptions(priority=True)
         )
         # end::priority[]
 
         # tag::readonly[]
-        result = cluster.analyticsQuery(
+        result = cluster.analytics_query(
             "select ...",
             readonly=True
         )
         # end::readonly[]
 
-        # tag::printmetrics[]
-        result = cluster.analytics_query("select 1=1")
-        print(
-            "Execution time: " + result.metaData().metrics().executionTime()
-        )
-        # end::printmetrics[]
+        # TODO: uncomment pending https://issues.couchbase.com/browse/PYCBC-977
+        # # tag::printmetrics[]
+        # result = cluster.analytics_query("select 1=1")  # type: Union[AnalyticsResult,IterableWrapper]
+        # print(
+        #     "Execution time: " + result.metadata().metrics().executionTime()
+        # )
+        # # end::printmetrics[]
+        #
 
         # tag::rowsasobject[]
         result = cluster.analytics_query(
@@ -77,4 +92,4 @@ class Analytics(object):
         for row in result.rows():
             print("Found row: " + row)
 
-# end::rowsasobject[]
+        # end::rowsasobject[]
