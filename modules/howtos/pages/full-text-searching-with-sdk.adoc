@@ -171,6 +171,7 @@ Facets are aggregate information collected on a result set and are useful when i
 The SDK allows you to provide many different facet configurations to the search engine, the following example shows how to create a facet based on a term. 
 Other possible facets include numeric and date ranges.
 
+////
 === Facets
 
 [source,java]
@@ -186,7 +187,7 @@ You can tell the search engine to include the full content of a certain number o
 ----
 include::example$search.py[tag=fields,indent=0]
 ----
-
+////
 == Working with Results
 
 The result of a search query has three components: hits, facets, and metdata.
