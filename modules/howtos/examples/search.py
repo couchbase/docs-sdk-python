@@ -25,14 +25,24 @@ The .NET SDK exposes an API for performing FTS queries which abstracts some of t
 Search queries are executed at Cluster level (not bucket or collection).
 Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
 """
-from couchbase.cluster import Cluster
+# tag::imports[]
+from couchbase.cluster import Cluster, ClusterOptions, PasswordAuthenticator
+from couchbase.exceptions import CouchbaseException
+from couchbase.search import QueryStringQuery, SearchQuery, SearchOptions, PrefixQuery, HighlightStyle, SortField, \
+    SortScore, TermFacet
+from couchbase.mutation_state import MutationState
+
+import logging
+# end::imports[]
+
+
 class Search:
-    cluster = Cluster.connect("localhost", "Administrator", "password")
-    bucket = cluster.bucket("travel-sample")
-    collection = bucket.default_collection()
 
     @staticmethod
     def __call__(*args: str):
+        cluster = Cluster.connect("localhost", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
+        bucket = cluster.bucket("travel-sample")
+        collection = bucket.default_collection()
 
         """
 == Examples
@@ -46,17 +56,18 @@ include::example$search.py[tag=simple,indent=0]
 ----
 """
         # tag::simple[]
+        import traceback
         try:
             result = cluster.search_query("index",
-                                          StringQuery("query"))
+                                          QueryStringQuery("query"))
             for row in result.rows():
                 print("Found row {}".format(row)
                 print("Reported total rows: "
-                      + result.metaData().metrics().totalRows())
-        except CouchbaseException as ex:
-            logging.error(traceback.format_exc()))
-    # end::simple[]
-"""
+                      + result.metadata().metrics().total_rows())
+        except CouchbaseException:
+            logging.error(traceback.format_exc())
+        # end::simple[]
+        """
 All simple query types are created in the same manner, some have additional properties, which can be seen in common query type descriptions.
     Couchbase FTS's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
 Here is a date range query that looks for dates between 1st January 2019 and 31st January:
@@ -134,17 +145,17 @@ Once the search query is executed successfully, the server starts sending back t
 ----
 include::example$search.py[tag=squery,indent=0]
 """
-#tag::squery[]
-result = cluster.search_query("my-index-name", SearchQuery.prefix("airports-"), searchOptions().fields("field-1"));
+        #tag::squery[]
+        result = cluster.search_query("my-index-name", PrefixQuery("airports-"), SearchOptions(fields=["field-1"]))
 
-for row in result.rows()):
-    print("Score: {}".format(row.score()))
-    print("Document Id: {}".format(row.id()))
+        for row in result.rows():
+            print("Score: {}".format(row.score()))
+            print("Document Id: {}".format(row.id()))
 
-    # Also print fields that are included in the query
-    print(row.fields())
-#end::squery[]
-"""
+            # Also print fields that are included in the query
+            print(row.fields())
+        #end::squery[]
+        """
 === Limit and Skip
 
 It is possible to limit the returned results to a maximum amount using the `limit` option.
@@ -153,14 +164,14 @@ It is possible to limit the returned results to a maximum amount using the `limi
 [source,python]
 """
 
-#tag::limit[]
-result = cluster.search_query(
-    "index",
-    StringQuery("query"),
-    SearchOptions(skip=3, limit = 4)
-)
-#end::limit[]
-"""
+        #tag::limit[]
+        result = cluster.search_query(
+            "index",
+            QueryStringQuery("query"),
+            SearchOptions(skip=3, limit=4)
+        )
+        #end::limit[]
+        """
 ----
 
 === ScanConsistency and ConsistentWith
@@ -179,17 +190,17 @@ FTS allows `RequestPlus` queries -- _Read-Your-Own_Writes (RYOW)_ consistency, e
 ----
 include::example$search.py[tag=ryow,indent=0]
 """
-#tag::ryow[]
-mutation_result = collection.upsert("key", JsonObject.create());
-mutation_state = MutationState.of(mutation_result.mutationToken().get())
+        #tag::ryow[]
+        mutation_result = collection.upsert("key", {})
+        mutation_state = MutationState().add_results(mutation_result)
 
-searchResult = cluster.search_query(
-    "index",
-    SearchString("query"),
-    SearchOptions().consistent_with(mutation_state))
+        search_result = cluster.search_query(
+            "index",
+            QueryStringQuery("query"),
+            SearchOptions().consistent_with(mutation_state))
 
-#end::ryow[]
-"""
+        #end::ryow[]
+        """
 ----
 
 === Highlight
@@ -203,14 +214,14 @@ The following snippet uses HTML formatting for two fields:
 include::example$search.py[tag=highlight,indent=0]
 ----
 """
-#tag::highlight[]
-result = cluster.search_query(
-    "index",
-    SearchQuery.queryString("query"),
-    searchOptions().highlight(HighlightStyle.HTML, "field1", "field2")
+        #tag::highlight[]
+        result = cluster.search_query(
+            "index",
+            QueryStringQuery("query"),
+            SearchOptions(highlight_style=HighlightStyle.HTML, highlight_fields=["field1", "field2"]))
 
-#end::highlight[]
-"""
+        #end::highlight[]
+        """
 === Sort
 
 By default the search engine will sort the results in descending order by score.
@@ -222,35 +233,35 @@ include::example$search.py[tag=sort,indent=0]
 ----
 
 """
-#tag::sort[]
-SearchResult result = cluster.searchQuery(
-    "index",
-    SearchQuery.queryString("query"),
-    searchOptions().sort(SearchSort.byScore(), SearchSort.byField("field"))
-#end::sort[]
-"""
+        #tag::sort[]
+        result = cluster.search_query(
+            "index",
+            QueryStringQuery("query"),
+            SearchOptions(sort=[SortScore(), SortField("field")]))
+        #end::sort[]
+        """
 Facets are aggregate information collected on a result set and are useful when it comes to categorization of result data.
 The SDK allows you to provide many different facet configurations to the search engine, the following example shows how to create a facet based on a term.
 Other possible facets include numeric and date ranges.
 
 === Facets
 
-[source,java]
+[source,python]
 ----
 include::example$search.py[tag=facets,indent=0]
 ----
 
 """
-# tag::facets[]
+        # tag::facets[]
 
-result = cluster.search_query(
-    "index",
-    StringQuery("query"),
-    SearchOptions(facets=dict(categories=SearchFacet.term("category", 5))
-)
-# end::facets[]
+        result = cluster.search_query(
+            "index",
+            QueryStringQuery("query"),
+            SearchOptions(facets=dict(categories=TermFacet("category", 5)))
+        )
+        # end::facets[]
 
-"""
+        """
 === Fields
 
 You can tell the search engine to include the full content of a certain number of indexed fields in the response.
@@ -260,13 +271,13 @@ You can tell the search engine to include the full content of a certain number o
 include::example$search.py[tag=fields,indent=0]
 ----
 """
-#tag::fields[]
-result = cluster.search_query(
-    "index",
-    StringQuery("query"),
-    SearchOptions(fields=("field1", "field2"))
-  )
-#end::fields[]
+        #tag::fields[]
+        result = cluster.search_query(
+            "index",
+            QueryStringQuery("query"),
+            SearchOptions(fields=["field1", "field2"])
+          )
+        #end::fields[]
 
 # TODO: document async APIs?
 # #tag::simplereactive[]
@@ -280,7 +291,7 @@ result = cluster.search_query(
 #   // #end::simplereactive[]
 # }
 
-"""
+        """
 == Working with Results
 
 The result of a search query has three components: hits, facets, and metdata.
@@ -293,23 +304,23 @@ The result of a search query has three components: hits, facets, and metdata.
 .Iterating hits
 ----
 """
-#tag::simpleresult[]
-for hit in result.hits():
-    document_id = hit.id
-    score = hit.score
-#end::simpleresult[]
-"""
+        #tag::simpleresult[]
+        for hit in result.hits():
+            document_id = hit.id
+            score = hit.score
+        #end::simpleresult[]
+        """
 ----
 
 [source,python]
 Iterating facets
                ----
 """
-#tag::simplefacetresult[]
-for facet in result.facets():
-    name = facet.name
-    total = facet.total
-#end::simplefacetresult[]
+        #tag::simplefacetresult[]
+        for facet in result.facets():
+            name = facet.name
+            total = facet.total
+        #end::simplefacetresult[]
 """
 ----
 The `SearchRow` contains the following methods:
@@ -377,4 +388,4 @@ Then as each row gets streamed it is written to a `process()` method which does 
     Then a counter is decremented, and once all of the 10 outstanding rows are processed another batch is loaded.
     Please note that with reactive code, if your `process()` method equivalent is blocking, you *must* move it onto another scheduler so that the I/O threads are not stalled.
 We always recommend not blocking in the first place in reactive code.
-
+"""
