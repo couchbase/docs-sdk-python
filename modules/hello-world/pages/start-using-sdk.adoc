@@ -92,8 +92,8 @@ meantime:
 2. Clone the appropriate OpenSSL binary distribution from
 https://github.com/python/cpython-bin-deps.git@openssl-x.y.z(minor) where the tag matches the
 exact version printed in step 1.
-3. Set the environment variable OPENSSL_ROOT_DIR to point to the appropriate
-subdirectory of the newly checked out tag (amd64 for Windows).
+3. Set the environment variable OPENSSL_ROOT_DIR to point to the architecture-specific
+subdirectory of the newly checked out tag (amd64 is currently the only supported option).
 4. The embedded libcouchbase build should then pick up this OpenSSL version and build against it.
 
 // end::install[]
