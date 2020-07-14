@@ -37,6 +37,8 @@ Python SDK 3.n automatically bundles libcouchbase (downloading and building it i
 
 == Python SDK 3.0.2 Release Notes (14 July 2020)
 
+Version 3.0.2 is the third release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
+
 [source,bash]
 ----
 pip install couchbase==3.0.2
@@ -71,7 +73,7 @@ Document analytics using the Python SDK at draft level
 
 == Version 3.0.1 (12 June 2020)
 
-Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bugfixes over the last stable release.
+Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
 
 [source,console]
 ----
