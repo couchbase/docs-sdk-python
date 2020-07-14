@@ -69,13 +69,6 @@ Document how to get encrypted connections to clusters.
 * https://issues.couchbase.com/browse/PYCBC-591[PYCBC-591]:
 Document analytics using the Python SDK at draft level
 
-////
-
-PENDING:
-* https://issues.couchbase.com/browse/PYCBC-949[PYCBC-949]:
-Error trying to use server cert
-////
-
 == Version 3.0.1 (12 June 2020)
 
 Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bugfixes over the last stable release.
