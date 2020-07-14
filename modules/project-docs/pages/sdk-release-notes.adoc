@@ -35,9 +35,45 @@ Python SDK 3.n automatically bundles libcouchbase (downloading and building it i
  so no need to install it separately.
 
 
+== Python SDK 3.0.2 Release Notes (14 July 2020)
+
+Version 3.0.2 is the third release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
+
+[source,bash]
+----
+pip install couchbase==3.0.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.2/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-920[PYCBC-920]:
+Twisted api seeing lots of timeouts.
+
+* https://issues.couchbase.com/browse/PYCBC-941[PYCBC-941]:
+Build against correct OpenSSL version on Windows.
+
+* https://issues.couchbase.com/browse/PYCBC-950[PYCBC-950]:
+N1QL query connections remain open after completion.
+
+* https://issues.couchbase.com/browse/PYCBC-970[PYCBC-970]:
+Python SDK assumes docstrings are available.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-885[PYCBC-885]:
+FTS Doc for Python 3.0.
+
+* https://issues.couchbase.com/browse/PYCBC-929[PYCBC-929]:
+Document how to get encrypted connections to clusters.
+
+* https://issues.couchbase.com/browse/PYCBC-591[PYCBC-591]:
+Document analytics using the Python SDK at draft level.
+
 == Version 3.0.1 (12 June 2020)
 
-Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bugfixes over the last stable release.
+Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
 
 [source,console]
 ----
