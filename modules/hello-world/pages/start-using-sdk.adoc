@@ -83,11 +83,16 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 pip install couchbase
 ----
 
-NOTE: Because the Windows client is packaged as binary wheel,
+Because the Windows client is packaged as binary wheel,
 it currently is compiled without OpenSSL support, to allow it to be run without OpenSSL.
-We are working on providing OpenSSL support for Windows shortly -- 
-it is possible to build and run against an OpenSSL compiled for Windows manually given the correct version of the OpenSSL headers and libraries are visible to the compiler, 
-and the OpenSSL dynamic libraries are in the PATH at runtime.
+We are working on providing better packaging for OpenSSL for Windows shortly, but in the
+meantime:
+
+. Run `python -c 'import ssl; print(ssl.OPENSSL_VERSION)'`
+. Clone the appropriate OpenSSL binary distribution from https://github.com/python/cpython-bin-deps.git@openssl-x.y.z(minor) where the tag matches the
+exact version printed in step 1.
+. Set the environment variable `OPENSSL_ROOT_DIR` to point to the architecture-specific subdirectory of the newly checked out tag (`amd64` is currently the only supported option).
+. The embedded libcouchbase build should then pick up this OpenSSL version and build against it.
 
 // end::install[]
 
