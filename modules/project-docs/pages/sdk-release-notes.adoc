@@ -34,8 +34,21 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.n automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Version 3.0.3 (15 July 2020)
 
-== Python SDK 3.0.2 Release Notes (14 July 2020)
+[source,bash]
+----
+pip install couchbase==3.0.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.3/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-981[PYCBC-981]:
+Fix for PEP517 install issue
+
+== Version 3.0.2 (14 July 2020)
 
 Version 3.0.2 is the third release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
 
