@@ -34,6 +34,26 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.n automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Version 3.0.4 (22 July 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.4
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.4/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-915[PYCBC-915]:
+Remove support for Python <3.5
+
+* https://issues.couchbase.com/browse/PYCBC-983[PYCBC-983]:
+Make Conan/PyGithub deps contingent on build reqs, enable 3.5 support
+
+* https://issues.couchbase.com/browse/PYCBC-987[PYCBC-987]:
+Fix 'ImportError: DLL load failed' error on Windows with SSL
+
 == Version 3.0.3 (15 July 2020)
 
 [source,bash]
