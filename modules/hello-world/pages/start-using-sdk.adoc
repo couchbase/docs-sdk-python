@@ -26,8 +26,7 @@ The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
 
 // tag::install[]
 
-NOTE: Currently the Python Client requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself. 
-Better packaging for OpenSSL support is currently being developed.
+NOTE: Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself for TLS support to be provided. Additionally the installer relies on PEP517 which older versions of PIP do not support. If you experience issues installing it is advised to upgrade your PIP/setuptools installation as follows: `pip install --upgrade pip setuptools wheel`
 
 == Installing on Linux
 
@@ -83,16 +82,11 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 pip install couchbase
 ----
 
-Because the Windows client is packaged as binary wheel,
-it currently is compiled without OpenSSL support, to allow it to be run without OpenSSL.
-We are working on providing better packaging for OpenSSL for Windows shortly, but in the
-meantime:
+The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for
+correct operation. The binary wheels for Windows are packaged as a binary wheel built against the relevant version OpenSSL (which is fixed per
+Windows version of Python).
 
-. Run `python -c 'import ssl; print(ssl.OPENSSL_VERSION)'`
-. Clone the appropriate OpenSSL binary distribution from https://github.com/python/cpython-bin-deps.git@openssl-x.y.z(minor) where the tag matches the
-exact version printed in step 1.
-. Set the environment variable `OPENSSL_ROOT_DIR` to point to the architecture-specific subdirectory of the newly checked out tag (`amd64` is currently the only supported option).
-. The embedded libcouchbase build should then pick up this OpenSSL version and build against it.
+If you require a version without OpenSSL support, or that doesn't have a suitable binary wheel on PyPi, follow the build instructions on the GitHub repo.
 
 // end::install[]
 
