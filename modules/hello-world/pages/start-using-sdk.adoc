@@ -26,7 +26,16 @@ The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
 
 // tag::install[]
 
-NOTE: Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself for TLS support to be provided. Additionally the installer relies on PEP517 which older versions of PIP do not support. If you experience issues installing it is advised to upgrade your PIP/setuptools installation as follows: `pip install --upgrade pip setuptools wheel`
+[NOTE]
+====
+Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself for TLS support to be provided. 
+Additionally the installer relies on PEP517 which older versions of PIP do not support. 
+If you experience issues installing it is advised to upgrade your PIP/setuptools installation as follows: 
+[source,console]
+----
+pip install --upgrade pip setuptools wheel
+----
+====
 
 == Installing on Linux
 
@@ -82,9 +91,8 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 pip install couchbase
 ----
 
-The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for
-correct operation. The binary wheels for Windows are packaged as a binary wheel built against the relevant version OpenSSL (which is fixed per
-Windows version of Python).
+The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation. 
+The binary wheels for Windows are packaged as a binary wheel built against the relevant version OpenSSL (which is fixed per Windows version of Python).
 
 If you require a version without OpenSSL support, or that doesn't have a suitable binary wheel on PyPi, follow the build instructions on the GitHub repo.
 
