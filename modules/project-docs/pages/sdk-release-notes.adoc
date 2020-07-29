@@ -16,7 +16,7 @@ You may install previous versions of the SDK using pip (after installing the req
 
 [source,bash]
 ----
-pip install git+https://github.com/couchbase/couchbase-python-client@VERSION
+python3 -m pip install git+https://github.com/couchbase/couchbase-python-client@VERSION
 ----
 
 where VERSION is the version you wish to install. For example, to
@@ -24,7 +24,7 @@ install version 2.5.4:
 
 [source,bash]
 ----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.5.4
+python3 -m pip install git+http://github.com/couchbase/couchbase-python-client@2.5.4
 ----
 
 include::hello-world:page$start-using-sdk.adoc[tag=install]
@@ -38,7 +38,7 @@ Python SDK 3.n automatically bundles libcouchbase (downloading and building it i
 
 [source,bash]
 ----
-pip install couchbase==3.0.3
+python3 -m pip install couchbase==3.0.3
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.3/
@@ -54,7 +54,7 @@ Version 3.0.2 is the third release of the 3.0 series, bringing enhancements and 
 
 [source,bash]
 ----
-pip install couchbase==3.0.2
+python3 -m pip install couchbase==3.0.2
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.2/
@@ -90,7 +90,7 @@ Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and
 
 [source,console]
 ----
-pip install couchbase==3.0.1
+python3 -m pip install couchbase==3.0.1
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.1/
@@ -151,7 +151,7 @@ This is the first GA release of the third generation Python SDK.
 
 [source,bash]
 ----
-pip install couchbase==3.0.0
+python3 -m pip install couchbase==3.0.0
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
