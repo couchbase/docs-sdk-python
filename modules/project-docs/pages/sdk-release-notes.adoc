@@ -50,10 +50,6 @@ pip install couchbase==3.0.4
 * https://issues.couchbase.com/browse/PYCBC-915[PYCBC-915]:
 Remove support for Python <3.5.
 
-
-////
-Review pending
-
 * https://issues.couchbase.com/browse/PYCBC-951[PYCBC-951]:
 The MutateInOptions don't have durability.
 
@@ -62,9 +58,6 @@ Expose and document 'condition' parameter used to create partial N1QL indices.
 
 * https://issues.couchbase.com/browse/PYCBC-989[PYCBC-989]:
 Add xattr flag to SD.upsert.
-
-////
-
 
 * https://issues.couchbase.com/browse/PYCBC-954[PYCBC-954]:
 Can't query in the cloud.
