@@ -9,6 +9,8 @@ Release notes, installation instructions, and download archive for the Couchbase
 
 include::hello-world:page$start-using-sdk.adoc[tag=prep]
 
+NOTE: Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
+
 
 == Installation
 
