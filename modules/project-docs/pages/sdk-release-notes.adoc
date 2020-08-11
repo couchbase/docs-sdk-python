@@ -36,6 +36,68 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.n automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Version 3.0.4 (11 August 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.4
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.4/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-915[PYCBC-915]:
+Remove support for Python <3.5.
+
+* https://issues.couchbase.com/browse/PYCBC-951[PYCBC-951]:
+The MutateInOptions don't have durability.
+
+* https://issues.couchbase.com/browse/PYCBC-986[PYCBC-986]:
+Expose and document 'condition' parameter used to create partial N1QL indices.
+
+* https://issues.couchbase.com/browse/PYCBC-989[PYCBC-989]:
+Add xattr flag to SD.upsert.
+
+* https://issues.couchbase.com/browse/PYCBC-954[PYCBC-954]:
+Can't query in the cloud.
+
+* https://issues.couchbase.com/browse/PYCBC-983[PYCBC-983]:
+Make Conan/PyGithub deps contingent on build reqs, enable 3.5 support.
+
+* https://issues.couchbase.com/browse/PYCBC-984[PYCBC-984]:
+Some N1QL query settings may not get set.
+
+* https://issues.couchbase.com/browse/PYCBC-987[PYCBC-987]:
+ImportError: DLL load failed: The specified module could not be found. - SSL.
+
+* https://issues.couchbase.com/browse/PYCBC-988[PYCBC-988]:
+Update release notes generator.
+
+* https://issues.couchbase.com/browse/PYCBC-994[PYCBC-994]:
+Remove error_map test as fetching is now automatic
+
+* https://issues.couchbase.com/browse/PYCBC-1001[PYCBC-1001]:
+"Could NOT find PythonLibs (missing: PYTHON_LIBRARIES)" causing PEP517 install error.
+
+* https://issues.couchbase.com/browse/PYCBC-1002[PYCBC-1002]:
+Explicitly set adhoc to off with lcb_cmdquery_adhoc and prepared statements.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-671[PYCBC-671]:
+Add Amazon Linux 2 verification testing.
+
+* https://issues.couchbase.com/browse/PYCBC-933[PYCBC-933]:
+Review docs for update items, identify/file issues.
+
+* https://issues.couchbase.com/browse/PYCBC-992[PYCBC-992]:
+Pin LCB to 3.0.3
+
+* https://issues.couchbase.com/browse/PYCBC-998[PYCBC-998]:
+SSL install notes update.
+
+
 == Version 3.0.3 (15 July 2020)
 
 [source,console]
