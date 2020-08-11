@@ -161,6 +161,13 @@ include::example$hello_world_t.py[tag=n1ql]
 ----
 
 
+== PyPy support
+
+Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
+
+Please let us know if you require a PyPy-compatible version of the SDK.
+
+
 == Additional Resources
 
 The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
@@ -174,8 +181,3 @@ The Python SDK source code is available on link:https://github.com/couchbase/cou
 
 Information on new features, fixes, known issues as well as information on how to install older release versions is xref:project-docs:sdk-release-notes.adoc[in the release notes].
 
-=== PyPy support
-
-Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
-
-Please let us know if you require a PyPy-compatible version of the SDK.
