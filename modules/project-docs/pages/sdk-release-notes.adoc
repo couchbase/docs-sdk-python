@@ -9,22 +9,24 @@ Release notes, installation instructions, and download archive for the Couchbase
 
 include::hello-world:page$start-using-sdk.adoc[tag=prep]
 
+NOTE: Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
+
 
 == Installation
 
 You may install previous versions of the SDK using pip (after installing the required xref:hello-world:start-using-sdk.adoc[dependencies])
 
-[source,bash]
+[source,console]
 ----
-pip install git+https://github.com/couchbase/couchbase-python-client@VERSION
+$ python3 -m pip install git+https://github.com/couchbase/couchbase-python-client@VERSION
 ----
 
 where VERSION is the version you wish to install. For example, to
 install version 2.5.4:
 
-[source,bash]
+[source,console]
 ----
-pip install git+http://github.com/couchbase/couchbase-python-client@2.5.4
+$ python3 -m pip install git+http://github.com/couchbase/couchbase-python-client@2.5.4
 ----
 
 include::hello-world:page$start-using-sdk.adoc[tag=install]
@@ -34,14 +36,125 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.n automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Version 3.0.4 (11 August 2020)
 
-== Version 3.0.1 (12 June 2020)
+[source,bash]
+----
+pip install couchbase==3.0.4
+----
 
-Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bugfixes over the last stable release.
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.4/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-915[PYCBC-915]:
+Remove support for Python <3.5.
+
+* https://issues.couchbase.com/browse/PYCBC-951[PYCBC-951]:
+The MutateInOptions don't have durability.
+
+* https://issues.couchbase.com/browse/PYCBC-986[PYCBC-986]:
+Expose and document 'condition' parameter used to create partial N1QL indices.
+
+* https://issues.couchbase.com/browse/PYCBC-989[PYCBC-989]:
+Add xattr flag to SD.upsert.
+
+* https://issues.couchbase.com/browse/PYCBC-954[PYCBC-954]:
+Can't query in the cloud.
+
+* https://issues.couchbase.com/browse/PYCBC-983[PYCBC-983]:
+Make Conan/PyGithub deps contingent on build reqs, enable 3.5 support.
+
+* https://issues.couchbase.com/browse/PYCBC-984[PYCBC-984]:
+Some N1QL query settings may not get set.
+
+* https://issues.couchbase.com/browse/PYCBC-987[PYCBC-987]:
+ImportError: DLL load failed: The specified module could not be found. - SSL.
+
+* https://issues.couchbase.com/browse/PYCBC-988[PYCBC-988]:
+Update release notes generator.
+
+* https://issues.couchbase.com/browse/PYCBC-994[PYCBC-994]:
+Remove error_map test as fetching is now automatic
+
+* https://issues.couchbase.com/browse/PYCBC-1001[PYCBC-1001]:
+"Could NOT find PythonLibs (missing: PYTHON_LIBRARIES)" causing PEP517 install error.
+
+* https://issues.couchbase.com/browse/PYCBC-1002[PYCBC-1002]:
+Explicitly set adhoc to off with lcb_cmdquery_adhoc and prepared statements.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-671[PYCBC-671]:
+Add Amazon Linux 2 verification testing.
+
+* https://issues.couchbase.com/browse/PYCBC-933[PYCBC-933]:
+Review docs for update items, identify/file issues.
+
+* https://issues.couchbase.com/browse/PYCBC-992[PYCBC-992]:
+Pin LCB to 3.0.3
+
+* https://issues.couchbase.com/browse/PYCBC-998[PYCBC-998]:
+SSL install notes update.
+
+
+== Version 3.0.3 (15 July 2020)
 
 [source,console]
 ----
-pip install couchbase==3.0.1
+$ python3 -m pip install couchbase==3.0.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.3/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-981[PYCBC-981]:
+Fix for PEP517 install issue
+
+== Version 3.0.2 (14 July 2020)
+
+Version 3.0.2 is the third release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
+
+[source,console]
+----
+$ python3 -m pip install couchbase==3.0.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.2/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-920[PYCBC-920]:
+Twisted api seeing lots of timeouts.
+
+* https://issues.couchbase.com/browse/PYCBC-941[PYCBC-941]:
+Build against correct OpenSSL version on Windows.
+
+* https://issues.couchbase.com/browse/PYCBC-950[PYCBC-950]:
+N1QL query connections remain open after completion.
+
+* https://issues.couchbase.com/browse/PYCBC-970[PYCBC-970]:
+Python SDK assumes docstrings are available.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-885[PYCBC-885]:
+FTS Doc for Python 3.0.
+
+* https://issues.couchbase.com/browse/PYCBC-929[PYCBC-929]:
+Document how to get encrypted connections to clusters.
+
+* https://issues.couchbase.com/browse/PYCBC-591[PYCBC-591]:
+Document analytics using the Python SDK at draft level.
+
+== Version 3.0.1 (12 June 2020)
+
+Version 3.0.1 is the second release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
+
+[source,console]
+----
+$ python3 -m pip install couchbase==3.0.1
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.1/
@@ -100,9 +213,9 @@ Unpin some dev_requirements entries.
 
 This is the first GA release of the third generation Python SDK.
 
-[source,bash]
+[source,console]
 ----
-pip install couchbase==3.0.0
+$ python3 -m pip install couchbase==3.0.0
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/

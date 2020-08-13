@@ -4,8 +4,12 @@
 
 [abstract]
 Features available in different SDK versions, and compatibility between Server and SDK.
+Plus notes on Cloud, networks, and AWS Lambda.
 
 The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
+Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
+
+Please let us know if you require a PyPy-compatible version of the SDK.
 
 
 == Couchbase Version/SDK Version Matrix
@@ -38,7 +42,7 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 | *✔*
 
 
-| *Server 6.5*
+| *Server 6.-6.6*
 | *✖*
 | ◎
 | *✔*
@@ -52,7 +56,7 @@ See the notes there for Support details.
 
 .Couchbase Server and SDK Supported Version Matrix
 |===
-| | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5
+| | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6
 
 | Enhanced Durability
 3+| All SDK versions
@@ -67,7 +71,7 @@ See the notes there for Support details.
 
 | Collections
 2+| Not Supported
-| SDK 3.0 for Developer Preview in Server 6.5
+| SDK 3.0 for Developer Preview in Server 6.5 & 6.6
 
 |===
 

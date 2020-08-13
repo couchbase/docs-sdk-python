@@ -46,7 +46,7 @@ Without explicitly setting it, a newly-created document would have a CAS value o
 include::example$kv_operations.py[tag=replace]
 ----
 
-Expiration sets an explicit time to live (TTL) for a document, for which you can also xref:sdk-xattr-example.adoc[see a more detailed example of TTL discovery] later in the docs.
+Expiration sets an explicit time to live (TTL) for a document.
 We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below].
 For a discussion of item (Document) _vs_ Bucket expiration, see the
 xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
