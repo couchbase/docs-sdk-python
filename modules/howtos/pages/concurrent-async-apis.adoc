@@ -3,8 +3,6 @@
 :page-topic-type: howto
 :page-aliases: ROOT:async-programming,ROOT:batching-operations,multiple-apis,ROOT:asynchronous-frameworks
 
-[abstract]
-
 ////
 Order by importance / most idiomatic choice
 
@@ -16,9 +14,11 @@ Asyncio -- event loop, co-routines, futures
 
 also RQ -- Redis Q...
 ////
+[abstract]
 The Couchbase Python SDK offers both asyncio and Twisted APIs for async operation.
 
-We will cover the asyncio API here initially. Twisted documentation will be added shortly.
+We will cover the asyncio API here initially. 
+Twisted documentation will be added shortly.
 
 For asyncio:
 All operations return a `Future[T]` where `T` is the return type, with `T` generally being the same type as the synchronous equivalent. (Note, this genericisation of the `Future` type is not supported widely, yet, but the object returned is indeed a Future the value of which is of type `T`)
@@ -34,7 +34,6 @@ Note: All examples on this page start with initiating a Cluster object and then 
 [source,python]
 ----
 include::example$concurrent-async-apis.py[tag=connect_and_open_collection]
-"""
 ----
 
 == Asynchronous Programming using `await`
