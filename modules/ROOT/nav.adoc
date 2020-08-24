@@ -10,19 +10,21 @@
 * xref:howtos:subdocument-operations.adoc[Sub-Document Operations]
 //  ** xref:howtos:sdk-xattr-example.adoc[Extended Attributes]
 * xref:howtos:n1ql-queries-with-sdk.adoc[Query]
-// * xref:howtos:analytics-using-sdk.adoc[Analytics]
+* xref:howtos:analytics-using-sdk.adoc[Analytics]
 // ** xref:howtos:advanced-analytics-querying.adoc[Advanced Analytics Querying]
-//* xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search]
+* xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search]
 //* xref:howtos:view-queries-with-sdk.adoc[MapReduce Views]
 
 .Advanced Data Operations
-// * xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
+* xref:howtos:concurrent-async-apis.adoc[Async APIs]
+* xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
 //* xref:howtos:durability.adoc[Durability]
 
 .Managing Couchbase
 //* User Management
 // ** xref:howtos:sdk-authentication-overview.adoc[Authentication]
 * xref:howtos:managing-connections.adoc[Managing Connections]
+** xref:howtos:troubleshooting-cloud-connections.adoc[Troubleshooting Cloud Connections]
 
 .Errors & Diagnostics
 * xref:howtos:error-handling.adoc[Error Handling]
@@ -31,7 +33,7 @@
 
 .Learn
 * xref:concept-docs:concepts.adoc[Overview]
-// * xref:concept-docs:buckets-and-clusters.adoc[Buckets & Clusters]
+* xref:concept-docs:buckets-and-clusters.adoc[Buckets & Clusters]
 * xref:concept-docs:collections.adoc[Collections & Scope]
 * xref:concept-docs:compression.adoc[Compression]
 * xref:concept-docs:data-model.adoc[Data Model]
@@ -49,17 +51,20 @@
 ** xref:concept-docs:understanding-views.adoc[Map Reduce Views]
 ** xref:concept-docs:n1ql-query.adoc[Query]
 ** xref:concept-docs:full-text-search-overview.adoc[Search]
-// * xref:concept-docs:sdk-user-management-overview.adoc[User Management]
-// ** xref:concept-docs:certificate-based-authentication.adoc[Cert Auth]
-// ** xref:concept-docs:rbac.adoc[RBAC]
+* xref:concept-docs:sdk-user-management-overview.adoc[User Management]
+** xref:concept-docs:certificate-based-authentication.adoc[Cert Auth]
+** xref:concept-docs:rbac.adoc[RBAC]
 
-.References
-https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
+.Reference
+* https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
+* xref:ref:error-codes.adoc[Error Messages] 
+* xref:ref:travel-app-data-model.adoc[Travel Sample Data Model]
+
 
 .Project Docs
 * xref:project-docs:sdk-release-notes.adoc[Release Notes]
 * xref:project-docs:compatibility.adoc[Compatibility]
-// ** xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating to SDK 3 API]
+** xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating to SDK 3 API]
 * xref:project-docs:sdk-licenses.adoc[Licenses]
 * xref:project-docs:get-involved.adoc[Get involved]
  ** https://docs.couchbase.com/home/contribute/index.html[Improve the Docs]

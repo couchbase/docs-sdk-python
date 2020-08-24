@@ -3,8 +3,6 @@
 :page-topic-type: howto
 :page-aliases: ROOT:async-programming,ROOT:batching-operations,multiple-apis,ROOT:asynchronous-frameworks
 
-[abstract]
-
 ////
 Order by importance / most idiomatic choice
 
@@ -16,3 +14,73 @@ Asyncio -- event loop, co-routines, futures
 
 also RQ -- Redis Q...
 ////
+[abstract]
+The Couchbase Python SDK offers both asyncio and Twisted APIs for async operation.
+
+We will cover the asyncio API here initially. 
+Twisted documentation will be added shortly.
+
+For asyncio:
+All operations return a `Future[T]` where `T` is the return type, with `T` generally being the same type as the synchronous equivalent. (Note, this genericisation of the `Future` type is not supported widely, yet, but the object returned is indeed a Future the value of which is of type `T`)
+This is equivalent to the operation being marked `async fn(...)->T`, and
+`await` ing the result will wait for the operation to complete or fail.
+
+`Future` s are evaluated asynchronously using the familiar `await` keyword, and run in a blocking method.
+If a `Future` is awaited, the method awaiting the task must have the `async` keyword in its signature.
+More information can be found in Python's asyncio documentation.
+
+Note: All examples on this page start with initiating a Cluster object and then opening the default Bucket and Collection:
+
+[source,python]
+----
+include::example$concurrent-async-apis.py[tag=connect_and_open_collection]
+----
+
+== Asynchronous Programming using `await`
+
+This is the most common and basic way for consuming Couchbase operations asynchronously via asyncio:
+
+[source,python]
+----
+include::example$concurrent-async-apis.py[tag=await]
+----
+
+Note that in the `upsert` method above, an exception will be thrown if the operation fails; if it succeeds then the result will be an `MutationResult` that contains the CAS value for reuse, otherwise it can be ignored.
+`get` returns a `GetResult` if it succeeds, you’ll then have to use `content` or `content_as` to read the returned value.
+
+////
+
+Possibly TODO: not implemented yet
+== Batching
+
+Asynchronous clients inherently batch operations: because the application receives the response at a later stage in the application, batching will be the result of issuing many requests in sequence. 
+
+Batching in .NET using TAP is relively simple.
+`await Task.WhenAll()` will group together tasks and wait until they are complete before running, 
+useful where you do not want the main thread to run through the main method before getting the results back.
+
+[source,dotnet]
+----
+// collection of things that will complete in the future
+var tasks = new List<Task>();
+
+// create tasks to be executed concurrently
+// NOTE: these tasks have not yet been scheduled
+for (var i = 0; i <100; i++)
+{
+    var task = collection.GetAsync($"mykey-{i}");
+    tasks.Add(task);
+}
+
+// Waits until all of the tasks have completed
+await Task.WhenAll(tasks);
+
+// can iterate task list to get results
+foreach (var task in tasks)
+{
+    var result = tasks.Result;
+}
+
+----
+////
+

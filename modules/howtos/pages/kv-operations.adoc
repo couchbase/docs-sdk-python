@@ -3,23 +3,15 @@
 :page-topic-type: howto
 :page-aliases: ROOT:document-operations,ROOT:crud
 
-[WARNING]
-====
-These pages cover the Beta of the Couchbase Python SDK.
-As such they are likely to change without notice. 
-This beta code should not be used in production.
 
-Documentation is incomplete, subject to change, and likely to contain broken links.
-====
-
-The complete code sample used on this page can be downloaded from link:https://github.com/couchbase/docs-sdk-python/tree/3.0dp1/modules/hello-world/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
 
 == Documents
 
 A _document_ refers to an entry in the database (other databases may refer to the same concept as a _row_).
 A document has an ID (_primary key_ in other databases), which is unique to the document and by which it can be located.
 The document also has a value which contains the actual application data.
-See xref::concept-docs:documents.adoc[the concept guide to _Documents_] for a deeper dive into documents in the Couchbase Data Platform.
+See xref:concept-docs:documents.adoc[the concept guide to _Documents_] for a deeper dive into documents in the Couchbase Data Platform.
 Or read on, for a hands-on introduction to working with documents from the Python SDK.
 
 == CRUD Operations
@@ -54,7 +46,7 @@ Without explicitly setting it, a newly-created document would have a CAS value o
 include::example$kv_operations.py[tag=replace]
 ----
 
-Expiration sets an explicit time to live (TTL) for a document, for which you can also xref:sdk-xattr-example.adoc[see a more detailed example of TTL discovery] later in the docs.
+Expiration sets an explicit time to live (TTL) for a document.
 We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below].
 For a discussion of item (Document) _vs_ Bucket expiration, see the
 xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].

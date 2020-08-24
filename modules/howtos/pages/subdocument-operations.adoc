@@ -1,14 +1,12 @@
 = Sub-Document Operations with the Python SDK
 :navtitle: Sub-Doc Operations
 :page-topic-type: howto
-include::partial$attributes.adoc[]
 :lang: python
-:version: 3.0.0 alpha
+:page-aliases: ROOT:sdk-xattr-example.adoc
 
 [abstract]
 Sub-Document operations can be used to efficiently access and change parts of documents.
 
-include::partial$beta-warning.adoc[]
 
 Sub-Document operations may be quicker and more network-efficient than _full-document_ operations such as _upsert_, _replace_ and _get_ because they only transmit the accessed sections of the document over the network.
 
@@ -398,3 +396,5 @@ If you need to combine both JSON _and_ path-syntax literals you can do so by esc
 a quote or backslash) and then encapsulating it in backticks (`pass:c[`path`]`).
 
 NOTE: Currently, paths cannot exceed 1024 characters, and cannot be more than 32 levels deep.
+
+include::6.5@sdk:shared:partial$sdk-xattr-overview.adoc[tag=extended_attributes]

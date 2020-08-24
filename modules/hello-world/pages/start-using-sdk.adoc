@@ -10,19 +10,6 @@ It depends on the C SDK, _libcouchbase_, which it uses for performance and relia
 
 // tag::prep[]
 
-[WARNING]
-====
-These pages cover the Beta release of the Couchbase Python SDK. 
-The API interface is stable, but could change for bug fixes during the Beta process. 
-New features are likely to be added.
-
-Documentation is incomplete, subject to change, and could contain broken links.
-
-Please note the 'pip' comnmands below will install the latest prerelease version.
-If you wish to install a specific version, use 'pip install couchbase==<version number>' substituting the appropriate version number.
-You can see the pip command line arguments to install specific versions on the xref:project-docs:sdk-release-notes.adoc[release notes page].
-====
-
 The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as a xref:concept-docs:collections.adoc[developer preview]).
 The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 
@@ -34,28 +21,48 @@ Couchbase Python SDK bundles libcouchbase automatically, so no need to install i
 You may need cmake to install, although the installer will attempt to download it from PyPI automatically.
 
 The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
-It should work on Python 2.7, but is not officially supported.
 
-// end::prep
+// end::prep[]
 
 // tag::install[]
+
+[NOTE]
+====
+Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself for TLS support to be provided. 
+Additionally the installer relies on PEP517 which older versions of PIP do not support. 
+If you experience issues installing it is advised to upgrade your PIP/setuptools installation as follows: 
+[source,console]
+----
+$ python3 -m pip install --upgrade pip setuptools wheel
+----
+====
+
 
 == Installing on Linux
 
 .Debian and Ubuntu
-[source,bash]
+[source,console]
 ----
 # Only needed during first-time setup:
 sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
-sudo pip3 install --pre couchbase
+
+# for TLS/SSL support (optional)
+sudo apt-get install libssl-dev
+
+python3 -m  pip install couchbase
+
 ----
 
 .RHEL and CentOS
-[source,bash]
+[source,console]
 ----
 # Only needed during first-time setup:
 sudo yum install gcc gcc-c++ python-devel python-pip cmake
-sudo pip install --pre couchbase
+
+# for TLS/SSL support (optional)
+sudo yum install openssl-devel
+
+python -m pip install couchbase
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
@@ -66,11 +73,24 @@ It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 To install the library on Mac OS X, first install the de-facto package manager for OS X: http://brew.sh/[Homebrew^].
 Once _Homebrew_ is configured:
 
-[source,bash]
+[source,console]
 ----
-brew update # get list of latest packages
-brew install python
-pip install --pre couchbase
+$ brew update # get list of latest packages
+----
+
+[source,console]
+----
+$ brew install python
+----
+
+[source,console]
+----
+$ brew install openssl # for TLS/SSL support - optional
+----
+
+[source,console]
+----
+$ python -m pip install couchbase
 ----
 
 NOTE: The above example uses the Python supplied by Homebrew and not the vendor-supplied Python which ships with OS X.
@@ -78,10 +98,15 @@ The Python SDK will still work with the vendor-supplied Python (though _pip inst
 
 == Installing on Microsoft Windows
 
-[source,shell]
+[source,console]
 ----
-pip install --pre couchbase
+$ python -m pip install couchbase
 ----
+
+The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation. 
+The binary wheels for Windows are packaged as a binary wheel built against the relevant version OpenSSL (which is fixed per Windows version of Python).
+
+If you require a version without OpenSSL support, or that doesn't have a suitable binary wheel on PyPi, follow the build instructions on the GitHub repo.
 
 // end::install[]
 
@@ -136,21 +161,23 @@ include::example$hello_world_t.py[tag=n1ql]
 ----
 
 
+== PyPy support
+
+Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
+
+Please let us know if you require a PyPy-compatible version of the SDK.
+
+
 == Additional Resources
 
-
-The API reference is generated for each release and can be found linked from the xref:project-docs:sdk-release-notes.adoc[release notes for your version of the Python SDK].
+The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
+Older API references are linked from their respective sections in the xref:project-docs:sdk-release-notes.adoc[Release Notes].
 Most of the API documentation can also be accessed via `pydoc`.
 
-// xref:project-docsmigrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
+xref:project-docs:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
 
 Couchbase welcomes community contributions to the Python SDK.
 The Python SDK source code is available on link:https://github.com/couchbase/couchbase-python-client[GitHub].
 
 Information on new features, fixes, known issues as well as information on how to install older release versions is xref:project-docs:sdk-release-notes.adoc[in the release notes].
 
-=== PyPy support
-
-Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
-
-Please let us know if you require a PyPy-compatible version of the SDK.

@@ -6,7 +6,6 @@
 [abstract]
 Client settings
 
-include::partial$beta-warning.adoc[]
 
 The Python SDK may be configured using the connection string when instantiating a [.api]`Cluster` object.
 
@@ -27,3 +26,6 @@ In addition to the connection string, the [.api]`couchbase_core.client.Client` o
 // Below follows the C settings section:
 
 // include::2.8@c-sdk::page$client-settings.adoc[tag=group]
+// section on wide area network support
+
+include::6.5@sdk:shared:partial$client-settings-wide-network.adoc[]

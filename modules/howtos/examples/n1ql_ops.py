@@ -1,16 +1,17 @@
-from couchbase_core.mutation_state import  MutationState
-from couchbase.cluster import Cluster
-cluster=Cluster("localhost")
+from couchbase.mutation_state import  MutationState
+from couchbase.cluster import Cluster, ClusterOptions
+from couchbase.auth import PasswordAuthenticator
+cluster=Cluster.connect("localhost", ClusterOptions(PasswordAuthenticator("user","pass")))
 bucket=cluster.bucket("default")
 collection=bucket.default_collection()
 #tag::positional[]
-result = collection.query(
+result = cluster.query(
     "SELECT x.* FROM `default` WHERE x.Type=$1",
     'User')
 #end::positional[]
 
 #tag::named[]
-result = collection.query(
+result = cluster.query(
     "SELECT x.* FROM `default` WHERE x.Type=$type",
     type='User')
 #end::named[]
@@ -38,11 +39,7 @@ state = MutationState()
 state.add_results(upsert_result)
 
 # use mutation state with query option
-from couchbase_core.n1ql import N1QLQuery
-query=N1QLQuery(
-    "SELECT x.* FROM `default` WHERE x.Type=$1",
-    'User')
-query.consistent_with(state)
-result = cluster.query(query)
+result = cluster.query("SELECT x.* FROM `default` WHERE x.Type=$1",
+    'User', QueryOptions(consistent_with=state))
 #end::consistency[]
 

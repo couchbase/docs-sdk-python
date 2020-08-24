@@ -7,15 +7,6 @@
 [abstract]
 Errors, handling them from the Python SDK.
 
-// Required attributes:
-[WARNING]
-====
-These pages cover the _Alpha_ of the Couchbase Python SDK.
-As such they are likely to change without notice.
-This alpha code _should not_ be used in production.
-
-Documentation is incomplete, subject to change, and likely to contain broken links.
-====
 
 Errors are inevitable.
 The developer’s job is to be prepared for whatever is likely to come up -- and to try and be prepared for anything that conceivably could come up.
@@ -96,12 +87,16 @@ The KV Service exposes several common errors that can be encountered - both duri
 
 === Doc does not exist
 
+If a particular key cannot be found a `KeyNotFoundException` is raised:
+
 [source,python]
 ----
 include::example$error-handling.py[tag=KeyNotFoundException]
 ----
 
 === Doc already exists
+
+On the other hand if the key already exists and should not (e.g. on an insert) then a `KeyExistsException` is raised:
 
 [source,python]
 ----
@@ -114,12 +109,32 @@ include::example$error-handling.py[tag=KeyExistsException]
 
 === CAS Mismatch
 
+Couchbase provides optimistic concurrency using CAS.
+Each document gets a CAS value on the server, which is changed on each mutation.
+When you get a document you automatically receive its CAS value, and when replacing the document, if you provide that CAS the server can check that the document has not been concurrently modified by another agent in-between.
+If it has, it returns `ErrCasMismatch`, and the most appropriate response is to simply retry it:
+
+
 [source,python]
 ----
 include::example$error-handling.py[tag=CASMismatchException]
 ----
 
 === Durability ambiguous
+
+There are situations with any distributed system in which it is simply impossible to know for sure if the operation completed successfully or not.
+Take this as an example: your application requests that a new document be created on Couchbase Server.
+This completes, but, just before the server can notify the client that it was successful, a network switch dies and the application's connection to the server is lost.
+The client will timeout waiting for a response and will raise a `TimeoutException`, but it's ambiguous to the app whether the operation succeeded or not.
+
+So `ErrTimeout` is one ambiguous error, another is `ErrDurabilityAmbiguous`, which can returned when performing a durable operation.
+This similarly indicates that the operation may or may not have succeeded: though when using durability you are guaranteed that the operation will either have been applied to all replicas, or none.
+
+Given the inevitability of ambiguity, how is the application supposed to handle this?
+
+It really needs to be considered case-by-case, but the general strategy is to become certain if the operation succeeded or not, and to retry it if required.
+
+For instance, for inserts, they can simply be retried to see if they fail on `ErrDocumentExists`, in which case the operation was successful:
 
 [source,python]
 ----
@@ -184,7 +199,6 @@ The developer must match an application’s need for data access with the necess
 NOTE: If you are using Couchbase Community Edition, the only _roles_ available are xref:link-here[Bucket Full Access, Admin, and Read-only Admin].
 
 == Additional Resources
-
 Errors & Exception handling is an expansive topic.
 Here, we have covered examples of the kinds of exception scenarios that you are most likely to face.
 More fundamentally, you also need to weigh up xref:concept-docs:durability-replication-failure-considerations.adoc[concepts of durability].
@@ -194,5 +208,4 @@ Diagnostic methods are available to check on the xref:health-check.adoc[health i
 Logging methods are dependent upon the platform and SDK used.
 We offer xref:collecting-information-and-logging.adoc[recommendations and practical examples].
 
-We have a xref:ref:error-codes.adoc[listing of error messages], with some pointers to what to do when you encounter them.
-
+// We have a xref:ref:error-codes.adoc[listing of error messages], with some pointers to what to do when you encounter them.
