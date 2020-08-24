@@ -341,7 +341,9 @@ Default: `1m`
 +
 How long the window is in which the number of failed ops are tracked in a rolling fashion.
 
-== Timeout Options
+Beyond the connection string, most settings are changed by calls to libcouchbase -- refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl.html[API doc on `lcb_cmtl()`] and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl-settings.html[settings list].
+
+// == Timeout Options
 
 The default timeout values are suitable for most environments, and should be adjusted only after profiling the expected latencies in your deployment environment.
 If you get a timeout exception, it may be a symptom of another issue; increasing the timeout duration is sometimes not the best long-term solution.
