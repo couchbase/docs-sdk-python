@@ -7,7 +7,9 @@
 Client settings
 
 
-== Timeout Options
+Beyond the connection string, most settings are changed by calls to libcouchbase -- refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl.html[API doc on `lcb_cmtl()`] and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl-settings.html[settings list].
+
+// == Timeout Options
 
 // section on wide area network support
 
