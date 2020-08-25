@@ -22,9 +22,10 @@
 
 .Managing Couchbase
 //* User Management
-// ** xref:howtos:sdk-authentication-overview.adoc[Authentication]
 * xref:howtos:managing-connections.adoc[Managing Connections]
+** xref:howtos:sdk-authentication-overview.adoc[Authentication]
 ** xref:howtos:troubleshooting-cloud-connections.adoc[Troubleshooting Cloud Connections]
+* xref:howtos:provisioning-cluster-resources.adoc[Provisioning Cluster Resources]
 
 .Errors & Diagnostics
 * xref:howtos:error-handling.adoc[Error Handling]
@@ -57,6 +58,7 @@
 
 .Reference
 * https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
+* xref:ref:client-settings.adoc[Client Settings]
 * xref:ref:error-codes.adoc[Error Messages] 
 * xref:ref:travel-app-data-model.adoc[Travel Sample Data Model]
 
