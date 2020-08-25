@@ -14,17 +14,23 @@ Our xref:hello-world:start-using-sdk.adoc[Getting Started] guide covered the bas
 
 Our xref:hello-world:start-using-sdk.adoc[Getting Started] guide introduced basic authentication against a Couchbase cluster:
 
-[source,scala]
+[source,python]
 ----
+from couchbase.cluster import Cluster, ClusterOptions
+from couchbase_core.cluster import PasswordAuthenticator
+
+cluster = Cluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
+----
+////
 include::example$Auth.scala[tag=basic,indent=0]
 ----
-
+////
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=rbac]
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 
-
+////
 == Authenticating a Scala Client by Certificate
 
 For sample procedures whereby certificates can be generated and deployed, see xref:6.5@server:manage:manage-security/manage-certificates.adoc[Manage Certificates].
@@ -35,6 +41,7 @@ That is, a cluster certificate has been created and installed on the server, a c
 ----
 include::example$Auth.scala[tag=auth,indent=0]
 ----
+////
 
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=ldap]
