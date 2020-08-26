@@ -1,7 +1,7 @@
 = Client Settings
 :nav-title: Client Settings
 :page-topic-type: reference
-:page-aliases: ROOT:client-settings
+:page-aliases: ROOT:client-settings.adoc
 
 [abstract]
 
@@ -69,7 +69,6 @@ Parameter: `enable_mutation_tokens`
 * `(false|False|0)`
 * `(true|True|1)` - gets the bootstrap node list from a DNS SRV record.
 +
-+
 Mutation tokens allow enhanced durability requirements as well as advanced N1QL querying capabilities.
 Set this to `false` if you do not require these features and wish to avoid the associated overhead.
 
@@ -79,13 +78,13 @@ Type: Connection String
 Parameter: `network`
 +
 Values:
-
++
 * `auto` - the default (!)
 * `default`
 * `external`
-
++
 NOTE: The system property value should be one of `auto`, `default`, or `external` (lower case).
-
++
 Each node in the Couchbase Server cluster might have multiple addresses associated with it.
 For example, a node might have one address that should be used when connecting from inside the same virtual network environment where the server is running, and a second address for connecting from outside the server's network environment.
 +
