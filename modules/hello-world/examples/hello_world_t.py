@@ -7,6 +7,7 @@ from couchbase.cluster import Cluster, ClusterOptions
 from couchbase_core.cluster import PasswordAuthenticator
 from couchbase.cluster import QueryOptions
 
+# get a reference to our cluster
 cluster = Cluster('couchbase://hulk', ClusterOptions(
   PasswordAuthenticator('Administrator', 'password')))
 # end::connect[]
@@ -21,16 +22,7 @@ cb = cluster.bucket('travel-sample')
 cb_coll = cb.default_collection()
 # end::default-collection[]
 
-# tag::test-doc[]
-airline = {
-  "type": "airline",
-  "id": 8091,
-  "callsign": "CBS",
-  "iata": None,
-  "icao": None,
-  "name": "Couchbase Airways",
-}
-# end::test-doc[]
+
 
 # tag::upsert-func[]
 def upsertDocument(doc):
@@ -44,10 +36,6 @@ def upsertDocument(doc):
     print(e)
 # end::upsert-func[]
 
-# tag::upsert-invoke[]
-upsertDocument(airline)
-# end::upsert-invoke[]
-
 # tag::get-func[]
 # get document function
 def getAirlineByKey(key):
@@ -58,11 +46,6 @@ def getAirlineByKey(key):
   except Exception as e:
     print(e)
 # end::get-func[]
-
-# tag::get-invoke[]
-# call get document function
-getAirlineByKey("airline_8091")
-#end::get-invoke[]
 
 #tag::lookup-func[]
 # query for new document by callsign
@@ -77,6 +60,27 @@ def lookupByCallsign(cs):
   except Exception as e:
     print(e)
 # end::lookup-func[]
+
+
+
+# tag::test-doc[]
+airline = {
+  "type": "airline",
+  "id": 8091,
+  "callsign": "CBS",
+  "iata": None,
+  "icao": None,
+  "name": "Couchbase Airways",
+}
+# end::test-doc[]
+
+# tag::upsert-invoke[]
+upsertDocument(airline)
+# end::upsert-invoke[]
+
+# tag::get-invoke[]
+getAirlineByKey("airline_8091")
+#end::get-invoke[]
 
 # tag::lookup-invoke[]
 lookupByCallsign("CBS")
