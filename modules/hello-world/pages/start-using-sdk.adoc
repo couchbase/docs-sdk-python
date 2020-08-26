@@ -6,21 +6,22 @@
 [abstract]
 The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
 The Python SDK offers a traditional synchronous API as well as integration with _twisted_, _gevent_, and _asyncio_.
-It depends on the C SDK, _libcouchbase_, which it uses for performance and reliability.
+It depends on the C SDK, _libcouchbase_, (included automatically) which it uses for performance and reliability.
 
 // tag::prep[]
 
 The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 as a xref:concept-docs:collections.adoc[developer preview]).
-The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 
+The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 
 
 == Requirements
 
-Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
-You may need cmake to install, although the installer will attempt to download it from PyPI automatically.
-
 The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
+
+Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
+
+You may need cmake to install, although the installer will attempt to download it from PyPI automatically.
 
 // end::prep[]
 
@@ -35,10 +36,10 @@ Better packaging for OpenSSL support is currently being developed.
 [source,bash]
 ----
 # Only needed during first-time setup:
-sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
+sudo apt install git-all python3-dev python3-pip python3-setuptools cmake build-essential
 
 # for TLS/SSL support (optional)
-sudo apt-get install libssl-dev
+sudo apt install libssl-dev
 
 sudo pip3 install couchbase
 
@@ -48,33 +49,38 @@ sudo pip3 install couchbase
 [source,bash]
 ----
 # Only needed during first-time setup:
-sudo yum install gcc gcc-c++ python-devel python-pip cmake
+sudo dnf install gcc gcc-c++ python3-devel python3-pip cmake
 
 # for TLS/SSL support (optional)
-sudo yum install openssl-devel
+sudo dnf install openssl-devel
 
-sudo pip install couchbase
+sudo pip3 install couchbase
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
 It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
+NOTE: Cmake may also need to be updated.  IF so, follow the steps https://idroot.us/install-cmake-centos-8[HERE^].
+
 == Installation on Mac OS X
 
-To install the library on Mac OS X, first install the de-facto package manager for OS X: http://brew.sh/[Homebrew^].
-Once _Homebrew_ is configured:
+The following example uses the Python supplied by the Homebrew package manager and not the vendor-supplied Python which ships with OS X.  
+
+To install the library on Mac OS X, first install Homebrew: http://brew.sh/[Homebrew^]. Once _Homebrew_ is configured:
+
+NOTE: Later versions of Mac OS X break the python3 homebrew installer.  Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[HERE^].
+
 
 [source,bash]
 ----
 brew update # get list of latest packages
-brew install python
+brew install python3
 brew install openssl # for TLS/SSL support - optional
 
 pip3 install couchbase
 ----
 
-NOTE: The above example uses the Python supplied by Homebrew and not the vendor-supplied Python which ships with OS X.
-The Python SDK will still work with the vendor-supplied Python (though _pip install_ may be a privileged command), but it is recommended to use Homebrew's Python instead.
+
 
 == Installing on Microsoft Windows
 
@@ -98,7 +104,7 @@ The code snippet below shows how the Python SDK may be used for some common oper
 
 [source,python]
 ----
-include::example$hello_world_t.py[tag=intro]
+include::../examples/hello_world_t.py[tag=intro]
 ----
 
 === Connecting
@@ -110,7 +116,7 @@ Following successful authentication, the bucket can be opened:
 
 [source,python]
 ----
-include::example$hello_world_t.py[tag=connecting]
+include::../examples/hello_world_t.py[tag=connecting]
 ----
 
 Once defined, the authenticator can be passed to other clusters, as appropriate.
@@ -124,12 +130,12 @@ Simply pass the key (and value, if applicable) to the relevant methods.
 
 [source,python]
 ----
-include::example$hello_world_t.py[tag=docopsget]
+include::../examples/hello_world_t.py[tag=docopsget]
 ----
 
 [source,python]
 ----
-include::example$hello_world_t.py[tag=docopsupsert]
+include::../examples/hello_world_t.py[tag=docopsupsert]
 ----
 
 === N1QL Queries
@@ -138,14 +144,15 @@ Couchbase N1QL queries are performed by running the `Cluster.query` method.
 
 [source,python]
 ----
-include::example$hello_world_t.py[tag=n1ql]
+include::../examples/hello_world_t.py[tag=n1ql]
 ----
 
 
 == Additional Resources
 
 The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
-Older API references are linked from their respective sections in the xref:project-docs:sdk-release-notes.adoc[Release Notes].
+
+Older API references are linked from their respective sections in the xref:project-docs:sdk-release-notes.adoc[Individual Release Notes].
 Most of the API documentation can also be accessed via `pydoc`.
 
 xref:project-docs:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
@@ -153,10 +160,9 @@ xref:project-docs:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 pa
 Couchbase welcomes community contributions to the Python SDK.
 The Python SDK source code is available on link:https://github.com/couchbase/couchbase-python-client[GitHub].
 
-Information on new features, fixes, known issues as well as information on how to install older release versions is xref:project-docs:sdk-release-notes.adoc[in the release notes].
 
 === PyPy support
 
 Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
 
-Please let us know if you require a PyPy-compatible version of the SDK.
+Please link:https://issues.couchbase.com/projects/PYCBC/issues[create a Jira ticket] if you require a PyPy-compatible version of the SDK.
