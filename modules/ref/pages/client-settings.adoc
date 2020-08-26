@@ -1,17 +1,614 @@
 = Client Settings
 :nav-title: Client Settings
 :page-topic-type: reference
-:page-aliases: ROOT:client-settings
+:page-aliases: ROOT:client-settings.adoc
 
 [abstract]
-Client settings
+
+The `ClusterOptions` class enables you to configure Python SDK options for bootstrapping, timeouts, reliability, and performance.
+
+NOTE: Some settings for the Cluster/Bucket/Collection are currently only accessible via the Cluster connection string, but this may change in future. These parameters are set by appending `parameter=value` to the connection string, with the first parameter being followed by a `?` and subsequent parameters being preceded by a `&`, e.g.  `couchbases://host?network=external&enable_mutation_tokens=false`.
+
+Most client settings are related to the `ClusterOptions`.
+Like all other `OptionBlock` s, this is akin to a Python `dict`, but with named keyword arguments for discoverability.
+
+Once it is passed in to the Cluster constructor or Cluster.connect, its settings are fixed.
+
+Beyond the connection string, most settings are changed by calls to libcouchbase -- refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl.html[API doc on `lcb_cntl()`] and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl-settings.html[settings list].
+
+.Creating a cluster with custom settings
+[source,python]
+----
+# Create a cluster using the custom client settings.
+cluster = Cluster.connect(connectionString, ClusterOptions(
+PasswordAuthenticator(username, password), option1=xxx, option2=yyy...)
+
+# [Your code to interact with the cluster]
+
+----
+
+== Timeout settings
+
+Timeout settings are configured using an instance of `ClusterTimeoutOptions`.
+
+.Creating a new timeout config:
+[source,java]
+----
+timeout_options=ClusterTimeoutOptions(kv_timeout=timedelta(seconds=5), query_timeout=timedelta(seconds=10))
+options=ClusterOptions(PasswordAuthenticator('username', 'password'), timeout_options=timeout_options)
+cluster.connect('couchbase://host',options)
+----
+
+The name of the OptionBlock for each section of configuration is analogous to  the parameter name in ClusterOptions.
+For example, `ClusterTimeoutOptions` is set via the `ClusterOptions' constructor's `timeout_options` parameter, `ClusterTracingOptions` is set via the `tracing_options` parameter, and so on.
+
+== Configuration Options
+
+The following tables cover all possible configuration options and explain their usage and default values.
+The tables categorize the options into groups for bootstrapping, timeout, reliability, performance, and advanced options.
+
+////
+
+Name: *DNS SRV Enabled*::
+Type: Connection String
+Parameter: `?`
++
+Values:
+
+* `?` - gets the bootstrap node list from a DNS SRV record.
+
+See the xref:howtos:managing-connections.adoc#using-dns-srv-records[Connection Management] section for more information on how to use it properly.
+////
 
 
-Beyond the connection string, most settings are changed by calls to libcouchbase -- 
-refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl.html[API doc on `lcb_cmtl()`] 
-and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl-settings.html[settings list].
+Name: *Mutation Tokens Enabled*::
+Type: Connection String
++
+Parameter: `enable_mutation_tokens`
++
+* `(false|False|0)`
+* `(true|True|1)` - gets the bootstrap node list from a DNS SRV record.
++
+Mutation tokens allow enhanced durability requirements as well as advanced N1QL querying capabilities.
+Set this to `false` if you do not require these features and wish to avoid the associated overhead.
 
-// == Timeout Options
+Name: *Network Resolution*::
+Type: Connection String
++
+Parameter: `network`
++
+Values:
++
+* `auto` - the default (!)
+* `default`
+* `external`
++
+NOTE: The system property value should be one of `auto`, `default`, or `external` (lower case).
++
+Each node in the Couchbase Server cluster might have multiple addresses associated with it.
+For example, a node might have one address that should be used when connecting from inside the same virtual network environment where the server is running, and a second address for connecting from outside the server's network environment.
++
+By default the client will use a simple matching heuristic to determine which set of addresses to use (it will select the set of addresses that contains a seed node's host and port).
++
+If you wish to override the heuristic, you can set this value to `default` if the client is running in the same network as the server, or `external` if the client is running in a different network.
+
+////
+
+Name: *Capture Traffic*::
+Parameter: `IoConfig.captureTraffic(ServiceType...)`
++
+Default:  capture is disabled
++
+System Property: `com.couchbase.env.io.captureTraffic`
++
+TIP: Multiple services may be specified in the system property value using a comma-delimited list such as `KV,QUERY`.
+To enable capture for all services, set the value of the system property to an empty string.
++
+Call this method to log all traffic to the specified services.
+If no services are specified, traffic to all services is captured.
+
+Name: *Socket Keepalive*::
+Parameter: `IoConfig.enableTcpKeepAlives(boolean)`
++
+Default:  `true`
++
+System Property: `com.couchbase.env.io.enableTcpKeepAlives`
++
+If enabled, the client periodically sends a TCP keepalive to the server to prevent firewalls and other network equipment from dropping idle TCP connections.
+
+Name: *Socket Keepalive Interval*::
+Parameter: `IoConfig.tcpKeepAliveTime(Duration)`
++
+Default:  `60s`
++
+System Property: `com.couchbase.env.io.tcpKeepAliveTime`
++
+The idle time after which a TCP keepalive gets fired.
+(This setting has no effect if `enableTcpKeepAlives` is `false`.)
++
+NOTE: This setting only propagates to the OS on Linux when the epoll transport is used.
+On all other platforms, the OS-configured time is used (and you need to tune it there if you want to override the default interval).
+
+Name: *Key/Value Endpoints per Node*::
+Parameter: `IoConfig.numKvConnections(int)`
++
+Default:  `1`
++
+System Property: `com.couchbase.env.io.numKvConnections`
++
+The number of actual endpoints (sockets) to open per node in the cluster against the Key/Value service.
+By default, for every node in the cluster one socket is opened where all traffic is pushed through.
+That way the SDK implicitly benefits from network batching characteristics when the workload increases.
+If you suspect based on profiling and benchmarking that the socket is saturated you can think about slightly increasing it to have more "parallel pipelines".
+This might be especially helpful if you need to push large documents through it.
+The recommendation is keeping it at 1 unless there is other evidence.
++
+NOTE: xref:concept-docs:durability-replication-failure-considerations.adoc#synchronous-writes[Durable Write] operations with Couchbase Server 6.5 and above require up to 16 KV Endpoints per node, for most efficient operation, unless the environment dictates something a little lower.
+
+Name: *Max HTTP Endpoints per Service per Node*::
+Parameter: `IoConfig.maxHttpConnections(int)`
++
+Default:  `12`
++
+System Property: `com.couchbase.env.io.maxHttpConnections`
++
+Each service (except the Key/Value service) has a separate dynamically sized pool of HTTP connections for issuing requests.
+This setting puts an upper bound on the number of HTTP connections in each pool.
+
+Name: *Idle HTTP Connection Timeout*::
+Parameter: `IoConfig.idleHttpConnectionTimeout(Duration)`
++
+Default:  `30s`
++
+System Property: `com.couchbase.env.io.idleHttpConnectionTimeout`
++
+The length of time an HTTP connection may remain idle before it is closed and removed from the pool.
+Durations longer than 50 seconds are not recommended, since some services have a 1 minute server side idle timeout.
+
+Name: *Config Poll Interval*::
+Parameter: `IoConfig.configPollInterval(Duration)`
++
+Default:  `2.5s`
++
+System Property: `com.couchbase.env.io.configPollInterval`
++
+The interval at which the client fetches cluster topology information in order to proactively detect changes.
+////
+
+
+////
+
+== I/O Options
+
+I/O settings are represented by the Java class `IoConfig`.
+The associated `ClusterEnvironement.Builder` method is called `ioConfig`.
+
+.Template for configuring I/O settings
+[source,java]
+----
+ClusterEnvironment env = ClusterEnvironment.builder()
+    .ioConfig(IoConfig
+        .networkResolution(NetworkResolution.AUTO)
+        ...)
+    .build()
+----
+
+=== Circuit Breaker Options
+
+Circuit breakers are a tool for preventing cascading failures.
+
+When a circuit is closed, requests are sent to the server as normal.
+If too many requests fail within a certain time window, the breaker opens the circuit, preventing requests from going through.
+
+When a circuit is open, any requests to the service immediately fail without the client even talking to the server.
+After a "sleep delay" elapses, the next request is allowed to go through the to the server. This trial request is called a "canary."
+
+Each service has an associated circuit breaker which may be configured independently of the others.
+The `IoConfig` builder has methods for configuring the circuit breakers of each service.
+
+.Template for configuring circuit breaker settings
+[source,java]
+----
+ClusterEnvironment env = ClusterEnvironment.builder()
+    .ioConfig(IoConfig.
+        kvCircuitBreakerConfig(CircuitBreakerConfig.builder()
+            .enabled(true)
+            .volumeThreshold(45)
+            .errorThresholdPercentage(25)
+            .sleepWindow(Duration.ofSeconds(1))
+            .rollingWindow(Duration.ofMinutes(2))
+        ))
+    .build();
+----
+
+The corresponding system properties would be:
+
+[source,properties]
+----
+com.couchbase.env.io.kvCircuitBreaker.enabled=true
+com.couchbase.env.io.kvCircuitBreaker.volumeThreshold=45
+com.couchbase.env.io.kvCircuitBreaker.errorThresholdPercentage=25
+com.couchbase.env.io.kvCircuitBreaker.sleepWindow=1s
+com.couchbase.env.io.kvCircuitBreaker.rollingWindow=2m
+----
+
+For the other services, replace `kv` with `query`, `view`, `search`, `analytics`, or `manager`.
+
+The properties of a circuit breaker are described below.
+
+enabled::
+Default: `true`
++
+Enables or disables this circuit breaker.
++
+If this property is set to false, then the circuit breaker is not used and all other properties are ignored.
+
+volumeThreshold::
+Default: `20`
++
+The volume threshold defines how many operations must be in the window before the threshold percentage can be meaningfully calculated.
+
+errorThresholdPercentage::
+Default: `50`
++
+The percentage of operations in a window that may fail before the circuit is opened.
+The value is an integer in the range [0,100].
+
+sleepWindow::
+Default: `5s`
++
+The delay between when the circuit opens and when the canary is tried.
+
+rollingWindow::
+Default: `1m`
++
+How long the window is in which the number of failed ops are tracked in a rolling fashion.
+
+== Timeout Options
+
+The default timeout values are suitable for most environments, and should be adjusted only after profiling the expected latencies in your deployment environment.
+If you get a timeout exception, it may be a symptom of another issue; increasing the timeout duration is sometimes not the best long-term solution.
+
+Most timeouts can be overridden on a per-operation basis (for example, by passing a custom options block to a "get" or "query" method).
+The values set here are used as the defaults when no per-operation timeout is specified.
+See <<duration-values, setting duration values>> under xref:#system-properties[System Properties].
+
+Timeout settings are represented by the Java class `TimeoutConfig`.
+The associated `ClusterEnvironement.Builder` method is called `timeoutConfig`.
+
+.Template for configuring timeouts
+[source,java]
+----
+ClusterEnvironment env = ClusterEnvironment.builder()
+    .timeoutConfig(TimeoutConfig
+        .kvTimeout(Duration.ofMillis(2500))
+        ...)
+    .build()
+----
+////
+=== Timeout Options Reference
+
+Name: *Key-Value Timeout*::
+Type: ClusterTimeoutOptions
++
+Parameter: `kv_timeout: timedelta`
++
+Default: `timedelta(seconds=2.5)`
+
++
+The Key/Value default timeout is used on operations which are performed on a specific key if not overridden by a custom timeout.
+This includes all commands like get(), get_from_replica() and all mutation commands.
+////
++
+TIP: xref:concept-docs:durability-replication-failure-considerations.adoc#synchronous-writes[Durable Write operations] have their own timeout setting, `kvDurableTimeout`, see below.
+
+Name: *Key-Value Durable Operation Timeout*::
+Parameter: `TimeoutConfig.kvDurableTimeout(Duration)`
++
+Default: `10s`
++
+System Property: `com.couchbase.env.timeout.kvDurableTimeout`
++
+Key/Value operations with enhanced durability requirements may take longer to complete, so they have a separate default timeout.
++
+WARNING: The `kvDurableTimeout` property is not part of the stable API and may change or be removed at any time.
+
+// todo: is kvDurableTimeout a strictly client-side timeout?
+// When there's a timeout, does it stop the sync write?
+// Does it result in an ambiguous state?
+////
+
+Name: *View Timeout*::
+Type: ClusterTimeoutOptions
++
+Parameter: `views_timeout: timedelta`
++
+Default: `timedelta(seconds=75)`
+
+The View timeout is used on view operations if not overridden by a custom timeout.
+Note that it is set to such a high timeout compared to key/value since it can affect hundreds or thousands of rows.
+Also, if there is a node failure during the request the internal cluster timeout is set to 60 seconds.
+
+Name: *Query Timeout*::
+Type: ClusterTimeoutOptions
++
+Parameter: `query_timeout: timedelta`
++
+Default: `timedelta(seconds=75)`
++
+The Query timeout is used on all N1QL query operations if not overridden by a custom timeout.
+Note that it is set to such a high timeout compared to key/value since it can affect hundreds or thousands of rows.
+
+////
+
+Name: *Search Timeout*::
+Parameter: `TimeoutConfig.searchTimeout(Duration)`
++
+Default: `75s`
++
+System Property: `com.couchbase.env.timeout.searchTimeout`
++
+The Search timeout is used on all FTS operations if not overridden by a custom timeout.
+Note that it is set to such a high timeout compared to key/value since it can affect hundreds or thousands of rows.
+
+Name: *Analytics Timeout*::
+Parameter: `TimeoutConfig.analyticsTimeout(Duration)`
++
+Default: `75s`
++
+System Property: `com.couchbase.env.timeout.analyticsTimeout`
++
+The Analytics timeout is used on all Analytics query operations if not overridden by a custom timeout.
+Note that it is set to such a high timeout compared to key/value since it can affect hundreds or thousands of rows.
+////
+
+
+////
+Name: *Connect Timeout*::
+Parameter: `TimeoutConfig.connectTimeout(Duration)`
++
+Default: `10s`
++
+System Property: `com.couchbase.env.timeout.connectTimeout`
++
+The connect timeout is used when a Bucket is opened and if not overridden by a custom timeout.
+If you feel the urge to change this value to something higher, there is a good chance that your network is not properly set up.
+Connecting to the server should in practice not take longer than a second on a reasonably fast network.
+
+Name: *Disconnect Timeout*::
+Parameter: `TimeoutConfig.disconnectTimeout(Duration)`
++
+Default: `10s`
++
+System Property: `com.couchbase.env.timeout.disconnectTimeout`
++
+The disconnect timeout is used when a Cluster is disconnected and if not overridden by a custom timeout.
+A timeout is applied here always to make sure that your code does not get stuck at shutdown.
+The default should provide enough time to drain all outstanding operations properly, but make sure to adapt this timeout to fit your application requirements.
+
+Name: *Management Timeout*::
+Parameter: `TimeoutConfig.managementTimeout(Duration)`
++
+Default: `75s`
++
+System Property: `com.couchbase.env.timeout.managementTimeout`
++
+The management timeout is used on all cluster management APIs (BucketManager, UserManager, CollectionManager, QueryIndexManager, etc.) if not overridden by a custom timeout.
+The default is quite high because some operations (such as flushing a bucket, for example) might take a long time.
+
+== Diagnostics Options
+
+The client can periodically log diagnostic information about server connectivity.
+
+Diagnostics settings are represented by the Java class `DiagnosticsConfig`.
+The associated `ClusterEnvironement.Builder` method is called `diagnosticsConfig`.
+
+.Template for configuring diagnostics settings
+[source,java]
+----
+ClusterEnvironment env = ClusterEnvironment.builder()
+    .diagnosticsConfig(DiagnosticsConfig
+        .enabled(true)
+        ...)
+    .build()
+----
+
+In addition to the connection string, the [.api]`couchbase_core.client.Client` object offers a few object attributes which can be used to configure settings during runtime:
+
+* `timeout` for key-value operation timeouts (equivalent to `operation_timeout` in the connection string)
+* `views_timeout` to adjust the timeout for MapReduce queries
+* `n1ql_timeout` to adjust the timeout for N1QL querties
+
+
+// TODO: enable when LCB3 settings are available - related JIRA: https://issues.couchbase.com/browse/PYCBC-814
+// Below follows the C settings section:
+
+// include::2.8@c-sdk::page$client-settings.adoc[tag=group]
+
+Name: *Enabling Diagnostics*::
+Parameter: `DiagnosticsConfig.enabled(boolean)`
++
+Default:  `false`
++
+System Property: `com.couchbase.env.diagnostics.enabled`
++
+If enabled, the client periodically logs diagnostic information.
+
+Name: *Diagnostics Interval*::
+Parameter: `DiagnosticsConfig.emitInterval(Duration)`
++
+Default:  `30m`
++
+System Property: `com.couchbase.env.diagnostics.emitInterval`
++
+The interval at which diagnostic information is logged.
+
+== Compression Options
+
+The client can optionally compress documents before sending them to Couchbase Server.
+
+Compression settings are represented by the Java class `CompressionConfig`.
+The associated `ClusterEnvironement.Builder` method is called `compressionConfig`.
+
+.Template for configuring compression settings
+[source,java]
+----
+ClusterEnvironment env = ClusterEnvironment.builder()
+    .compressionConfig(CompressionConfig
+        .enabled(true)
+        ...)
+    .build()
+----
+
+Name: *Enabling Compression*::
+Parameter: `CompressionConfig.enabled`
++
+Default: `true`
++
+System Property: `com.couchbase.env.compression.enabled(boolean)`
++
+If enabled, the client will compress documents before they are sent to Couchbase Server.
+If this is set to `false`, the other compression settings have no effect.
+
+Name: *Document Minimum Size*::
+Parameter: `CompressionConfig.minSize(int)`
++
+Default: `32`
++
+System Property: `com.couchbase.env.compression.minSize`
++
+Size in bytes.
+Documents smaller than this size are never compressed.
+
+Name: *Document Minimum Compressibility*::
+Parameter: `CompressionConfig.minRatio(double)`
++
+Default: `0.83`
++
+System Property: `com.couchbase.env.compression.minRatio`
++
+A floating point value between 0 and 1.
+Specifies how "compressible" a document must be in order for the compressed form to be sent to the server.
++
+TIP: Increasing the value allows compression to be used with less-compressible documents.
++
+If the compressed document size divided by the uncompressed document size is greater than this value, then the uncompressed version of the document will be sent to Couchbase Server instead of the compressed version.
++
+For example, with a `minRatio` of `0.83`, compression will only be used if the size of the compressed document is less than 83% of the uncompressed document size.
+
+== General Options
+
+The settings in this category apply to the client in general.
+They are configured directly on the `ClusterEnvironment.Builder`.
+
+.Template for configuring general settings
+[source,java]
+----
+ClusterEnvironment env = ClusterEnvironment.builder()
+    .retryStrategy(BestEffortRetryStrategy.INSTANCE)
+    ...
+    .build()
+----
+
+Name: *Retry Strategy*::
+Parameter: `retryStrategy(RetryStrategy)`
++
+Default:  `BestEffortRetryStrategy.INSTANCE`
++
+System Property: N/A
++
+The client's default retry strategy.
++
+A retry strategy decides whether a failed operation should be retried.
+Implementing a custom strategy is fairly advanced, so the SDK ships with two out of the box: `BestEffortRetryStrategy` and `FailFastRetryStrategy`.
++
+The "best effort" strategy will retry the operation until it either succeeds or the timeout expires.
+The "fail fast" strategy will immediately report the failure to your application, giving you more control over how and when to retry.
++
+TIP: Most client operations that accept an options block allow for overriding the default strategy as one of the options.
++
+See the advanced section in the documentation on more specific information on retry strategies and failure management.
+
+Name: *JSON Serializer*::
+Parameter: `jsonSerializer(JsonSerializer)`
++
+Default:  _see below_
++
+System Property: N/A
++
+The JSON serializer handles the conversion between JSON and Java objects.
++
+If Jackson is present in the class path, the default serializer will be an instance of `JacksonJsonSerializer` using a default `ObjectMapper`.
++
+TIP: To create a serializer backed by a custom `ObjectMapper`, call `JacksonJsonSerializer.create` and pass in your custom mapper.
++
+If Jackson is not present, the client will fall back to using an unspecified default serializer.
+(Actually, it will use a repackaged version of Jackson, but this is an implementation detail you should not depend on.)
+
+Name: *Transcoder*::
+Parameter: `transcoder(Transcoder)`
++
+Default: `JsonTranscoder`
++
+System Property: N/A
++
+The transcoder is responsible for converting KV binary packages to and from Java objects.
++
+The default transcoder assumes you are working with JSON documents.
+It uses the configured `jsonSerializer` to convert between JSON and Java objects.
+When writing documents it sets the appropriate flags to indicate the document content is JSON.
++
+The transcoder configured here is just the default; it can be overridden on a per-operation basis.
+
+Name: *Request Tracer*::
+Parameter: `requestTracer(RequestTracer)`
++
+Default:  `ThresholdRequestTracer`
++
+System Property: N/A
++
+The default tracer logs the slowest requests per service.
++
+Various `RequestTracer` implementations exist, both as part of the core library and as external modules that can be attached (i.e. for OpenTracing and OpenTelemetry).
+It is recommended to use those modules and not write your own tracer unless absolutely needed.
++
+NOTE: When using a non-default tracer, you are responsible for starting and stopping it.
+
+Name: *Computation Scheduler*::
+Parameter: `scheduler(Scheduler)`
++
+Default: _see below_
++
+System Property: N/A
++
+This is an advanced setting that should not be modified without good reason.
++
+The scheduler used for all CPU-intensive, non-blocking computations in the core, client, and user space.
+The default is a scheduler created from Reactor's `Schedulers.newParallel` method, with one daemon thread per CPU core.
+Extra care should be used when changing the scheduler, since many internal components depend on it.
++
+NOTE: Shutting down the cluster environment will not dispose of a custom scheduler.
+You are responsible for disposing of it after it is no longer needed.
+
+Name: *Event Bus*::
+Parameter: `eventBus(EventBus)`
++
+Default:  `DefaultEventBus`
++
+System Property: N/A
++
+This is an advanced setting that should not be modified without good reason.
++
+The event bus implementation used to transport system, performance, and debug events from producers to subscribers.
+If you provide a custom implementation, double check that it fits with the contract of the event bus as documented.
++
+NOTE: Shutting down the cluster environment will not stop a custom event bus.
+You are responsible for stopping it after it is no longer needed.
+
+// todo LoggingConfig ?
+// todo IoEnvironment ?
+////
+
 
 // section on wide area network support
 
