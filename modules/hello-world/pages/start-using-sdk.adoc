@@ -100,51 +100,124 @@ and the OpenSSL dynamic libraries are in the PATH at runtime.
 
 == Hello Couchbase
 
-The code snippet below shows how the Python SDK may be used for some common operations.
+At this point we want to transition from the terminal to your code editor of choice.
 
-[source,python]
+Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step: 
+
+- connect to a cluster, bucket, and default collection
+- add and retrieve a new document 
+- lookup (sql query) the new document by attribute value
+
+=== Connection
+
+[source,python,indent=0]
 ----
-include::../examples/hello_world_t.py[tag=intro]
+include::../examples/hello_world_t.py[tag=connect]
 ----
 
-=== Connecting
+Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. The connection is being made to a single Couchbase node running on a host named `hulk`.
 
-To connect to a Couchbase bucket, you must use Couchbase _Role-Based Access Control_ (RBAC).
-This is fully described in the section xref:6.5@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
+Couchbase RBAC is fully described in the section xref:6.5@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
 Following successful authentication, the bucket can be opened:
 
-[source,python]
+[source,python,indent=0]
 ----
-include::../examples/hello_world_t.py[tag=connecting]
+include::../examples/hello_world_t.py[tag=bucket]
 ----
 
-Once defined, the authenticator can be passed to other clusters, as appropriate.
+NOTE: We are working with the link:https://docs.couchbase.com/server/current/manage/manage-settings/install-sample-buckets.html[travel-sample] data bucket. If you are not, substitute _travel-sample_ with your _bucket-name_.
 
 See xref:howtos:managing-connections.adoc[Managing Connections] for more connection options and details about the connection string.
 
-=== Document Operations
+[source,python,indent=0]
+----
+include::../examples/hello_world_t.py[tag=default-collection]
+----
+
+The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, but once the feature is generally available the best practice will be to group documents into collections by type.
+
+
+=== Document Addition and Retrieval
+
+Let's create a dictionary object in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
+
+[source,python,indent=0]
+----
+include::../examples/hello_world_t.py[tag=test-doc]
+----
 
 xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the `Bucket` class such as `Bucket.get` and `Bucket.upsert`.
 Simply pass the key (and value, if applicable) to the relevant methods.
 
-[source,python]
+The following function will `upsert()`` a document and print the returned link:https://docs.couchbase.com/python-sdk/3.0/howtos/concurrent-document-mutations.html[CAS] value:
+
+[source,python,indent=0]
 ----
-include::../examples/hello_world_t.py[tag=docopsget]
+include::../examples/hello_world_t.py[tag=upsert-func]
 ----
+
+Now, we can simply call the `upsertDocument` function passing in our `airline` document:
+
+[source,python,indent=0]
+----
+include::../examples/hello_world_t.py[tag=upsert-invoke]
+----
+
+Now let's retrieve that document using a key-value operation. The following function runs a `get()` for a document key and either logs out the result or error in our console:
+
+[source,python,indent=0]
+----
+include::../examples/hello_world_t.py[tag=get-func]
+----
+
+Key-value Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
+
+Now, we can simply call the `getAirlineByKey` function passing in our valid document key `airline_8091`:
+
+[source,python,indent=0]
+----
+include::../examples/hello_world_t.py[tag=get-invoke]
+----
+
+
+=== SQL++ Lookup
+
+Couchbase N1QL queries are performed by invoking the `Cluster.query()` method.  The following function executes a lookup for documents of `type='airline'` by a provided `callsign`:
 
 [source,python]
 ----
-include::../examples/hello_world_t.py[tag=docopsupsert]
+include::../examples/hello_world_t.py[tag=lookup-func]
 ----
 
-=== N1QL Queries
+We call the `lookupByCallsign` function passing in our callsign `CBS`:
 
-Couchbase N1QL queries are performed by running the `Cluster.query` method.
-
-[source,python]
+[source,python,indent=0]
 ----
-include::../examples/hello_world_t.py[tag=n1ql]
+include::../examples/hello_world_t.py[tag=lookup-invoke]
+----
+
+=== Execute!
+
+Now we can run our code using the following command:
+
+[source,bash]
+----
+python3 cb-test.py
+----
+
+The results you should expect are as follows:
+
+[source,bash]
+----
+Upsert CAS: 
+1598469741559152640
+
+Get Result: 
+{'type': 'airline', 'id': 8091, 'callsign': 'CBS', 'iata': None, 'icao': None, 'name': 'Couchbase Airways'}
+
+Lookup Result: 
+Couchbase Airways
 ----
 
 
