@@ -54,6 +54,14 @@ This table summarizes that information, and this more concise form will be used 
 |JSON
 |===
 
+
+For now, see the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/transcoder.html[API documentation] for further details.
+
+
+
+
+
+////
 == Using Custom Jackson
 As described above, the default serializer (`DefaultJsonSerializer`) uses Jackson for serializing objects.
 (This Jackson dependency is shaded into a different namespace, so that it does not clash with any Jackson used by your application.)
@@ -257,6 +265,6 @@ include::example$Transcoding.java[tag=msgpack-encode,indent=0]
 See the xref:ref:data-structures.adoc#legacy-formats[Legacy formats reference].
 * If you want to work with binary documents and our Search service, you might like to take a look at https://github.com/khanium/couchbase-fts-binary
 
-
+////
 
 

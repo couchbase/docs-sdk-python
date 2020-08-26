@@ -9,7 +9,7 @@ Common use cases are outlined here, more recherché use cases are covered in the
 include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
 The Python SDK also comes with some convenience functionality for common Couchbase management requests.
-
+////
 Management operations in the SDK may be performed through several interfaces depending on the object:
 
 * BucketManager -- `Cluster.Buckets()`
@@ -19,7 +19,7 @@ Management operations in the SDK may be performed through several interfaces dep
 * SearchIndexManager -- `Cluster.SearchIndexes()`
 * CollectionManager -- `Bucket.Collections()`
 * ViewIndexManager -- `Bucket.ViewIndexes()`.
-
+////
 NOTE: When using a Couchbase version earlier than 6.5, you must create a valid Bucket connection using `cluster.Bucket(name)` before you can use cluster level managers.
 
 
@@ -83,20 +83,19 @@ include::devguide:example$go/provisioning-resources-buckets.go[tag=removeBucket]
 
 include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
-You can flush a bucket in the SDK by using the `Flush` method:
-
+You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#flushing-clearing-the-bucket[`flush_bucket()` method].
 ////
 [source,golang,indent=0]
 ----
 include::devguide:example$go/provisioning-resources-buckets.go[tag=flushBucket]
 ----
-
-The `Flush` operation may fail if the bucket does not have flush enabled, in that case it will return an `ErrBucketNotFlushable`.
 ////
+The `flush_bucket()` operation may fail if the bucket does not have flush enabled, in that case it will return an `FlushDisabledException`.
+
 
 == Collection Management
 
-This is a xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview feature], see the https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Bucket.Collections[API doc].
+This is a xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview feature], see the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/management.html[API doc].
 
 ////
 == Index Management
