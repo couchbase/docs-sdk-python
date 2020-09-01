@@ -49,7 +49,7 @@ sudo pip3 install couchbase
 [source,bash]
 ----
 # Only needed during first-time setup:
-sudo dnf install gcc gcc-c++ python3-devel python3-pip cmake
+sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
 
 # for TLS/SSL support (optional)
 sudo dnf install openssl-devel
@@ -57,7 +57,7 @@ sudo dnf install openssl-devel
 sudo pip3 install couchbase
 ----
 
-NOTE: RHEL/CentOS distributions may not provide the `python-pip` package in the base repositories.
+NOTE: RHEL/CentOS distributions may not provide the `python3-pip` package in the base repositories.
 It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
 NOTE: Cmake may also need to be updated.  IF so, follow the steps https://idroot.us/install-cmake-centos-8[HERE^].
