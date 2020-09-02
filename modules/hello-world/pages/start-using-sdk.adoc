@@ -134,6 +134,8 @@ include::example$hello_world_t.py[tag=connecting]
 
 Once defined, the authenticator can be passed to other clusters, as appropriate.
 
+If you are connecting to Couchbase Cloud rather than a local Couchbase Server, then also refer to the <<cloud-connections, Cloud section>>, below.
+
 See xref:howtos:managing-connections.adoc[Managing Connections] for more connection options and details about the connection string.
 
 === Document Operations
@@ -166,6 +168,18 @@ include::example$hello_world_t.py[tag=n1ql]
 Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
 
 Please let us know if you require a PyPy-compatible version of the SDK.
+
+
+== Cloud Connections
+
+For developing on Couchbase Cloud, 
+try the https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/devguide/examples/python/cloud.py[Cloud-based Hello World program].
+
+If you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the follorwing:
+
+* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments], 
+* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements], 
+* If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
 
 
 == Additional Resources
