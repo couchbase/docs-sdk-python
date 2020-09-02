@@ -175,7 +175,7 @@ Please let us know if you require a PyPy-compatible version of the SDK.
 For developing on Couchbase Cloud, 
 try the https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/devguide/examples/python/cloud.py[Cloud-based Hello World program].
 
-If you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the follorwing:
+If you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the following:
 
 * Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments], 
 * xref:project-docs:compatibility.adoc#network-requirements[Network Requirements], 
