@@ -157,7 +157,7 @@ The following function will `upsert()`` a document and print the returned link:h
 include::../examples/hello_world_t.py[tag=upsert-func]
 ----
 
-Now, we can simply call the `upsertDocument` function passing in our `airline` document:
+Now, we can simply call the `upsert_document` function passing in our `airline` document:
 
 [source,python,indent=0]
 ----
@@ -173,7 +173,7 @@ include::../examples/hello_world_t.py[tag=get-func]
 
 Key-value Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
 
-Now, we can simply call the `getAirlineByKey` function passing in our valid document key `airline_8091`:
+Now, we can simply call the `get_airline_by_key` function passing in our valid document key `airline_8091`:
 
 [source,python,indent=0]
 ----
@@ -190,7 +190,7 @@ Couchbase N1QL queries are performed by invoking the `Cluster.query()` method.  
 include::../examples/hello_world_t.py[tag=lookup-func]
 ----
 
-We call the `lookupByCallsign` function passing in our callsign `CBS`:
+We call the `lookup_by_callsign` function passing in our callsign `CBS`:
 
 [source,python,indent=0]
 ----
