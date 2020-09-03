@@ -19,7 +19,7 @@ The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-
 
 
 Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
-You may need cmake to install, although the installer will attempt to download it from PyPI automatically.
+You may need CMake to install, although the installer will attempt to download it from PyPI automatically.
 
 The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
 
@@ -46,7 +46,7 @@ $ python3 -m pip install --upgrade pip setuptools wheel
 [source,console]
 ----
 # Only needed during first-time setup:
-sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
+$ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
 ----
 
 [source,console]
@@ -263,10 +263,7 @@ Couchbase Airways
 ----
 
 
-
-
-== Cloud Connections	The results you should expect are as follows:
-
+== Cloud Connections
 
 For developing on Couchbase Cloud, try the https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/devguide/examples/python/cloud.py[Cloud-based Hello World program].
 
