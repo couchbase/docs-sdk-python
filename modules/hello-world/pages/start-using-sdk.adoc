@@ -82,7 +82,6 @@ $ python3 -m pip install couchbase
 
 NOTE: RHEL/CentOS distributions may not provide the `python3-pip` package in the base repositories.
 It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
-
 ====
 
 TIP: You may need to update your installed version of CMake. 
