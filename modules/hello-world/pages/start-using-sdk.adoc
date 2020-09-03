@@ -41,61 +41,92 @@ $ python3 -m pip install --upgrade pip setuptools wheel
 
 == Installing on Linux
 
+====
 .Debian and Ubuntu
-[source,bash]
+[source,console]
 ----
 # Only needed during first-time setup:
 sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
-
-# for TLS/SSL support (optional)
-sudo apt-get install libssl-dev
-
-python3 -m pip install couchbase
-
 ----
 
+[source,console]
+----
+# for TLS/SSL support (optional)
+$ sudo apt-get install libssl-dev
+----
+
+[source,console]
+----
+$ python3 -m pip install couchbase
+----
+====
+
+====
 .RHEL and CentOS
-[source,bash]
+[source,console]
 ----
 # Only needed during first-time setup:
-sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
+$ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
+----
 
+[source,console]
+----
 # for TLS/SSL support (optional)
-sudo yum install openssl-devel
+$ sudo yum install openssl-devel
+----
 
-python3 -m pip install couchbase
+[source,console]
+----
+$ python3 -m pip install couchbase
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python3-pip` package in the base repositories.
 It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
-NOTE: Cmake may also need to be updated.  IF so, follow the steps https://idroot.us/install-cmake-centos-8[HERE^].
+====
+
+TIP: You may need to update your installed version of CMake. 
+For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
+
 
 == Installation on Mac OS X
 
 The following example uses the Python supplied by the Homebrew package manager and not the vendor-supplied Python which ships with OS X.  
 
-To install the library on Mac OS X, first install Homebrew: http://brew.sh/[Homebrew^]. Once _Homebrew_ is configured:
+To install the library on Mac OS X, first install Homebrew: http://brew.sh/[Homebrew^]. 
+Once _Homebrew_ is configured:
 
-NOTE: Later versions of Mac OS X break the python3 homebrew installer.  Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[HERE^].
+NOTE: Later versions of Mac OS X break the python3 homebrew installer. 
+Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[here^].
 
-
-[source,bash]
+====
+[source,console]
 ----
-brew update # get list of latest packages
-brew install python3
-brew install openssl # for TLS/SSL support - optional
-
-python3 -m pip install couchbase
+$ brew update # get list of latest packages
 ----
 
+[source,console]
+----
+$ brew install python3
+----
+
+[source,console]
+----
+$ brew install openssl # for TLS/SSL support - optional
+----
+
+[source,console]
+----
+$ python3 -m pip install couchbase
+----
+====
 
 
 == Installing on Microsoft Windows
 
-[source,shell]
+[source,console]
 ----
-python3 -m pip install couchbase
+$ python3 -m pip install couchbase
 ----
 
 The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
@@ -112,9 +143,9 @@ At this point we want to transition from the terminal to your code editor of cho
 
 Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step: 
 
-- connect to a cluster, bucket, and default collection
-- add and retrieve a new document 
-- lookup (sql query) the new document by attribute value
+* Connect to a cluster, bucket, and default collection;
+* Add and retrieve a new document;
+* Look up (SQL-type query) the new document by attribute value.
 
 === Connection
 
@@ -123,7 +154,9 @@ Let's now create an empty file named `cb-test.py` and walk through adding code s
 include::../examples/hello_world_t.py[tag=connect]
 ----
 
-Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. The connection is being made to a single Couchbase node running on a host named `hulk`.
+Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. 
+For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. 
+The connection is being made to a single Couchbase node running on a host named `hulk`.
 
 Couchbase RBAC is fully described in the section xref:6.5@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
@@ -136,6 +169,8 @@ include::../examples/hello_world_t.py[tag=bucket]
 
 NOTE: We are working with the link:https://docs.couchbase.com/server/current/manage/manage-settings/install-sample-buckets.html[travel-sample] data bucket. If you are not, substitute _travel-sample_ with your _bucket-name_.
 
+If you are connecting to Couchbase Cloud rather than a local Couchbase Server, then also refer to the <<cloud-connections, Cloud section>>, below.
+
 See xref:howtos:managing-connections.adoc[Managing Connections] for more connection options and details about the connection string.
 
 [source,python,indent=0]
@@ -143,8 +178,8 @@ See xref:howtos:managing-connections.adoc[Managing Connections] for more connect
 include::../examples/hello_world_t.py[tag=default-collection]
 ----
 
-The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, but once the feature is generally available the best practice will be to group documents into collections by type.
-
+The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. 
+For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, but once the feature is generally available the best practice will be to group documents into collections by type.
 
 === Document Addition and Retrieval
 
@@ -158,7 +193,7 @@ include::../examples/hello_world_t.py[tag=test-doc]
 xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the `Bucket` class such as `Bucket.get` and `Bucket.upsert`.
 Simply pass the key (and value, if applicable) to the relevant methods.
 
-The following function will `upsert()`` a document and print the returned link:https://docs.couchbase.com/python-sdk/3.0/howtos/concurrent-document-mutations.html[CAS] value:
+The following function will `upsert()` a document and print the returned link:https://docs.couchbase.com/python-sdk/3.0/howtos/concurrent-document-mutations.html[CAS] value:
 
 [source,python,indent=0]
 ----
@@ -209,14 +244,14 @@ include::../examples/hello_world_t.py[tag=lookup-invoke]
 
 Now we can run our code using the following command:
 
-[source,bash]
+[source,console]
 ----
-python3 cb-test.py
+$ python3 cb-test.py
 ----
 
 The results you should expect are as follows:
 
-[source,bash]
+[source,console]
 ----
 Upsert CAS: 
 1598469741559152640
@@ -227,6 +262,20 @@ Get Result:
 Lookup Result: 
 Couchbase Airways
 ----
+
+
+
+
+== Cloud Connections	The results you should expect are as follows:
+
+
+For developing on Couchbase Cloud, try the https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/devguide/examples/python/cloud.py[Cloud-based Hello World program].
+
+If you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the following:
+
+* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
+* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
+* If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
 
 
 == Additional Resources
