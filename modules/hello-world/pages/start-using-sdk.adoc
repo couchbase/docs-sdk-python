@@ -41,7 +41,7 @@ sudo apt install git-all python3-dev python3-pip python3-setuptools cmake build-
 # for TLS/SSL support (optional)
 sudo apt install libssl-dev
 
-sudo python3 -m pip install couchbase
+python3 -m pip install couchbase
 
 ----
 
@@ -54,7 +54,7 @@ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
 # for TLS/SSL support (optional)
 sudo yum install openssl-devel
 
-sudo python3 -m pip install couchbase
+python3 -m pip install couchbase
 ----
 
 NOTE: RHEL/CentOS distributions may not provide the `python3-pip` package in the base repositories.
@@ -86,7 +86,7 @@ python3 -m pip install couchbase
 
 [source,shell]
 ----
-ppython3 -m pip install couchbase
+python3 -m pip install couchbase
 ----
 
 NOTE: Because the Windows client is packaged as binary wheel,

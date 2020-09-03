@@ -3,8 +3,11 @@
 ----
 """
 # tag::connect[]
+# needed for any cluster connection
 from couchbase.cluster import Cluster, ClusterOptions
 from couchbase_core.cluster import PasswordAuthenticator
+
+# needed to support SQL++ (N1QL) query
 from couchbase.cluster import QueryOptions
 
 # get a reference to our cluster
@@ -25,7 +28,7 @@ cb_coll = cb.default_collection()
 
 
 # tag::upsert-func[]
-def upsertDocument(doc):
+def upsert_document(doc):
   print("\nUpsert CAS: ")
   try:
     # key will equal: "airline_8091"
@@ -38,7 +41,7 @@ def upsertDocument(doc):
 
 # tag::get-func[]
 # get document function
-def getAirlineByKey(key):
+def get_airline_by_key(key):
   print("\nGet Result: ")
   try:
     result = cb_coll.get(key)
@@ -49,12 +52,12 @@ def getAirlineByKey(key):
 
 #tag::lookup-func[]
 # query for new document by callsign
-def lookupByCallsign(cs):
+def lookup_by_callsign(cs):
   print("\nLookup Result: ")
   try:
-    sqlQuery = 'SELECT VALUE name FROM `travel-sample` WHERE type = "airline" AND callsign = $1' 
+    sql_query = 'SELECT VALUE name FROM `travel-sample` WHERE type = "airline" AND callsign = $1' 
     row_iter = cluster.query(
-      sqlQuery, 
+      sql_query, 
       QueryOptions(positional_parameters=[cs]))
     for row in row_iter: print(row)
   except Exception as e:
@@ -75,13 +78,13 @@ airline = {
 # end::test-doc[]
 
 # tag::upsert-invoke[]
-upsertDocument(airline)
+upsert_document(airline)
 # end::upsert-invoke[]
 
 # tag::get-invoke[]
-getAirlineByKey("airline_8091")
+get_airline_by_key("airline_8091")
 #end::get-invoke[]
 
 # tag::lookup-invoke[]
-lookupByCallsign("CBS")
+lookup_by_callsign("CBS")
 # end::lookup-invoke[]
