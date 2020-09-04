@@ -67,7 +67,6 @@ Now install the latest Python SDK:
 $ python3 -m pip install couchbase
 ----
 --
-
 RHEL and CentOS::
 +
 During first-time setup:
