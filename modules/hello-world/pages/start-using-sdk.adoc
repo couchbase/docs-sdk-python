@@ -71,29 +71,29 @@ $ python3 -m pip install couchbase
 RHEL and CentOS::
 +
 During first-time setup:
-
++
 [source,console]
 ----
 $ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
 ----
-
++
 TIP: You may need to update your installed version of CMake. 
 For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
-
++
 For TLS/SSL support (optional):
-
++
 [source,console]
 ----
 $ sudo yum install openssl-devel
 ----
-
++
 Now install the latest Python SDK:
-
++
 [source,console]
 ----
 $ python3 -m pip install couchbase
 ----
-
++
 NOTE: RHEL/CentOS distributions may not provide the `python3-pip` package in the base repositories.
 It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 --
