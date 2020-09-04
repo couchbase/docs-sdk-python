@@ -36,6 +36,28 @@ include::hello-world:page$start-using-sdk.adoc[tag=install]
 Python SDK 3.n automatically bundles libcouchbase (downloading and building it if necessary),
  so no need to install it separately.
 
+== Version 3.0.5 (4 September 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.5
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.5/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-976[PYCBC-976]:
+Add AnalyticsScanConsistency
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1011[PYCBC-1011]:
+If tests.ini not in current dir, use base path of PYCBC distro.
+
+* https://issues.couchbase.com/browse/PYCBC-1016[PYCBC-1016]:
+Reenable non-hybrid build for CLion
+
 == Version 3.0.4 (11 August 2020)
 
 [source,bash]
