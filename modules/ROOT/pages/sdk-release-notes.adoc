@@ -875,4 +875,9 @@ constant
 Previously the fields in the indexes would be ignored or wrongly
 encoded when sent to the server. This fix goes in conjunction with
 fixes in the C SDK 2.6.1
+
+
+== Older Releases
+
+Although https://www.couchbase.com/support-policy/enterprise-software[no longer supported], documentation for older releases continues to be available in our https://docs-archive.couchbase.com/home/index.html[docs archive].
 // end::latest[]
