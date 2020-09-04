@@ -48,7 +48,7 @@ Debian and Ubuntu::
 +
 --
 During first-time setup:
-+
+
 [source,console]
 ----
 $ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
