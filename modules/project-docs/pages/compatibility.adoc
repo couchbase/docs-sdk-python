@@ -52,6 +52,35 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 Note the https://www.couchbase.com/support-policy[End of Life dates^] for Couchbase Server and SDK versions.
 See the notes there for Support details.
 
+
+== Platform Compatibility
+
+The Python SDK is built on top of libcouchbase (the C SDK), which is tested and supported on the following platforms:
+
+****
+[discrete]
+=== GNU/Linux
+
+* Amazon Linux 2.
+* Red Hat Enterprise Linux 7 & 8.
+* Ubuntu (LTS) 16.04 (_Xenial_), 18.04 (_Bionic_), & 20.04 (_Focal_).
+* Debian 9 (_Stretch_) & 10 (_Buster_).
+
+[discrete]
+=== Microsoft Windows
+
+Any MS-supported version compatible with Visual Studio 2015 (VC14) or 2017 (VC15).
+
+[discrete]
+=== Mac OS X
+
+The current and previous two releases of OS X. 
+At time of writing (September 2020): 10.13 (_High Sierra_), 10.14 (_Mojave_), and 10.15 (_Catalina_).
+****
+
+Although installable or compilable on many other platforms, we cannot provide support for untested combinations.
+
+
 == Couchbase New Feature Availability Matrix
 
 .Couchbase Server and SDK Supported Version Matrix
