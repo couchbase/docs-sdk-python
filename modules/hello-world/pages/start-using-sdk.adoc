@@ -162,6 +162,8 @@ Let's now create an empty file named `cb-test.py` and walk through adding code s
 
 === Connection
 
+The basic imports and connection string that you'll need are given below -- for more background information, refer to the xref:howtos:managing-connections.adoc#connection-strings[Managing Connections page].
+
 [source,python,indent=0]
 ----
 include::../examples/hello_world_t.py[tag=connect]
