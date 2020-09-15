@@ -11,7 +11,7 @@ from couchbase_core.cluster import PasswordAuthenticator
 from couchbase.cluster import QueryOptions
 
 # get a reference to our cluster
-cluster = Cluster('couchbase://hulk', ClusterOptions(
+cluster = Cluster('couchbase://localhost', ClusterOptions(
   PasswordAuthenticator('Administrator', 'password')))
 # end::connect[]
 
