@@ -84,6 +84,32 @@ You can also retrieve _parts_ of documents using xref:subdocument-operations.ado
 name, email = cb.retrieve_in('user:kingarthur', 'contact.name', 'contact.email')
 ----
 
+// Counters
+
+include::6.5@sdk:shared:partial$documents.adoc[tag=counters1]
+
+[source,python]
+----
+>>> cb.counter('counter_id', delta=20, initial=100).value
+100L
+>>> cb.counter('counter_id', delta=1).value
+101L
+>>> cb.counter('counter_id', delta=-50).value
+51L
+----
+include::6.5@sdk:shared:partial$documents.adoc[tag=counters2]
+
+[source,python]
+----
+rv = cb.get('counter_id')
+value, cas = rv.value, rv.cas
+if should_increment_value(value):
+  cb.upsert('counter_id', value + increment_amount, cas=cas)
+----
+
+include::6.5@sdk:shared:partial$documents.adoc[tag=counters3]
+
+// Expiry
 include::6.5@sdk:shared:partial$documents.adoc[tag=expiration]
 
 
