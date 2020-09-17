@@ -62,14 +62,16 @@ The Python SDK is built on top of libcouchbase (the C SDK), which is tested and 
 === GNU/Linux
 
 * Amazon Linux 2.
-* Red Hat Enterprise Linux 7 & 8.
+* Red Hat Enterprise Linux 7 & 8;
++
+& CentOS 7 & 8.
 * Ubuntu (LTS) 16.04 (_Xenial_), 18.04 (_Bionic_), & 20.04 (_Focal_).
 * Debian 9 (_Stretch_) & 10 (_Buster_).
 
 [discrete]
 === Microsoft Windows
 
-Any MS-supported version compatible with Visual Studio 2015 (VC14) or 2017 (VC15).
+Microsoft Windows 7 / Windows Server 2012 and onwards.
 
 [discrete]
 === Mac OS X
