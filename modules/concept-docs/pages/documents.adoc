@@ -97,6 +97,7 @@ include::6.5@sdk:shared:partial$documents.adoc[tag=counters1]
 >>> cb.counter('counter_id', delta=-50).value
 51L
 ----
+
 include::6.5@sdk:shared:partial$documents.adoc[tag=counters2]
 
 [source,python]
@@ -108,6 +109,14 @@ if should_increment_value(value):
 ----
 
 include::6.5@sdk:shared:partial$documents.adoc[tag=counters3]
+
+
+=== Use Cases
+
+The SDK provides a high-level abstraction over the simple `incr()`/`decr()` of Couchbase Server's memcached binary protocol, using `collections.binary()`. 
+This enables you to work with counters using `get()` and `upsert()` operations -- allowing, _inter alia_, the use of durability options with the operations.
+You will find several ways of working with counters https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=incr#couchbase.collection.BinaryCollection.increment[in the API docs].
+
 
 // Expiry
 include::6.5@sdk:shared:partial$documents.adoc[tag=expiration]
