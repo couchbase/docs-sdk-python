@@ -62,6 +62,7 @@ Here, we have added _Durability_ options, namely `PersistTo` and `ReplicateTo`.
 == Durability
 
 In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:2.5@python-sdk::durability.adoc[6.0 Durability documentation] -- covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
+If a version of Couchbase Server lower than 6.5 is being used then the application can fall-back to xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions['client verified' durability]. 
 
 
 If 6.5 or above is being used, you can take advantage of the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Write] feature, 
