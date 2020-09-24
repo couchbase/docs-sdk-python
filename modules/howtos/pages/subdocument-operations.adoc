@@ -3,6 +3,7 @@
 :page-topic-type: howto
 :lang: python
 :page-aliases: ROOT:sdk-xattr-example.adoc
+:link-with-underscores: https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=durability#couchbase.durability.ClientDurability.__init__
 
 [abstract]
 Sub-Document operations can be used to efficiently access and change parts of documents.
@@ -309,7 +310,7 @@ include::example$subdocument_ops.py[tag=cas2]
 == Durability
 
 Couchbase’s xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[traditional 'client verified' durability], using `PersistTo` and `ReplicateTo`, is still available, particularly for talking to Couchbase Server 6.0 and earlier.
-Refer to the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=persist#item-api-methods[API docs] for the legacy API.
+Refer to the {link-with-underscores}[API docs] for the legacy API.
 
 ////
 :
