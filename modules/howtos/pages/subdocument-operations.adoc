@@ -309,7 +309,7 @@ include::example$subdocument_ops.py[tag=cas2]
 == Durability
 
 Couchbase’s xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[traditional 'client verified' durability], using `PersistTo` and `ReplicateTo`, is still available, particularly for talking to Couchbase Server 6.0 and earlier.
-Refer to the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=persist#informational-methods[API docs] for the legacy API.
+Refer to the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=persist#item-api-methods[API docs] for the legacy API.
 
 ////
 :
