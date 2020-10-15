@@ -13,6 +13,7 @@ It is the responsibility of the development team and the software architect to e
 include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=intro]
 
 include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep]
+include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep3]
 
 include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=older]
 
