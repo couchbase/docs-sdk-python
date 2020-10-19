@@ -32,7 +32,6 @@ include::6.5@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 [NOTE]
 ====
 Certificate authentication in the Python SDK is currently under development.
-
 ====
 
 For sample procedures whereby certificates can be generated and deployed, see xref:6.5@server:manage:manage-security/manage-certificates.adoc[Manage Certificates].
