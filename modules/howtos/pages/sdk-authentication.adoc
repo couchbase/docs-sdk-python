@@ -21,27 +21,28 @@ from couchbase_core.cluster import PasswordAuthenticator
 
 cluster = Cluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
 ----
-////
-include::example$Auth.scala[tag=basic,indent=0]
-----
-////
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=rbac]
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 
-////
-== Authenticating a Scala Client by Certificate
+
+== Authenticating a Python Client by Certificate
+
+[NOTE]
+====
+Certificate authentication in the Python SDK is currently under development.
+====
 
 For sample procedures whereby certificates can be generated and deployed, see xref:6.5@server:manage:manage-security/manage-certificates.adoc[Manage Certificates].
 The rest of this document assumes that the processes there, or something similar, have been followed.
-That is, a cluster certificate has been created and installed on the server, a client certificate has been created, and it is stored in a JVM keystore along with the cluster's certificate.
+That is, a cluster certificate has been created and installed on the server, a client certificate has been created, and it is stored somewhere accessible to the SDK.
+The `CertAuthenticator` expects to be given the path to the client certificate and key as well as the path to the certificate trust store.
 
-[source,scala]
+[source,python]
 ----
-include::example$Auth.scala[tag=auth,indent=0]
+include::example$cert-auth.py[tag=auth,indent=0]
 ----
-////
 
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=ldap]
