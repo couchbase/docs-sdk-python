@@ -122,7 +122,7 @@ Using `Touch()`, you can set expiration values on documents to handle transient 
 include::example$kv_operations.py[tag=touch]
 ----
 
-== Atomic document modifications
+== Atomic Counters
 
 The value of a document can be increased or decreased atomically using `.increment()` and `.decrement()`.
 
