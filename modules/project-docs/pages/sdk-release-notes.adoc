@@ -38,6 +38,44 @@ Python SDK 3.n automatically bundles libcouchbase (downloading and building it i
  so no need to install it separately.
 
 
+== Version 3.0.6 (3 November 2020)
+
+[source,bash]
+----
+pip install couchbase==3.0.6
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.6/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-976[PYCBC-976]:
+Add AnalyticsScanConsistency
+
+* https://issues.couchbase.com/browse/PYCBC-1019[PYCBC-1019]:
+memory leak in n1ql query
+
+* https://issues.couchbase.com/browse/PYCBC-1047[PYCBC-1047]:
+Ping test fails against all real servers
+
+* https://issues.couchbase.com/browse/PYCBC-1048[PYCBC-1048]:
+Collection tests failing on 7.0
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-822[PYCBC-822]:
+SDK3 DOC on User Auth options
+
+* https://issues.couchbase.com/browse/PYCBC-1057[PYCBC-1057]:
+Subdoc expiry test fails intermittently
+
+* https://issues.couchbase.com/browse/PYCBC-961[PYCBC-961]:
+Add Options To Use FTS Hints (Flex Index)
+
+* https://issues.couchbase.com/browse/PYCBC-963[PYCBC-963]:
+Add Ephemeral Bucket Management Support
+
+
 == Version 3.0.5 (4 September 2020)
 
 [source,console]
