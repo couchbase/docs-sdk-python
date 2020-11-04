@@ -38,7 +38,51 @@ Python SDK 3.n automatically bundles libcouchbase (downloading and building it i
  so no need to install it separately.
 
 
+== Version 3.0.6 (3 November 2020)
+
+Version 3.0.6 is the seventh release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==3.0.6
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.6/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-976[PYCBC-976]:
+Added AnalyticsScanConsistency.
+
+* https://issues.couchbase.com/browse/PYCBC-1019[PYCBC-1019]:
+Fixed a memory leak in N1QL Query.
+
+* https://issues.couchbase.com/browse/PYCBC-1047[PYCBC-1047]:
+Updated namespace key for ping test to match change in libcouchbase. 
+Ping test now works again.
+
+* https://issues.couchbase.com/browse/PYCBC-1048[PYCBC-1048]:
+Collection tests were failing against upcoming 7.0 Server owing to changes in how the exceptions are structured or nested.  
+Changed now to parse the HTTP error context's result_body first, and improved the test suite for these and other services.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-822[PYCBC-822]:
+Added documentation on Certificate Authentication and LDAP.
+
+* https://issues.couchbase.com/browse/PYCBC-1057[PYCBC-1057]:
+Subdoc expiry intermittent test fails fixed.
+
+* https://issues.couchbase.com/browse/PYCBC-961[PYCBC-961]:
+Added Options To Use FTS Hints (Flex Index).
+
+* https://issues.couchbase.com/browse/PYCBC-963[PYCBC-963]:
+Added Ephemeral Bucket Management Support.
+
+
 == Version 3.0.5 (4 September 2020)
+
+Version 3.0.5 is the sixth release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
 
 [source,console]
 ----
@@ -62,6 +106,8 @@ Reenabled non-hybrid build for CLion.
 
 
 == Version 3.0.4 (11 August 2020)
+
+Version 3.0.4 is the fifth release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
 
 [source,console]
 ----
@@ -124,6 +170,8 @@ SSL install notes update.
 
 
 == Version 3.0.3 (15 July 2020)
+
+Version 3.0.3 is the fourth release of the 3.0 series, bringing enhancements and bug fixes over the last stable release.
 
 [source,console]
 ----
