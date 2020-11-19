@@ -130,7 +130,7 @@ $ brew install openssl # for TLS/SSL support - optional
 
 [source,console]
 ----
-$ python3 -m pip install couchbase
+$ sudo -H python3 -m pip install couchbase
 ----
 ====
 
