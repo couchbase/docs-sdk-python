@@ -50,7 +50,7 @@ include::example$n1ql_ops.py[tag=positional]
 include::example$n1ql_ops.py[tag=named]
 ----
 
-The complete code for this page's example can be found at xref:example$n1ql_ops.py[n1ql_ops.py].
+The complete code for this page's example can be found at https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/n1ql_ops.py[n1ql_ops.py].
 
 The `QueryMetaData` provides insight into some basic profiling/timing information as well as information like the `ClientContextID`.
 
