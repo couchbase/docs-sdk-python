@@ -1,4 +1,4 @@
-= Couchbase Node.js SDK 3.0
+= Couchbase Python SDK 3.0
 :page-type: landing-page
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
@@ -13,18 +13,37 @@
 [.column]
 ====== {empty}
 [.content]
-The Node.js SDK allows you to connect to a Couchbase Server cluster from Node.js. 
-The Node.js SDK is a native Node.js module that uses the very fast libcouchbase library to handle communicating with the cluster over the Couchbase binary protocol.
+The Couchbase Python SDK allows Python applications to access a Couchbase cluster. 
+The Python SDK offers a traditional synchronous API as well as integration with twisted, gevent, and asyncio. 
+It depends on the C SDK, libcouchbase, (included automatically) which it uses for performance and reliability.
+
 
 
 [.column]
 [.content]
-[source,javascript]
+[source,python]
 ----
-const queryResult = await cluster.query("SELECT * FROM `travel-sample` WHERE city=$1 LIMIT 10", { parameters: ['Paris']});
-queryResult.rows.forEach((row)=>{
-   console.log(row);
-});
+from twisted.internet import reactor
+from txcouchbase.cluster import TxCluster
+
+cluster = TxCluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
+bucket = cluster.bucket("default")
+cb = bucket.default_collection()
+
+def on_upsert(ret):
+    print("Set key. Result", ret)
+
+def on_get(ret):
+    print("Got key. Result", ret)
+    reactor.stop()
+
+cb.upsert("key", "value").addCallback(on_upsert)
+cb.get("key").addCallback(on_get)
+reactor.run()
+
+# Output:
+# Set key. Result OperationResult<RC=0x0, Key=key, CAS=0x9a78cf56c08c0500>
+# Got key. Result ValueResult<RC=0x0, Key=key, Value=u'value', CAS=0x9a78cf56c08c0500, Flags=0x0>
 ----
 
 
@@ -35,7 +54,7 @@ queryResult.rows.forEach((row)=>{
 [.column]
 ====== {empty}
 
-== Couchbase Node.js SDK 3.0
+== Couchbase Python SDK 3.0
 
 ++++
 <div class="card-row three-column-row">
@@ -47,8 +66,8 @@ queryResult.rows.forEach((row)=>{
 .Getting Started
 
 [.content]
-Dive right in with a xref:start-using-sdk.adoc[quick install and Hello World].
-Try out our xref:sample-application.adoc[Travel Sample Application].
+// Dive right in with a xref:start-using-sdk.adoc[quick install and Hello World].
+// Try out our xref:sample-application.adoc[Travel Sample Application].
 And take a look at the xref:howtos:working-with-collections.adoc[developer preview of Collections].
 
 
@@ -60,8 +79,8 @@ And take a look at the xref:howtos:working-with-collections.adoc[developer previ
 Connect to our services -- xref:howtos:kv-operations.adoc[data (KV)]; 
 xref:howtos:n1ql-queries-with-sdk.adoc[Query]; 
 xref:howtos:full-text-searching-with-sdk.adoc[Search]; 
-xref:howtos:analytics-using-sdk.adoc[Analytics]; 
-xref:howtos:view-queries-with-sdk.adoc[Views] -- 
+xref:howtos:analytics-using-sdk.adoc[Analytics]; ==      --
+// xref:howtos:view-queries-with-sdk.adoc[Views] -- 
 and the xref:howtos:subdocument-operations.adoc[Sub-Document API].
 
 [.column]
@@ -71,7 +90,7 @@ and the xref:howtos:subdocument-operations.adoc[Sub-Document API].
 [.content]
 The documentation supplements the practical Howto docs with references and xref:concept-docs:concepts.adoc[concept guides], for those who prefer a broader understanding before diving in and coding.
 []
-https://docs.couchbase.com/sdk-api/couchbase-node-client[API Docs^]
+https://docs.couchbase.com/sdk-api/couchbase-python-client/[API Docs^]
 
 
 [.column]
@@ -79,9 +98,9 @@ https://docs.couchbase.com/sdk-api/couchbase-node-client[API Docs^]
 .What's Hot?
 
 [.content]
-The Couchbase Node.js SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area
--- and introducing a xref:howtos:concurrent-async-apis.adoc[promises API] to reduce the complexity of asynchronous JavaScript in client apps.
-It can be paired with the 3.0-compatible https://v2.ottomanjs.com/#introduction[updated Ottoman ODM^] for speedier, scalable development.
+The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 & 6.6 as a xref:concept-docs:collections.adoc[developer preview]).
+
+The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484^]-style type annotations.
 
 [.column]
 ====== {empty}
@@ -99,8 +118,8 @@ xref:project-docs:migrating-sdk-code-to-3.n.adoc[migration guide] for moving to 
 .Community
 
 [.content]
-For community help, visit the https://forums.couchbase.com/c/node-js-sdk/12[Couchbase forums^].
-The Node.js SDK can be combined with many other projects in the broader JavaScript ecosystem and beyond -- in the https://blog.couchbase.com/?s=Node.js[Couchbase Blog^] there are examples covering everything from Apache OpenWhisk to Vue.js.
+For community help, visit the https://forums.couchbase.com/c/python-sdk/10[Couchbase forums^].
+The Node.js SDK can be combined with many other projects in the broader JavaScript ecosystem and beyond -- in the https://blog.couchbase.com/?s=Python[Couchbase Blog^] there are several examples.
 
 ++++
 </div>
