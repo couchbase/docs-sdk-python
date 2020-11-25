@@ -119,7 +119,7 @@ xref:project-docs:migrating-sdk-code-to-3.n.adoc[migration guide] for moving to 
 
 [.content]
 For community help, visit the https://forums.couchbase.com/c/python-sdk/10[Couchbase forums^].
-The Node.js SDK can be combined with many other projects in the broader JavaScript ecosystem and beyond -- in the https://blog.couchbase.com/?s=Python[Couchbase Blog^] there are several examples.
+The Python SDK can be combined with many other projects in the broader JavaScript ecosystem and beyond -- in the https://blog.couchbase.com/?s=Python[Couchbase Blog^] there are several examples.
 
 ++++
 </div>
