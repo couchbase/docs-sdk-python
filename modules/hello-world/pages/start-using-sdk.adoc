@@ -130,13 +130,13 @@ $ brew install python3
 .For ZSH (MacOS 10.15 Catalina and newer)
 [source,console]
 ----
-echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
+$ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
 ----
 
 .For BASH (MacOS 10.14 Mojave and older)
 [source,console]
 ----
-echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
+$ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
 ----
 
 .For TLS/SSL support - optional
