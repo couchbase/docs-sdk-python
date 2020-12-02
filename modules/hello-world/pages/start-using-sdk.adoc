@@ -112,22 +112,40 @@ Once _Homebrew_ is configured:
 NOTE: Later versions of Mac OS X break the python3 homebrew installer. 
 Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[here^].
 
+Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
+
 ====
+.Get a list of the latest packages
 [source,console]
 ----
-$ brew update # get list of latest packages
+$ brew update
 ----
 
+.Install compatible Python 3
 [source,console]
 ----
 $ brew install python3
 ----
 
+.For ZSH (MacOS 10.15 Catalina and newer)
 [source,console]
 ----
-$ brew install openssl # for TLS/SSL support - optional
+$ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
 ----
 
+.For BASH (MacOS 10.14 Mojave and older)
+[source,console]
+----
+$ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
+----
+
+.For TLS/SSL support - optional
+[source,console]
+----
+$ brew install openssl
+----
+
+.Installing the SDK
 [source,console]
 ----
 $ sudo -H python3 -m pip install couchbase
