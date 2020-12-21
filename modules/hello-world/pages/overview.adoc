@@ -79,8 +79,8 @@ And take a look at the xref:howtos:working-with-collections.adoc[developer previ
 Connect to our services -- xref:howtos:kv-operations.adoc[data (KV)]; 
 xref:howtos:n1ql-queries-with-sdk.adoc[Query]; 
 xref:howtos:full-text-searching-with-sdk.adoc[Search]; 
-xref:howtos:analytics-using-sdk.adoc[Analytics]; ==      --
-// xref:howtos:view-queries-with-sdk.adoc[Views] -- 
+xref:howtos:analytics-using-sdk.adoc[Analytics] --
+// ; xref:howtos:view-queries-with-sdk.adoc[Views] -- 
 and the xref:howtos:subdocument-operations.adoc[Sub-Document API].
 
 [.column]
