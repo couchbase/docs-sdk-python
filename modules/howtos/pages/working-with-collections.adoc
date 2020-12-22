@@ -9,7 +9,7 @@ The 3.0 API SDKs all work with Collections and Scopes.
 As a practical demonstration, we have a collections-enabled version of the Travel Sample application.
 
 The xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview of the upcoming Collections feature] in Couchbase Server is fully implemented in the 3.0 API versions of the Couchbase SDKs.
-When working with other server versions, the defaultcollection is used from the SDK.
+When working with other server versions, the `defaultcollection` is used from the SDK.
 Here we show how to access individual collections in the Developer Preview version of Couchbase Server 6.5, with a collections-enabled version of our xref:hello-world:sample-application.adoc[Travel Sample application].
 User documents and flight documents are split into user and flight collections.
 Something that previously had to be done with key-value references to different types or categories of data.
@@ -24,21 +24,17 @@ include::6.5@sdk:shared:partial$sample-application.adoc[tag=prereq]
 Enabling Developer Preview should only be done on a development machine; 
 there is no upgrade path available from a DP-enabled Couchbase Server.
 ====
-
-
 == Preparation
 
-As well as the xref:hello-world:start-using-sdk.adoc[Node.js SDK 3.0] and Couchbase Server, 
+As well as the xref:hello-world:start-using-sdk.adoc[Python SDK 3.0] and Couchbase Server, 
 set up as described above, you will need `git` to fetch the travel sample application code:
-
-////
 
 [source,bash]
 ----
-git clone https://github.com/couchbaselabs/try-cb-nodejs.git
+git clone https://github.com/couchbaselabs/try-cb-python.git
 ----
 
-Change directory into your cloned repository, and check out the _Collections_ branch (in the case of the Node.js SDK, `6.5-collections`).
+Change directory into your cloned repository, and check out the _Collections_ branch (in the case of the Python SDK, `6.5-collections`).
 
 [source,bash]
 ----
@@ -81,14 +77,11 @@ THE FINAL RESULT
 
 == Running the Travel Sample Application
 
-Next, edit the `storage.host` field in src/main/resources/application.properties to the one for your containerised Couchbase Server (or localhost, 127.0.0.1, if appropriate), and any other local changes -- such as password.
-From here onwards, we'll assume the defaults.
-
-And run with
+Next, edit the https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file to reflect the username, password and host that you require. You can also specify commandline arguments at runtime:
 
 [source,bash]
 ----
-npm run start
+python3 travel.py -c <host> -u <username> -p <password>
 ----
 
 After the build, with your Web browser of choice, head to port 8080 of the local machine -- http://localhost:8080[http://localhost:8080].
@@ -98,21 +91,35 @@ Using the Sample _App_ is the same as with the non-collections version that we c
 
 == Sample App Backend
 
-The backend code shows Couchbase Node.js SDK in action with Query and Search, 
-but also how to plug together all of the elements and build an application with Couchbase Server and the Node.js SDK.
+The backend code shows Couchbase Python SDK in action with Query and Search, 
+but also how to plug together all of the elements and build an application with Couchbase Server and the Python SDK.
 
 Collections and Scope are set immediately after opening the bucket:
 
-[source,javascript]
+[source,python]
 ----
-include::devguide:example$nodejs/kv-operations.js[tag=opencollections,indent=0]
+cluster = Cluster(CONNSTR, ClusterOptions(authenticator))
+static_bucket = cluster.bucket('travel-sample')
+default_collection = static_bucket.default_collection()
+try:
+    dynamic_bucket = cluster.bucket('travel-users')
+except BucketMissingException as e:
+    print("Collections bucket not found.")
+    print("Have you initialized it with the create-collections.sh script?")
+    raise e  # Continue raising error so application halts
+scope = dynamic_bucket.scope('userData')
+user_collection = scope.collection('users')
+flight_collection = scope.collection('flights')
 ----
 
 And operations are now performed on the specific collection, rather than the whole bucket (or the whole bucket via `_default` collection, as in Server 6.5 without the Developer Preview enabled).
 
-[source,javascript]
+[source,python]
 ----
-include::devguide:example$nodejs/kv-operations.js[tag=getcollectiondoc,indent=0]
+booked_flights = rv.content_as[list](0)
+    rows = []
+    for key in booked_flights:
+        rows.append(flights.get(key).content_as[dict])
+    print(rows)
+    respjson = jsonify({"data": rows})
 ----
-
-////

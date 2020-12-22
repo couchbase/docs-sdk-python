@@ -31,7 +31,7 @@ python3 -m pip install -r requirements.txt
 
 == Running the Travel Sample Application
 
-Next, edit the https://github.com/maria-robobug/try-cb-python/blob/6.5/travel.py[travel.py] file to reflect the username, password and host that you require. You can also specify commandline arguments at runtime:
+Next, edit the https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file to reflect the username, password and host that you require. You can also specify commandline arguments at runtime:
 
 [source,bash]
 ----
@@ -81,7 +81,7 @@ def findall(self):
     return response
 ----
 
-The https://github.com/maria-robobug/try-cb-python/blob/6.5/travel.py[travel.py] file also contains the functions for handling users, registration, and N1QL queries.
+The https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file also contains the functions for handling users, registration, and N1QL queries.
 
 == Data Model
 
