@@ -4,13 +4,13 @@
 :page-topic-type: howto
 
 [abstract]
-Collections is introduced as a Developer Preview feature in Couchbase Server 6.5.
+Collections is introduced as a Developer Preview feature in Couchbase Server 6.5 & 6.6, and is the default in Server 7.0.
 The 3.0 API SDKs all work with Collections and Scopes.
 As a practical demonstration, we have a collections-enabled version of the Travel Sample application.
 
-The xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview of the upcoming Collections feature] in Couchbase Server is fully implemented in the 3.0 API versions of the Couchbase SDKs.
+The xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview of the 7.0 Collections feature] in Couchbase Server is fully implemented in the 3.0 API versions of the Couchbase SDKs.
 When working with other server versions, the `defaultcollection` is used from the SDK.
-Here we show how to access individual collections in the Developer Preview version of Couchbase Server 6.5, with a collections-enabled version of our xref:hello-world:sample-application.adoc[Travel Sample application].
+Here we show how to access individual collections in the Developer Preview version of Couchbase Server 6.5 & 6.6, with a collections-enabled version of our xref:hello-world:sample-application.adoc[Travel Sample application].
 User documents and flight documents are split into user and flight collections.
 Something that previously had to be done with key-value references to different types or categories of data.
 
@@ -24,32 +24,34 @@ include::6.5@sdk:shared:partial$sample-application.adoc[tag=prereq]
 Enabling Developer Preview should only be done on a development machine; 
 there is no upgrade path available from a DP-enabled Couchbase Server.
 ====
+
+
 == Preparation
 
 As well as the xref:hello-world:start-using-sdk.adoc[Python SDK 3.0] and Couchbase Server, 
 set up as described above, you will need `git` to fetch the travel sample application code:
 
-[source,bash]
+[source,console]
 ----
 git clone https://github.com/couchbaselabs/try-cb-python.git
 ----
 
 Change directory into your cloned repository, and check out the _Collections_ branch (in the case of the Python SDK, `6.5-collections`).
 
-[source,bash]
+[source,console]
 ----
 git checkout 6.5-collections
 ----
 
 * Before building the Collections-enabled version of the Travel Sample Application, you need to enable this DP feature (see warning above).
 +
-[source,bash]
+[source,console]
 .Enable Collections Developer Preview
 ----
 /opt/couchbase/bin/couchbase-cli enable-developer-preview --enable -c http://localhost:8091 -u Administrator -p password
 ----
 +
-[source,bash]
+[source,console]
 ----
 Developer preview cannot be disabled once it is enabled. If you enter developer preview mode you will not be able to upgrade. DO NOT USE IN PRODUCTION.
 Are you sure [y/n]: y
@@ -58,7 +60,7 @@ Are you sure [y/n]: y
 The Travel Sample Bucket needs altering to be split into collections. 
 There is a script to do this included with the Travel Sample App -- run:
 
-[source,bash]
+[source,console]
 .Create Sample Collections
 ----
 sh create-collections.sh Administrator password 127.0.0.1
@@ -77,16 +79,18 @@ THE FINAL RESULT
 
 == Running the Travel Sample Application
 
-Next, edit the https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file to reflect the username, password and host that you require. You can also specify commandline arguments at runtime:
+Next, edit the https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file to reflect the username, password and host that you require. 
+You can also specify commandline arguments at runtime:
 
-[source,bash]
+[source,console]
 ----
-python3 travel.py -c <host> -u <username> -p <password>
+$ python3 travel.py -c <host> -u <username> -p <password>
 ----
 
 After the build, with your Web browser of choice, head to port 8080 of the local machine -- http://localhost:8080[http://localhost:8080].
 
-Using the Sample _App_ is the same as with the non-collections version that we cover xref:hello-world:sample-application.adoc#using-the-sample-app[in our introductory doc], but we're assuming you've come here to see Collections in use in the codebase.
+Using the Sample _App_ is the same as with the non-collections version that we cover xref:hello-world:sample-application.adoc#using-the-sample-app[in our introductory doc], 
+but we're assuming you've come here to see Collections in use in the codebase.
 
 
 == Sample App Backend
@@ -112,7 +116,8 @@ user_collection = scope.collection('users')
 flight_collection = scope.collection('flights')
 ----
 
-And operations are now performed on the specific collection, rather than the whole bucket (or the whole bucket via `_default` collection, as in Server 6.5 without the Developer Preview enabled).
+And operations are now performed on the specific collection, rather than the whole bucket (or the whole bucket via `_default` collection, 
+as in Server 6.5 without the Developer Preview enabled).
 
 [source,python]
 ----
