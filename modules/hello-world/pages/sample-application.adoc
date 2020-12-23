@@ -31,14 +31,15 @@ python3 -m pip install -r requirements.txt
 
 == Running the Travel Sample Application
 
-Next, edit the https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file to reflect the username, password and host that you require. You can also specify commandline arguments at runtime:
+Next, edit the https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file to reflect the username, password and host that you require.
+You can also specify command line arguments at runtime:
 
 [source,bash]
 ----
 python3 travel.py -c <host> -u <username> -p <password>
 ----
 
-Note that the sample project uses flask as the web-framework, which you can read more about https://pypi.org/project/Flask/[here].
+Note that the sample project uses _Flask_ as the web-framework, which you can read more about https://pypi.org/project/Flask/[here].
 
 After the build, with your Web browser of choice, head to port 8080 of the local machine -- http://localhost:8080[http://localhost:8080].
 
@@ -47,14 +48,16 @@ After the build, with your Web browser of choice, head to port 8080 of the local
 
 Give yourself a username and password and click *Register*.
 
-Now try out a few queries, and see Search in action for the hotel finder feature..
+Now try out a few queries, and see Search in action for the hotel finder feature.
+
 
 == Sample App Backend
 
 The backend code shows Couchbase Python SDK in action with Query and Search, 
 but also how to plug together all of the elements and build an application with Couchbase Server and the Python SDK.
 
-Here's the airport search code, which checks to see whether the search term for the query string is a three or four letter FAA or ICAO abbreviation, and if not searches for it as an airport name:
+Here's the airport search code, which checks to see whether the search term for the query string is a three or four letter FAA or ICAO abbreviation, 
+and if not searches for it as an airport name:
 
 [source,python]
 ----
@@ -82,6 +85,7 @@ def findall(self):
 ----
 
 The https://github.com/couchbaselabs/try-cb-python/blob/6.5/travel.py[travel.py] file also contains the functions for handling users, registration, and N1QL queries.
+
 
 == Data Model
 
