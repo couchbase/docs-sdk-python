@@ -2,7 +2,7 @@
 
 .Getting Started
 * xref:hello-world:start-using-sdk.adoc[Start Using the Python SDK]
-// * xref:hello-world:sample-application.adoc[Sample Application]
+* xref:hello-world:sample-application.adoc[Sample Application]
 
 .Working with Data
 * xref:howtos:kv-operations.adoc[Key Value Operations]
@@ -19,6 +19,7 @@
 * xref:howtos:concurrent-async-apis.adoc[Async APIs]
 * xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
 //* xref:howtos:durability.adoc[Durability]
+* xref:howtos:working-with-collections.adoc[Working with Collections DP]
 
 .Managing Couchbase
 //* User Management
