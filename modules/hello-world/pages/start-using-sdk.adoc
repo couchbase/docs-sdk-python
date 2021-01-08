@@ -181,8 +181,8 @@ Let's now create an empty file named `cb-test.py` and walk through adding code s
 === Prerequisites
 
 As well as the Python SDK (see above), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket 
-using either the xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface] 
-or the xref:6.5@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+using either the xref:6.6@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface] 
+or the xref:6.6@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
 
 === Connection
 
