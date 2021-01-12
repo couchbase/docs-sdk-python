@@ -19,11 +19,12 @@ At its simplest, `ping` provides information about the current state of the conn
 [source,python]
 ----
     ping_result = bucket.ping()
-
 ----
 
 Which returns a `PingResult` object, encapsulating a payload similar to this:
 // TODO -- multiple nodes
+[source,json]
+----
 {
     "config_rev": 501,
     "id": "0x7fecb15526d0/e9097b2135f47b2d",
@@ -91,7 +92,6 @@ def ok(bucket):
             if not report.state == PingState.OK:
                 return False
     return True
-
 ----
 
 You can also specify a subset of services to ping, if you are only interested in a particular set of services and don't wish to
@@ -100,12 +100,10 @@ actively ping the others:
 [source,python]
 ----
 ping_result = bucket.ping(PingOptions(service_types=[ServiceType.Query])
-
 ----
 
 
 == Diagnostics
-
 
 `Diagnostics` returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
 However this call _does not_ actively poll the nodes, reporting instead the state the last time it tried to access each node.
@@ -115,12 +113,13 @@ If you want the _current_ status, then use xref:#ping[Ping].
 ----
 diag_result = cluster.diagnostics()
 print(diag_result.as_json())
-
 ----
 
 Which will print the diagnostics result as a json string.  For instance, on a single node cluster that has had n1ql queries and kv operations
 executed, you will see something like:
 
+[source,json]
+----
 {
     "_id": "0x7f8e8d464350",
     "_version": 1,
@@ -158,5 +157,4 @@ executed, you will see something like:
         ]
     }
 }
-
-
+----
