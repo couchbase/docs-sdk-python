@@ -13,36 +13,38 @@
 [.column]
 ====== {empty}
 [.content]
-The Couchbase Python SDK allows Python applications to access a Couchbase cluster. The Python SDK uses the high-performance C library libcouchbase to handle communicating to the cluster over Couchbase's binary protocols.
+The Couchbase Python SDK allows Python applications to access a Couchbase cluster. 
+The Python SDK uses the high-performance C library libcouchbase to handle communicating to the cluster over Couchbase's binary protocols.
 
 
+////
+[.column]
+[.content]
+[source,python]
+----
+from twisted.internet import reactor
+from txcouchbase.cluster import TxCluster
 
-//[.column]
-// [.content]
-// [source,python]
-// ----
-// from twisted.internet import reactor
-// from txcouchbase.cluster import TxCluster
+cluster = TxCluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
+bucket = cluster.bucket("default")
+cb = bucket.default_collection()
 
-// cluster = TxCluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
-// bucket = cluster.bucket("default")
-// cb = bucket.default_collection()
+def on_upsert(ret):
+    print("Set key. Result", ret)
 
-// def on_upsert(ret):
-//     print("Set key. Result", ret)
+def on_get(ret):
+    print("Got key. Result", ret)
+    reactor.stop()
 
-// def on_get(ret):
-//     print("Got key. Result", ret)
-//     reactor.stop()
+cb.upsert("key", "value").addCallback(on_upsert)
+cb.get("key").addCallback(on_get)
+reactor.run()
 
-// cb.upsert("key", "value").addCallback(on_upsert)
-// cb.get("key").addCallback(on_get)
-// reactor.run()
-
-// # Output:
-// # Set key. Result OperationResult<RC=0x0, Key=key, CAS=0x9a78cf56c08c0500>
-// # Got key. Result ValueResult<RC=0x0, Key=key, Value=u'value', CAS=0x9a78cf56c08c0500, Flags=0x0>
-// ----
+# Output:
+# Set key. Result OperationResult<RC=0x0, Key=key, CAS=0x9a78cf56c08c0500>
+# Got key. Result ValueResult<RC=0x0, Key=key, Value=u'value', CAS=0x9a78cf56c08c0500, Flags=0x0>
+----
+////
 
 
 ++++
