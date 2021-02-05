@@ -58,6 +58,12 @@ Refactor Document Expiry Duration
 * https://issues.couchbase.com/browse/PYCBC-999[PYCBC-999]:
 Deprecate GetResult.expiry()
 
+=== Known Issues
+
+* https://issues.couchbase.com/browse/PYCBC-1094[PYCBC-1094]:
+The new expiryTime field is returning a float to represent the expiration, rather than a datetime.  Discovered too
+late for 3.0.9, this will be fixed in the next release.
+
 == Version 3.0.8 (13 January 2021)
 
 [source,bash]
@@ -154,11 +160,11 @@ Added AnalyticsScanConsistency.
 Fixed a memory leak in N1QL Query.
 
 * https://issues.couchbase.com/browse/PYCBC-1047[PYCBC-1047]:
-Updated namespace key for ping test to match change in libcouchbase. 
+Updated namespace key for ping test to match change in libcouchbase.
 Ping test now works again.
 
 * https://issues.couchbase.com/browse/PYCBC-1048[PYCBC-1048]:
-Collection tests were failing against upcoming 7.0 Server owing to changes in how the exceptions are structured or nested.  
+Collection tests were failing against upcoming 7.0 Server owing to changes in how the exceptions are structured or nested.
 Changed now to parse the HTTP error context's result_body first, and improved the test suite for these and other services.
 
 === Enhancements
@@ -390,8 +396,8 @@ $ python3 -m pip install couchbase==3.0.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.0.0/
 
-WARNING: Whilst we have made our best efforts to update the API documentation to accurately reflect the functionality provided, 
-there are still some known documentation issues to be resolved. 
+WARNING: Whilst we have made our best efforts to update the API documentation to accurately reflect the functionality provided,
+there are still some known documentation issues to be resolved.
 We aim to fix these as soon as possible.
 
 
@@ -757,4 +763,4 @@ Numerous _Alpha_ and _Beta_ releases were made in the run-up to the 3.0 release,
 == Older Releases
 
 Although https://www.couchbase.com/support-policy/enterprise-software[no longer supported], documentation for older releases continues to be available in our https://docs-archive.couchbase.com/home/index.html[docs archive].
- 
+
