@@ -195,7 +195,7 @@ include::../examples/hello_world_t.py[tag=connect]
 
 Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. 
 For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. 
-The connection is being made to a single Couchbase node running on a host named `hulk`.
+The connection is being made to a single Couchbase node, running locally.
 
 Couchbase RBAC is fully described in the section xref:6.5@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
