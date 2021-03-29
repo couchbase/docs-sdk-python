@@ -28,7 +28,7 @@ class Analytics(object):
                 print("Found row: " + row)
 
             print("Reported execution time: "
-                  + result.metaData().metrics().executionTime())
+                  + result.metrics["executionTime"])
         except CouchbaseException as ex:
             import traceback
             traceback.print_exc()
