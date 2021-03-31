@@ -4,7 +4,7 @@
 :page-aliases: ROOT:document-operations,ROOT:crud
 
 
-The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Bucket operations.
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
 
 == Documents
 
@@ -24,50 +24,55 @@ Here is the _Insert_ operation at its simplest:
 .Insert
 [source,python]
 ----
-include::example$kv_operations.py[tag=insert]
+include::howtos:example$kv_operations.py[tag=insert]
 ----
 
-Options may be added to operations:
+Options may be added to operations.  It is best practice to use the *Options() class that matches name of the operation (e.g. GetOptions(), InsertOptions(), etc.).  However, keyword arguments can be used as an override to a corresponding value within the options.
+
+Options like _timeout_ and _expiry_ are timedelta objects.
 
 .Insert (with options)
 [source,python]
 ----
-include::example$kv_operations.py[tag=insert_w_options]
+include::howtos:example$kv_operations.py[tag=insert_w_opts]
 ----
+
+Expiration sets an explicit time to live (TTL) for a document.
+We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below].
+For a discussion of item (Document) _vs_ Bucket expiration, see the
+xref:6.6@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
+
+=== CAS
 
 Setting a Compare and Swap (CAS) value is a form of optimistic locking -- dealt with in depth in the xref:concurrent-document-mutations.adoc[CAS page].
 Here we just note that the CAS is a value representing the current state of an item; each time the item is modified, its CAS changes.
 The CAS value is returned as part of a document's metadata whenever a document is accessed.
 Without explicitly setting it, a newly-created document would have a CAS value of _0_.
 
-.Replace
-[source,python]
+[source,python,indent=0]
 ----
-include::example$kv_operations.py[tag=replace]
-----
-
-Expiration sets an explicit time to live (TTL) for a document.
-We'll discuss modifying `Expiration` in more details xref:#expiration-ttl[below].
-For a discussion of item (Document) _vs_ Bucket expiration, see the
-xref:6.5@server:learn:buckets-memory-and-storage/expiration.adoc#expiration-bucket-versus-item[Expiration Overview page].
-
-[source,python]
-----
-include::example$kv_operations.py[tag=expiration]
+include::howtos:example$kv_operations.py[tag=replace_cas]
 ----
 
-Here, we have added _Durability_ options, namely `PersistTo` and `ReplicateTo`.
+Typically we would want to use CAS for something more meaningful like performing a Get, modifying the result and updating the document.
+By using the CAS value we know that if anyone else modified this document and updated it before our update then ours will error.
 
+[source,python,indent=0]
+----
+include::howtos:example$kv_operations.py[tag=get_cas_replace]
+----
 
 == Durability
 
-In Couchbase Server releases before 6.5, Durability was set with these two options -- see the xref:2.5@python-sdk::durability.adoc[6.0 Durability documentation] -- covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
-If a version of Couchbase Server lower than 6.5 is being used then the application can fall-back to xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions['client verified' durability]. 
+Writes in Couchbase are written to a single node, and from there the Couchbase Server will take care of sending that mutation to any configured replicas.
+The optional durability parameter, which all mutating operations accept, allows the application to wait until this replication (or persistence) is successful before proceeding.
 
+In Couchbase Server releases before 6.5, Durability was set with two options -- see the xref:2.5@python-sdk::durability.adoc[6.0 Durability documentation] -- covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist. 
+Couchbase Data Platform 6.5 refines these two options, with xref:6.5@server:learn:data/durability.adoc[Durable Writes] -- although they remain essentially the same in use.
+The Python SDK exposes both of these forms of Durability.
 
-If 6.5 or above is being used, you can take advantage of the xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Write] feature, 
-in which Couchbase Server will only return success to the SDK after the requested replication level has been achieved. 
-The three replication levels are:
+First we will cover the newer durability features available in Couchbase server 6.5 onwards.
+The SDK exposes three durability levels:
 
  * `Majority` - The server will ensure that the change is available in memory on the majority of configured replicas.
  * `MajorityAndPersistToActive` - Majority level, plus persisted to disk on the active node.
@@ -81,45 +86,65 @@ The following example demonstrates using the newer durability features available
 
 [source,python]
 ----
-include::example$kv_operations.py[tag=upsert_syncrep]
+include::howtos:example$kv_operations.py[tag=durability]
 ----
+
+If a version of Couchbase Server lower than 6.5 is being used then the application can fall-back to xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions['client verified' durability]. 
+The older type of durability, also known as _observe based durability_, works by monitoring the server to ensure that the change has been replicated or persisted to the required number of nodes within the timeout specified on the operation. 
+Here we can see how that is set:
+
+[source,python]
+----
+include::howtos:example$kv_operations.py[tag=obs_durability]
+----
+
+To stress, durability is a useful feature but should not be the default for most applications, as there is a performance consideration, 
+and the default level of safety provided by Couchbase will be reasonable for the majority of situations.
 
 [TIP]
 .Sub-Document Operations
 ====
 All of these operations involve fetching the complete document from the Cluster.
-Where the number of operations or other circumstances make bandwidth a significant issue, the SDK can work on just a specific _path_ of the document with xref:subdocument-operations.adoc[Sub-Docunent Operations].
+Where the number of operations or other circumstances make bandwidth a significant issue, the SDK can work on just a specific _path_ of the document with xref:subdocument-operations.adoc[Sub-Document Operations].
 ====
 
 == Retrieving full documents
 
-Using the `Get()` method with the document key can be done in a similar fashion to the other operations:
+Using the `get()` method with the document key can be done in a similar fashion to the other operations:
 
 [source,python]
 ----
-include::example$kv_operations.py[tag=get]
+include::howtos:example$kv_operations.py[tag=get]
 ----
 
+_Timeout_ can also be set, as in the earlier `Insert` operation example:
+
+[source,python]
+----
+include::howtos:example$kv_operations.py[tag=get_timeout]
+----
 
 == Removing
 
 When removing a document, you will have the same concern for durability as with any additive modification to the Bucket:
 
-Remove (with options)
-[source,python]
+.Remove (with options)
+[source,python,indent=0]
 ----
-include::example$kv_operations.py[tag=remove_old_durability]
+include::howtos:example$kv_operations.py[tag=remove_durability]
 ----
 
 
 == Expiration / TTL
 
-By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents.
-Using `Touch()`, you can set expiration values on documents to handle transient data:
+We already touched on how to set `Expiry` on an operation but we didn't discuss how to handle extending that expiry time.
+By default, Couchbase documents do not expire, but transient or temporary data may be needed for user sessions, caches, or other temporary documents. 
+You can use expiration values on documents to handle transient data.
+To prevent a document that already has expiry from expiring you can use `Touch` operations which will extend the expiry by the time specified.
 
 [source,python]
 ----
-include::example$kv_operations.py[tag=touch]
+include::howtos:example$kv_operations.py[tag=touch]
 ----
 
 == Atomic Counters
@@ -129,32 +154,32 @@ The value of a document can be increased or decreased atomically using `.increme
 .Increment
 [source,python]
 ----
-include::example$kv_operations.py[tag=increment]
+include::howtos:example$kv_operations.py[tag=increment]
 ----
 
-.Increment (with options)
+.Increment (with seed)
 [source,python]
 ----
-include::example$kv_operations.py[tag=increment_w_expiration]
+include::howtos:example$kv_operations.py[tag=increment_w_seed]
 ----
 
 .Decrement
 [source,python]
 ----
-include::example$kv_operations.py[tag=decrement]
+include::howtos:example$kv_operations.py[tag=decrement]
 ----
 
-.Increment (with options)
+.Decrement (with seed)
 [source,python]
 ----
-include::example$kv_operations.py[tag=decrement_w_expiration]
+include::howtos:example$kv_operations.py[tag=decrement_w_seed]
 ----
 
 NOTE: Increment & Decrement are considered part of the ‘binary’ API, and as such may still be subject to change.
 
 == Additional Resources
 
-A https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[complete Caching example] for the Python 3.0 SDK, using Flask, is xref:caching-example.adoc[worked through here].
+A https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/howtos/examples/caching_flask.py[complete Caching example] for the Python 3.x SDK, using Flask, is xref:caching-example.adoc[worked through here].
 
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
 // For working with metadata on a document, reference our xref:sdk-xattr-example.adoc[Extended Attributes] pages.
