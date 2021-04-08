@@ -32,6 +32,9 @@
 * xref:howtos:error-handling.adoc[Error Handling]
 * xref:howtos:collecting-information-and-logging.adoc[Logging]
 * xref:howtos:health-check.adoc[Health Check]
+* Observability
+** xref:howtos:slow-operations-logging.adoc[Slow Operations Logging]
+** xref:howtos:observability-orphan-logger.adoc[Orphan Requests Logging]
 
 .Learn
 * xref:concept-docs:concepts.adoc[Overview]
