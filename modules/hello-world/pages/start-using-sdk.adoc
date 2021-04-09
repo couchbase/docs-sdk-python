@@ -10,9 +10,9 @@ It depends on the C SDK, _libcouchbase_, (included automatically) which it uses 
 
 // tag::prep[]
 
-The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 & 6.6 as a xref:concept-docs:collections.adoc[developer preview]).
+The Couchbase Python SDK 3.x is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 & 6.6 as a xref:concept-docs:collections.adoc[developer preview]).
 
-The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
+The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 
 
 == Requirements
@@ -21,7 +21,7 @@ The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-
 Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
 You may need CMake to install, although the installer will attempt to download it from PyPI automatically.
 
-The Python SDK 3.0 requires Python 3, with Python 3.5 and above supported.
+The Python SDK 3.x requires Python 3, with Python 3.5 and above supported.
 
 // end::prep[]
 
