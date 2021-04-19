@@ -47,3 +47,8 @@ include::example$cert-auth.py[tag=auth,indent=0]
 
 include::6.5@sdk:shared:partial$auth-overview.adoc[tag=ldap]
 
+[source,python]
+----
+# Use over TLS for production
+cluster = Cluster("couchbases://10.143.205.101?sasl_mech_force=PLAIN&certpath=cert.ca",ClusterOptions(PasswordAuthenticator("einstein","password")))
+----

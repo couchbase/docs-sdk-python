@@ -5,10 +5,10 @@
 
 [abstract]
 Collections is introduced as a Developer Preview feature in Couchbase Server 6.5 & 6.6, and is the default in Server 7.0.
-The 3.0 API SDKs all work with Collections and Scopes.
+The 3.x API SDKs all work with Collections and Scopes.
 As a practical demonstration, we have a collections-enabled version of the Travel Sample application.
 
-The xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview of the 7.0 Collections feature] in Couchbase Server is fully implemented in the 3.0 API versions of the Couchbase SDKs.
+The xref:6.5@server:developer-preview:collections/collections-overview.adoc[Developer Preview of the 7.0 Collections feature] in Couchbase Server is fully implemented in the 3.x API versions of the Couchbase SDKs.
 When working with other server versions, the `defaultcollection` is used from the SDK.
 Here we show how to access individual collections in the Developer Preview version of Couchbase Server 6.5 & 6.6, with a collections-enabled version of our xref:hello-world:sample-application.adoc[Travel Sample application].
 User documents and flight documents are split into user and flight collections.
@@ -28,7 +28,7 @@ there is no upgrade path available from a DP-enabled Couchbase Server.
 
 == Preparation
 
-As well as the xref:hello-world:start-using-sdk.adoc[Python SDK 3.0] and Couchbase Server, 
+As well as the xref:hello-world:start-using-sdk.adoc[Python SDK 3.1] and Couchbase Server, 
 set up as described above, you will need `git` to fetch the travel sample application code:
 
 [source,console]

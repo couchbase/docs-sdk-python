@@ -3,12 +3,12 @@
 :page-topic-type: howto
 
 [abstract]
-In today's distributed and virtual environments, users will often not have full administrative control over their whole network. 
+In today's distributed and virtual environments, users will often not have full administrative control over their whole network.
 Health Check introduces _Ping_ to check nodes are still healthy, and to force idle connections to be kept alive in environments with eager shutdowns of unused resources.
 _Diagnostics_ requests a report from a node, giving instant health check information.
 
 
-Diagnosing problems in distributed environments is far from easy, so Couchbase provides a _Health Check API_ with `Ping()` for active monitoring. ans `Diagnostics()` for a look at what the client believes is the current state of the cluster. 
+Diagnosing problems in distributed environments is far from easy, so Couchbase provides a _Health Check API_ with `ping()` for active monitoring. and `diagnostics()` for a look at what the client believes is the current state of the cluster.
 More extensive discussion of the uses of Health Check can be found in the xref:concept-docs:health-check.adoc[Health Check Concept Guide].
 
 
@@ -16,115 +16,145 @@ More extensive discussion of the uses of Health Check can be found in the xref:c
 
 At its simplest, `ping` provides information about the current state of the connections in the Couchbase Cluster, by actively polling:
 
-// 2.7 SDK
-[source,java]
+[source,python]
 ----
-void printDiagnostics(Bucket bucket) {
-    bucket.ping();
-    DiagnosticsReport report = cluster.diagnostics();
-    System.out.println(report.exportToJson(true));
-}
+    ping_result = bucket.ping()
 ----
 
-Which, for a single-node test cluster, will return a payload similar to this:
+Which returns a `PingResult` object, encapsulating a payload similar to this:
 // TODO -- multiple nodes
-
-// 2.x SDK
+[source,json]
 ----
 {
-  "services" : {
-    "view" : [ {
-      "last_activity_us" : 2863,
-      "state" : "connected",
-      "id" : "0x46ee8659",
-      "remote" : "localhost:8092",
-      "local" : "localhost:53309"
-    } ],
-    "fts" : [ {
-      "last_activity_us" : 2625,
-      "state" : "connected",
-      "id" : "0x1c5de614",
-      "remote" : "localhost:8094",
-      "local" : "localhost:53308"
-    } ],
-    "kv" : [ {
-      "last_activity_us" : 19243,
-      "state" : "connected",
-      "id" : "0x7d942ebb",
-      "remote" : "localhost:11210",
-      "local" : "localhost:53307"
-    } ],
-    "n1ql" : [ {
-      "last_activity_us" : 1963,
-      "state" : "connected",
-      "id" : "0x8de927d",
-      "remote" : "localhost:8093",
-      "local" : "localhost:53310"
-    } ]
-  },
-  "sdk" : "couchbase-java-client/2.5.8 (git: 2.5.8, core: 1.5.8) (Mac OS X/10.13.4 x86_64; Java HotSpot(TM) 64-Bit Server VM 1.8.0_171-b11)",
-  "id" : "9c7e2ac7-9a41-4e67-8cdf-bf16abaa35a4",
-  "version" : 1
+    "config_rev": 501,
+    "id": "0x7fecb15526d0/e9097b2135f47b2d",
+    "sdk": "libcouchbase/3.0.6_2_ga1e9e1ca91 PYCBC/3.0.6.dev5+g207fb829",
+    "services": {
+        "cbas": [
+            {
+                "id": "0x7fec91445c40",
+                "latency_us": 1583,
+                "local": "127.0.0.1:51749",
+                "remote": "127.0.0.1:8095",
+                "status": "ok"
+            }
+        ],
+        "fts": [
+            {
+                "id": "0x7feca14a60e0",
+                "latency_us": 1252,
+                "local": "127.0.0.1:51748",
+                "remote": "127.0.0.1:8094",
+                "status": "ok"
+            }
+        ],
+        "kv": [
+            {
+                "id": "0x7fec9152fe30",
+                "latency_us": 1554,
+                "local": "127.0.0.1:51745",
+                "namespace": "default",
+                "remote": "127.0.0.1:11210",
+                "status": "ok"
+            }
+        ],
+        "n1ql": [
+            {
+                "id": "0x7fecb1454090",
+                "latency_us": 1711,
+                "local": "127.0.0.1:51746",
+                "remote": "127.0.0.1:8093",
+                "status": "ok"
+            }
+        ],
+        "views": [
+            {
+                "id": "0x7fecb1443400",
+                "latency_us": 1829,
+                "local": "127.0.0.1:51747",
+                "remote": "127.0.0.1:8092",
+                "status": "ok"
+            }
+        ]
+    },
+    "version": 1
 }
 ----
 
 If you only wish to know if there's a connection that's up, filter out the rest of the information:
 
-// 2.x example
-[source,java]
+[source,python]
 ----
-boolean allEndpointsConnected(DiagnosticsReport report) {
-    for (EndpointHealth endpoint : report.endpoints()) {
-        if (endpoint.state() != LifecycleState.CONNECTED) {
-            return false;
-        }
-    }
-    return true;
-}
+def ok(bucket):
+    result = bucket.ping()
+    for endpoint, reports in result.endpoints.items():
+        for report in reports:
+            if not report.state == PingState.OK:
+                return False
+    return True
 ----
 
+You can also specify a subset of services to ping, if you are only interested in a particular set of services and don't wish to
+actively ping the others:
 
+[source,python]
+----
+ping_result = bucket.ping(PingOptions(service_types=[ServiceType.Query])
+----
 
 
 == Diagnostics
-
 
 `Diagnostics` returns a list of the nodes that the SDK currently has (or had) a connection to, and the current status of the connection.
 However this call _does not_ actively poll the nodes, reporting instead the state the last time it tried to access each node.
 If you want the _current_ status, then use xref:#ping[Ping].
 
-[source,javascript]
+[source,python]
 ----
-bucket.diagnostics((err, res) => {
-    console.log(res)
-})
-/*
+diag_result = cluster.diagnostics()
+print(diag_result.as_json())
+----
+
+Which will print the diagnostics result as a json string.  For instance, on a single node cluster that has had n1ql queries and kv operations
+executed, you will see something like:
+
+[source,json]
+----
 {
-    "id":"0x10290d100","kv":[
-        {
-            "id":"0000000072b21d66",
-            "last_activity_us":2363294,
-            "local":"10.112.195.1:51473",
-            "remote":"10.112.195.101:11210",
-            "status":"connected"
-        },
-        {
-            "id":"000000000ba84e5e",
-            "last_activity_us":7369021,
-            "local":"10.112.195.1:51486",
-            "remote":"10.112.195.102:11210",
-            "status":"connected"
-        },
-        {
-            "id":"0000000077689398",
-            "last_activity_us":4855640,
-            "local":"10.112.195.1:51409",
-            "remote":"10.112.195.103:11210",
-            "status":"connected"
-        }
-    ],
-    "sdk":"libcouchbase/2.9.5-njs couchnode/2.6.9 (node/10.16.0; v8/6.8.275.32-node.52; ssl/1.1.1b)",
-    "version":1
+    "_id": "0x7f8e8d464350",
+    "_version": 1,
+    "_sdk": "libcouchbase/3.0.6_2_ga1e9e1ca91 PYCBC/3.0.6.dev5+g207fb829",
+    "_endpoints": {
+        "kv": [
+            {
+                "id": "c89f4c25513f1fb3",
+                "last_activity_us": 3181,
+                "local": "127.0.0.1:60360",
+                "remote": "127.0.0.1:11210",
+                "status": "connected",
+                "type": "kv"
+            }
+        ],
+        "config": [
+            {
+                "id": "0x7f8e9d53e440",
+                "last_activity_us": 163988,
+                "local": "127.0.0.1:60148",
+                "remote": "127.0.0.1:11210",
+                "status": "connected",
+                "type": "config"
+            }
+        ],
+        "n1ql": [
+            {
+                "id": "0x7f8e5d44d8e0",
+                "last_activity_us": 354,
+                "local": "127.0.0.1:60162",
+                "remote": "127.0.0.1:8093",
+                "status": "connected",
+                "type": "n1ql"
+            }
+        ]
+    }
 }
-*/
 ----

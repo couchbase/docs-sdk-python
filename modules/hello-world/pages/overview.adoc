@@ -1,4 +1,4 @@
-= Couchbase Python SDK 3.0
+= Couchbase Python SDK 3.1
 :page-type: landing-page
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
@@ -14,36 +14,27 @@
 ====== {empty}
 [.content]
 The Couchbase Python SDK allows Python applications to access a Couchbase cluster. 
-The Python SDK offers a traditional synchronous API as well as integration with twisted, gevent, and asyncio. 
-It depends on the C SDK, libcouchbase, (included automatically) which it uses for performance and reliability.
-
+The Python SDK uses the high-performance C library libcouchbase to handle communicating to the cluster over Couchbase's binary protocols.
 
 
 [.column]
 [.content]
 [source,python]
 ----
-from twisted.internet import reactor
-from txcouchbase.cluster import TxCluster
+from couchbase.cluster import Cluster
+from couchbase.auth import PasswordAuthenticator
 
-cluster = TxCluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
-bucket = cluster.bucket("default")
-cb = bucket.default_collection()
+cluster = Cluster('couchbase://localhost', authenticator=PasswordAuthenticator('username', 'password'))
+bucket = cluster.bucket('default')
+coll = bucket.default_collection()
 
-def on_upsert(ret):
-    print("Set key. Result", ret)
 
-def on_get(ret):
-    print("Got key. Result", ret)
-    reactor.stop()
-
-cb.upsert("key", "value").addCallback(on_upsert)
-cb.get("key").addCallback(on_get)
-reactor.run()
+coll.upsert('key', 'value')
+get_res = coll.get("key")
+print('Get result - value: {}; CAS: {}'.format(get_res.content, get_res.cas))
 
 # Output:
-# Set key. Result OperationResult<RC=0x0, Key=key, CAS=0x9a78cf56c08c0500>
-# Got key. Result ValueResult<RC=0x0, Key=key, Value=u'value', CAS=0x9a78cf56c08c0500, Flags=0x0>
+# Get result - value: value; CAS: 1617046112012992512
 ----
 
 
@@ -54,7 +45,7 @@ reactor.run()
 [.column]
 ====== {empty}
 
-== Couchbase Python SDK 3.0
+== Couchbase Python SDK 3.1
 
 ++++
 <div class="card-row three-column-row">
@@ -66,8 +57,8 @@ reactor.run()
 .Getting Started
 
 [.content]
-// Dive right in with a xref:start-using-sdk.adoc[quick install and Hello World].
-// Try out our xref:sample-application.adoc[Travel Sample Application].
+Dive right in with a xref:start-using-sdk.adoc[quick install and Hello World].
+Try out our xref:sample-application.adoc[Travel Sample Application].
 And take a look at the xref:howtos:working-with-collections.adoc[developer preview of Collections].
 
 
@@ -79,8 +70,8 @@ And take a look at the xref:howtos:working-with-collections.adoc[developer previ
 Connect to our services -- xref:howtos:kv-operations.adoc[data (KV)]; 
 xref:howtos:n1ql-queries-with-sdk.adoc[Query]; 
 xref:howtos:full-text-searching-with-sdk.adoc[Search]; 
-xref:howtos:analytics-using-sdk.adoc[Analytics]; ==      --
-// xref:howtos:view-queries-with-sdk.adoc[Views] -- 
+xref:howtos:analytics-using-sdk.adoc[Analytics] --
+// ; xref:howtos:view-queries-with-sdk.adoc[Views] -- 
 and the xref:howtos:subdocument-operations.adoc[Sub-Document API].
 
 [.column]
@@ -98,9 +89,9 @@ https://docs.couchbase.com/sdk-api/couchbase-python-client/[API Docs^]
 .What's Hot?
 
 [.content]
-The Couchbase Python SDK 3.0 is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 & 6.6 as a xref:concept-docs:collections.adoc[developer preview]).
+The Couchbase Python SDK 3.x is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 & 6.6 as a xref:concept-docs:collections.adoc[developer preview]).
 
-The 3.0 Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484^]-style type annotations.
+The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484^]-style type annotations.
 
 [.column]
 ====== {empty}
@@ -111,7 +102,7 @@ Those useful nuts-and-bolts guides to
 xref:project-docs:compatibility.adoc[compatibility tables]; 
 xref:project-docs:sdk-release-notes.adoc[release notes]; 
 xref:project-docs:get-involved.adoc[contribution guide]; and the 
-xref:project-docs:migrating-sdk-code-to-3.n.adoc[migration guide] for moving to the 3.0 API.
+xref:project-docs:migrating-sdk-code-to-3.n.adoc[migration guide] for moving to the 3.x API.
 
 [.column]
 ====== {empty}

@@ -2,7 +2,7 @@
 
 .Getting Started
 * xref:hello-world:start-using-sdk.adoc[Start Using the Python SDK]
-// * xref:hello-world:sample-application.adoc[Sample Application]
+* xref:hello-world:sample-application.adoc[Sample Application]
 
 .Working with Data
 * xref:howtos:kv-operations.adoc[Key Value Operations]
@@ -19,6 +19,7 @@
 * xref:howtos:concurrent-async-apis.adoc[Async APIs]
 * xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
 //* xref:howtos:durability.adoc[Durability]
+* xref:howtos:working-with-collections.adoc[Working with Collections DP]
 
 .Managing Couchbase
 //* User Management
@@ -26,11 +27,15 @@
 ** xref:howtos:sdk-authentication.adoc[Authentication]
 ** xref:howtos:troubleshooting-cloud-connections.adoc[Troubleshooting Cloud Connections]
 * xref:howtos:provisioning-cluster-resources.adoc[Provisioning Cluster Resources]
+** xref:howtos:sdk-user-management-example.adoc[User Management]
 
 .Errors & Diagnostics
 * xref:howtos:error-handling.adoc[Error Handling]
 * xref:howtos:collecting-information-and-logging.adoc[Logging]
-// * xref:howtos:health-check.adoc[Health Check]
+* xref:howtos:health-check.adoc[Health Check]
+* Observability
+** xref:howtos:slow-operations-logging.adoc[Slow Operations Logging]
+** xref:howtos:observability-orphan-logger.adoc[Orphan Requests Logging]
 
 .Learn
 * xref:concept-docs:concepts.adoc[Overview]

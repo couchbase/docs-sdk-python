@@ -12,7 +12,7 @@ include::6.6@sdk:shared:partial$sample-application.adoc[tag=prereq]
 
 == Preparation
 
-As well as the xref:start-using-sdk.adoc[Python SDK 3.0] and Couchbase Server, 
+As well as the xref:start-using-sdk.adoc[Python SDK 3.1] and Couchbase Server, 
 set up as described above, you will need `git` to fetch the travel sample application code:
 
 [source,bash]
