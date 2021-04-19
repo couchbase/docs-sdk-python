@@ -1,10 +1,13 @@
-# from datetime import timedelta
-
-from couchbase.durability import Durability, ServerDurability, \
-    ClientDurability, ReplicateTo, PersistTo
-from couchbase.exceptions import CASMismatchException, CouchbaseException, \
-    DocumentExistsException, PathExistsException, PathNotFoundException, \
-    SubdocCantInsertValueException, SubdocPathMismatchException
+from couchbase.durability import (Durability, ServerDurability,
+                                  ClientDurability, ReplicateTo, PersistTo)
+from couchbase.exceptions import (
+    CASMismatchException,
+    CouchbaseException,
+    DocumentExistsException,
+    PathExistsException,
+    PathNotFoundException,
+    SubdocCantInsertValueException,
+    SubdocPathMismatchException)
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 import couchbase.subdocument as SD

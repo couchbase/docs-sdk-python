@@ -10,13 +10,16 @@ uvicorn caching_fastapi:app --reload
 
 '''
 from datetime import timedelta
+
 from fastapi import FastAPI, HTTPException, Body
 
 from acouchbase.cluster import Cluster
 from couchbase.cluster import ClusterOptions
 from couchbase.auth import PasswordAuthenticator
-from couchbase.exceptions import CouchbaseException, \
-    DocumentExistsException, DocumentNotFoundException
+from couchbase.exceptions import (
+    CouchbaseException,
+    DocumentExistsException,
+    DocumentNotFoundException)
 from couchbase.collection import InsertOptions, UpsertOptions
 
 

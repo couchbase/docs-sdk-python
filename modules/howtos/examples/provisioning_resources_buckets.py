@@ -1,12 +1,16 @@
 import time
 
-
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
-from couchbase.exceptions import BucketAlreadyExistsException, \
-    BucketDoesNotExistException
-from couchbase.management.buckets import BucketSettings, \
-    ConflictResolutionType, CreateBucketSettings, BucketType
+from couchbase.exceptions import (
+    BucketAlreadyExistsException,
+    BucketDoesNotExistException,
+    CouchbaseException)
+from couchbase.management.buckets import (
+    BucketSettings,
+    ConflictResolutionType,
+    CreateBucketSettings,
+    BucketType)
 
 
 def retry(func, *args, back_off=0.5, limit=5, **kwargs):

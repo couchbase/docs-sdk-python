@@ -1,11 +1,12 @@
 import time
 
-
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
-from couchbase.exceptions import CollectionAlreadyExistsException, \
-    CollectionNotFoundException, ScopeAlreadyExistsException, \
-    ScopeNotFoundException
+from couchbase.exceptions import (
+    CollectionAlreadyExistsException,
+    CollectionNotFoundException,
+    ScopeAlreadyExistsException,
+    ScopeNotFoundException)
 from couchbase.management.collections import CollectionSpec
 
 

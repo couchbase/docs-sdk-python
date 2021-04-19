@@ -1,7 +1,10 @@
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
-from couchbase.management.views import View, DesignDocument, \
-    DesignDocumentNamespace
+from couchbase.management.views import (
+    View,
+    DesignDocument,
+    DesignDocumentNamespace,
+    DesignDocumentNotFoundException)
 
 # tag::create_view_mgr[]
 cluster = Cluster(

@@ -11,13 +11,16 @@ NOTE:  make sure to change into the working
 flask run
 
 '''
-
 from datetime import timedelta
+
 from flask import Flask, jsonify, request
+
 from couchbase.cluster import Cluster, ClusterOptions
 from couchbase.auth import PasswordAuthenticator
-from couchbase.exceptions import CouchbaseException, \
-    DocumentExistsException, DocumentNotFoundException
+from couchbase.exceptions import (
+    CouchbaseException,
+    DocumentExistsException,
+    DocumentNotFoundException)
 from couchbase.collection import InsertOptions, UpsertOptions
 from couchbase.diagnostics import PingState
 

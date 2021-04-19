@@ -1,13 +1,18 @@
 from datetime import timedelta
 
-from couchbase.durability import Durability, ServerDurability, \
-    ClientDurability, ReplicateTo, PersistTo
+from couchbase.durability import (Durability, ServerDurability,
+                                  ClientDurability, ReplicateTo, PersistTo)
 from couchbase.exceptions import CouchbaseException
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
-from couchbase.collection import InsertOptions, ReplaceOptions, \
-    UpsertOptions, GetOptions, RemoveOptions, IncrementOptions, \
-    DecrementOptions
+from couchbase.collection import (
+    InsertOptions,
+    ReplaceOptions,
+    UpsertOptions,
+    GetOptions,
+    RemoveOptions,
+    IncrementOptions,
+    DecrementOptions)
 from couchbase.collection import DeltaValue, SignedInt64
 
 cluster = Cluster(
