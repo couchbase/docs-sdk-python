@@ -18,43 +18,38 @@ from couchbase.collection import DeltaValue, SignedInt64
 cluster = Cluster(
     "couchbase://localhost",
     authenticator=PasswordAuthenticator(
-        "username",
+        "Administrator",
         "password"))
-bucket = cluster.bucket("default")
+bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()
+
+# setup
+try:
+    # tag::remove[]
+    result = collection.remove("document-key")
+    # end::remove[]
+    result = collection.remove("document-key-opts")
+except CouchbaseException as ex:
+    pass # may not exist in this example
+
 
 # tag::insert[]
 # Insert document
 document = {"foo": "bar", "bar": "foo"}
 result = collection.insert("document-key", document)
+cas = result.cas
 # end::insert[]
-print("Result: {}; CAS: {}".format(result, result.cas))
 
-# tag::insert_w_opts[]
-# Insert document with options
+# tag::replace_cas[]
+# Replace document with CAS
 document = {"foo": "bar", "bar": "foo"}
-opts = InsertOptions(timeout=timedelta(seconds=5))
-result = collection.insert("document-key-opts",
-                           document,
-                           opts,
-                           expiry=timedelta(seconds=30))
-# end::insert_w_opts[]
-
-try:
-    # tag::replace_cas[]
-    # Replace document with CAS
-    document = {"foo": "bar", "bar": "foo"}
-    result = collection.replace(
-        "document-key",
-        document,
-        cas=12345,
-        timeout=timedelta(
-            minutes=1))
+result = collection.replace(
+    "document-key",
+    document,
+    cas=cas,
+    timeout=timedelta(
+        minutes=1))
 # end::replace_cas[]
-except CouchbaseException as ex:
-    # we expect an exception here as the CAS value is chosen
-    # for example purposes
-    print(ex)
 
 try:
     # tag::get_cas_replace[]
@@ -68,22 +63,44 @@ try:
 except CouchbaseException as ex:
     print(ex)
 
-# tag::durability[]
-# Upsert with Durability (Couchbase Server >= 6.5) level Majority
-document = dict(foo="bar", bar="foo")
-opts = UpsertOptions(durability=ServerDurability(Durability.MAJORITY))
-result = collection.upsert("document-key", document, opts)
-# end::durability[]
 
-# tag::obs_durability[]
-# Upsert with observe based durability (Couchbase Server < 6.5)
+# tag::insert_w_opts[]
+# Insert document with options
 document = {"foo": "bar", "bar": "foo"}
-opts = UpsertOptions(
-    durability=ClientDurability(
-        ReplicateTo.ONE,
-        PersistTo.ONE))
-result = collection.upsert("document-key", document, opts)
-# end::obs_durability[]
+opts = InsertOptions(timeout=timedelta(seconds=5))
+result = collection.insert("document-key-opts",
+                           document,
+                           opts,
+                           expiry=timedelta(seconds=30))
+# end::insert_w_opts[]
+
+
+try:
+    # tag::durability[]
+    # Upsert with Durability (Couchbase Server >= 6.5) level Majority
+    document = dict(foo="bar", bar="foo")
+    opts = UpsertOptions(durability=ServerDurability(Durability.MAJORITY))
+    result = collection.upsert("document-key", document, opts)
+    # end::durability[]
+except CouchbaseException as ex:
+    # we expect an exception on local/test host, as Durability requirement
+    # requires appropriately configured cluster
+    pass
+
+try:
+    # tag::obs_durability[]
+    # Upsert with observe based durability (Couchbase Server < 6.5)
+    document = {"foo": "bar", "bar": "foo"}
+    opts = UpsertOptions(
+        durability=ClientDurability(
+            ReplicateTo.ONE,
+            PersistTo.ONE))
+    result = collection.upsert("document-key", document, opts)
+    # end::obs_durability[]
+except CouchbaseException as ex:
+    # we expect an exception on local/test host, as Durability requirement
+    # requires appropriately configured cluster
+    pass
 
 # tag::get[]
 result = collection.get("document-key")
@@ -109,7 +126,7 @@ try:
 except CouchbaseException as ex:
     # we expect an exception here as the CAS value is chosen
     # for example purposes
-    print(ex)
+    pass
 
 # tag::touch[]
 result = collection.touch("document-key", timedelta(seconds=10))
@@ -148,3 +165,13 @@ collection.binary().decrement(
         delta=DeltaValue(2),
         initial=SignedInt64(1000)))
 # end::decrement_w_seed[]
+
+print("Example: [named-collection-upsert]");
+# tag::named-collection-upsert[]
+agent_scope = bucket.scope("tenant_agent_00");
+users_collection = agent_scope.collection("users");
+
+content = {"name": "John Doe", "preferred_email": "johndoe111@test123.test" }
+
+result = users_collection.upsert("user-key", content);
+# end::named-collection-upsert[]
