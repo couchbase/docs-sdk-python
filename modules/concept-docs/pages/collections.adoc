@@ -1,11 +1,12 @@
 = Collections & Scope
+:description: pass:q[Available as a _Developer Preview_ in Couchbase Server 6.5.]
 :page-topic-type: concept
 :nav-title: Collections
 :page-status: Developer Preview
 
 
 [abstract]
-Available as a _Developer Preview_ in Couchbase Server 6.5.
+{description}
 
 The Developer Preview of the upcoming Collections feature in Couchbase Server is fully implemented in the 3.x API versions of the Couchbase SDKs. 
 Information on the Developer Preview (DP) of _Collections_ can be found in the xref:6.5@server:developer-preview:collections/collections-overview.adoc[server docs].

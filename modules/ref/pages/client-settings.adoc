@@ -1,11 +1,12 @@
 = Client Settings
+:description: pass:q[The `ClusterOptions` class enables you to configure Python SDK options for bootstrapping, timeouts, reliability, and performance.]
 :nav-title: Client Settings
 :page-topic-type: reference
 :page-aliases: ROOT:client-settings.adoc
 
 [abstract]
 
-The `ClusterOptions` class enables you to configure Python SDK options for bootstrapping, timeouts, reliability, and performance.
+{description}
 
 NOTE: Some settings for the Cluster/Bucket/Collection are currently only accessible via the Cluster connection string, but this may change in future. These parameters are set by appending `parameter=value` to the connection string, with the first parameter being followed by a `?` and subsequent parameters being preceded by a `&`, e.g.  `couchbases://host?network=external&enable_mutation_tokens=false`.
 

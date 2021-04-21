@@ -1,4 +1,5 @@
 = Sub-Document Operations with the Python SDK
+:description: Sub-Document operations can be used to efficiently access and change parts of documents.
 :navtitle: Sub-Doc Operations
 :page-topic-type: howto
 :lang: python
@@ -6,7 +7,7 @@
 :link-with-underscores: https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=durability#couchbase.durability.ClientDurability.__init__
 
 [abstract]
-Sub-Document operations can be used to efficiently access and change parts of documents.
+{description}
 
 
 Sub-Document operations may be quicker and more network-efficient than _full-document_ operations such as _Upsert_, _Replace_ and _Get_ because they only transmit the accessed sections of the document over the network.
