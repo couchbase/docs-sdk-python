@@ -38,6 +38,56 @@ Python SDK 3.n automatically bundles libcouchbase (downloading and building it i
 Generally, there is no need to download and install it separately, and we recommend using the built-in libcouchbase.
 There are binary Python wheels provided for Windows.
 
+== Version 3.1.0 (22 April 2021)
+
+[source,bash]
+----
+python3 -m pip install couchbase==3.1.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.1.0/
+
+=== Behavioral Change
+
+This release brings significant changes to the User Management API. Specifically, the `domain_name` should be passed in as part of the operation's optional Options object (or overridden with the `domain_name` keyword argument) and the use of namedtuple for certain objects were removed to to bring the API in line with the original specification.  Please see xref:howtos:sdk-user-management-example.adoc[User Management Docs] for how to use the updated User Management API.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-945[PYCBC-945]:
+Docs: Ensure all references to variadic subdoc op lists become iterables
+
+* https://issues.couchbase.com/browse/PYCBC-971[PYCBC-971]:
+Update docs for Diagnostics/health
+
+* https://issues.couchbase.com/browse/PYCBC-1028[PYCBC-1028]:
+Ensure 'content', 'content_as' etc shown in web API docs
+
+* https://issues.couchbase.com/browse/PYCBC-1032[PYCBC-1032]:
+FTS search does not return fields
+
+* https://issues.couchbase.com/browse/PYCBC-1105[PYCBC-1105]:
+FTS - Facet result missing terms
+
+* https://issues.couchbase.com/browse/PYCBC-1113[PYCBC-1113]:
+Forward compat with python issue
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1074[PYCBC-1074]:
+User Management quick snippets
+
+* https://issues.couchbase.com/browse/PYCBC-956[PYCBC-956]:
+Add Bucket Durability Creation Support
+
+* https://issues.couchbase.com/browse/PYCBC-1007[PYCBC-1007]:
+Enhance User Management for Collections/RBAC
+
+* https://issues.couchbase.com/browse/PYCBC-1009[PYCBC-1009]:
+Add support to pass Score as FTS parameter
+
+* https://issues.couchbase.com/browse/PYCBC-1053[PYCBC-1053]:
+Docs: Threshold Logging and Orphan Response Logging
+
 == Version 3.0.10 (4 March 2021)
 
 [source,console]
