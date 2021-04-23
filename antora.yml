@@ -1,7 +1,6 @@
 name: python-sdk
 version: '3.1'
 title: Python SDK
-prerelease: BETA
 start_page: hello-world:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
