@@ -39,6 +39,29 @@ Generally, there is no need to download and install it separately, and we recomm
 There are binary Python wheels provided for Windows.
 
 
+== Version 3.1.1 (26 April 2021)
+
+Version 3.1.1 is the second release of the 3.1 series, bringing enhancements and bug fixes over the last stable release.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==3.1.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.1.1/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1116[PYCBC-1116]:
+Installing Python SDK 3.1.0 gives an error that libcouchbase files are missing (although upgrading to 3.1.0 worked fine).
+Libcouchbase (LCB) is now retrieved from the GitHub repo, rather than an archive, and the problem is fixed.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1111[PYCBC-1111]:
+Get correct LCB version burned in when building.
+
+
 == Version 3.1.0 (22 April 2021)
 
 This is the first GA release of the 3.1 series Python SDK.
@@ -92,6 +115,13 @@ Added support to pass Score as FTS parameter.
 
 * https://issues.couchbase.com/browse/PYCBC-1053[PYCBC-1053]:
 Docs: Threshold Logging and Orphan Response Logging.
+
+=== Known Issues
+
+* https://issues.couchbase.com/browse/PYCBC-1116[PYCBC-1116]:
+Installing this verion of the Python 3 SDK (3.1) gives an error that libcouchbase files are missing.
+Upgrading to this version is fine.
+However, more recent versions are now available -- please install the latest.
 
 
 == Version 3.0.10 (4 March 2021)
