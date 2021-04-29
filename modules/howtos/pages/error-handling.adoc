@@ -1,11 +1,12 @@
 = Handling Errors
+:description: Errors, handling them from the Python SDK.
 :navtitle: Handling Errors
 :page-topic-type: howto
 :page-aliases: ROOT:handling-error-conditions,ROOT:exception-handling
 :source-language: python
 
 [abstract]
-Errors, handling them from the Python SDK.
+{description}
 
 
 Errors are inevitable.

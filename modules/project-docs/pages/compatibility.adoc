@@ -1,10 +1,11 @@
 = Compatibility of Couchbase Features, Couchbase Server Versions, and the Couchbase Python SDK
+:description: Features available in different SDK versions, and compatibility between Server and SDK. \
+Plus notes on Cloud, networks, and AWS Lambda.
 :navtitle: Compatibility
 :page-aliases: ROOT:overview,ROOT:compatibility-versions-features,compatibility-versions-features
 
 [abstract]
-Features available in different SDK versions, and compatibility between Server and SDK.
-Plus notes on Cloud, networks, and AWS Lambda.
+{description}
 
 The Python SDK 3.x requires Python 3, with Python 3.5 and above supported.
 Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.

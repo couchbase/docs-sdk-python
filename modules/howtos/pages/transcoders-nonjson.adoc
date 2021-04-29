@@ -1,9 +1,10 @@
 = Transcoders & Non-JSON Documents
+:description: The Java SDK supports common JSON document requirements out-of-the-box.
 :nav-title: Using Transcoders
 :page-topic-type: howtos
 
 [abstract]
-The Java SDK supports common JSON document requirements out-of-the-box.
+{description}
 Custom transcoders and serializers provide support for applications needing to perform advanced operations, including supporting non-JSON data.
 
 The Java SDK uses the concepts of transcoders and serializers, which are used whenever data is sent to or retrieved from Couchbase Server.

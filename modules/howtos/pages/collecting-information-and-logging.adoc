@@ -1,4 +1,5 @@
 = Collecting Information & Logging
+:description: Logging.
 :page-topic-type: howto
 :navtitle: Collecting Information
 :page-aliases: logging
@@ -6,7 +7,7 @@
 
 [abstract]
 
-Logging.
+{description}
 
 
 The Python SDK allows logging via the standard `logging` module, or via the `LCB_LOGLEVEL` environment variable.

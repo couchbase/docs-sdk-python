@@ -1,4 +1,5 @@
 = Choosing an API
+:description: The Couchbase Python SDK offers both asyncio and Twisted APIs for async operation.
 :navtitle: Choosing an API
 :page-topic-type: howto
 :page-aliases: ROOT:async-programming,ROOT:batching-operations,multiple-apis,ROOT:asynchronous-frameworks
@@ -15,7 +16,7 @@ Asyncio -- event loop, co-routines, futures
 also RQ -- Redis Q...
 ////
 [abstract]
-The Couchbase Python SDK offers both asyncio and Twisted APIs for async operation.
+{description}
 
 We will cover the asyncio API here initially. 
 Twisted documentation will be added shortly.

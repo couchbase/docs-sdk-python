@@ -1,11 +1,12 @@
 = Field Level Encryption from the SDK
+:description: The Field Level Encryption library enables encryption and decryption of JSON fields, to support FIPS-140-2 compliance.
 :page-topic-type: howto
 :page-edition: Enterprise Edition
 :page-status: Developer Preview
 // // :page-aliases: ROOT:encrypting-using-sdk.adoc
 
 [abstract]
-The Field Level Encryption library enables encryption and decryption of JSON fields, to support FIPS-140-2 compliance.
+{description}
 
 
 Client-side implementation of Field Level Encryption is available in the previous version of the SDK.

@@ -1,4 +1,5 @@
 = Analytics using the SDK
+:description: Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
 :navtitle: Analytics using the SDK
 :page-topic-type: howto
 :page-aliases: analytics-query
@@ -9,7 +10,7 @@
 :example-source-lang: Python
 
 [abstract]
-Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
+{description}
 
 For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, the Couchbase Data Platform offers the xref:6.5@server:analytics:introduction.adoc[Couchbase Analytics Service (CBAS)].
 This is the analytic counterpart to our xref:n1ql-queries-with-sdk.adoc[operational data focussed Query Service].

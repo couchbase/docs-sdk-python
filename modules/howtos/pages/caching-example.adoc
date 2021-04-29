@@ -1,9 +1,10 @@
 = Caching Example for Python SDK
+:description: A walk-through of the basics of Key-Value operations with Couchbase, through the lens of a REST api caching layer.
 :navtitle: KV Caching Example
 :page-topic-type: howto
 
 [abstract]
-A walk-through of the basics of Key-Value operations with Couchbase, through the lens of a REST api caching layer.
+{description}
 
 This example uses https://pypi.org/project/Flask/[Flask] as a web-framework for a Python REST API. 
 Flask has no direct support for async, but another code sample is available demonstrating this whole application using the Couchbase async API https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_fastapi.py[here]. 

@@ -1,11 +1,12 @@
 = Migrating from SDK2 to SDK3 API
+:description: The 3.0 API breaks the existing 2.0 APIs in order to provide a number of improvements. \
+Collections and Scopes are introduced.
 :nav-title: Migrating to Python SDK 3.0 API
 :page-topic-type: concept
 :page-aliases: ROOT:migrate
 
 [abstract]
-The 3.0 API breaks the existing 2.0 APIs in order to provide a number of improvements.
-Collections and Scopes are introduced.
+{description}
 The Document class and structure has been completely removed from the API, and the returned value is now `Result`.
 Retry behaviour is more proactive, and lazy bootstrapping moves all error handling to a single place.
 Individual behaviour changes across services are explained here.
