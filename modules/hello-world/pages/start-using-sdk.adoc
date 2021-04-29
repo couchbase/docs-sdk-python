@@ -1,12 +1,12 @@
 = Install and Start Using the Python SDK with Couchbase Server
-:description: The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
+:description: Installing the Couchbase Python SDK & a Hello World example program.
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
 :navtitle: Start Using the SDK
 :page-partial:
 
 [abstract]
-{description}
-The Python SDK offers a traditional synchronous API as well as integration with _twisted_, _gevent_, and _asyncio_.
+The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
+It offers a traditional synchronous API as well as integration with _twisted_, _gevent_, and _asyncio_.
 It depends on the C SDK, _libcouchbase_, (included automatically) which it uses for performance and reliability.
 
 // tag::prep[]

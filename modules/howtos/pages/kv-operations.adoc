@@ -1,11 +1,14 @@
 = Key Value Operations
-:description: The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
+:description: Key Value (KV) or data service offers the simplest way to retrieve or mutate data where the key is known.
 :navtitle: KV Operations
 :page-topic-type: howto
 :page-aliases: ROOT:document-operations,ROOT:crud
 
-
+[abstract]
 {description}
+Here we cover CRUD operations, document expiration, and optimistic locking with CAS.
+
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
 
 == Documents
 
