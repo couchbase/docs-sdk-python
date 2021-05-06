@@ -128,7 +128,7 @@ include::howtos:example$provisioning_resources_collections.py[tag=drop_collectio
 include::howtos:example$provisioning_resources_collections.py[tag=drop_scope]
 ----
 
-Note that the most minimal permissions to create and drop a Scope or Collections is
+Note that the most minimal permissions to create and drop a Scope or Collection is
 https://docs.couchbase.com/server/7.0/learn/security/roles.html#manage-collections-in-scope[Scope Admin]
 along with
 https://docs.couchbase.com/server/7.0/learn/security/roles.html#data-reader[Data Reader].
