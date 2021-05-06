@@ -8,6 +8,7 @@ from couchbase.exceptions import (
     ScopeAlreadyExistsException,
     ScopeNotFoundException)
 from couchbase.management.collections import CollectionSpec
+from couchbase.management.users import User, Role
 
 
 def retry(func, *args, back_off=0.5, limit=5, **kwargs):
@@ -23,7 +24,6 @@ def retry(func, *args, back_off=0.5, limit=5, **kwargs):
 
 
 def get_scope(collection_mgr, scope_name):
-    collection_mgr = bucket.collections()
     return next((s for s in collection_mgr.get_all_scopes()
                 if s.name == scope_name), None)
 
@@ -37,14 +37,33 @@ def get_collection(collection_mgr, scope_name, coll_name):
 
     return None
 
-# tag::create_collections_mgr[]
 cluster = Cluster(
     "couchbase://localhost",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))
 
-bucket = cluster.bucket("default")
+print("scopeAdmin\n")
+# tag::scopeAdmin[]
+users = cluster.users()
+user = User(username="scopeAdmin",
+            password="password",
+            display_name="Scope Admin [travel-sample:*]",
+            roles=[
+                Role(name="scope_admin", bucket="travel-sample"),
+                Role(name="data_reader", bucket="travel-sample")
+            ])
+users.upsert_user(user)
+# end::scopeAdmin[]
+
+cluster = Cluster(
+    "couchbase://localhost",
+    authenticator=PasswordAuthenticator(
+        "scopeAdmin",
+        "password"))
+
+# tag::create_collections_mgr[]
+bucket = cluster.bucket("travel-sample")
 coll_manager = bucket.collections()
 # end::create_collections_mgr[]
 
