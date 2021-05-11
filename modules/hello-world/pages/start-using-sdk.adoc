@@ -220,7 +220,7 @@ include::../examples/hello_world_t.py[tag=default-collection]
 
 The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. 
 For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, which includes all documents in a bucket, and is forwards and backwards compatible with all supported versions of Couchbase Server.
-Once the _Collectiont_ feature is generally available, the best practice will be to group documents into collections by type.
+Once the _Collection_ feature is generally available, the best practice will be to group documents into collections by type.
 
 === Document Addition and Retrieval
 
