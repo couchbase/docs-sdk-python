@@ -191,3 +191,27 @@ include::example$analytics.py[tag=readonly,indent=0]
 Like with all JSON apis, it is possible to customize the JSON serializer. It allows to plug in your own library. This in turn makes it possible to serialize rows into PODs or other structures that your application defines and the SDK has no idea about.
 
 Please see the documentation transcoding and serialization for more information.
+
+
+== Scoped Queries on Named Collections
+
+Given a dataset created against a collection, for example:
+
+[source,n1ql]
+----
+ALTER COLLECTION `travel-sample`.`inventory`.`airport` ENABLE ANALYTICS;
+----
+
+You can run a query as follows:
+
+[source,python]
+----
+include::example$analytics.py[tag=handle-collection,indent=0]
+----
+
+In addition to running a query via the `Cluster` object, you can run one via the `Scope` object.
+
+[source,ruby]
+----
+include::example$analytics.py[tag=handle-scope,indent=0]
+----

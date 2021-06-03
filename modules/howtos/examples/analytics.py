@@ -20,12 +20,13 @@ class Analytics(object):
 
     def main(self, args):
         # tag::simple[]
-        cluster = Cluster.connect("localhost", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
+        cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
+
         try:
             result = cluster.analytics_query("select \"hello\" as greeting")
 
             for row in result.rows():
-                print("Found row: " + row)
+                print("Found row: " + str(row))
 
             print("Reported execution time: "
                   + result.metrics["executionTime"])
@@ -56,7 +57,7 @@ class Analytics(object):
 
         # tag::clientcontextid[]
         import uuid
-        result = cluster.analyticsQuery(
+        result = cluster.analytics_query(
         "select ...",
         AnalyticsOptions(client_context_id="user-44{}".format(uuid.uuid4())))
 
@@ -87,9 +88,30 @@ class Analytics(object):
 
         # tag::rowsasobject[]
         result = cluster.analytics_query(
-            "select * from `travel-sample` limit 10"
+            "select * from airports limit 10"
         )
         for row in result.rows():
-            print("Found row: " + row)
+            print("Found row: " + str(row))
 
         # end::rowsasobject[]
+
+        print("handle-collection")
+        # tag::handle-collection[]
+        result = cluster.analytics_query('SELECT airportname, country FROM `travel-sample`.inventory.airport WHERE country="France" LIMIT 3')
+        # end::handle-collection[]
+        for row in result.rows():
+            print("Found row: " + str(row))
+
+        print("handle-scope")
+        # tag::handle-scope[]
+        bucket = cluster.bucket("travel-sample")
+        scope = bucket.scope("inventory")
+        print(dir(scope))
+        result = scope.analytics_query('SELECT airportname, country FROM airport WHERE country="France" LIMIT 3')
+        # end::handle-scope[]
+        for row in result.rows():
+            print("Found row: " + str(row))
+
+        print("End")
+
+Analytics().main([])
