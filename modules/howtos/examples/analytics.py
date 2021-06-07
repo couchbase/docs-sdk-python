@@ -2,13 +2,15 @@ from typing import Union
 from couchbase_core import IterableWrapper
 from couchbase.analytics import AnalyticsResult
 
-# tag::imports[]
+# Requires:
+#   `travel-sample` bucket
+#     *  CREATE DATASET `airports` ON `travel-sample` where `type` = "airport";
+#     *  ALTER COLLECTION `travel-sample`.`inventory`.`airport` ENABLE ANALYTICS;
 
+# tag::imports[]
 from couchbase.cluster import Cluster, ClusterOptions
 from couchbase.exceptions import CouchbaseException
 from couchbase.cluster import AnalyticsOptions, PasswordAuthenticator
-
-
 # end::imports[]
 
 
