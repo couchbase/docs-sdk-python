@@ -128,7 +128,7 @@ include::howtos:example$provisioning_resources_collections.py[tag=drop_collectio
 include::howtos:example$provisioning_resources_collections.py[tag=drop_scope]
 ----
 
-Note that the most minimal permissions to create and drop a Scope or Collections is
+Note that the most minimal permissions to create and drop a Scope or Collection is
 xref:server:learn:security/roles.adoc#manage-scopes[Manage Scopes]
 along with
 xref:server:learn:security/roles.adoc#data-reader[Data Reader]
