@@ -26,7 +26,7 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 
 .Recommended SDK per Server Version Matrix
 [#table_sdk_versions]
-[cols="40,25,20,20,25"]
+[cols="40,25,20,20,30"]
 |===
 | | SDK 2.3 | SDK 2.4 | SDK 2.5  | SDK 3.0, 3.1
 
@@ -53,8 +53,17 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 | *✖*
 | *✖*
 | *◎*
-| *✔*
+| *◎* _(see below)_
 |===
+
+[IMPORTANT]
+====
+An API change in the planned release version of Couchbase Server 7.0 means changes in the latest versions of the SDK which render these new SDK versions incompatible with the beta versions of 7.0.
+
+Python SDK *3.0.10* is the latest version compatible with Server 7.0β.
+
+Later SDK 3.x releases will be limited to the Default Scope and Collection with the beta 7.0 server, and will only be fully compatible with the full release version.
+====
 
 Note the https://www.couchbase.com/support-policy[End of Life dates^] for Couchbase Server and SDK versions.
 See the notes there for Support details.
@@ -83,7 +92,7 @@ Microsoft Windows 7 / Windows Server 2012 and onwards.
 [discrete]
 === Mac OS X
 
-The current and previous two releases of OS X. 
+The current and previous two releases of OS X.
 At time of writing (September 2020): 10.13 (_High Sierra_), 10.14 (_Mojave_), and 10.15 (_Catalina_).
 ****
 
@@ -93,7 +102,7 @@ Although installable or compilable on many other platforms, we cannot provide su
 == Couchbase New Feature Availability Matrix
 
 .Couchbase Server and SDK Supported Version Matrix
-[.table-merge-cells] 
+[.table-merge-cells]
 [cols="7,7,5,6,5"]
 |===
 | | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6 | Server 7.0β
@@ -101,7 +110,7 @@ Although installable or compilable on many other platforms, we cannot provide su
 | Enhanced Durability
 4+| All SDK versions
 
-| Durable Writes 
+| Durable Writes
 2+| Not Supported
 2+| Since 3.0
 
