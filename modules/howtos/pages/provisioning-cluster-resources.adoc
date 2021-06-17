@@ -7,7 +7,7 @@
 {description}
 Common use cases are outlined here, more recherché use cases are covered in the https://docs.couchbase.com/sdk-api/couchbase-python-client/[API docs].
 
-include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
+include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
 The Python SDK also comes with some convenience functionality for common Couchbase management requests.
 
@@ -36,7 +36,7 @@ include::howtos:example$provisioning_resources_buckets.py[tag=create_bucket_mgr]
 
 The `CreateBucketSettings` and `BucketSettings` classes are used for creating and updating buckets, `BucketSettings` is also used for exposing information about existing buckets.
 
-include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=update-bucket-warning]
+include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=update-bucket-warning]
 
 Here is the list of parameters available:
 
@@ -79,7 +79,7 @@ include::howtos:example$provisioning_resources_buckets.py[tag=drop_bucket]
 [#python-flushing]
 == Flushing Buckets
 
-include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
+include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
 You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#flushing-clearing-the-bucket[`flush_bucket()` method].
 
@@ -104,6 +104,8 @@ for further details.
 ----
 include::howtos:example$provisioning_resources_collections.py[tag=create_collections_mgr]
 ----
+
+=== Creating and Deleting Scopes and Collections
 
 You can create a scope:
 
@@ -140,6 +142,17 @@ You can create users with the appropriate RBAC programmatically:
 include::howtos:example$provisioning_resources_collections.py[tag=scopeAdmin]
 ----
 
+=== Listing the Scopes and Collections available
+
+You can enumerate Scopes and Collections using
+the `CollectionManager.get_all_scopes()` method and
+the `Scope.collections` property.
+
+[source,python]
+----
+include::howtos:example$provisioning_resources_collections.py[tag=listing-scope-collection]
+----
+
 == Index Management
 
 In general,you will rarely need to work with Index Managers from the SDK.
@@ -157,7 +170,7 @@ For those occasions when you do, please see the relevant API docs:
 
 == View Management
 
-include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
+include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
 
 In the SDK, design documents are represented by the `DesignDocument` and `View` classes.
 All operations on design documents are performed on the `ViewIndexManager` instance:
@@ -175,7 +188,7 @@ The following example upserts a design document with two views:
 include::howtos:example$provisioning_resources_views.py[tag=create_view]
 ----
 
-include::6.5@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
+include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
 
 Note the use of `DesignDocumentNamespace.DEVELOPMENT`, the other option is `DesignDocumentNamespace.PRODUCTION`.
 This parameter specifies whether the design document should be created as development, or as production -- with the former running over only a small fraction of the documents.
