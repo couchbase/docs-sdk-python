@@ -22,7 +22,7 @@ def retry(func, *args, back_off=0.5, limit=5, **kwargs):
     raise Exception(
         "Unable to successfully receive result from {}".format(func))
 
-
+# tag::listing-scope-collection[]
 def get_scope(collection_mgr, scope_name):
     return next((s for s in collection_mgr.get_all_scopes()
                 if s.name == scope_name), None)
@@ -36,6 +36,7 @@ def get_collection(collection_mgr, scope_name, coll_name):
             None)
 
     return None
+# end::listing-scope-collection[]
 
 cluster = Cluster(
     "couchbase://localhost",
