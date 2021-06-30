@@ -40,6 +40,46 @@ Generally, there is no need to download and install it separately, and we recomm
 There are binary Python wheels provided for Windows.
 
 
+== Version 3.1.3 (14 June 2021)
+
+Version 3.1.3 is the fourth release of the 3.1 series, bringing enhancements and bug fixes over the last stable release.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==3.1.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.1.3/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-993[PYCBC-993]:
+`acouchbase` and `txcouchbase` inheritance trees have been updated, as a first step to bring them in line with the Couchbase Cluster Creation API.
+
+* https://issues.couchbase.com/browse/PYCBC-1114[PYCBC-1114]; https://issues.couchbase.com/browse/PYCBC-1127[PYCBC-1127]; https://issues.couchbase.com/browse/PYCBC-1128[PYCBC-1128]:
+Corrected `acouchbase` API Collection creation and Query operations.
+
+* https://issues.couchbase.com/browse/PYCBC-1120[PYCBC-1120]; https://issues.couchbase.com/browse/PYCBC-1121[PYCBC-1121]:
+Corrected typing imports on Python versions < 3.8.
+
+* https://issues.couchbase.com/browse/PYCBC-1125[PYCBC-1125]:
+Updated dependency to LCB 3.1.4, to pull in LCB fixes & enhancements.
+
+* https://issues.couchbase.com/browse/PYCBC-1126[PYCBC-1126]:
+Added mutation token to `MutationResult` object.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-966[PYCBC-966]:
+Enhanced build support for Ubuntu 20.04.
+
+* https://issues.couchbase.com/browse/PYCBC-1008[PYCBC-1008]:
+Updated parsing method of N1QL duration to ms.
+
+* https://issues.couchbase.com/browse/PYCBC-1129[PYCBC-1129]:
+Added method to close event loop in `acouchbase` API.
+
+
 == Version 3.1.2 (12 May 2021)
 
 
