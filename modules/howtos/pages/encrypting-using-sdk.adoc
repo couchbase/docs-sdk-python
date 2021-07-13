@@ -1,15 +1,175 @@
 = Field Level Encryption from the SDK
-:description: The Field Level Encryption library enables encryption and decryption of JSON fields, to support FIPS-140-2 compliance.
+:description: A practical guide for getting started with Field-Level Encryption, showing how to encrypt and decrypt JSON fields using the Python SDK.
 :page-topic-type: howto
 :page-edition: Enterprise Edition
-:page-status: Developer Preview
-// // :page-aliases: ROOT:encrypting-using-sdk.adoc
+//:page-aliases: ROOT:encrypting-using-sdk.adoc
 
 [abstract]
 {description}
 
+For a high-level overview of this feature, see xref:concept-docs:encryption.adoc[].
 
-Client-side implementation of Field Level Encryption is available in the previous version of the SDK.
-It will be enabled in a future release of the third generation SDK.
+[#package]
+== Packaging
 
-A _Developer Preview_ is available in the xref:3.0@java-sdk:howtos:encrypting-using-sdk.adoc[Java SDK].
+The Couchbase Python SDK works together with the https://github.com/couchbase/python-couchbase-encryption[Python Couchbase Encryption^] library to provide support for encryption and decryption of JSON fields.
+This library includes cryptographic algorithms you can use out of the box, and provides a framework for implementing your own crypto components.
+
+NOTE: The encryption code is packaged as an optional library because it is released under a https://github.com/couchbase/python-couchbase-encryption/blob/master/LICENSE[different license^] than the Couchbase Python SDK.
+To use the encryption library, you have to explicitly include this dependency in your project configuration.
+Refer to the xref:#pip-install[install section].
+
+[#requirements]
+== Requirements
+* Couchbase Python SDK version `3.2.0` or later.
+* Python Couchbase Encryption version `1.0.0` or later.
+
+[#pip-install]
+== Install
+
+[source,bash]
+----
+$ python3 -m pip install cbencryption
+----
+
+See the https://github.com/couchbase/python-couchbase-encryption/tags[GitHub repository tags^] for the latest version.
+
+== Configuration
+
+The Python Field-Level Encryption library works on the principle of `Encrypters` and `Decrypters` which can be packaged within a `Provider`. `Encrypters` and `Decrypters` are registered with a `CryptoManager` and are then used to encrypt and decrypt specified fields.
+
+Here we’ll go through an example of setting up and using the Python Field-Level Encryption library.
+
+To begin we need to create a couple of keys, you should *not* use the `InsecureKeyring` other than for evaluation purposes and should keep your keys secure.
+
+[source,python]
+----
+include::howtos:example$encrypting_using_sdk.py[tag=keys]
+----
+
+Now that we have keys we can create a `Provider` (here we use the `AeadAes256CbcHmacSha512` algorithm which is the default supplied by the library).
+The `Provider` gives us a way to easily create multiple encrypters for the same algorithm but different keys.
+At this point we also create `CryptoManager` and register our encrypters and decrypters with it.
+
+[source,python]
+----
+include::howtos:example$encrypting_using_sdk.py[tag=provider]
+----
+
+== Usage
+
+Once an `CryptoManager` has registered encrypters and decrypters, encryption/decryption of specified fields can be handled with helper methods.  For example, the methods below take a `CryptoManager`, the document that should have specified fields encrypted/decrypted and a list of field specs specifing the needed information in order to encrypt/decrypt fields in the document.
+
+[source,python]
+----
+include::howtos:example$encrypting_using_sdk.py[tag=helper_methods]
+----
+
+Next, create a document and a list of field specs specifying which fields in the document should be encrypted.  Then, save the encrypted document returned by the encryption helper method to Couchbase.
+
+[source,python]
+----
+include::howtos:example$encrypting_using_sdk.py[tag=save_to_couchbase]
+----
+
+Retrieving the document from couchbase and displaying the document, as seen below, should output something like the following.
+
+[source,python]
+----
+include::howtos:example$encrypting_using_sdk.py[tag=output_encrypted_doc]
+----
+
+[source, json]
+----
+{
+    "firstName": "Monty",
+    "lastName": "Python",
+    "encrypted$password":
+    {
+        "alg": "AEAD_AES_256_CBC_HMAC_SHA512",
+        "kid": "secret_key",
+        "ciphertext": "QnXBcTA3P1p5WFfH+2kJbrKy2iSKCwxZZgbnJzrxy1dnh2TLloBxwJZ13UFZZmtGZf2F3whTnoj/60Q9zOQvbA=="
+    },
+    "encrypted$address":
+    {
+        "alg": "AEAD_AES_256_CBC_HMAC_SHA512",
+        "kid": "secret_key1",
+        "ciphertext": "bt6fGSwf7buX49+ddHlVnJjLkauVRgSSF4/VdEdOlIZ7xHwtVXsQCFpvz7XqEhzQho57m5YJQWR/oC1kjQlZZMFyPaXGhS4Mku7K1x2duZucjSDxmch4fkdcm6SZsb/UE9bfLCf2F9g8oKJzrkyjlFhR4+3h8H4JtxuOn/3xpyQLoVTbHTWgO0WMDHULdLb1"
+    },
+    "encrypted$phone":
+    {
+        "alg": "AEAD_AES_256_CBC_HMAC_SHA512",
+        "kid": "secret_key",
+        "ciphertext": "723JCAusPFm1kaWLnOkZRjNBFMM9mCORwPntk4s/4RIOCmv0DJ4gTwEiUy8XNewvUa44MzkMG7IW5SyWB4qFZw=="
+    }
+}
+----
+
+Passing the document with encrypted fields to the decryption helper, as in the example below, should provide the decrypted document and the output should look something like the following.
+
+[source,python]
+----
+include::howtos:example$encrypting_using_sdk.py[tag=decrypt_doc]
+----
+
+[source,json]
+----
+{
+    "firstName": "Monty",
+    "lastName": "Python",
+    "password": "bang!",
+    "address":
+    {
+        "street": "999 Street St.",
+        "city": "Some City",
+        "state": "ST",
+        "zip": "12345"
+    },
+    "phone": "123456"
+}
+----
+
+[#migration-from-sdk2]
+== Migrating from SDK 2
+
+WARNING: SDK 2 cannot read fields encrypted by SDK 3.
+
+It's inadvisable to have both the old and new versions of your application active at the same time.
+The simplest way to migrate is to do an offline upgrade during a scheduled maintenance window.
+For an online upgrade without downtime, consider a https://en.wikipedia.org/wiki/Blue-green_deployment[blue-green deployment^].
+
+SDK 3 requires additional configuration to read fields encrypted by SDK 2.
+The rest of this section describes how to configure Field-Level Encryption in SDK 3 for backwards compatibility with SDK 2.
+
+[#configure-field-name-prefix]
+=== Changing the field name prefix
+
+In SDK 2, the default prefix for encrypted field names was `\__crypt_`.
+This caused problems for Couchbase Sync Gateway, which does not like field names to begin with an underscore.
+In SDK 3, the default prefix is `encrypted$`.
+
+For compatibility with SDK 2, you can configure the `CryptoManager` to use the old `\__crypt_` prefix:
+
+[source,python]
+----
+prefix = "__crpyt_"
+mgr = DefaultCryptoManager(encrypted_field_prefix=prefix)
+----
+
+Alternatively, you can https://forums.couchbase.com/t/replacing-field-name-prefix/28786[rename the existing fields using a N1QL statement].
+
+WARNING: In SDK 2, only top-level fields could be encrypted.
+SDK 3 allows encrypting fields at any depth.
+If you decide to rename the existing fields, make sure to do so _before_ writing any encrypted fields below the top level, otherwise it may be difficult to rename the nested fields using a generic N1QL statement.
+
+
+[#configure-legacy-decrypters]
+=== Enabling decrypters for legacy algorithms
+
+The encryption algorithms used by SDK 2 are deprecated, and are no longer used for encrypting new data.
+To enable decrypting fields written by SDK 3, register the legacy decrypters with the `CryptoManager`:
+
+[source,python]
+----
+include::howtos:example$encrypting_using_sdk.py[tag=legacy_support]
+----
