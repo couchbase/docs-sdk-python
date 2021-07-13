@@ -8,14 +8,14 @@
 {description}
 
 
-include::6.5@sdk:shared:partial$views.adoc[tag=views-intro]
+include::7.0@sdk:shared:partial$views.adoc[tag=views-intro]
 
 
 Further information can be found https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#mapreduce-view-methods[in the API docs].
 
 
 ////
-include::6.5@sdk:shared:partial$views.adoc[tag=example-beer]
+include::7.0@sdk:shared:partial$views.adoc[tag=example-beer]
 
 
 [source,csharp]
@@ -26,7 +26,7 @@ var result = bucket.ViewQuery<Beer>("beers", "by_name", options => {
 });
 ----
 
-include::6.5@sdk:shared:partial$views.adoc[tag=example-travel]
+include::7.0@sdk:shared:partial$views.adoc[tag=example-travel]
 
 
 [source,csharp]
@@ -36,7 +36,7 @@ var result = bucket.ViewQuery<Landmark>("landmarks", "by_name", options => {
 });
 ----
 
-include::6.5@sdk:shared:partial$views.adoc[tag=example-geo-travel]
+include::7.0@sdk:shared:partial$views.adoc[tag=example-geo-travel]
 
 
 (10)

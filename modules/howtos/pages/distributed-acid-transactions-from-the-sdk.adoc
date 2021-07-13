@@ -8,4 +8,4 @@
 
 
 Distributed ACID Transactions are not currently available for the Python SDK.
-include::6.5@sdk:shared:partial$acid-transactions.adoc[tag=other]
+include::7.0@sdk:shared:partial$acid-transactions.adoc[tag=other]

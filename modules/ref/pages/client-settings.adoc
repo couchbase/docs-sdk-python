@@ -613,4 +613,4 @@ You are responsible for stopping it after it is no longer needed.
 
 // section on wide area network support
 
-include::6.5@sdk:shared:partial$client-settings-wide-network.adoc[]
+include::7.0@sdk:shared:partial$client-settings-wide-network.adoc[]

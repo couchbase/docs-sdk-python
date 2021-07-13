@@ -7,7 +7,7 @@
 [abstract]
 {description}
 
-include::6.5@sdk:shared:partial$clusters-buckets.adoc[tag=management]
+include::7.0@sdk:shared:partial$clusters-buckets.adoc[tag=management]
 
 ////
 Management operations in the Python SDK may be performed through several interfaces depending on the object:

@@ -12,10 +12,10 @@ Retry behaviour is more proactive, and lazy bootstrapping moves all error handli
 Individual behaviour changes across services are explained here.
 
 
-include::6.5@sdk:shared:partial$migration.adoc[tag=intro]
+include::7.0@sdk:shared:partial$migration.adoc[tag=intro]
 
 
-include::6.5@sdk:shared:partial$migration.adoc[tag=terms]
+include::7.0@sdk:shared:partial$migration.adoc[tag=terms]
 
 As an example here is a KeyValue document fetch:
 
@@ -38,13 +38,13 @@ Compare this to a N1QL query:
 query_result = cluster.query("select 1=1", QueryOptions(timeout=timedelta(seconds=3))
 ----
 
-include::6.5@sdk:shared:partial$migration.adoc[tag=terms2]
+include::7.0@sdk:shared:partial$migration.adoc[tag=terms2]
 
 
-include::6.5@sdk:shared:partial$migration.adoc[tag=new]
+include::7.0@sdk:shared:partial$migration.adoc[tag=new]
 
 
-include::6.5@sdk:shared:partial$migration.adoc[tag=lang]
+include::7.0@sdk:shared:partial$migration.adoc[tag=lang]
 
 
 

@@ -7,4 +7,4 @@
 {description}
 
 
-include::6.5@sdk:shared:partial$rto.adoc[tag=placeholder]
+include::7.0@sdk:shared:partial$rto.adoc[tag=placeholder]

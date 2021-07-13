@@ -7,11 +7,11 @@
 [abstract]
 {description}
 
-include::6.5@sdk:shared:partial$sdk-xattr-overview.adoc[tag=intro_extended_attributes]
+include::7.0@sdk:shared:partial$sdk-xattr-overview.adoc[tag=intro_extended_attributes]
 
-include::6.5@sdk:shared:partial$sdk-xattr-overview.adoc[tag=using_extended_attributes]
+include::7.0@sdk:shared:partial$sdk-xattr-overview.adoc[tag=using_extended_attributes]
 
-include::6.5@sdk:shared:partial$sdk-xattr-overview.adoc[tag=virtual_extended_attributes]
+include::7.0@sdk:shared:partial$sdk-xattr-overview.adoc[tag=virtual_extended_attributes]
 
 [source,java]
 ----

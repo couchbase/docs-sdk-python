@@ -23,9 +23,9 @@ from couchbase_core.cluster import PasswordAuthenticator
 cluster = Cluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
 ----
 
-include::6.5@sdk:shared:partial$auth-overview.adoc[tag=rbac]
+include::7.0@sdk:shared:partial$auth-overview.adoc[tag=rbac]
 
-include::6.5@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
+include::7.0@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 
 
 == Authenticating a Python Client by Certificate
@@ -46,7 +46,7 @@ include::example$cert-auth.py[tag=auth,indent=0]
 ----
 
 
-include::6.5@sdk:shared:partial$auth-overview.adoc[tag=ldap]
+include::7.0@sdk:shared:partial$auth-overview.adoc[tag=ldap]
 
 [source,python]
 ----

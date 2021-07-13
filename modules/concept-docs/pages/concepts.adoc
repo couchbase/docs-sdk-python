@@ -4,5 +4,5 @@
 
 
 
-include::6.5@sdk:shared:partial$concepts.adoc[tag=concepts]
+include::7.0@sdk:shared:partial$concepts.adoc[tag=concepts]
 
