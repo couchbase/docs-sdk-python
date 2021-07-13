@@ -5,101 +5,78 @@
 :page-aliases: analytics-query
 :page-edition: Enterprise Edition
 :lang: Python
-:version: 3.0.0
-:example-source: 3.0@python-sdk:howtos:example$analytics.py
+:version: 3.2.0
+:example-source: 3.2@python-sdk:howtos:example$analytics_ops.py
 :example-source-lang: Python
 
 [abstract]
 {description}
 
-For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, the Couchbase Data Platform offers the xref:6.5@server:analytics:introduction.adoc[Couchbase Analytics Service (CBAS)].
+For complex and long-running queries, involving large ad hoc join, set, aggregation, and grouping operations, the Couchbase Data Platform offers the xref:7.0@server:analytics:introduction.adoc[Couchbase Analytics Service (CBAS)].
 This is the analytic counterpart to our xref:n1ql-queries-with-sdk.adoc[operational data focussed Query Service].
 The analytics service is available in Couchbase Data Platform 6.0 and later.
 
 == Getting Started
 
-After familiarizing yourself with our xref:6.5@server:analytics:primer-beer.adoc[introductory primer],
+After familiarizing yourself with our xref:7.0@server:analytics:primer-beer.adoc[introductory primer],
 in particular creating a dataset and linking it to a bucket, try Couchbase Analytics using the Python SDK.
 Intentionally, the API for analytics is nearly identical to that of the query service.
 
-Before starting, here's all imports used in the following examples:
+Here's a complete example of doing a analytics and handling the results:
 
 [source,py]
 ----
-include::example$analytics.py[tag=imports,indent=0]
+include::howtos:example$analytics_ops.py[tag=analytics_basic_example]
 ----
 
-Here's a complete example of doing an analytics query and handling the results:
+NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use Analytics.
 
-[source,py]
-----
-include::example$analytics.py[tag=simple,indent=0]
-----
+Let's break it down. An analytics query is always performed at the `Cluster` level, using the `analytics_query` method. It takes the statement as a required argument and then allows to provide additional options if needed.
 
-Let's break it down. An analytics query is always performed at the `Cluster` level, using the `analytics_query` method. It takes the statement as a required argument and then allows to provide additional options if needed (in the example above, no options are specified).
-
-Once a result returns you can iterate over the returned rows.
-
-////
-//// TODO: fix once https://issues.couchbase.com/browse/PYCBC-977 resolved
-and/or access the `AnalyticsMetaData` associated with the query.
-////
-
-If something goes wrong during the execution of the query, a derivative of the `CouchbaseException` will be thrown that also provides additional context on the operation.
-
-////
-TODO: update
-
-[source,py]
-----
-Exception in thread "main" com.couchbase.client.core.error.ParsingFailureException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":24000,"message":"Syntax error: In line 1 >>select 1=;<< Encountered \"=\" at column 9. "}], ... }
-----
-////
-
-
-[NOTE]
-.Open Buckets and Cluster-Level Queries
-====
-If you are using a cluster older than Couchbase Server 6.5, it is required that there is at least one bucket open before performing a cluster-level query. If you fail to do so, the SDK will return a `FeatureNotAvailableException` with a descriptive error message asking you to open one.
-====
+Once a result returns you can iterate the returned rows and/or access the `AnalyticsMetaData` associated with the query.
 
 == Parameterized Queries
 Supplying parameters as individual arguments to the query allows the analytics engine to optimize the parsing and planning of the query. You can either supply these parameters by name or by position.
 
 The first example shows how to provide them by name:
 
-[source,py]
+.Positional parameter example:
+[source,python]
 ----
-include::example$analytics.py[tag=named,indent=0]
-----
-
-The second example by position:
-
-[source,py]
-----
-include::example$analytics.py[tag=positional,indent=0]
+include::howtos:example$analytics_ops.py[tag=positional]
 ----
 
+[source,python]
+----
+include::howtos:example$analytics_ops.py[tag=positional_options]
+----
+
+.Named parameter example:
+[source,python]
+----
+include::howtos:example$analytics_ops.py[tag=named_kwargs]
+----
+
+[source,python]
+----
+include::howtos:example$analytics_ops.py[tag=named_options]
+----
+
+The complete code for this page's example can be found at https://github.com/couchbase/docs-sdk-python/blob/release/3.2/modules/howtos/examples/analytics_ops.py[analytics_ops.py].
 What style you choose is up to you, for readability in more complex queries we generally recommend using the named parameters.
+Note that you cannot use parameters in all positions.
+If you put it in an unsupported place the server will respond with a `CompilationFailedException` or similar.
 
-Note that you cannot use parameters in all positions. If you put it in an unsupported place the server will respond with a `ParsingFailureException`.
 
 == The Analytics Result
 
 When performing an analytics query, the response you receive is an `AnalyticsResult`. If no exception gets raised the request succeeded and provides access to both the rows returned and also associated `AnalyticsMetaData`.
 
-Rows can be consumed directly, or via a serialiser.
-
-[source,py]
+[source,python]
 ----
-include::example$analytics.py[tag=rowsasobject,indent=0]
+include::howtos:example$analytics_ops.py[tag=iterating]
 ----
 
-
-
-////
-
-TODO: fix once https://issues.couchbase.com/browse/PYCBC-977 resolved
 The `AnalyticsMetaData` provides insight into some basic profiling/timing information as well as information like the `clientContextId`.
 
 .AnalyticsMetaData
@@ -109,19 +86,17 @@ The `AnalyticsMetaData` provides insight into some basic profiling/timing inform
 | `request_id() -> str` | Returns the request identifer of this request.
 | `client_context_id() -> str` | Returns the context ID either generated by the SDK or supplied by the user.
 | `status() -> AnalyticsStatus` | An enum simply representing the state of the result.
-| `metrics() -> AnalyticsMetrics` | Returns metrics provided by analytics for the request.
-| `signature() -> JSON` | If a signature is present, it will be available to consume in a generic fashion.
+| `metrics() -> Optional[AnalyticsMetrics]` | Returns metrics provided by analytics for the request.
+| `signature() -> Optional[JSON]` | If a signature is present, it will be available to consume in a generic fashion.
 | `warnings() -> Iterable[AnalyticsWarning]` | Non-fatal errors are available to consume as warnings on this method.
 |====
 
 For example, here is how you can print the `executionTime` of a query:
 
-[source,py]
+[source,python]
 ----
-include::example$analytics.py[tag=printmetrics,indent=0]
+include::howtos:example$analytics_ops.py[tag=print_metrics]
 ----
-////
-
 
 == Analytics Options
 The analytics service provides an array of options to customize your query. The following table lists them all:
@@ -136,34 +111,25 @@ The analytics service provides an array of options to customize your query. The 
 | `priority: bool` | Assigns a different server-side priority to the query.
 | `raw: Dict[str, Any]` | Escape hatch to add arguments that are not covered by these options.
 | `read_only: bool` | Tells the client and server that this query is readonly.
-|====
-
-
-////
-//// TODO: uncomment pending https://issues.couchbase.com/browse/PYCBC-976
 | `scan_consistency: AnalyticsScanConsistency` | Sets a different scan consistency for this query.
 |====
 
-TODO: uncomment pending https://issues.couchbase.com/browse/PYCBC-976
 === Scan Consistency
 
 By default, the analytics engine will return whatever is currently in the index at the time of query (this mode is also called `AnalyticsScanConsistency.NOT_BOUNDED`). If you need to include everything that has just been written, a different scan consistency must be chosen. If `AnalyticsScanConsistency.REQUEST_PLUS` is chosen, it will likely take a bit longer to return the results but the analytics engine will make sure that it is as up-to-date as possible.
 
 [source,py]
 ----
-include::example$analytics.py[tag=scanconsistency,indent=0]
+include::howtos:example$analytics_ops.py[tag=scan_consistency]
 ----
-////
-
-
 
 === Client Context Id
 
 The SDK will always send a client context ID with each query, even if none is provided by the user. By default a UUID will be generated that is mirrored back from the analytics engine and can be used for debugging purposes. A custom string can always be provided if you want to introduce application-specific semantics into it (so that for example in a network dump it shows up with a certain identifier). Whatever is chosen, we recommend making sure it is unique so different queries can be distinguished during debugging or monitoring.
 
-[source,py]
+[source,python]
 ----
-include::example$analytics.py[tag=clientcontextid,indent=0]
+include::howtos:example$analytics_ops.py[tag=client_context_id]
 ----
 
 
@@ -171,9 +137,9 @@ include::example$analytics.py[tag=clientcontextid,indent=0]
 
 By default, every analytics query has the same priority on the server. By setting this boolean flag to true, you are indicating that you need expedited dispatch in the analytice engine for this request.
 
-[source,py]
+[source,python]
 ----
-include::example$analytics.py[tag=priority,indent=0]
+include::howtos:example$analytics_ops.py[tag=priority]
 ----
 
 
@@ -181,37 +147,64 @@ include::example$analytics.py[tag=priority,indent=0]
 
 If the query is marked as readonly, both the server and the SDK can improve processing of the operation. On the client side, the SDK can be more liberal with retries because it can be sure that there are no state-mutating side-effects happening. The query engine will ensure that actually no data is mutated when parsing and planning the query.
 
-[source,py]
+[source,python]
 ----
-include::example$analytics.py[tag=readonly,indent=0]
+include::howtos:example$analytics_ops.py[tag=read_only]
 ----
+
+////
+TODO:  can provide once transcoders/serializers are available w/in SDK
 
 === Custom JSON Serializer
 
 Like with all JSON apis, it is possible to customize the JSON serializer. It allows to plug in your own library. This in turn makes it possible to serialize rows into PODs or other structures that your application defines and the SDK has no idea about.
 
 Please see the documentation transcoding and serialization for more information.
+////
 
+== Async APIs
+
+In addition to the blocking API on `Cluster`, the SDK provides asyncio and Twisted APIs on `ACluster` or `TxCluster` respectively.
+If you are in doubt of which API to use, we recommend looking at the asyncio API first.
+
+Simple queries with both asyncio and Twisted APIs look similar to the blocking one:
+
+.ACouchbase
+[source,python]
+----
+include::howtos:example$acouchbase_analytics_ops.py[tag=simple_query]
+----
+
+.TxCouchbase
+[source,python]
+----
+include::howtos:example$txcouchbase_analytics_ops.py[tag=simple_query]
+----
 
 == Scoped Queries on Named Collections
 
-Given a dataset created against a collection, for example:
+In addition to creating a dataset with a WHERE clause to filter the results to documents with certain characteristics, SDK 3.2 now allows you to create a dataset against a named collection, for example:
 
 [source,n1ql]
 ----
-ALTER COLLECTION `travel-sample`.`inventory`.`airport` ENABLE ANALYTICS;
+ALTER COLLECTION `travel-sample`.inventory.airport ENABLE ANALYTICS;
+
+-- NB: this is more or less equivalent to:
+CREATE DATAVERSE `travel-sample`.inventory;
+CREATE DATASET `travel-sample`.inventory.airport ON `travel-sample`.inventory.airport;
 ----
 
-You can run a query as follows:
+We can then query the Dataset as normal, using the fully qualified keyspace:
 
 [source,python]
 ----
-include::example$analytics.py[tag=handle-collection,indent=0]
+include::howtos:example$analytics_ops.py[tag=handle_collection]
 ----
 
-In addition to running a query via the `Cluster` object, you can run one via the `Scope` object.
+Note that using the `CREATE DATASET` syntax we could choose any Dataset name in any Dataverse, including the default.
+However the SDK supports this standard convention, allowing us to query from the Scope object:
 
-[source,ruby]
+[source,python]
 ----
-include::example$analytics.py[tag=handle-scope,indent=0]
+include::howtos:example$analytics_ops.py[tag=handle_scope]
 ----
