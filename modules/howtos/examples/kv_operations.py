@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from couchbase.durability import (Durability, ServerDurability,
                                   ClientDurability, ReplicateTo, PersistTo)
-from couchbase.exceptions import CouchbaseException
+from couchbase.exceptions import CouchbaseException, CASMismatchException
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 from couchbase.collection import (
@@ -60,7 +60,7 @@ try:
     opts = ReplaceOptions(cas=result.cas)
     result = collection.replace("document-key", doc, opts)
     # end::get_cas_replace[]
-except CouchbaseException as ex:
+except CASMismatchException as ex:
     print(ex)
 
 
@@ -131,6 +131,15 @@ except CouchbaseException as ex:
 # tag::touch[]
 result = collection.touch("document-key", timedelta(seconds=10))
 # end::touch[]
+
+# tag::get_expiry[]
+result = collection.get("document-key", GetOptions(with_expiry=True))
+print("Expiry of result: {}".format(result.expiryTime))
+# end::get_expiry[]
+
+# tag::get_and_touch[]
+result = collection.get_and_touch("document-key", timedelta(seconds=10))
+# end::get_and_touch[]
 
 # tag::increment[]
 # Increment binary value by 1
