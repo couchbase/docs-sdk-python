@@ -7,124 +7,33 @@
 [abstract]
 {description}
 
+WARNING: Although still maintained and supported for legacy use, Views date from the earliest days of Couchbase Server development, and as such are rarely the best choice over, say, xref:n1ql-queries-with-sdk.adoc[our Query service] for your application, see xref:concept-docs:data-services.adoc[our guide to choosing the right service].
 
 include::7.0@sdk:shared:partial$views.adoc[tag=views-intro]
 
 
-Further information can be found https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#mapreduce-view-methods[in the API docs].
+== Querying Views
+
+Once you have a view defined, it can be queried from the Python SDK by using the `view_query` method on a `Bucket` instance.
+
+The following example is the definition of a `by_country` view in a _landmarks-by-country_ design document. This view checks whether a document is a landmark and has a country. If it does, it emits the landmark’s country into the index. This view allows landmarks to be queried for by country. For example, it’s now possible to ask the question "What countries start with U?"
 
 
-////
-include::7.0@sdk:shared:partial$views.adoc[tag=example-beer]
-
-
-[source,csharp]
+[source,python]
 ----
-var result = bucket.ViewQuery<Beer>("beers", "by_name", options => {
-    options.WithStartKey("A");
-    options.WithLimit(10);
-});
+include::howtos:example$view_ops.py[tag=landmarks_by_country]
 ----
 
-include::7.0@sdk:shared:partial$views.adoc[tag=example-travel]
+The following example is the definition of a `by_name` view in a _landmarks-by-name_ design document in the _travel-sample_ sample dataset. This view checks whether a document is a landmark and has a name. If it does, it emits the landmark’s name into the index. This view allows landmarks to be queried for by its _name_ field.
 
-
-[source,csharp]
+[source,python]
 ----
-var result = bucket.ViewQuery<Landmark>("landmarks", "by_name", options => {
-    options.WithKey("<landmark-name>");
-});
+include::howtos:example$view_ops.py[tag=landmarks_by_name]
 ----
 
-include::7.0@sdk:shared:partial$views.adoc[tag=example-geo-travel]
+Once a view result is obtained then it can be iterated over and the ID, keys and values extracted.
 
-
-(10)
-);
-
-foreach (var row in result.Rows)
-{
-    var id = row.Id;
-    var key = row.Key;
-    var value = row.Value;
-}
+[source,python]
 ----
-
-// We only need the briefest of samples - the content brought in at the top of the page will recommend avoiding Views.[source,javascript]
+include::howtos:example$view_ops.py[tag=iterating]
 ----
-function (doc, meta) {
-    if (doc.type && doc.type == "landmark" && doc.geo) {
-        emit([doc.geo.lon, doc.geo.lat], null);
-    }
-}
-----
-
-
-== Querying Views through the .NET SDK
-
-
-
-
-Once you have a view defined, it can be queried from the .NET SDK by using the `ViewQuery` method on a Bucket instance.
-
-Here is an example:
-
-[source,csharp]
-----
-var result = bucket.ViewQuery<Type>("design-doc", "view-name", options =>
-    options.WithLimit
-
-// also need sdk-common file below
-
-
-*******************************************************************************************************
-********************************** Those partial files include **************************************
-*******************************************************************************************************
- 
-docs-sdk-common/modules/shared/partials/views.adoc
-
-
-= MapReduce Views
-
-[abstract]
-You can use MapReduce views to create queryable indexes in Couchbase Server.
-
-// tag::views-intro[]
-WARNING: Although still maintained and supported for legacy use, Views date from the earliest days of Couchbase Server development, and as such are rarely the best choice over, say, xref:[our Query service] for your application, see xref:concept-docs:http-services.adoc[our guide to choosing the right service].
-
-The normal CRUD methods allow you to look up a document by its ID.
-A MapReduce (_view_ query) allows you to lookup one or more documents based on various criteria.
-MapReduce views are comprised of a _map_ function that is executed once per document (this is done incrementally, so this is not run each time you query the view) and an optional _reduce_ function that performs aggregation on the results of the _map_ function.
-The _map_ and _reduce_ functions are stored on the server and written in JavaScript.
-
-MapReduce queries can be further customized during query time to allow only a subset (or range) of the data to be returned.
-
-TIP: See the xref:6.0@server:learn:views/views-writing.adoc[Incremental MapReduce Views] and xref:6.0@server:learn:views/views-querying.adoc[Querying Data with Views] sections of the general documentation to learn more about views and their architecture.
-// end::views-intro[]
-
-// tag::example-beer[]
-
-== By Name Views
-
-The following example is the definition of a `by_name` view in a _"beer"_ design document.
-This view checks whether a document is a beer and has a name.
-If it does, it emits the beer's name into the index.
-This view allows beers to be queried for by name.
-For example, it's now possible to ask the question "What beers start with A?"
-// end::example-beer[]
-
-// tag::example-travel[]
-The following example is the definition of a `by_name` view in a _"landmarks"_ design document in the _"travel-sample"_ sample dataset.
-This view checks whether a document is a landmark and has a name.
-If it does, it emits the landmark's name into the index.
-This view allows landmarks to be queried for by its _"name"_ field.
-// end::example-travel[]
-
-// tag::example-geo-travel[]
-A Spatial View can instead be queried with a [.param]`range` or _bounding box_.
-For example, let's imagine we have stored landmarks with coordinates for their home city (eg.
-Paris, Vienna, Berlin and New York) under [.param]`geo`, and each city's coordinates is represented as two attributes, [.param]`lon` and [.param]`lat`.
-The following spatial view map function could be used to find landmarks within Europe, as a _"by_location"_ view in a _"spatial"_ design document:
-// end::example-geo-travel[]
-
-////
