@@ -4,8 +4,8 @@
 :page-topic-type: howto
 :page-aliases: search-query
 :lang: Python
-:version: 3.0.0
-:example-source: 3.0@python-sdk:howtos:example$search.py
+:version: 3.2.0
+:example-source: 3.2@python-sdk:howtos:example$search_ops.py
 :example-source-lang: Python
 
 
@@ -13,53 +13,35 @@
 {description}
 
 
-Full Text Search or FTS allows you to create, manage, and query full text indexes on JSON documents stored in Couchbase buckets.
-It uses natural language processing for querying documents, provides relevance scoring on the results of your queries, and has fast indexes for querying a wide range of possible text searches.
-Some of the supported query types include simple queries like Match and Term queries; range queries like Date Range and Numeric Range; and compound queries for conjunctions, disjunctions, and/or boolean queries.
-The Python SDK exposes an API for performing FTS queries which abstracts some of the complexity of using the underlying REST API.
+Full Text Search or FTS allows you to create, manage and query full text indexes on JSON documents stored in Couchbase buckets.
+It uses natural language processing for indexing and querying documents, provides relevance scoring on the results of your queries and has fast indexes for querying a wide range of possible text searches.
 
+Some of the supported query-types include simple queries like Match and Term queries, range queries like Date Range and Numeric Range and compound queries for conjunctions, disjunctions and/or boolean queries.
 
-== Examples
+== Getting Started
 
-Here are all the imports required for the examples below:
-
-[source,python]
-----
-include::example$search.py[tag=imports,indent=0]
-----
-
-Search queries are executed at Cluster level (not bucket or collection).
-Here is a simple MatchQuery that looks for the text “swanky” using a defined index:
+After familiarizing yourself with how to create and query a Search index in the UI you can query it from the SDK. 
+Intentionally the API itself is very similar to the query and analytics ones, the main difference being that you cannot cast the resulting rows into a domain object directly but rather get a `SearchRow` returned. 
+The reason for this is that a search row ("hit") has more metadata associated with it than you potentially want to look at.
 
 [source,python]
 ----
-include::example$search.py[tag=simple,indent=0]
+include::howtos:example$search_ops.py[tag=search_basic_example]
 ----
 
-A search query is always performed at the `Cluster` level, using the `search_query` method.
-It takes the name of the index and the type of query as required arguments and then allows the provision of additional options if needed
+NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use Analytics.
+
+Let's break it down. 
+A Search query is always performed at the `Cluster` level, using the `search_query` method. 
+It takes the name of the index and the type of query  as required arguments and then allows to provide additional options if needed 
 (in the example above, no options are specified).
 
 Once a result returns you can iterate over the returned rows, and/or access the `SearchMetaData` associated with the query. 
 
-// If something goes wrong during the execution of the search query, a subclass of the `CouchbaseException` will be thrown that also provides additional context on the operation:
-// [source,python]
-// ----
-// Exception in thread "main" com.couchbase.client.core.error.IndexNotFoundException: Index not found {"completed":true,"coreId":1,"httpStatus":400,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53818","lastDispatchedTo":"127.0.0.1:8094","requestId":3,"requestType":"SearchRequest","service":{"indexName":"unknown-index","type":"search"},"status":"INVALID_ARGS","timeoutMs":75000,"timings":{"dispatchMicros":18289,"totalMicros":1359398}}
-// ----
-
-Couchbase Search's xref:6.5@server:fts:fts-query-types.adoc[range of query types] enable powerful searching using multiple options, to ensure results are just within the range wanted.
-
-[NOTE]
-.Open Buckets and Cluster-Level Queries
-====
-If you are using a cluster older than Couchbase Server 6.5, it is required that there is at least one bucket open before performing a cluster-level query. 
-If you fail to do so, the SDK will return a `FeatureNotAvailableException` with a descriptive error message asking you to open one.
-====
 
 == Search Queries
 
-The second mandatory argument in the example above used `SearchQuery.queryString("query")` to specify the query to run against the search index.
+The second mandatory argument in the example above used `QueryStringQuery("query")` to specify the query to run against the search index.
 The query string is the simplest form, but there are many more available. 
 The table below lists all of them with a short description of each. 
 You can combine them with `conjuncts` and `disjuncts` respectively.
@@ -90,9 +72,37 @@ You can combine them with `conjuncts` and `disjuncts` respectively.
 | `GeoDistanceQuery(distance: str, location: Location )` | Searches inside the distance from the given location coordinate.
 |====
 
+== The Search Result
+
+Once the Search query is executed successfully, the server starts sending back the resultant hits.
+
+[source,python]
+----
+include::howtos:example$search_ops.py[tag=search_result]
+----
+
+The `SearchRow` contains the following methods:
+
+.SearchRow
+[options="header"]
+|====
+| `index -> str` | The name of the FTS index that gave this result.
+| `id -> str` | The id of the matching document.
+| `score ->float` | The score of this hit.
+| `explanation -> str` | If enabled provides an explanation in JSON form.
+| `locations -> SearchRowLocations` | The individual locations of the hits.
+| `fragments -> Optional[Mapping[str, str]]` | The fragments for each field that was requested as highlighted.
+| `fields -> Dict[str, Any]` | Access to the returned fields.
+|====
+
+Note that the `SearchMetaData` also contains potential `errors`, because the SDK will keep streaming results if the initial response came back successfully. 
+This makes sure that even with partial data usually Search results are useable,
+so if you absolutely need to check if all partitions are present in the result double check the error 
+(and not only catch an exception on the query itself).
+
 == Search Options
 
-The cluster.search_query function provides an array of named parameters to customize your query via **kwargs or SearchOptions. The following table lists them all:
+The `cluster.search_query` function provides an array of named parameters to customize your query via `**kwargs` or `SearchOptions`. The following table lists them all:
 
 .Available Search Options
 [options="header"]
@@ -109,17 +119,8 @@ The cluster.search_query function provides an array of named parameters to custo
 | `facets: Map[str, SearchFacet]` | Allows to fetch facets in addition to the regular hits.
 | `fields: List[str]` | Specifies fields to be included.
 | `raw: JSON` | Escape hatch to add arguments that are not covered by these options.
+| `collections: List[str]` | Limits the search query to a specific list of collection names.
 |====
-
-
-Once the search query is executed successfully, the server starts sending back the resultant hits.
-
-[source,python]
-----
-include::example$search.py[tag=squery,indent=0]
-----
-
-A conjunction query contains multiple child queries; its result documents must satisfy all of the child queries:
 
 === Limit and Skip
 
@@ -127,32 +128,30 @@ It is possible to limit the returned results to a maximum amount using the `limi
 If you want to skip the first N records it can be done with the `skip` option.
 
 [source,python]
-
 ----
-include::example$search.py[tag=limit,indent=0]
+include::howtos:example$search_ops.py[tag=limit_and_skip]
 ----
 
-
-////
-TODO: update when https://issues.couchbase.com/browse/PYCBC-969 is fixed
 === ScanConsistency and ConsistentWith
 
-By default, all search queries will return the data from whatever is in the index at the time of query. 
+By default, all Search queries will return the data from whatever is in the index at the time of query. 
 These semantics can be tuned if needed so that the hits returned include the most recently performed mutations, at the cost of slightly higher latency since the index needs to be updated first.
 
-You can control consistency by supplying a SearchScanConsistency value to the `consistent_with` parameter in SearchOptions or search_query's named parameters.
- which is why you only see `SearchScanConsistency.NOT_BOUNDED` in the enum which is the default setting.
-To ensure recently written documents show up use the following approach (commonly referred to "read your own writes" -- RYOW):
+There are two ways to control consistency: either by supplying a custom `SearchScanConsistency` or using `consistentWith`.
+At the moment the cluster only supports `consistentWith`, which is why you only see `SearchScanConsistency.NOT_BOUNDED` in the enum which is the default setting. 
+The way to make sure that recently written documents show up in the rfc works as follows (commonly referred to "read your own writes" -- RYOW):
 
-Like the Couchbase Query Service,
-FTS allows `RequestPlus` queries -- _Read-Your-Own_Writes (RYOW)_ consistency, ensuring results contain information from updated indexes:
-
+.Scan consistency example:
 [source,python]
 ----
-include::example$search.py[tag=ryow,indent=0]
+include::howtos:example$search_ops.py[tag=scan_consistency]
 ----
-////
 
+.ConsistentWith consistency example:
+[source,python]
+----
+include::howtos:example$search_ops.py[tag=ryow]
+----
 
 === Highlight
 
@@ -162,92 +161,81 @@ The following snippet uses HTML formatting for two fields:
 
 [source,python]
 ----
-include::example$search.py[tag=highlight,indent=0]
+include::howtos:example$search_ops.py[tag=highlight]
 ----
 
 === Sort
 
-By default the search engine will sort the results in descending order by score. 
+By default the Search Engine will sort the results in descending order by score. 
 This behavior can be modified by providing a different sorting order which can also be nested.
+
+// TODO: When PYCBC-1144 is complete, add another example showing how to use sort w/ provided objects.
 
 [source,python]
 ----
-include::example$search.py[tag=sort,indent=0]
+include::howtos:example$search_ops.py[tag=sort]
 ----
 
 Facets are aggregate information collected on a result set and are useful when it comes to categorization of result data. 
-The SDK allows you to provide many different facet configurations to the search engine, the following example shows how to create a facet based on a term. 
+The SDK allows you to provide many different facet configurations to the Search Engine, the following example shows how to create a facet based on a term. 
 Other possible facets include numeric and date ranges.
 
 === Facets
 
 [source,python]
 ----
-include::example$search.py[tag=facets,indent=0]
+include::howtos:example$search_ops.py[tag=facets]
 ----
 
 === Fields
 
-You can tell the search engine to include the full content of a certain number of indexed fields in the response.
+You can tell the Search Engine to include the full content of a certain number of indexed fields in the response.
 
 [source,python]
 ----
-include::example$search.py[tag=fields,indent=0]
+include::howtos:example$search_ops.py[tag=fields]
 ----
 
-== Working with Results
+=== Collections
 
-The result of a search query has three components: hits, facets, and metdata.
-Hits are the documents that match the query.
-Facets allow the aggregation of information collected on a particular result set.
-Metdata holds additional information not directly related to your query,
-such as success total hits and how long the query took to execute in the cluster.
+It is now possible to limit the search query to a specific list of collection names.
+
+Note that this feature is only supported with Couchbase Server 7.0 or later.
 
 [source,python]
-.Iterating hits
 ----
-include::example$search.py[tag=simpleresult,indent=0]
+include::howtos:example$search_ops.py[tag=collections]
 ----
 
-[source,python]
-.Iterating facets
-----
-include::example$search.py[tag=simplefacetresult,indent=0]
-----
-The `SearchRow` contains the following methods:
-
-.SearchRow
-[options="header"]
-|====
-| `index()` | The name of the FTS index that gave this result.
-| `id()` | The id of the matching document.
-| `score()` | The score of this hit.
-| `explanation()` | If enabled provides an explanation in JSON form.
-| `locations()` | The individual locations of the hits as `SearchRowLocations`.
-| `fragments()` | The fragments for each field that was requested as highlighted.
-| `fields()` | Access to the returned fields
-|====
-
-Note that the `SearchMetaData` also contains potential `errors`, because the SDK will keep streaming results if the initial response came back successfully.
-This makes sure that even with partial data usually search results are useable,
-so if you absolutely need to check if all partitions are present in the result double check the error
-(and not only catch an exception on the query itself).
-
-
+////
+TODO:  can provide once transcoders/serializers are available w/in SDK
 === Custom JSON Serializer
 
 As with all JSON APIs, it is possible to customize the JSON serializer. 
-You can plug in your own library or custom configure mappings on your own JSON serializer.
+You can plug in your own library (like GSON) or custom configure mappings on your own Jackson serializer. 
 This in turn makes it possible to serialize rows into POJOs or other structures that your application defines, and which the SDK has no idea about.
 
-Please see the documentation on transcoding and serialization for more information.
+Please see the xref:transcoders-nonjson.adoc[documentation on transcoding and serialization] for more information.
 
-== asyncio and Twisted APIs
+////
 
-In addition to the blocking API on `Cluster`, the SDK provides Twisted and asyncio APIs on `txcouchbase.cluster.TxCluster` or `acouchbase.cluster.Cluster` respectively.
-If you are in doubt of which API to use, we recommend looking at acouchbase first:
-it builds on top of asyncio, the de-facto async framework for Python 3.4+.
+== Async APIs
 
-The Twisted API on the other hand exposes a `Deferred` object for use with Twisted-integrated code.
+In addition to the blocking API on `Cluster`, the SDK provides asyncio and Twisted APIs on `ACluster` or `TxCluster` respectively.
+If you are in doubt of which API to use, we recommend looking at the asyncio API first.
+
+Simple queries with both asyncio and Twisted APIs look similar to the blocking one:
+
+.ACouchbase
+[source,python]
+----
+include::howtos:example$acouchbase_search_ops.py[tag=simple_query]
+----
+
+.TxCouchbase
+[source,python]
+----
+include::howtos:example$txcouchbase_search_ops.py[tag=simple_query]
+----
 
 

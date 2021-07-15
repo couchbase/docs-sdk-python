@@ -11,16 +11,16 @@ Couchbase’s durability features include Synchronous Replication, and the possi
 It is the responsibility of the development team and the software architect to evaluate the best choice for each use case.
 
 
-include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=intro]
+include::7.0@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=intro]
 
-include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep]
-include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep3]
+include::7.0@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep]
+include::7.0@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=syncrep3]
 
-include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=older]
+include::7.0@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=older]
 
-include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=performance]
+include::7.0@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=performance]
 
-// include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=txns]
+// include::7.0@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=txns]
 
-// include::6.5@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=failover]
+// include::7.0@sdk:shared:partial$durability-replication-failure-considerations.adoc[tag=failover]
 

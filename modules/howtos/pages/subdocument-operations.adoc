@@ -166,15 +166,14 @@ Note that passing multiple values to a single _array_append_ operation results i
 ----
 include::howtos:example$subdocument_ops.py[tag=add_multi_slow]
 ----
-////
-TODO:  PYCBC-1109 will fix the issue w/ the create_parents option SD.array_*()
-If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the <<subdoc_create_path,_create-path_>> option:
+
+If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the _create_parents_ option:
 
 [source,python]
 ----
-include::example$subdocument_ops.py[tag=createparentsarray]
+include::howtos:example$subdocument_ops.py[tag=create_parents_array]
 ----
-////
+
 == Arrays as Unique Sets
 
 Limited support also exists for treating arrays like unique sets, using the _array_addunique_ command.
@@ -190,8 +189,6 @@ The _array_addunique_ operation will also fail with _SubdocCantInsertValueExcept
 
 Note that the actual position of the new element is undefined, and that the array is not ordered.
 
-////
-TODO:  PYCBC-1110 will fix the issue w/ SD.array_insert()
 == Array insertion
 
 New elements can also be _inserted_ into an array.
@@ -204,12 +201,8 @@ For example, to insert `"cruel"` as the second element in the array `["Hello", "
 include::howtos:example$subdocument_ops.py[tag=array_insert]
 ----
 
-
-// for your examples, above, CD: “I feel like somewhere in this we should also just a an example path like "my.path[1]" too, just to show how to use the index with a nested path. I don't think it's necessarily clear.”
-
 Note that the array must already exist and that the index must be valid (i.e.
 it must not point to an element which is out of bounds).
-////
 
 == Counters and Numeric Fields
 
@@ -408,4 +401,4 @@ a quote or backslash) and then encapsulating it in backticks (`pass:c[`path`]`).
 
 NOTE: Currently, paths cannot exceed 1024 characters, and cannot be more than 32 levels deep.
 
-include::6.5@sdk:shared:partial$sdk-xattr-overview.adoc[tag=extended_attributes]
+include::7.0@sdk:shared:partial$sdk-xattr-overview.adoc[tag=extended_attributes]

@@ -151,6 +151,20 @@ To prevent a document that already has expiry from expiring you can use `Touch` 
 include::howtos:example$kv_operations.py[tag=touch]
 ----
 
+When getting a document, the expiry is not provided automatically by Couchbase Server but it can be requested:
+
+[source,python]
+----
+include::howtos:example$kv_operations.py[tag=get_expiry]
+----
+
+Some applications may find `get_and_touch` useful, which fetches a document while updating its expiry field. It can be used like this:
+
+[source,python]
+----
+include::howtos:example$kv_operations.py[tag=get_and_touch]
+----
+
 == Atomic Counters
 
 The value of a document can be increased or decreased atomically using `.increment()` and `.decrement()`.
@@ -184,16 +198,14 @@ NOTE: Increment & Decrement are considered part of the ‘binary’ API, and as 
 
 == Scoped KV Operations
 
-It is possible to perform scoped key-value operations on named xref:7.0@server:learn:data/scopes-and-collections.adoc[`Collections`] _with the beta version of the next Couchbase Server release, 7.0β_.
+It is possible to perform scoped key-value operations on named xref:7.0@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release 7.0_. See the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#collection-object[API docs] for more information.
 
-CAUTION: This feature is marked xref:project-docs:compatibility.adoc#interface-stability[_Uncommitted_].
-Expect a promotion to _Committed_ API in a future minor release.
 
 Here is an example showing an upsert in the `users` collection, which lives in the `travel-sample.tenant_agent_00` keyspace:
 
 [source,python]
 ----
-include::example$kv_operations.py[tag=named-collection-upsert,indent=0]
+include::howtos:example$kv_operations.py[tag=named-collection-upsert,indent=0]
 ----
 
 
@@ -202,6 +214,8 @@ include::example$kv_operations.py[tag=named-collection-upsert,indent=0]
 A https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_flask.py[complete Caching example] for the Python 3.x SDK, using Flask, is xref:caching-example.adoc[worked through here].
 
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
+
+For another way of increasing performance, reference our xref:concurrent-async-apis.adoc[asynchronous programmaing options].
 // For working with metadata on a document, reference our xref:sdk-xattr-example.adoc[Extended Attributes] pages.
 
 // Another way of increasing network performance is to _pipeline_ operations with xref:batching-operations.adoc[Batching Operations].

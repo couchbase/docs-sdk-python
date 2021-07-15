@@ -30,7 +30,7 @@ Although query and path-based (Sub-Document) services are available, the simplic
 
 
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=document]
+include::7.0@sdk:shared:partial$documents.adoc[tag=document]
 
 == Primitive Key-Value Operations
 
@@ -43,9 +43,9 @@ get(docid)
 remove(docid)
 ----
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=crud-overview]
+include::7.0@sdk:shared:partial$documents.adoc[tag=crud-overview]
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=store-update]
+include::7.0@sdk:shared:partial$documents.adoc[tag=store-update]
 
 [NOTE]
 ====
@@ -64,7 +64,7 @@ update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 ----
 ====
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=get_generic]
+include::7.0@sdk:shared:partial$documents.adoc[tag=get_generic]
 
 [source,sql]
 ----
@@ -87,7 +87,7 @@ name, email = cb.retrieve_in('user:kingarthur', 'contact.name', 'contact.email')
 
 // Counters
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=counters1]
+include::7.0@sdk:shared:partial$documents.adoc[tag=counters1]
 
 [source,python]
 ----
@@ -99,7 +99,7 @@ include::6.5@sdk:shared:partial$documents.adoc[tag=counters1]
 51L
 ----
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=counters2]
+include::7.0@sdk:shared:partial$documents.adoc[tag=counters2]
 
 [source,python]
 ----
@@ -109,7 +109,7 @@ if should_increment_value(value):
   cb.upsert('counter_id', value + increment_amount, cas=cas)
 ----
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=counters3]
+include::7.0@sdk:shared:partial$documents.adoc[tag=counters3]
 
 
 === Use Cases
@@ -120,22 +120,22 @@ You will find several ways of working with counters https://docs.couchbase.com/s
 
 
 // Expiry
-include::6.5@sdk:shared:partial$documents.adoc[tag=expiration]
+include::7.0@sdk:shared:partial$documents.adoc[tag=expiration]
 
 
 ////
-include::6.5@sdk:shared:partial$documents.adoc[tag=]
+include::7.0@sdk:shared:partial$documents.adoc[tag=]
 
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=]
+include::7.0@sdk:shared:partial$documents.adoc[tag=]
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=]
+include::7.0@sdk:shared:partial$documents.adoc[tag=]
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=]
+include::7.0@sdk:shared:partial$documents.adoc[tag=]
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=]
+include::7.0@sdk:shared:partial$documents.adoc[tag=]
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=]
+include::7.0@sdk:shared:partial$documents.adoc[tag=]
 
-include::6.5@sdk:shared:partial$documents.adoc[tag=]
+include::7.0@sdk:shared:partial$documents.adoc[tag=]
 ////

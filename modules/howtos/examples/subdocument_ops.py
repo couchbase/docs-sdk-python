@@ -168,14 +168,13 @@ collection.mutate_in(
 
 # end::add_multi_slow[]
 
-# TODO:  PYCBC-1110 will fix the issue w/ SD.array_insert()
 # tag::create_parents_array[]
-# collection.upsert("some_doc", [])
-# collection.mutate_in(
-#     "some_doc", [
-#         SD.array_prepend(
-#             "some.array", "Hello", "World", create_parents=True)])
-# end::create_parents_sarray[]
+collection.upsert("some_doc", {})
+collection.mutate_in(
+    "some_doc", [
+        SD.array_prepend(
+            "some.array", "Hello", "World", create_parents=True)])
+# end::create_parents_array[]
 
 # tag::array_addunique[]
 try:
@@ -221,22 +220,21 @@ try:
 except SubdocPathMismatchException:
     print("Cannot use array_addunique if array contains JSON objs.")
 
-# TODO:  PYCBC-1109 will fix the issue w/ SD.array_insert()
 # tag::array_insert[]
-# collection.upsert("array", [])
-# collection.mutate_in("array", [SD.array_append("", "hello", "world")])
-# collection.mutate_in("array", [SD.array_insert("[1]", "cruel")])
-# # end::array_insert[]
+collection.upsert("array", [])
+collection.mutate_in("array", [SD.array_append("", "hello", "world")])
+collection.mutate_in("array", [SD.array_insert("[1]", "cruel")])
+# end::array_insert[]
 
-# # exception raised if attempt to insert in out of bounds position
-# try:
-#     collection.mutate_in("array", [SD.array_insert("[6]", "!")])
-# except PathNotFoundException:
-#     print("Cannot insert to out of bounds index.")
+# exception raised if attempt to insert in out of bounds position
+try:
+    collection.mutate_in("array", [SD.array_insert("[6]", "!")])
+except PathNotFoundException:
+    print("Cannot insert to out of bounds index.")
 
-# # can insert into nested arrays as long as the path is appropriate
-# collection.mutate_in("array", [SD.array_append("", ["another", "array"])])
-# collection.mutate_in("array", [SD.array_insert("[3][2]", "!")])
+# can insert into nested arrays as long as the path is appropriate
+collection.mutate_in("array", [SD.array_append("", ["another", "array"])])
+collection.mutate_in("array", [SD.array_insert("[3][2]", "!")])
 
 
 # tag::counter1[]

@@ -8,7 +8,7 @@
 [abstract]
 {description}
 
-include::6.6@sdk:shared:partial$sample-application.adoc[tag=prereq]
+include::7.0@sdk:shared:partial$sample-application.adoc[tag=prereq]
 
 
 == Preparation

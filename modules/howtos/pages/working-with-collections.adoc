@@ -18,7 +18,7 @@ Something that previously had to be done with key-value references to different 
 
 == Travel Sample app -- with Collections
 
-include::6.6@sdk:shared:partial$sample-application.adoc[tag=prereq]
+include::7.0@sdk:shared:partial$sample-application.adoc[tag=prereq]
 
 [WARNING]
 ====
