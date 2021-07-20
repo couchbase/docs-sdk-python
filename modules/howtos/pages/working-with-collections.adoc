@@ -1,14 +1,3 @@
-= Working with Collections
-:nav-title: Collections
-:content-type: howto
-:page-topic-type: howto
-
 include::project-docs:partial$attributes.adoc[]
 
-[abstract]
-The 3.0 API SDKs all work with all features of Collections and Scopes.
-
-The xref:{version-server}@server:learn:data/scopes-and-collections.adoc[Collections feature] in Couchbase Server 7.0 is fully implemented in the
-3.0 API versions of the Couchbase SDKs.
-
-NOTE: When working with earlier versions (before the Developer Preview in 6.5), or with other server versions, the `defaultcollection` is used from the SDK.
+include::{version-server}@sdk:shared:partial$working-with-collections.adoc[]
