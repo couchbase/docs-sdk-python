@@ -15,7 +15,7 @@ collection = bucket.default_collection()
 
 try:
     result = cluster.query(
-        "SELECT * FROM `travel-sample` LIMIT 10", QueryOptions(metrics=True))
+        "SELECT * FROM `travel-sample`.inventory.airport LIMIT 10", QueryOptions(metrics=True))
 
     for row in result.rows():
         print("Found row: {}".format(row))
@@ -31,31 +31,31 @@ except CouchbaseException as ex:
 
 # tag::positional[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`=$1 LIMIT 10",
-    "hotel")
+    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$1",
+    "San Jose")
 # end::positional[]
 
 # tag::positional_options[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE st.`type`=$1 LIMIT 10",
-    QueryOptions(positional_parameters=["hotel"]))
+    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$1",
+    QueryOptions(positional_parameters=["San Jose"]))
 # end::positional_options[]
 
 # tag::named_kwargs[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`=$type LIMIT 10",
-    type='hotel')
+    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$city",
+    city='San Jose')
 # end::named_kwargs[]
 
 # tag::named_options[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`=$type LIMIT 10",
-    QueryOptions(named_parameters={"type": "hotel"}))
+    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$city",
+    QueryOptions(named_parameters={"city": "San Jose"}))
 # end::named_options[]
 
 # tag::iterating[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`='airline' LIMIT 10")
+    "SELECT ts.* FROM `travel-sample`.inventory.airline LIMIT 10")
 
 # iterate over rows
 for row in result:
@@ -76,7 +76,7 @@ print("Execution time: {}".format(
 
 # tag::scan_consistency[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`='airline' LIMIT 10",
+    "SELECT ts.* FROM `travel-sample`.inventory.airline LIMIT 10",
     QueryOptions(scan_consistency=QueryScanConsistency.REQUEST_PLUS))
 # end::scan_consistency[]
 
@@ -97,20 +97,20 @@ res = collection.upsert(
 ms = MutationState(res)
 
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`='airline' LIMIT 10",
+    "SELECT ts.* FROM `travel-sample`.inventory.airline LIMIT 10",
     QueryOptions(consistent_with=ms))
 # end::ryow[]
 
 # tag::client_context_id[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`='hotel' LIMIT 10",
+    "SELECT ts.* FROM `travel-sample`.inventory.hotel LIMIT 10",
     QueryOptions(client_context_id="user-44{}".format(uuid.uuid4())))
 
 # end::client_context_id[]
 
 # tag::read_only[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample` ts WHERE ts.`type`='hotel' LIMIT 10",
+    "SELECT ts.* FROM `travel-sample`.inventory.hotel LIMIT 10",
     QueryOptions(read_only=True))
 # end::read_only[]
 

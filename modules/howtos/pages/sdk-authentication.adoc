@@ -4,6 +4,8 @@
 :page-edition: Enterprise Edition
 :page-aliases: ROOT:sdk-authentication-overview
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 
@@ -23,9 +25,9 @@ from couchbase_core.cluster import PasswordAuthenticator
 cluster = Cluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
 ----
 
-include::7.0@sdk:shared:partial$auth-overview.adoc[tag=rbac]
+include::{version-server}@sdk:shared:partial$auth-overview.adoc[tag=rbac]
 
-include::7.0@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
+include::{version-server}@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 
 
 == Authenticating a Python Client by Certificate
@@ -35,7 +37,7 @@ include::7.0@sdk:shared:partial$auth-overview.adoc[tag=cert-auth]
 Certificate authentication in the Python SDK is currently under development.
 ====
 
-For sample procedures whereby certificates can be generated and deployed, see xref:6.5@server:manage:manage-security/manage-certificates.adoc[Manage Certificates].
+For sample procedures whereby certificates can be generated and deployed, see xref:{version-server}@server:manage:manage-security/manage-certificates.adoc[Manage Certificates].
 The rest of this document assumes that the processes there, or something similar, have been followed.
 That is, a cluster certificate has been created and installed on the server, a client certificate has been created, and it is stored somewhere accessible to the SDK.
 The `CertAuthenticator` expects to be given the path to the client certificate and key as well as the path to the certificate trust store.
@@ -46,7 +48,7 @@ include::example$cert-auth.py[tag=auth,indent=0]
 ----
 
 
-include::7.0@sdk:shared:partial$auth-overview.adoc[tag=ldap]
+include::{version-server}@sdk:shared:partial$auth-overview.adoc[tag=ldap]
 
 [source,python]
 ----

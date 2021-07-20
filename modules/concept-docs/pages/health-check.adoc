@@ -4,15 +4,17 @@
 :page-topic-type: concept
 :page-aliases: ROOT:health-check
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 
 
-include::7.0@sdk:pages:partial$health-check.adoc[tag="intro"]
+include::{version-server}@sdk:pages:partial$health-check.adoc[tag="intro"]
 
-include::7.0@sdk:pages:partial$health-check.adoc[tag="users"]
+include::{version-server}@sdk:pages:partial$health-check.adoc[tag="users"]
 
-include::7.0@sdk:pages:partial$health-check.adoc[tag="ping"]
+include::{version-server}@sdk:pages:partial$health-check.adoc[tag="ping"]
 
 [source,javascript]
 ----
@@ -81,7 +83,7 @@ bucket.ping(services, (err, res) => {
 */
 ----
 
-include::7.0@sdk:pages:partial$health-check.adoc[tag="diag"]
+include::{version-server}@sdk:pages:partial$health-check.adoc[tag="diag"]
 
 
 [source,javascript]

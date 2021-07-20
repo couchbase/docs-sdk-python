@@ -1,17 +1,18 @@
 = Collections & Scope
-:description: pass:q[Available as a _Developer Preview_ in Couchbase Server 6.5.]
+:description: Fully supported in Couchbase Server 7.0.
 :page-topic-type: concept
 :nav-title: Collections
-:page-status: Developer Preview
 
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
 
-The Developer Preview of the upcoming Collections feature in Couchbase Server is fully implemented in the 3.x API versions of the Couchbase SDKs. 
-Information on the Developer Preview (DP) of _Collections_ can be found in the xref:6.5@server:developer-preview:collections/collections-overview.adoc[server docs].
+The Collections feature in Couchbase Server is fully implemented in the 3.2 API version of the Couchbase SDK.
 
-== Using Collections & Scope DP
+Information on _Collections_ can be found in the xref:{version-server}@server:learn:data:scopes-and-collections.adoc[server docs].
+
+== Using Collections & Scope
 
 Access a non-default collection, in the default scope, with:
 
@@ -26,5 +27,7 @@ And for  a non-default scope:
 bucket.scope("marlowe_agency").collection("flights")
 ----
 
-* Please see the xref:6.5@server:developer-preview:collections/collections-overview.adoc[Collections Overview documents] in the Server docs.
-// * To see Collections in action, take a look at our xref:howtos:working-with-collections.adoc[Collections-enabled Travel Sample page].
+== Further Reading
+
+* Please see the xref:{version-server}@server:developer-preview:collections/collections-overview.adoc[Collections Overview documents] in the Server docs.
+* To see Collections in action, take a look at our xref:hello-world:sample-application.adoc[Collections-enabled Travel Sample page].

@@ -2,7 +2,7 @@
 :navtitle: Concepts
 :page-topic-type: landing-page
 
+include::project-docs:partial$attributes.adoc[]
 
-
-include::7.0@sdk:shared:partial$concepts.adoc[tag=concepts]
+include::{version-server}@sdk:shared:partial$concepts.adoc[tag=concepts]
 

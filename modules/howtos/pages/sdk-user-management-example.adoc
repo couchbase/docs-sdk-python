@@ -24,7 +24,6 @@ include::howtos:example$provisioning_resources_users.py[tag=create_user]
 ----
 
 .Listing Users
-[source,java]
 [source,python]
 ----
 include::howtos:example$provisioning_resources_users.py[tag=get_all_users]
@@ -32,7 +31,6 @@ include::howtos:example$provisioning_resources_users.py[tag=get_all_users]
 
 Using a user created in the SDK to access data:
 
-[source,java]
 [source,python]
 ----
 include::howtos:example$provisioning_resources_users.py[tag=user_operations]

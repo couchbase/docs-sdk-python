@@ -4,6 +4,8 @@ Plus notes on Cloud, networks, and AWS Lambda.
 :navtitle: Compatibility
 :page-aliases: ROOT:overview,ROOT:compatibility-versions-features,compatibility-versions-features
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 
@@ -83,7 +85,7 @@ Microsoft Windows 7 / Windows Server 2012 and onwards.
 [discrete]
 === Mac OS X
 
-The current and previous two releases of OS X. 
+The current and previous two releases of OS X.
 At time of writing (September 2020): 10.13 (_High Sierra_), 10.14 (_Mojave_), and 10.15 (_Catalina_).
 ****
 
@@ -93,7 +95,7 @@ Although installable or compilable on many other platforms, we cannot provide su
 == Couchbase New Feature Availability Matrix
 
 .Couchbase Server and SDK Supported Version Matrix
-[.table-merge-cells] 
+[.table-merge-cells]
 [cols="7,7,5,6,5"]
 |===
 | | Server 5.0, 5.1, & 5.5 | Server 6.0 | Server 6.5 & 6.6 | Server 7.0β
@@ -101,7 +103,7 @@ Although installable or compilable on many other platforms, we cannot provide su
 | Enhanced Durability
 4+| All SDK versions
 
-| Durable Writes 
+| Durable Writes
 2+| Not Supported
 2+| Since 3.0
 
@@ -116,7 +118,7 @@ Although installable or compilable on many other platforms, we cannot provide su
 
 |===
 
-include::6.5@sdk:shared:partial$network-requirements.adoc[]
+include::{version-server}@sdk:shared:partial$network-requirements.adoc[]
 
 
-include::6.5@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
+include::{version-server}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]

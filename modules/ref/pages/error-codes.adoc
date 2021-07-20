@@ -3,42 +3,44 @@
 :nav-title: Error Codes
 :page-topic-type: ref
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=intro]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=intro]
 
-== Shared Error Definitions 
+== Shared Error Definitions
 
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=shared]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=shared]
 
 
 == KeyValue Error Definitions
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=kv]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=kv]
 
 
 == Query Error Definitions
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=query]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=query]
 
 
 == Analytics Error Definitions
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=analytics]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=analytics]
 
 
 == Search Error Definition
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=search]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=search]
 
 
 == View Error Definitions
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=views]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=views]
 
 
 == Management API Error Definitions
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=mgmnt]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=mgmnt]
 
 
 == Field-Level Encryption Error Definitions
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=fle]
+include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=fle]
 
 
 ////
@@ -52,28 +54,28 @@ This range is reserved for sdk-specific error codes which are not standardized, 
 
 
 == Connecting to Cloud
-include::7.0@sdk:shared:partial$error-ref.adoc[tag=cloud]
+include::{version-server}=@sdk:shared:partial$error-ref.adoc[tag=cloud]
 
 .Couldn't look up
-[source,terminal] 
+[source,terminal]
 ----
 ERROR:couchbase.connection:[2302468477383294429] <8676842d-4e8b-4c5b-a44f-e0886f8c0bc1.dp.cloud.couchbase.com:18091> (SOCK=a95ae0d1210d3132) Couldn't look up 8676842d-4e8b-4c5b-a44f-e0886f8c0bc1.dp.cloud.couchbase.com (nodename nor servname provided, or not known) [EAI=8] (L:503)
 ----
 
 .Failed to establish connection
-[source,terminal] 
+[source,terminal]
 ----
 ERROR:couchbase.connection:[2302468477383294429] <8676842d-4e8b-4c5b-a44f-e0886f8c0bc1.dp.cloud.couchbase.com:18091> (SOCK=a95ae0d1210d3132) Failed to establish connection: LCB_ERR_UNKNOWN_HOST (1049), os errno=0 (L:164)
 ----
 
 .Connection to REST API failed
-[source,terminal] 
+[source,terminal]
 ----
 ERROR:couchbase.htconfig:[2302468477383294429] Connection to REST API failed with LCB_ERR_UNKNOWN_HOST (1049) (os errno = 0) (L:309)
 ----
 
 .Provider 'HTTP' failed
-[source,terminal] 
+[source,terminal]
 ----
 INFO:couchbase.confmon:[2302468477383294429] Provider 'HTTP' failed: LCB_ERR_UNKNOWN_HOST (1049) (L:196)
 ----

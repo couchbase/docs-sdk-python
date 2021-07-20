@@ -4,11 +4,13 @@
 :page-topic-type: howto
 :page-aliases: ROOT:document-operations,ROOT:crud
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 Here we cover CRUD operations, document expiration, and optimistic locking with CAS.
 
-The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.2/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
 
 == Documents
 
@@ -71,8 +73,12 @@ include::howtos:example$kv_operations.py[tag=get_cas_replace]
 Writes in Couchbase are written to a single node, and from there the Couchbase Server will take care of sending that mutation to any configured replicas.
 The optional durability parameter, which all mutating operations accept, allows the application to wait until this replication (or persistence) is successful before proceeding.
 
-In Couchbase Server releases before 6.5, Durability was set with two options -- see the xref:2.5@python-sdk::durability.adoc[6.0 Durability documentation] -- covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
-Couchbase Data Platform 6.5 refines these two options, with xref:6.5@server:learn:data/durability.adoc[Durable Writes] -- although they remain essentially the same in use.
+In Couchbase Server releases before 6.5, Durability was set with two options -- see the
+xref:2.5@python-sdk::durability.adoc[6.0 Durability documentation] --
+covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
+Couchbase Data Platform 6.5 refines these two options, with
+xref:{version-server}@server:learn:data/durability.adoc[Durable Writes] --
+although they remain essentially the same in use.
 The Python SDK exposes both of these forms of Durability.
 
 First we will cover the newer durability features available in Couchbase server 6.5 onwards.
@@ -198,7 +204,8 @@ NOTE: Increment & Decrement are considered part of the ‘binary’ API, and as 
 
 == Scoped KV Operations
 
-It is possible to perform scoped key-value operations on named xref:7.0@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release 7.0_. See the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#collection-object[API docs] for more information.
+It is possible to perform scoped key-value operations on named
+xref:{version-server}@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release 7.0_. See the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#collection-object[API docs] for more information.
 
 
 Here is an example showing an upsert in the `users` collection, which lives in the `travel-sample.tenant_agent_00` keyspace:

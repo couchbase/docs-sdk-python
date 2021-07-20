@@ -3,11 +3,13 @@
 :navtitle: KV Caching Example
 :page-topic-type: howto
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 
-This example uses https://pypi.org/project/Flask/[Flask] as a web-framework for a Python REST API. 
-Flask has no direct support for async, but another code sample is available demonstrating this whole application using the Couchbase async API https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_fastapi.py[here]. 
+This example uses https://pypi.org/project/Flask/[Flask] as a web-framework for a Python REST API.
+Flask has no direct support for async, but another code sample is available demonstrating this whole application using the Couchbase async API https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_fastapi.py[here].
 You can also find the https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_flask.py[full code for _this_ example here].
 
 
@@ -27,14 +29,14 @@ include::howtos:example$caching_flask.py[tag=get]
 include::howtos:example$caching_flask.py[tag=post]
 ----
 
-This is the simplest API we can make -- allowing us to set and get arbitrary JSON from any key we specify. 
+This is the simplest API we can make -- allowing us to set and get arbitrary JSON from any key we specify.
 We also include the `expiry` parameter, which will automatically delete the document (invalidate the cache) after a set amount of time.
 
 
 == Cache Miss
 
-There are many ways this can and could be improved upon for real world use. 
-What happens in the case of a cache miss? 
+There are many ways this can and could be improved upon for real world use.
+What happens in the case of a cache miss?
 With this code, we handle the `DocumentNotFoundException` and respond with a HTTP 404.
 
 [source,python]
@@ -44,7 +46,7 @@ include::howtos:example$caching_flask.py[tag=get]
 
 == Error Handling
 
-We can also improve the POST function to deal with some of the errors it may encounter. 
+We can also improve the POST function to deal with some of the errors it may encounter.
 Even if something unexpected happens, we can still be helpful by including the error in the 500 response, and by catching any `CouchbaseException` as a fallback:
 
 [source,python]
@@ -70,6 +72,6 @@ include::howtos:example$caching_flask.py[tag=delete]
 
 * You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_flask.py[here].
 
-* Selecting an xref:6.5@server:learn:buckets-memory-and-storage/buckets.adoc#bucket-types[ephemeral or Memcached bucket] for the advantages of purely in-memory storage may make sense as a design decision.
+* Selecting an xref:{version-server}@server:learn:buckets-memory-and-storage/buckets.adoc#bucket-types[ephemeral or Memcached bucket] for the advantages of purely in-memory storage may make sense as a design decision.
 
 * A webinar, a whitepaper, and other high-level information on choosing Couchbase as a caching layer is https://www.couchbase.com/caching-comparison[on the main Couchbase website].
