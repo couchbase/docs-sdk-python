@@ -4,6 +4,8 @@
 :page-topic-type: reference
 :page-aliases: ROOT:client-settings.adoc
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 
 {description}
@@ -33,7 +35,8 @@ PasswordAuthenticator(username, password), option1=xxx, option2=yyy...)
 Timeout settings are configured using an instance of `ClusterTimeoutOptions`.
 
 .Creating a new timeout config:
-[source,java]
+
+[source,python]
 ----
 timeout_options=ClusterTimeoutOptions(kv_timeout=timedelta(seconds=5), query_timeout=timedelta(seconds=10))
 options=ClusterOptions(PasswordAuthenticator('username', 'password'), timeout_options=timeout_options)
@@ -613,4 +616,4 @@ You are responsible for stopping it after it is no longer needed.
 
 // section on wide area network support
 
-include::7.0@sdk:shared:partial$client-settings-wide-network.adoc[]
+include::{version-server}@sdk:shared:partial$client-settings-wide-network.adoc[]
