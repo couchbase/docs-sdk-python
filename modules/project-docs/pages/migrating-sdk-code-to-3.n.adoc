@@ -5,6 +5,8 @@ Collections and Scopes are introduced.
 :page-topic-type: concept
 :page-aliases: ROOT:migrate
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 The Document class and structure has been completely removed from the API, and the returned value is now `Result`.
@@ -12,10 +14,10 @@ Retry behaviour is more proactive, and lazy bootstrapping moves all error handli
 Individual behaviour changes across services are explained here.
 
 
-include::7.0@sdk:shared:partial$migration.adoc[tag=intro]
+include::{version-server}@sdk:shared:partial$migration.adoc[tag=intro]
 
 
-include::7.0@sdk:shared:partial$migration.adoc[tag=terms]
+include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms]
 
 As an example here is a KeyValue document fetch:
 
@@ -38,14 +40,13 @@ Compare this to a N1QL query:
 query_result = cluster.query("select 1=1", QueryOptions(timeout=timedelta(seconds=3))
 ----
 
-include::7.0@sdk:shared:partial$migration.adoc[tag=terms2]
+include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms2]
 
 
-include::7.0@sdk:shared:partial$migration.adoc[tag=new]
+include::{version-server}@sdk:shared:partial$migration.adoc[tag=new]
 
 
-include::7.0@sdk:shared:partial$migration.adoc[tag=lang]
-
+include::{version-server}@sdk:shared:partial$migration.adoc[tag=lang]
 
 
 
