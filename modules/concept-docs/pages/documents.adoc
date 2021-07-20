@@ -1,9 +1,11 @@
-= Document 
+= Document
 :description: Couchbase supports CRUD operations, various data structures, and binary documents.
 :nav-title: Documents & Doc Ops
 :page-topic-type: concept
 //:page-aliases: ROOT:core-operations
 :page-aliases: ROOT:documents,ROOT:documents-basics,ROOT:documents-atomic
+
+include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
@@ -30,7 +32,7 @@ Although query and path-based (Sub-Document) services are available, the simplic
 
 
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=document]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=document]
 
 == Primitive Key-Value Operations
 
@@ -43,9 +45,9 @@ get(docid)
 remove(docid)
 ----
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=crud-overview]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=crud-overview]
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=store-update]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=store-update]
 
 [NOTE]
 ====
@@ -56,7 +58,7 @@ If you wish to only modify certain parts of a document, you can use xref:subdocu
 collection.mutate_in("customer123", [SD.upsert("fax", "311-555-0151")])
 ----
 
-or xref:6.0@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
+or xref:{version-server}@server:n1ql:n1ql-language-reference/update.adoc[N1QL UPDATE] to update documents based on specific query criteria:
 
 [source,sql]
 ----
@@ -64,7 +66,7 @@ update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 ----
 ====
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=get_generic]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=get_generic]
 
 [source,sql]
 ----
@@ -87,7 +89,7 @@ name, email = cb.retrieve_in('user:kingarthur', 'contact.name', 'contact.email')
 
 // Counters
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=counters1]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters1]
 
 [source,python]
 ----
@@ -99,7 +101,7 @@ include::7.0@sdk:shared:partial$documents.adoc[tag=counters1]
 51L
 ----
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=counters2]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters2]
 
 [source,python]
 ----
@@ -109,33 +111,15 @@ if should_increment_value(value):
   cb.upsert('counter_id', value + increment_amount, cas=cas)
 ----
 
-include::7.0@sdk:shared:partial$documents.adoc[tag=counters3]
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters3]
 
 
 === Use Cases
 
-The SDK provides a high-level abstraction over the simple `incr()`/`decr()` of Couchbase Server's memcached binary protocol, using `collections.binary()`. 
+The SDK provides a high-level abstraction over the simple `incr()`/`decr()` of Couchbase Server's memcached binary protocol, using `collections.binary()`.
 This enables you to work with counters using `get()` and `upsert()` operations -- allowing, _inter alia_, the use of durability options with the operations.
 You will find several ways of working with counters https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=incr#couchbase.collection.BinaryCollection.increment[in the API docs].
 
 
 // Expiry
-include::7.0@sdk:shared:partial$documents.adoc[tag=expiration]
-
-
-////
-include::7.0@sdk:shared:partial$documents.adoc[tag=]
-
-
-include::7.0@sdk:shared:partial$documents.adoc[tag=]
-
-include::7.0@sdk:shared:partial$documents.adoc[tag=]
-
-include::7.0@sdk:shared:partial$documents.adoc[tag=]
-
-include::7.0@sdk:shared:partial$documents.adoc[tag=]
-
-include::7.0@sdk:shared:partial$documents.adoc[tag=]
-
-include::7.0@sdk:shared:partial$documents.adoc[tag=]
-////
+include::{version-server}@sdk:shared:partial$documents.adoc[tag=expiration]

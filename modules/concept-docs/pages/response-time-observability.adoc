@@ -4,7 +4,9 @@
 :page-topic-type: concept
 :page-aliases: ROOT:threshold-logging.adoc
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 
-include::7.0@sdk:shared:partial$rto.adoc[tag=rto]
+include::{version-server}@sdk:shared:partial$rto.adoc[tag=rto]
