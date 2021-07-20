@@ -95,8 +95,6 @@ The `flush_bucket()` operation may fail if the bucket does not have flush enable
 
 == Collection Management
 
-[.status]#Developer Preview#
-
 The CollectionManager interface may be used to create and delete scopes and collections from the Couchbase cluster.
 It is instantiated through the `Bucket.collections()` method.
 Refer to the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html[API documentation]

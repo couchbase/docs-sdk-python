@@ -1,6 +1,5 @@
-= Working with the  Collections Developer Preview
-:description: Collections is introduced as a Developer Preview feature in Couchbase Server 6.5 & 6.6, and is the default in Server 7.0.
-:nav-title: Collections DP
+= Working with Collections
+:nav-title: Collections
 :content-type: howto
 :page-topic-type: howto
 

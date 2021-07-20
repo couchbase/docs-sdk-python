@@ -19,7 +19,7 @@
 * xref:howtos:concurrent-async-apis.adoc[Async APIs]
 * xref:howtos:concurrent-document-mutations.adoc[Concurrent Document Mutations]
 //* xref:howtos:durability.adoc[Durability]
-* xref:howtos:working-with-collections.adoc[Working with Collections DP]
+* xref:howtos:working-with-collections.adoc[Working with Collections]
 
 .Managing Couchbase
 //* User Management
@@ -65,7 +65,7 @@
 .Reference
 * https://docs.couchbase.com/sdk-api/couchbase-python-client[Python API Reference]
 * xref:ref:client-settings.adoc[Client Settings]
-* xref:ref:error-codes.adoc[Error Messages] 
+* xref:ref:error-codes.adoc[Error Messages]
 * xref:ref:glossary.adoc[Glossary]
 * xref:ref:travel-app-data-model.adoc[Travel Sample Data Model]
 
