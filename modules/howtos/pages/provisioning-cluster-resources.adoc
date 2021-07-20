@@ -3,11 +3,13 @@
 :navtitle: Provisioning Cluster Resources
 :page-aliases: ROOT:managing-clusters
 
+include::project-docs:partial$attributes.adoc[]
+
 [abstract]
 {description}
 Common use cases are outlined here, more recherché use cases are covered in the https://docs.couchbase.com/sdk-api/couchbase-python-client/[API docs].
 
-include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
 The Python SDK also comes with some convenience functionality for common Couchbase management requests.
 
@@ -36,7 +38,7 @@ include::howtos:example$provisioning_resources_buckets.py[tag=create_bucket_mgr]
 
 The `CreateBucketSettings` and `BucketSettings` classes are used for creating and updating buckets, `BucketSettings` is also used for exposing information about existing buckets.
 
-include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=update-bucket-warning]
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=update-bucket-warning]
 
 Here is the list of parameters available:
 
@@ -79,7 +81,7 @@ include::howtos:example$provisioning_resources_buckets.py[tag=drop_bucket]
 [#python-flushing]
 == Flushing Buckets
 
-include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
 You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#flushing-clearing-the-bucket[`flush_bucket()` method].
 
@@ -131,9 +133,8 @@ include::howtos:example$provisioning_resources_collections.py[tag=drop_scope]
 ----
 
 Note that the most minimal permissions to create and drop a Scope or Collection is
-https://docs.couchbase.com/server/7.0/learn/security/roles.html#manage-collections-in-scope[Scope Admin]
-along with
-https://docs.couchbase.com/server/7.0/learn/security/roles.html#data-reader[Data Reader].
+xref:server:learn:security/roles.adoc#manage-scopes[Manage Scopes]
+along with xref:server:learn:security/roles.adoc#data-reader[Data Reader].
 
 You can create users with the appropriate RBAC programmatically:
 
@@ -170,7 +171,7 @@ For those occasions when you do, please see the relevant API docs:
 
 == View Management
 
-include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
 
 In the SDK, design documents are represented by the `DesignDocument` and `View` classes.
 All operations on design documents are performed on the `ViewIndexManager` instance:
@@ -188,7 +189,7 @@ The following example upserts a design document with two views:
 include::howtos:example$provisioning_resources_views.py[tag=create_view]
 ----
 
-include::7.0@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
 
 Note the use of `DesignDocumentNamespace.DEVELOPMENT`, the other option is `DesignDocumentNamespace.PRODUCTION`.
 This parameter specifies whether the design document should be created as development, or as production -- with the former running over only a small fraction of the documents.

@@ -1,15 +1,15 @@
 = Concurrent Document Mutations
 :page-topic-type: howto
-include::partial$attributes.adoc[]
 :page-aliases: ROOT:concurrent-document-mutations.adoc
+include::project-docs:partial$attributes.adoc[]
 
-include::7.0@sdk:shared:partial$cas.adoc[tag=intro]
+include::{version-server}@sdk:shared:partial$cas.adoc[tag=intro]
 
-include::7.0@sdk:shared:partial$cas.adoc[tag=demo]
+include::{version-server}@sdk:shared:partial$cas.adoc[tag=demo]
 
-include::7.0@sdk:shared:partial$cas.adoc[tag=example]
+include::{version-server}@sdk:shared:partial$cas.adoc[tag=example]
 
-include::7.0@sdk:shared:partial$cas.adoc[tag=errors]
+include::{version-server}@sdk:shared:partial$cas.adoc[tag=errors]
 
 [source,python]
 ----
@@ -34,11 +34,11 @@ def increment_visit_count(collection, user_id):
 Sometimes more logic is needed when performing updates, for example, if a property is mutually exclusive with another property; only one or the other can exist, but not both.
 
 
-include::7.0@sdk:shared:partial$cas.adoc[tag=performance]
+include::{version-server}@sdk:shared:partial$cas.adoc[tag=performance]
 
-include::7.0@sdk:shared:partial$cas.adoc[tag=format]
+include::{version-server}@sdk:shared:partial$cas.adoc[tag=format]
 
-include::7.0@sdk:shared:partial$cas.adoc[tag=locking]
+include::{version-server}@sdk:shared:partial$cas.adoc[tag=locking]
 
 [source,python]
 ----

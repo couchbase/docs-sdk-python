@@ -4,8 +4,9 @@
 :page-topic-type: concept
 :page-aliases: ROOT:managing-connections,howtos:multi-network,ROOT:connecting,ROOT:connection-advanced
 
+include::project-docs:partial$attributes.adoc[]
 
-Please also refer to the xref:6.5@server:learn:security/authorization-overview.adoc[Server docs].
+Please also refer to the xref:{version-server}@server:learn:security/authorization-overview.adoc[Server docs].
 
 [abstract]
 {description}
@@ -88,7 +89,7 @@ For more detailed documentation please refer to the https://docs.couchbase.com/c
 
 == Waiting for Bootstrap Completion
 
-Depending on the environment and network latency, bootstrapping the SDK fully might take a little longer than the default key-value timeout of 2.5 seconds, so you may see timeouts during bootstrap. 
+Depending on the environment and network latency, bootstrapping the SDK fully might take a little longer than the default key-value timeout of 2.5 seconds, so you may see timeouts during bootstrap.
 To prevent those early timeouts from happening, you can use the `waitUntilReady` method.
 
 If you are working at the _Cluster_ level, then add to the `cluster()` in the xref:#connecting-to-a-cluster[earlier example]:
@@ -263,7 +264,7 @@ E.....@.@.............+....Z.'yZ..#........
 
 ////
 TODO: verify
-include::7.0@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
+include::{version-server}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
 
 DNS SRV bootstrapping is available in the Python SDK from version 2.5.
 In order to make the SDK actually use the SRV records, you need to enable DNS SRV on the environment and pass in the host name from your records (here `example.com`):
@@ -291,7 +292,7 @@ Proceeding with normal bootstrap.
 ----
 ////
 
-include::7.0@sdk:shared:partial$managing-connections.adoc[tag=cloud]
+include::{version-server}@sdk:shared:partial$managing-connections.adoc[tag=cloud]
 
 
 == Async APIs
