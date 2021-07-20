@@ -74,7 +74,7 @@ Writes in Couchbase are written to a single node, and from there the Couchbase S
 The optional durability parameter, which all mutating operations accept, allows the application to wait until this replication (or persistence) is successful before proceeding.
 
 In Couchbase Server releases before 6.5, Durability was set with two options -- see the
-xref:2.7@python-sdk::durability.adoc[6.0 Durability documentation] --
+xref:2.5@python-sdk::durability.adoc[6.0 Durability documentation] --
 covering how many replicas the operation must be propagated to and how many persisted copies of the modified record must exist.
 Couchbase Data Platform 6.5 refines these two options, with
 xref:{version-server}@server:learn:data/durability.adoc[Durable Writes] --
