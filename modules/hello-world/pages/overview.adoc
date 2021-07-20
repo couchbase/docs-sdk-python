@@ -13,7 +13,7 @@
 [.column]
 ====== {empty}
 [.content]
-The Couchbase Python SDK allows Python applications to access a Couchbase cluster. 
+The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
 The Python SDK uses the high-performance C library libcouchbase to handle communicating to the cluster over Couchbase's binary protocols.
 
 
@@ -67,11 +67,11 @@ And take a look at the xref:howtos:working-with-collections.adoc[developer previ
 .Practical Howto Docs
 
 [.content]
-Connect to our services -- xref:howtos:kv-operations.adoc[data (KV)]; 
-xref:howtos:n1ql-queries-with-sdk.adoc[Query]; 
-xref:howtos:full-text-searching-with-sdk.adoc[Search]; 
+Connect to our services -- xref:howtos:kv-operations.adoc[data (KV)];
+xref:howtos:n1ql-queries-with-sdk.adoc[Query];
+xref:howtos:full-text-searching-with-sdk.adoc[Search];
 xref:howtos:analytics-using-sdk.adoc[Analytics] --
-// ; xref:howtos:view-queries-with-sdk.adoc[Views] -- 
+// ; xref:howtos:view-queries-with-sdk.adoc[Views] --
 and the xref:howtos:subdocument-operations.adoc[Sub-Document API].
 
 [.column]
@@ -98,10 +98,10 @@ The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-
 .About
 
 [.content]
-Those useful nuts-and-bolts guides to 
-xref:project-docs:compatibility.adoc[compatibility tables]; 
-xref:project-docs:sdk-release-notes.adoc[release notes]; 
-xref:project-docs:get-involved.adoc[contribution guide]; and the 
+Those useful nuts-and-bolts guides to
+xref:project-docs:compatibility.adoc[compatibility tables];
+xref:project-docs:sdk-release-notes.adoc[release notes];
+xref:project-docs:get-involved.adoc[contribution guide]; and the
 xref:project-docs:migrating-sdk-code-to-3.n.adoc[migration guide] for moving to the 3.x API.
 
 [.column]

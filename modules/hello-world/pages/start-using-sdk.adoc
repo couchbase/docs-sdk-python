@@ -11,7 +11,7 @@ It depends on the C SDK, _libcouchbase_, (included automatically) which it uses 
 
 // tag::prep[]
 
-The Couchbase Python SDK 3.x is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for future Couchbase Server features like Collections and Scopes (available in Couchbase Server 6.5 & 6.6 as a xref:concept-docs:collections.adoc[developer preview]).
+The Couchbase Python SDK 3.x is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
 
 The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 
@@ -43,8 +43,8 @@ $ python3 -m pip install --upgrade pip setuptools wheel
 == Installing on Linux
 
 
-[{tabs}] 
-==== 
+[{tabs}]
+====
 Debian and Ubuntu::
 +
 --
@@ -80,7 +80,7 @@ During first-time setup:
 $ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
 ----
 
-TIP: You may need to update your installed version of CMake. 
+TIP: You may need to update your installed version of CMake.
 For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
 
 For TLS/SSL support (optional):
@@ -105,12 +105,12 @@ It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
 == Installation on Mac OS X
 
-The following example uses the Python supplied by the Homebrew package manager and not the vendor-supplied Python which ships with OS X.  
+The following example uses the Python supplied by the Homebrew package manager and not the vendor-supplied Python which ships with OS X.
 
-To install the library on Mac OS X, first install Homebrew: http://brew.sh/[Homebrew^]. 
+To install the library on Mac OS X, first install Homebrew: http://brew.sh/[Homebrew^].
 Once _Homebrew_ is configured:
 
-NOTE: Later versions of Mac OS X break the python3 homebrew installer. 
+NOTE: Later versions of Mac OS X break the python3 homebrew installer.
 Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[here^].
 
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
@@ -173,7 +173,7 @@ If you require a version without OpenSSL support, or that doesn't have a suitabl
 
 At this point we want to transition from the terminal to your code editor of choice.
 
-Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step: 
+Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step:
 
 * Connect to a cluster, bucket, and default collection;
 * Add and retrieve a new document;
@@ -181,9 +181,9 @@ Let's now create an empty file named `cb-test.py` and walk through adding code s
 
 === Prerequisites
 
-As well as the Python SDK (see above), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket 
-using either the xref:6.6@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface] 
-or the xref:6.6@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+As well as the Python SDK (see above), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
+using either the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
+or the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
 
 === Connection
 
@@ -194,11 +194,11 @@ The basic imports and connection string that you'll need are given below -- for 
 include::../examples/hello_world_t.py[tag=connect]
 ----
 
-Couchbase uses xref:6.5@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources. 
-For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server. 
+Couchbase uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
 The connection is being made to a single Couchbase node, running locally.
 
-Couchbase RBAC is fully described in the section xref:6.5@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
+Couchbase RBAC is fully described in the section xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
 Following successful authentication, the bucket can be opened:
 
@@ -215,12 +215,18 @@ See xref:howtos:managing-connections.adoc[Managing Connections] for more connect
 
 [source,python,indent=0]
 ----
-include::../examples/hello_world_t.py[tag=default-collection]
+include::../examples/hello_world_t.py[tag=collection]
 ----
 
-The latest Couchbase Server release (6.5), brings a limited _Developer Preview_ of Collections, allowing Documents to be grouped by purpose or theme, according to a specified _Collection_. 
-For our "Hello Couchbase" example we will simply use `DefaultCollection`, rather than a specific collection, which includes all documents in a bucket, and is forwards and backwards compatible with all supported versions of Couchbase Server.
-Once the _Collection_ feature is generally available, the best practice will be to group documents into collections by type.
+The 3.2 SDK is ready for the introduction of xref:concept-docs:collections.adoc[Collections] in the xref:{version-server}@server:introduction:whats-new.adoc#whats-new-server-700[7.0 release] of the Couchbase Data Platform.
+The latest release, Couchbase Server 7.0, brings Collections, allowing Documents to be grouped by purpose or theme, according to specified _Scope_.
+
+NOTE: This feature was previously available as a _developer preview_ from Couchbase Server 6.6. _When connecting to a 6.6 cluster or earlier_, we must use the `DefaultCollection`, which covers the whole Bucket.
+
+[source,python,indent=0]
+----
+include::../examples/hello_world_t.py[tag=default-collection]
+----
 
 === Document Addition and Retrieval
 
@@ -294,13 +300,13 @@ The results you should expect are as follows:
 
 [source,console]
 ----
-Upsert CAS: 
+Upsert CAS:
 1598469741559152640
 
-Get Result: 
+Get Result:
 {'type': 'airline', 'id': 8091, 'callsign': 'CBS', 'iata': None, 'icao': None, 'name': 'Couchbase Airways'}
 
-Lookup Result: 
+Lookup Result:
 Couchbase Airways
 ----
 

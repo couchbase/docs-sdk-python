@@ -20,12 +20,14 @@ cluster = Cluster('couchbase://localhost', ClusterOptions(
 cb = cluster.bucket('travel-sample')
 # end::bucket[]
 
+# tag::collection[]
+cb_coll = cb.scope("inventory").collection("airline")
+# end::collection[]
+
 # tag::default-collection[]
-# get a reference to the default collection
-cb_coll = cb.default_collection()
+# get a reference to the default collection, required for older Couchbase server versions
+cb_coll_default = cb.default_collection()
 # end::default-collection[]
-
-
 
 # tag::upsert-func[]
 def upsert_document(doc):
@@ -55,9 +57,9 @@ def get_airline_by_key(key):
 def lookup_by_callsign(cs):
   print("\nLookup Result: ")
   try:
-    sql_query = 'SELECT VALUE name FROM `travel-sample` WHERE type = "airline" AND callsign = $1' 
+    sql_query = 'SELECT VALUE name FROM `travel-sample`.inventory.airline WHERE callsign = $1'
     row_iter = cluster.query(
-      sql_query, 
+      sql_query,
       QueryOptions(positional_parameters=[cs]))
     for row in row_iter: print(row)
   except Exception as e:
