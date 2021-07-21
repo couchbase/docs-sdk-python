@@ -4,84 +4,119 @@
 :page-topic-type: howto
 :page-aliases: ROOT:async-programming,ROOT:batching-operations,multiple-apis,ROOT:asynchronous-frameworks
 
-////
-Order by importance / most idiomatic choice
-
-Many Async choice
-
-Gevent
-Twisted
-Asyncio -- event loop, co-routines, futures
-
-also RQ -- Redis Q...
-////
 [abstract]
 {description}
 
-We will cover the asyncio API here initially. 
-Twisted documentation will be added shortly.
+== Asyncio
 
-For asyncio:
-All operations return a `Future[T]` where `T` is the return type, with `T` generally being the same type as the synchronous equivalent. (Note, this genericisation of the `Future` type is not supported widely, yet, but the object returned is indeed a Future the value of which is of type `T`)
-This is equivalent to the operation being marked `async fn(...)->T`, and
-`await` ing the result will wait for the operation to complete or fail.
+To use the Python SDK with https://docs.python.org/3/library/asyncio.html[asyncio], use the _acouchbase_ module. As opposed to the synchronous SDK methods which wait for completion and return `Result` objects, the _acouchbase_ methods return a `Future`. You may `await` the success or failure of the `Future`.  If a `Future` is awaited, the method awaiting the task must have the `async` keyword in its signature. `Result` objects are obtained after `await` ing the `Future` as seen in the examples below.
 
-`Future` s are evaluated asynchronously using the familiar `await` keyword, and run in a blocking method.
-If a `Future` is awaited, the method awaiting the task must have the `async` keyword in its signature.
-More information can be found in Python's asyncio documentation.
-
-Note: All examples on this page start with initiating a Cluster object and then opening the default Bucket and Collection:
-
+.Create an _acouchbase_ Cluster
 [source,python]
 ----
-include::example$concurrent-async-apis.py[tag=connect_and_open_collection]
+include::howtos:example$acouchbase_operations.py[tag=create]
 ----
 
-== Asynchronous Programming using `await`
+=== Asyncio Document (KV) Operations
 
-This is the most common and basic way for consuming Couchbase operations asynchronously via asyncio:
+Key-value and sub-document operations return `Future` objects which can then be used for `await` clauses. The `Future`’s result will always be the relevant `Result` object for the operation performed.
 
+.KV - Operations
 [source,python]
 ----
-include::example$concurrent-async-apis.py[tag=await]
+include::howtos:example$acouchbase_operations.py[tag=kv]
 ----
 
-Note that in the `upsert` method above, an exception will be thrown if the operation fails; if it succeeds then the result will be an `MutationResult` that contains the CAS value for reuse, otherwise it can be ignored.
-`get` returns a `GetResult` if it succeeds, you’ll then have to use `content` or `content_as` to read the returned value.
-
-////
-
-Possibly TODO: not implemented yet
-== Batching
-
-Asynchronous clients inherently batch operations: because the application receives the response at a later stage in the application, batching will be the result of issuing many requests in sequence. 
-
-Batching in .NET using TAP is relively simple.
-`await Task.WhenAll()` will group together tasks and wait until they are complete before running, 
-useful where you do not want the main thread to run through the main method before getting the results back.
-
-[source,dotnet]
+.Sub-document Operations
+[source,python]
 ----
-// collection of things that will complete in the future
-var tasks = new List<Task>();
-
-// create tasks to be executed concurrently
-// NOTE: these tasks have not yet been scheduled
-for (var i = 0; i <100; i++)
-{
-    var task = collection.GetAsync($"mykey-{i}");
-    tasks.Add(task);
-}
-
-// Waits until all of the tasks have completed
-await Task.WhenAll(tasks);
-
-// can iterate task list to get results
-foreach (var task in tasks)
-{
-    var result = tasks.Result;
-}
-
+include::howtos:example$acouchbase_operations.py[tag=sub_doc]
 ----
-////
+
+=== Asyncio N1QL Operations
+
+The API for issuing N1QL queries is almost identical to the synchronous API. The notable difference is the use of `async for` rather than `for` when iterating over the results.
+
+.N1QL Query
+[source,python]
+----
+include::howtos:example$acouchbase_operations.py[tag=n1ql]
+----
+
+=== Asyncio Search Operations
+
+The API for issuing full text search queries is almost identical to the synchronous API. The notable difference is the use of `async for` rather than `for` when iterating over the results.
+
+.Search Query
+[source,python]
+----
+include::howtos:example$acouchbase_operations.py[tag=search]
+----
+
+=== Asyncio Analytics Operations
+
+The API for issuing analytics queries is almost identical to the synchronous API. The notable difference is the use of `async for` rather than `for` when iterating over the results.
+
+.Analytics Query
+[source,python]
+----
+include::howtos:example$acouchbase_operations.py[tag=analytics]
+----
+
+== Twisted
+
+To use the Python SDK with the https://twistedmatrix.com/trac/["Twisted"] framework, use the _txcouchbase_ module. As opposed to the synchronous SDK methods which wait for completion and return `Result` objects, the _txcouchbase_ methods return a Twisted `Deferred`. You may configure `Deferred` with callback and errback handlers. `Result` objects are propagated to the callback as seen in the examples below.
+
+.Create a _txcouchbase_ Cluster
+[source,python]
+----
+include::howtos:example$txcouchbase_operations.py[tag=create]
+----
+
+=== Twisted Document (KV) Operations
+
+Key-value and sub-document operations return `Deferred` objects which can then be configured with callback and errback handlers. The `Deferred`’s result will always be the relevant `Result` object for the operation performed.
+
+.KV - Operations
+[source,python]
+----
+include::howtos:example$txcouchbase_operations.py[tag=kv]
+----
+
+.Sub-document Operations
+[source,python]
+----
+include::howtos:example$txcouchbase_operations.py[tag=sub_doc]
+----
+
+=== Twisted N1QL Operations
+
+The API for issuing N1QL queries is almost identical to the synchronous API. The notable difference is the use of a callback in order to handle iterating over results.
+
+.N1QL Query
+[source,python]
+----
+include::howtos:example$txcouchbase_operations.py[tag=n1ql]
+----
+
+=== Twisted Search Operations
+
+The API for issuing full text search queries is almost identical to the synchronous API. The notable difference is the use of a callback in order to handle iterating over results.
+
+.Search Query
+[source,python]
+----
+include::howtos:example$txcouchbase_operations.py[tag=search]
+----
+
+=== Twisted Analytics Operations
+
+The API for issuing analytics queries is almost identical to the synchronous API. The notable difference is the use of a callback in order to handle iterating over results.
+
+.Analytics Query
+[source,python]
+----
+include::howtos:example$txcouchbase_operations.py[tag=analytics]
+----
+
 
