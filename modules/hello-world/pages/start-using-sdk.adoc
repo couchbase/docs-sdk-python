@@ -23,6 +23,10 @@ You may need CMake to install, although the installer will attempt to download i
 
 The Python SDK 3.x requires Python 3, with Python 3.5 and above supported.
 
+// end::prep[]
+
+// tag::install[]
+
 [NOTE]
 ====
 Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself for TLS support to be provided.
@@ -73,11 +77,6 @@ TIP: You may need to update your installed version of CMake.
 For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
 
 For TLS/SSL support (optional):
-
-[source,console]
-----
-$ sudo yum install openssl-devel
-----
 
 [source,console]
 ----
@@ -180,7 +179,7 @@ Install the latest Python SDK (if using Python 3.7, 3.8 or 3.9):
 
 [source,console]
 ----
-(python39) C:\Users\user1\PythonProjects>python -m pip install couchbase
+python -m pip install couchbase
 ----
 
 The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
@@ -199,19 +198,19 @@ To use the SDK within the Anaconda/Miniconda platform, make sure the prerequisit
 In the _Anaconda Prompt_, create a new environment:
 [source,console]
 ----
-(base) C:\Users\user1>conda create -n test_env python=3.9
+conda create -n test_env python=3.9
 ----
 
 Activate the environment:
 [source,console]
 ----
-(base) C:\Users\user1>conda activate test_env
+conda activate test_env
 ----
 
 Install the SDK:
 [source,console]
 ----
-(test_env) C:\Users\user1>python -m pip install couchbase
+python -m pip install couchbase
 ----
 
 NOTE: If using Windows, and no wheel is available, see the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[alternate installlation] methods on the Github README.  The same process should work within the Anaconda/Miniconda platform.
