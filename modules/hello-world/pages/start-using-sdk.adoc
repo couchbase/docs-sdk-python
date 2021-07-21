@@ -41,7 +41,8 @@ $ python3 -m pip install --upgrade pip setuptools wheel
 
 === Linux
 
-Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python. See https://github.com/pyenv/pyenv#basic-github-checkout[pyenv docs^] for details.
+Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python. 
+See https://github.com/pyenv/pyenv#basic-github-checkout[pyenv docs^] for details.
 
 [{tabs}]
 ====
@@ -95,8 +96,9 @@ Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ t
 
 [NOTE]
 ====
-There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. It is advised to install Python via https://github.com/pyenv/pyenv#homebrew-on-macos[pyenv^]
-(see the Python SDK https://github.com/couchbase/couchbase-python-client#mac-os-pyenv-install[Github README^] for further details on pyenv installation), http://brew.sh/[Homebrew^] or https://www.python.org/downloads[python.org^]
+There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
+It is advised to install Python via https://github.com/pyenv/pyenv#homebrew-on-macos[pyenv^]
+(see the Python SDK https://github.com/couchbase/couchbase-python-client#mac-os-pyenv-install[Github README^] for further details on pyenv installation), http://brew.sh/[Homebrew^], or https://www.python.org/downloads[python.org^]
 ====
 
 To install the library on Mac OS, first install http://brew.sh/[Homebrew^]. 
@@ -139,7 +141,8 @@ $ brew install openssl
 
 === Microsoft Windows
 
-Download and install Python from https://www.python.org/downloads[python.org^].  Best practice is to use a Python virtual environment such as _venv_ or _pyenv_.
+Download and install Python from https://www.python.org/downloads[python.org^].  
+Best practice is to use a Python virtual environment such as _venv_ or _pyenv_.
 
 TIP: Checkout the https://github.com/pyenv-win/pyenv-win[pyenv-win^] project to manage multiple versions of Python.
 
@@ -213,7 +216,8 @@ Install the SDK:
 python -m pip install couchbase
 ----
 
-NOTE: If using Windows, and no wheel is available, see the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[alternate installlation] methods on the Github README.  The same process should work within the Anaconda/Miniconda platform.
+NOTE: If using Windows, and no wheel is available, see the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[alternate installlation] methods on the Github README.  
+The same process should work within the Anaconda/Miniconda platform.
 
 // end::install[]
 
