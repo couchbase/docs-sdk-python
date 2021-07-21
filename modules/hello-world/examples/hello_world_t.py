@@ -5,7 +5,7 @@
 # tag::connect[]
 # needed for any cluster connection
 from couchbase.cluster import Cluster, ClusterOptions
-from couchbase_core.cluster import PasswordAuthenticator
+from couchbase.auth import PasswordAuthenticator
 
 # needed to support SQL++ (N1QL) query
 from couchbase.cluster import QueryOptions

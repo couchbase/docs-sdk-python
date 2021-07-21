@@ -18,7 +18,6 @@ The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-
 
 == Requirements
 
-
 Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
 You may need CMake to install, although the installer will attempt to download it from PyPI automatically.
 
@@ -40,8 +39,10 @@ $ python3 -m pip install --upgrade pip setuptools wheel
 ====
 
 
-== Installing on Linux
+=== Linux
 
+Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python. 
+See https://github.com/pyenv/pyenv#basic-github-checkout[pyenv docs^] for details.
 
 [{tabs}]
 ====
@@ -60,13 +61,6 @@ For TLS/SSL support (optional):
 [source,console]
 ----
 $ sudo apt-get install libssl-dev
-----
-
-Now install the latest Python SDK:
-
-[source,console]
-----
-$ python3 -m pip install couchbase
 ----
 --
 
@@ -90,32 +84,30 @@ For TLS/SSL support (optional):
 $ sudo yum install openssl-devel
 ----
 
-Now install the latest Python SDK:
-
-[source,console]
-----
-$ python3 -m pip install couchbase
-----
-
 NOTE: RHEL/CentOS distributions may not provide the `python3-pip` package in the base repositories.
 It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 --
 ====
 
 
-== Installation on Mac OS X
-
-The following example uses the Python supplied by the Homebrew package manager and not the vendor-supplied Python which ships with OS X.
-
-To install the library on Mac OS X, first install Homebrew: http://brew.sh/[Homebrew^].
-Once _Homebrew_ is configured:
-
-NOTE: Later versions of Mac OS X break the python3 homebrew installer.
-Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[here^].
+=== Mac OS
 
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
 
+[NOTE]
 ====
+There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
+It is advised to install Python via https://github.com/pyenv/pyenv#homebrew-on-macos[pyenv^]
+(see the Python SDK https://github.com/couchbase/couchbase-python-client#mac-os-pyenv-install[Github README^] for further details on pyenv installation), http://brew.sh/[Homebrew^], or https://www.python.org/downloads[python.org^]
+====
+
+To install the library on Mac OS, first install http://brew.sh/[Homebrew^]. 
+
+NOTE: Later versions of Mac OS can break the python3 homebrew installer. 
+Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[here^].
+
+The following example uses the Python supplied by the _Homebrew_ package manager and not the vendor-supplied Python which ships with Mac OS. Once _Homebrew_ is configured:
+
 .Get a list of the latest packages
 [source,console]
 ----
@@ -146,25 +138,86 @@ $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
 $ brew install openssl
 ----
 
-.Installing the SDK
-[source,console]
-----
-$ sudo -H python3 -m pip install couchbase
-----
-====
+
+=== Microsoft Windows
+
+Download and install Python from https://www.python.org/downloads[python.org^].  
+Best practice is to use a Python virtual environment such as _venv_ or _pyenv_.
+
+TIP: Checkout the https://github.com/pyenv-win/pyenv-win[pyenv-win^] project to manage multiple versions of Python.
+
+Wheels are available on Windows for Python 3.7, 3.8 and 3.9.
 
 
-== Installing on Microsoft Windows
+== Installing on Linux
+
+First, make sure the <<linux, requirements>> have been installed.
+
+Install the latest Python SDK:
 
 [source,console]
 ----
 $ python3 -m pip install couchbase
 ----
 
+== Installation on Mac OS
+
+First, make sure the <<mac-os, requirements>> have been installed.
+
+Install the latest Python SDK:
+
+[source,console]
+----
+$ sudo -H python3 -m pip install couchbase
+----
+
+
+== Installing on Microsoft Windows
+
+First, make sure the <<microsoft-windows, requirements>> have been installed.
+
+NOTE: Commands assume user is working within a virtual environment.
+
+Install the latest Python SDK (if using Python 3.7, 3.8 or 3.9):
+
+[source,console]
+----
+python -m pip install couchbase
+----
+
 The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
 The binary wheels for Windows are packaged as a binary wheel built against the relevant version OpenSSL (which is fixed per Windows version of Python).
 
-If you require a version without OpenSSL support, or that doesn't have a suitable binary wheel on PyPi, follow the build instructions on the GitHub repo.
+If you require a version without OpenSSL support, or that doesn't have a suitable binary wheel on PyPi, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
+
+== Installing with Anaconda/Miniconda
+
+To use the SDK within the Anaconda/Miniconda platform, make sure the prerequisites for the desired Operating System are met:
+
+* <<linux, Linux>>
+* <<mac-os, Mac OS>>
+* <<microsoft-windows, Windows>>
+
+In the _Anaconda Prompt_, create a new environment:
+[source,console]
+----
+conda create -n test_env python=3.9
+----
+
+Activate the environment:
+[source,console]
+----
+conda activate test_env
+----
+
+Install the SDK:
+[source,console]
+----
+python -m pip install couchbase
+----
+
+NOTE: If using Windows, and no wheel is available, see the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[alternate installlation] methods on the Github README.  
+The same process should work within the Anaconda/Miniconda platform.
 
 // end::install[]
 
@@ -237,10 +290,10 @@ Let's create a dictionary object in our application that we can add to our `trav
 include::../examples/hello_world_t.py[tag=test-doc]
 ----
 
-xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the `Bucket` class such as `Bucket.get` and `Bucket.upsert`.
+xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the `Collection` class such as `Collection.get` and `Collection.upsert`.
 Simply pass the key (and value, if applicable) to the relevant methods.
 
-The following function will `upsert()` a document and print the returned link:https://docs.couchbase.com/python-sdk/3.0/howtos/concurrent-document-mutations.html[CAS] value:
+The following function will `upsert()` a document and print the returned link:https://docs.couchbase.com/python-sdk/3.2/howtos/concurrent-document-mutations.html[CAS] value:
 
 [source,python,indent=0]
 ----

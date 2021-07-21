@@ -297,14 +297,15 @@ include::{version-server}@sdk:shared:partial$managing-connections.adoc[tag=cloud
 
 == Async APIs
 
-The Couchbase Python SDK provides first-class support for asynchronous programming.
-In fact, the synchronous API is just a thin wrapper around the asynchronous API.
+The Couchbase Python SDK provides first-class support for asynchronous programming. 
+The supported asynchronous APIs offer a similar API to the synchronous API.
 
 Methods in the asynchronous API return instances of the relevant Async API:
 
-1. `Future` for asyncio (`acouchbase.bucket.Bucket` supplies the relevant Bucket object)
-2. `Deferred` for Twisted (to be added for SDK3)
-3. For GEvent, the 'synchronous' return value is supplied to the calling greenlet code (to be added for SDK3)
+1. `Future` for asyncio (`acouchbase.cluster.Cluster` supplies the relevant Cluster object)
+2. `Deferred` for Twisted
+
+Reference our xref:concurrent-async-apis.adoc[asynchronous programmaing] page for more details.
 
 ////
 TODO: write up pending https://issues.couchbase.com/browse/PYCBC-805 etc
