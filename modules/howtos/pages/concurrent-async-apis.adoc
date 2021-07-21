@@ -7,9 +7,14 @@
 [abstract]
 {description}
 
+
 == Asyncio
 
-To use the Python SDK with https://docs.python.org/3/library/asyncio.html[asyncio], use the _acouchbase_ module. As opposed to the synchronous SDK methods which wait for completion and return `Result` objects, the _acouchbase_ methods return a `Future`. You may `await` the success or failure of the `Future`.  If a `Future` is awaited, the method awaiting the task must have the `async` keyword in its signature. `Result` objects are obtained after `await` ing the `Future` as seen in the examples below.
+To use the Python SDK with https://docs.python.org/3/library/asyncio.html[asyncio], use the _acouchbase_ module. 
+As opposed to the synchronous SDK methods which wait for completion and return `Result` objects, the _acouchbase_ methods return a `Future`. 
+You may `await` the success or failure of the `Future`.  
+If a `Future` is awaited, the method awaiting the task must have the `async` keyword in its signature. 
+`Result` objects are obtained after `await`ing the `Future` as seen in the examples below.
 
 .Create an _acouchbase_ Cluster
 [source,python]
@@ -19,7 +24,8 @@ include::howtos:example$acouchbase_operations.py[tag=create]
 
 === Asyncio Document (KV) Operations
 
-Key-value and sub-document operations return `Future` objects which can then be used for `await` clauses. The `Future`’s result will always be the relevant `Result` object for the operation performed.
+Key-value and sub-document operations return `Future` objects which can then be used for `await` clauses. 
+The `Future`’s result will always be the relevant `Result` object for the operation performed.
 
 .KV - Operations
 [source,python]
@@ -35,7 +41,8 @@ include::howtos:example$acouchbase_operations.py[tag=sub_doc]
 
 === Asyncio N1QL Operations
 
-The API for issuing N1QL queries is almost identical to the synchronous API. The notable difference is the use of `async for` rather than `for` when iterating over the results.
+The API for issuing N1QL queries is almost identical to the synchronous API. 
+The notable difference is the use of `async for` rather than `for` when iterating over the results.
 
 .N1QL Query
 [source,python]
@@ -45,7 +52,8 @@ include::howtos:example$acouchbase_operations.py[tag=n1ql]
 
 === Asyncio Search Operations
 
-The API for issuing full text search queries is almost identical to the synchronous API. The notable difference is the use of `async for` rather than `for` when iterating over the results.
+The API for issuing full text search queries is almost identical to the synchronous API. 
+The notable difference is the use of `async for` rather than `for` when iterating over the results.
 
 .Search Query
 [source,python]
@@ -55,7 +63,8 @@ include::howtos:example$acouchbase_operations.py[tag=search]
 
 === Asyncio Analytics Operations
 
-The API for issuing analytics queries is almost identical to the synchronous API. The notable difference is the use of `async for` rather than `for` when iterating over the results.
+The API for issuing analytics queries is almost identical to the synchronous API. 
+The notable difference is the use of `async for` rather than `for` when iterating over the results.
 
 .Analytics Query
 [source,python]
@@ -63,9 +72,13 @@ The API for issuing analytics queries is almost identical to the synchronous API
 include::howtos:example$acouchbase_operations.py[tag=analytics]
 ----
 
+
 == Twisted
 
-To use the Python SDK with the https://twistedmatrix.com/trac/["Twisted"] framework, use the _txcouchbase_ module. As opposed to the synchronous SDK methods which wait for completion and return `Result` objects, the _txcouchbase_ methods return a Twisted `Deferred`. You may configure `Deferred` with callback and errback handlers. `Result` objects are propagated to the callback as seen in the examples below.
+To use the Python SDK with the https://twistedmatrix.com/trac/["Twisted"] framework, use the _txcouchbase_ module. 
+As opposed to the synchronous SDK methods which wait for completion and return `Result` objects, the _txcouchbase_ methods return a Twisted `Deferred`. 
+You may configure `Deferred` with callback and errback handlers. 
+`Result` objects are propagated to the callback as seen in the examples below.
 
 .Create a _txcouchbase_ Cluster
 [source,python]
@@ -75,7 +88,8 @@ include::howtos:example$txcouchbase_operations.py[tag=create]
 
 === Twisted Document (KV) Operations
 
-Key-value and sub-document operations return `Deferred` objects which can then be configured with callback and errback handlers. The `Deferred`’s result will always be the relevant `Result` object for the operation performed.
+Key-value and sub-document operations return `Deferred` objects which can then be configured with callback and errback handlers. 
+The `Deferred`’s result will always be the relevant `Result` object for the operation performed.
 
 .KV - Operations
 [source,python]
@@ -91,7 +105,8 @@ include::howtos:example$txcouchbase_operations.py[tag=sub_doc]
 
 === Twisted N1QL Operations
 
-The API for issuing N1QL queries is almost identical to the synchronous API. The notable difference is the use of a callback in order to handle iterating over results.
+The API for issuing N1QL queries is almost identical to the synchronous API. 
+The notable difference is the use of a callback in order to handle iterating over results.
 
 .N1QL Query
 [source,python]
@@ -101,7 +116,8 @@ include::howtos:example$txcouchbase_operations.py[tag=n1ql]
 
 === Twisted Search Operations
 
-The API for issuing full text search queries is almost identical to the synchronous API. The notable difference is the use of a callback in order to handle iterating over results.
+The API for issuing full text search queries is almost identical to the synchronous API. 
+The notable difference is the use of a callback in order to handle iterating over results.
 
 .Search Query
 [source,python]
@@ -111,12 +127,11 @@ include::howtos:example$txcouchbase_operations.py[tag=search]
 
 === Twisted Analytics Operations
 
-The API for issuing analytics queries is almost identical to the synchronous API. The notable difference is the use of a callback in order to handle iterating over results.
+The API for issuing analytics queries is almost identical to the synchronous API. 
+The notable difference is the use of a callback in order to handle iterating over results.
 
 .Analytics Query
 [source,python]
 ----
 include::howtos:example$txcouchbase_operations.py[tag=analytics]
 ----
-
-
