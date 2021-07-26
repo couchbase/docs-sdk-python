@@ -49,7 +49,7 @@ print("scopeAdmin\n")
 users = cluster.users()
 user = User(username="scopeAdmin",
             password="password",
-            display_name="Scope Admin [travel-sample:*]",
+            display_name="Manage Scopes [travel-sample:*]",
             roles=[
                 Role(name="scope_admin", bucket="travel-sample"),
                 Role(name="data_reader", bucket="travel-sample")
