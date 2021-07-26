@@ -5,6 +5,7 @@
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-python-sdk,ROOT:download-links,ROOT:release-notes,ROOT:sdk-release-notes
 
+// tag::all[]
 [abstract]
 {description}
 
@@ -957,4 +958,4 @@ Numerous _Alpha_ and _Beta_ releases were made in the run-up to the 3.0 release,
 == Older Releases
 
 Although https://www.couchbase.com/support-policy/enterprise-software[no longer supported], documentation for older releases continues to be available in our https://docs-archive.couchbase.com/home/index.html[docs archive].
- 
+// end::all[] 
