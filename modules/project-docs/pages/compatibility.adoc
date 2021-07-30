@@ -81,7 +81,7 @@ Microsoft Windows 7 / Windows Server 2012 and onwards.
 === Mac OS X
 
 The current and previous two releases of OS X.
-At time of writing (September 2020): 10.13 (_High Sierra_), 10.14 (_Mojave_), and 10.15 (_Catalina_).
+At time of writing (July 2021): 10.14 (_Mojave_), 10.15 (_Catalina_), and 11 (_Big Sur_).
 ****
 
 Although installable or compilable on many other platforms, we cannot provide support for untested combinations.
