@@ -363,12 +363,55 @@ Lookup Result:
 Couchbase Airways
 ----
 
+== Full Example
+
+If you want to copy and paste to run the full example, here it is:
+
+[{tabs}] 
+==== 
+Local Couchbase Server::
++ 
+-- 
+[source,python]
+----
+include::hello-world:example$hello_world_t.py[tag=connect]
+
+include::hello-world:example$hello_world_t.py[tag=bucket]
+
+include::hello-world:example$hello_world_t.py[tag=collection]
+
+include::hello-world:example$hello_world_t.py[tag=upsert-func]
+
+include::hello-world:example$hello_world_t.py[tag=get-func]
+
+include::hello-world:example$hello_world_t.py[tag=lookup-func]
+
+include::hello-world:example$hello_world_t.py[tag=test-doc]
+
+include::hello-world:example$hello_world_t.py[tag=upsert-invoke]
+
+include::hello-world:example$hello_world_t.py[tag=get-invoke]
+
+include::hello-world:example$hello_world_t.py[tag=lookup-invoke]
+
+----
+--
+
+Couchbase Cloud Sample::
++
+--
+If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Cloud], be sure to get the correct endpoint as well as user, password, certificate and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
+
+[source,python]
+----
+include::hello-world:example$cloud.py[tag=cloud_connect]
+----
+--
+====
 
 == Cloud Connections
 
-For developing on Couchbase Cloud, try the https://github.com/couchbase/docs-sdk-python/blob/release/3.0/modules/devguide/examples/python/cloud.py[Cloud-based Hello World program].
-
-If you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the following:
+For developing on Couchbase Cloud, if you are not working from the same _Availability Zone_ as your Couchbase Cloud, refer to the following:
 
 * Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 * xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
