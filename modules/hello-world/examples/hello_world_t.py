@@ -30,7 +30,7 @@ cb_coll_default = cb.default_collection()
 # end::default-collection[]
 
 # tag::upsert-func[]
-def upsert_document(doc):
+def upsert_document(doc): 
   print("\nUpsert CAS: ")
   try:
     # key will equal: "airline_8091"
