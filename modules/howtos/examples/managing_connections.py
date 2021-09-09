@@ -14,7 +14,7 @@ class ManagingConnections(object):
 
       print("simpleconnect")
       #tag::simpleconnect[]
-      cluster = Cluster.connect("couchbase://127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")))
+      cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")))
       bucket = cluster.bucket("travel-sample")
       collection = bucket.default_collection()
 
@@ -45,7 +45,7 @@ class ManagingConnections(object):
     #   # Customize client settings by calling methods on the builder
     #
     #   # Create a cluster using the environment's custom client settings.
-    #   cluster = Cluster.connect("couchbase://127.0.0.1", ClusterOptions
+    #   cluster = Cluster.connect("couchbase://localhost", ClusterOptions
     #       .clusterOptions("username", "password")
     #       .environment(env))
     #
@@ -101,18 +101,18 @@ class ManagingConnections(object):
       print("connectionstringparams")
       #tag::connectionstringparams[]
       cluster = Cluster.connect(
-          "couchbase://127.0.0.1?compression=on&log_redaction=on", ClusterOptions(PasswordAuthenticator("username", "password")))
+          "couchbase://localhost?compression=on&log_redaction=on", ClusterOptions(PasswordAuthenticator("username", "password")))
       #end::connectionstringparams[]
 
     def test_async(self):
       print("blockingtoasync")
       #tag::blockingtoasync[]
-      cluster = Cluster.connect("couchbase://127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")))
+      cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")))
       bucket = cluster.bucket("travel-sample")
 
       # Same API as Bucket, but completely async with asyncio Futures
       from acouchbase.bucket import Bucket
-      async_bucket=Bucket("couchbase://127.0.0.1/default")
+      async_bucket=Bucket("couchbase://localhost/default")
 
       cluster.disconnect()
       #end::blockingtoasync[]
@@ -120,7 +120,7 @@ class ManagingConnections(object):
       print("reactivecluster")
       #tag::reactivecluster[]
       from acouchbase.bucket import Bucket
-      cluster = Cluster("couchbase://127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")),bucket_class=Bucket)
+      cluster = Cluster("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")),bucket_class=Bucket)
       bucket = cluster.bucket("travel-sample")
 
       # A reactive cluster's disconnect methods returns a Mono<Void>.
@@ -131,7 +131,7 @@ class ManagingConnections(object):
 
       print("asynccluster")
       #tag::asynccluster[]
-      cluster = Cluster.connect("couchbase://127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")))
+      cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")))
       bucket = cluster.bucket("travel-sample")
 
       # An async cluster's disconnect methods returns a CompletableFuture<Void>.
@@ -142,7 +142,7 @@ class ManagingConnections(object):
 
       print("tls")
       #tag::tls[]
-      cluster = Cluster("couchbases://127.0.0.1",ClusterOptions(PasswordAuthenticator("username","password",cert_path="/path/to/cluster.crt")))
+      cluster = Cluster("couchbases://localhost",ClusterOptions(PasswordAuthenticator("username","password",cert_path="/path/to/cluster.crt")))
       #end::tls[]
 
       print("dnssrv")
