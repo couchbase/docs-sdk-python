@@ -41,6 +41,48 @@ Generally, there is no need to download and install it separately, and we recomm
 There are binary Python wheels provided for Windows.
 
 
+== Version 3.2.1 (10 September 2021)
+
+[source,bash]
+----
+pip install couchbase==3.2.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.2.1/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1159[PYCBC-1159]:
+Allow result sets greater than 1000 (acouchbase API)
+
+* https://issues.couchbase.com/browse/PYCBC-1171[PYCBC-1171]:
+Decrement callback references (txcouchbase API)
+
+* https://issues.couchbase.com/browse/PYCBC-1172[PYCBC-1172]:
+Provide LCB correct get_mode for KV GET operations
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1147[PYCBC-1147]:
+Update search bindings since https://issues.couchbase.com/browse/CCBC-1428[CCBC-1428] has been resolved
+
+* https://issues.couchbase.com/browse/PYCBC-1157[PYCBC-1157]:
+Cloud Connection sample code update
+
+* https://issues.couchbase.com/browse/PYCBC-1173[PYCBC-1173]:
+Bump LCB version to 3.2.1
+
+* https://issues.couchbase.com/browse/PYCBC-1174[PYCBC-1174]:
+Move QueryScanConsistency class back to couchbase/cluster.py
+
+* https://issues.couchbase.com/browse/PYCBC-1064[PYCBC-1064]:
+Eventing Management API
+
+* https://issues.couchbase.com/browse/PYCBC-1144[PYCBC-1144]:
+Align search API sort option with RFC
+
+
+
 == Version 3.2.0 (26 July 2021)
 
 [source,bash]
