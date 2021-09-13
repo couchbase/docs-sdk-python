@@ -55,34 +55,38 @@ $ python3 -m pip install couchbase==3.2.1
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1159[PYCBC-1159]:
-Allow result sets greater than 1000 (acouchbase API)
+Ensure the `acouchbase API` can handle iterating over non-kv result sets greater than 1000.
 
 * https://issues.couchbase.com/browse/PYCBC-1171[PYCBC-1171]:
-Decrement callback references (txcouchbase API)
+Update how the `txcouchbase API` handles setting and clearing callbacks for `AsyncResult` 
+to avoid unbounded memory increases.
 
 * https://issues.couchbase.com/browse/PYCBC-1172[PYCBC-1172]:
-Provide LCB correct get_mode for KV GET operations
+For basic GET operations, the Python client was incorrectly setting the `get_mode` enum in libcouchbase to `with_touch`. 
+This change fixes this to ensure the SDK uses the correct `get_mode` (normal) for KV GET operations.
 
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1147[PYCBC-1147]:
-Update search bindings since https://issues.couchbase.com/browse/CCBC-1428[CCBC-1428] has been resolved
+Update search bindings since https://issues.couchbase.com/browse/CCBC-1428[CCBC-1428] has been resolved.
 
 * https://issues.couchbase.com/browse/PYCBC-1157[PYCBC-1157]:
-Cloud Connection sample code update
+Cloud Connection sample code update.
 
 * https://issues.couchbase.com/browse/PYCBC-1173[PYCBC-1173]:
-Bump LCB version to 3.2.1
+Bump the `libcouchbase` version bundled in the Python SDK to 3.2.1.
 
 * https://issues.couchbase.com/browse/PYCBC-1174[PYCBC-1174]:
-Move QueryScanConsistency class back to couchbase/cluster.py
+The `QueryScanConsistency` class was initially moved to `couchbase/n1ql.py` as part of the Eventing Management API additions,
+however, to prevent breaking changes, the class has been returned to its previous location at `couchbase/cluster.py`.
 
 * https://issues.couchbase.com/browse/PYCBC-1064[PYCBC-1064]:
-Eventing Management API
+Provide users an API within the Python client to work with the Couchbase Server eventing API.
 
 * https://issues.couchbase.com/browse/PYCBC-1144[PYCBC-1144]:
-Align search API sort option with RFC
-
+FTS sort options can be a list of strings, or a list of child classes derived from the Sort() base class.
+In order to align with the RFC, the search API sort functionality can now use the child classes
+derived from the Sort() base class.
 
 
 == Version 3.2.0 (26 July 2021)
