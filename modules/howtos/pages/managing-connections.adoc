@@ -72,7 +72,7 @@ couchbase://nodeA.example.com,nodeB.example.com
 
 .Connection string with two parameters
 ----
-couchbases://127.0.0.1?compression=inout&redaction=on
+couchbases://127.0.0.1?compression=on&redaction=on
 ----
 
 The full list of recognized parameters is documented in the client settings reference.
@@ -80,7 +80,7 @@ Any client setting with a system property name may also be specified as a connec
 
 A connection string may optionally be prefixed by either `"couchbase://"` or `"couchbases://"`.
 
-For more detailed documentation please refer to the https://docs.couchbase.com/c-sdk/2.10/managing-connections.html[libcouchbase connection string documentation].
+For more detailed documentation please refer to the xref:c-sdk:howtos:managing-connections.adoc[libcouchbase connection string documentation].
 // TODO: update this when the LCB 3.x connstr docs are up
 
 
