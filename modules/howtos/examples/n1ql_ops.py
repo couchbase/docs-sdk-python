@@ -120,4 +120,4 @@ agent_scope = bucket.scope("inventory")
 result = agent_scope.query(
         "SELECT a.* FROM `airline` a WHERE a.country=$country LIMIT 10",
         country='France')
-# tag::scope[]
+# end::scope[]
