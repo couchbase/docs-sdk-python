@@ -42,6 +42,8 @@ There are binary Python wheels provided for Windows.
 
 == Version 3.2.2 (12 October 2021)
 
+Version 3.2.2 is the third release of the 3.2 series.
+
 [source,bash]
 ----
 pip install couchbase==3.2.2
@@ -51,28 +53,26 @@ pip install couchbase==3.2.2
 
 === Enhancements
 
-* https://issues.couchbase.com/browse/PYCBC-1141[PYCBC-1141]:
-Python SDK3 Transcoders and Non-JSON
-
-* https://issues.couchbase.com/browse/PYCBC-767[PYCBC-767];
+* https://issues.couchbase.com/browse/PYCBC-1141[PYCBC-1141];
+https://issues.couchbase.com/browse/PYCBC-767[PYCBC-767];
 https://issues.couchbase.com/browse/PYCBC-811[PYCBC-811]:
-Document transcoding features
+Added support for Transcoders and Non-JSON documents to KV.
 
 * https://issues.couchbase.com/browse/PYCBC-1176[PYCBC-1176]:
-Apply autopep8 formatting to Couchbase Python project
+Applied standard PEP8 formatting to Couchbase Python project.
 
 * https://issues.couchbase.com/browse/PYCBC-1161[PYCBC-1161];
 https://issues.couchbase.com/browse/PYCBC-1169[PYCBC-1169]:
-ARM - Support for Apple Silicon and AWS Graviton2
+Added ARM Support for Apple Silicon and AWS Graviton2.
 
 * https://issues.couchbase.com/browse/PYCBC-1163[PYCBC-1163]:
-Improve client side error message when TLS is enforced on the server side
+Improved client side error message when TLS is enforced on the server side.
 
 * https://issues.couchbase.com/browse/PYCBC-1184[PYCBC-1184]:
-Update QueryIndexManagement API to use LCB HTTP methods
+Updated `QueryIndexManagement` API to use `libcouchbase` HTTP methods instead of deprecated APIs.
 
 * https://issues.couchbase.com/browse/PYCBC-1189[PYCBC-1189]:
-Add redeploy_required property to EventingFunctionStatus
+Added `redeploy_required` property to `EventingFunctionStatus`.
 
 == Version 3.2.1 (10 September 2021)
 
