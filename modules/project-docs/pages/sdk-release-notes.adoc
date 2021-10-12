@@ -40,6 +40,39 @@ Python SDK 3.x automatically bundles libcouchbase (downloading and building it i
 Generally, there is no need to download and install it separately, and we recommend using the built-in libcouchbase.
 There are binary Python wheels provided for Windows.
 
+== Version 3.2.2 (12 October 2021)
+
+Version 3.2.2 is the third release of the 3.2 series.
+
+[source,bash]
+----
+pip install couchbase==3.2.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.2.2/
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1141[PYCBC-1141];
+https://issues.couchbase.com/browse/PYCBC-767[PYCBC-767];
+https://issues.couchbase.com/browse/PYCBC-811[PYCBC-811]:
+Added support for Transcoders and Non-JSON documents to KV.
+
+* https://issues.couchbase.com/browse/PYCBC-1176[PYCBC-1176]:
+Applied standard PEP8 formatting to Couchbase Python project.
+
+* https://issues.couchbase.com/browse/PYCBC-1161[PYCBC-1161];
+https://issues.couchbase.com/browse/PYCBC-1169[PYCBC-1169]:
+Added ARM Support for Apple Silicon and AWS Graviton2.
+
+* https://issues.couchbase.com/browse/PYCBC-1163[PYCBC-1163]:
+Improved client side error message when TLS is enforced on the server side.
+
+* https://issues.couchbase.com/browse/PYCBC-1184[PYCBC-1184]:
+Updated `QueryIndexManagement` API to use `libcouchbase` HTTP methods instead of deprecated APIs.
+
+* https://issues.couchbase.com/browse/PYCBC-1189[PYCBC-1189]:
+Added `redeploy_required` property to `EventingFunctionStatus`.
 
 == Version 3.2.1 (10 September 2021)
 
