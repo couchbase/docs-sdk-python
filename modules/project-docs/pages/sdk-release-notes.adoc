@@ -40,6 +40,41 @@ Python SDK 3.x automatically bundles libcouchbase (downloading and building it i
 Generally, there is no need to download and install it separately, and we recommend using the built-in libcouchbase.
 There are binary Python wheels provided for Windows.
 
+
+== Version 3.2.3 (3 November 2021)
+
+[source,bash]
+----
+pip install couchbase==3.2.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.2.3/
+
+=== Behavioral Change
+
+This release deprecates the legacy `IxmgmtRequest` and `BucketManager` classes.  The updated https://docs.couchbase.com/sdk-api/couchbase-python-client/#management-apis>[Management APIs] should be used instead.
+Both the `IxmgmtRequest` and `BucketManager` classes will be removed with next release.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-787[PYCBC-787]:
+Add support for get_all_replicas to return ACTIVE as well
+
+* https://issues.couchbase.com/browse/PYCBC-853[PYCBC-853]:
+acouchbase - add diagnostics()/ping() interface
+
+* https://issues.couchbase.com/browse/PYCBC-1077[PYCBC-1077]:
+Async Cluster object cannot be reused after failed connection
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1192[PYCBC-1192];
+https://issues.couchbase.com/browse/PYCBC-1193[PYCBC-1193];
+https://issues.couchbase.com/browse/PYCBC-1194[PYCBC-1194];
+https://issues.couchbase.com/browse/PYCBC-1195[PYCBC-1195];
+https://issues.couchbase.com/browse/PYCBC-1196[PYCBC-1196]:
+acouchbase - Management APIs: Bucket, Collection, User and Query Index.
+
 == Version 3.2.2 (12 October 2021)
 
 Version 3.2.2 is the third release of the 3.2 series.
