@@ -23,7 +23,7 @@ You may need CMake to install, although the installer will attempt to download i
 
 The Python SDK 3.x requires Python 3, with https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5], https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6], https://www.python.org/dev/peps/pep-0537/#lifespan[Python 3.7], https://www.python.org/dev/peps/pep-0569/#lifespan[Python 3.8] and https://www.python.org/dev/peps/pep-0596/#lifespan[Python 3.9] supported. See the xref:project-docs:compatibility.adoc#python-version-compat[Compatibility] section for details.
 
-CAUTION: The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release.
+CAUTION: The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release, tentatively March 2022.
 
 // end::prep[]
 

@@ -52,7 +52,7 @@ pip install couchbase==3.2.4
 
 === Behavioral Change
 
-The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release as Python 3.5 has already reached end of life and Python 3.6 will reach end of life in December 2021.  The Couchbase Python SDK is tested with Python versions that have not reached end of life according to the Python Software Foundation.  Other Python versions might work but are not tested and are not supported.
+The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release (tentatively March 2022) as Python 3.5 has already reached end of life and Python 3.6 will reach end of life in December 2021.  The Couchbase Python SDK is tested with Python versions that have not reached end of life according to the Python Software Foundation.  Other Python versions might work but are not tested and are not supported.
 
 === Fixes
 
