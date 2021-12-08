@@ -63,7 +63,7 @@ The Python SDK is tested with Python versions 3.5 - 3.9.
 Other Python versions and implementations might work but are _not tested and are not supported_.
 We recommend using a Python version, with the highest patch version available, that is not close to reaching end of life according to the Python Software Foundation.
 
-CAUTION: The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release.
+CAUTION: The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release, tentatively March 2022.
 
 The following Python versions are supported:
 
