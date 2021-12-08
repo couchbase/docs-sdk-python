@@ -41,6 +41,60 @@ Generally, there is no need to download and install it separately, and we recomm
 There are binary Python wheels provided for Windows.
 
 
+== Version 3.2.4 (7 December 2021)
+
+[source,bash]
+----
+pip install couchbase==3.2.4
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.2.4/
+
+=== Behavioral Change
+
+The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release as Python 3.5 has already reached end of life and Python 3.6 will reach end of life in December 2021.  The Couchbase Python SDK is tested with Python versions that have not reached end of life according to the Python Software Foundation.  Other Python versions might work but are not tested and are not supported.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1029[PYCBC-1029]:
+Fixed memory leak for KV multi() methods
+
+* https://issues.couchbase.com/browse/PYCBC-1200[PYCBC-1200]:
+Added support for raw option in N1QL QueryOptions
+
+* https://issues.couchbase.com/browse/PYCBC-1207[PYCBC-1207]:
+Fixed QueryIndexManager create_primary_index() method to correctly
+handle CreatePrimaryQueryIndexOptions
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1162[PYCBC-1162]:
+Added support for rate limiting errors
+
+* https://issues.couchbase.com/browse/PYCBC-1177[PYCBC-1177];
+https://issues.couchbase.com/browse/PYCBC-1185[PYCBC-1185];
+https://issues.couchbase.com/browse/PYCBC-1187[PYCBC-1187]:
+Removed deprecated expiry duration logic and deprecated 
+legacy `IxmgmtRequest` and `BucketManager` classes
+
+* https://issues.couchbase.com/browse/PYCBC-1210[PYCBC-1210]:
+Added Binary Collection API to asynchronous `acouchbase` interface
+
+* https://issues.couchbase.com/browse/PYCBC-1212[PYCBC-1212]:
+Updated included libcouchbase version to 3.2.4
+
+* https://issues.couchbase.com/browse/PYCBC-1181[PYCBC-1181]:
+Added backend storage option to Bucket Management API
+
+* https://issues.couchbase.com/browse/PYCBC-1206[PYCBC-1206]:
+Replaced `git://` protocol references with more secure `https://` protocol
+
+* https://issues.couchbase.com/browse/PYCBC-1208[PYCBC-1208]:
+Updated dependencies to use compatible release version scheme
+
+* https://issues.couchbase.com/browse/PYCBC-1209[PYCBC-1209]:
+Updated version scheme to allow `dev`, `rc` and `post` suffixes
+
 == Version 3.2.3 (3 November 2021)
 
 Version 3.2.3 is the fourth release of the 3.2 series.

@@ -56,6 +56,24 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 Note the https://www.couchbase.com/support-policy[End of Life dates^] for Couchbase Server and SDK versions.
 See the notes there for Support details.
 
+[#python-version-compat]
+== Python Version Compatibility
+
+The Python SDK is tested with Python versions 3.5 - 3.9.
+Other Python versions and implementations might work but are _not tested and are not supported_.
+We recommend using a Python version, with the highest patch version available, that is not close to reaching end of life according to the Python Software Foundation.
+
+CAUTION: The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release.
+
+The following Python versions are supported:
+
+* https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5]
+* https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6]
+* https://www.python.org/dev/peps/pep-0537/#lifespan[Python 3.7]
+* https://www.python.org/dev/peps/pep-0569/#lifespan[Python 3.8]
+* https://www.python.org/dev/peps/pep-0596/#lifespan[Python 3.9]
+
+Please make sure you run on one of the latest patch releases, since they provide stability improvements and security fixes in general.
 
 == Platform Compatibility
 
