@@ -86,7 +86,7 @@ Added `preserve_expiry` option to `QueryOptions`.
 
 [source,bash]
 ----
-pip install couchbase==3.2.4
+python3 -m pip install couchbase==3.2.4
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.2.4/
