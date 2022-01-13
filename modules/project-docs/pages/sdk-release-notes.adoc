@@ -41,6 +41,44 @@ Generally, there is no need to download and install it separately, and we recomm
 There are binary Python wheels provided for Windows.
 
 
+== Version 3.2.5 (12 January 2022)
+
+[source,bash]
+----
+pip install couchbase==3.2.5
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-3.2.5/
+
+=== Behavioral Change
+
+The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release (tentatively March 2022) as Python 3.5 has already reached end of life and Python 3.6 will reach end of life in December 2021.  The Couchbase Python SDK is tested with Python versions that have not reached end of life according to the Python Software Foundation.  Other Python versions might work but are not tested and are not supported.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1214[PYCBC-1214]:
+Added check to cancel event prior to destroying event for asynchronous APIs
+
+* https://issues.couchbase.com/browse/PYCBC-1218[PYCBC-1218]:
+Added rate limit exceptions to Bucket, User and Views Management APIs
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1215[PYCBC-1215]:
+Updated txcouchbase tests to check for Alpine OS
+
+* https://issues.couchbase.com/browse/PYCBC-1217[PYCBC-1217]:
+Updated regular expression used to match search rate limit errors
+
+* https://issues.couchbase.com/browse/PYCBC-1160[PYCBC-1160]:
+Added custom conflict to Bucket Management API's `ConflictResolutionType` Enum
+
+* https://issues.couchbase.com/browse/PYCBC-1164[PYCBC-1164]:
+Added support to include locations in `SearchOptions` and added match operator property to `MatchQuery`
+
+* https://issues.couchbase.com/browse/PYCBC-1175[PYCBC-1175]:
+Added `preserve_expiry` option to `QueryOptions`
+
 == Version 3.2.4 (7 December 2021)
 
 [source,bash]
