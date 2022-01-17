@@ -19,7 +19,7 @@ from couchbase.durability import Durability, ServerDurability
 warnings.filterwarnings("ignore")
 
 cluster = Cluster(
-    "couchbase://172.23.111.131",
+    "couchbase://localhost",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))
@@ -135,7 +135,7 @@ for i in range(5):
 
 # tag::QueryErrorContext[]
 try:
-    cluster.query("SELECT * FROM default").rows()
+    cluster.query("SELECT * FROM no_such_bucket").rows()
 except CouchbaseException as ex:
     if isinstance(ex.context, QueryErrorContext):
         # We have a N1QL error context, we can print out some useful information:
@@ -147,6 +147,7 @@ except CouchbaseException as ex:
 
 # end::QueryErrorContext[]
 
+print("DONE, tidying up")
 try:
     collection.remove("my-key")
 except CouchbaseException:

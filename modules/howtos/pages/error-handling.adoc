@@ -71,7 +71,7 @@ Retry with a linearly increasing delay.
 Retry with an exponentially increasing delay.
 Retry with a random delay.
 
-Consider decorator that provides flexibility to determine which Exceptions to retry and how to retry (fixed, linear or exponential delay).
+Consider a decorator that provides flexibility to determine which Exceptions to retry and how to retry (fixed, linear or exponential delay).
 
 [source,python]
 ----
@@ -116,14 +116,16 @@ Take this as an example: your application requests that a new document be create
 This completes, but, just before the server can notify the client that it was successful, a network switch dies and the application's connection to the server is lost.
 The client will timeout waiting for a response and will raise a `TimeoutException`, but it's ambiguous to the app whether the operation succeeded or not.
 
-So `TimeoutException` is one ambiguous exception, another is `DurabilitySyncWriteAmbiguousException`, which can returned when performing a durable operation.
-This similarly indicates that the operation may or may not have succeeded: though when using durability you are guaranteed that the operation will either have been applied to all replicas, or none.
+Another ambiguous exception is `DurabilitySyncWriteAmbiguousException`, which can returned when performing a durable operation.
+This also indicates that the operation may or may not have succeeded: though when using durability you are guaranteed that the operation will either have been applied to all replicas, or none.
 
 .Given the inevitability of ambiguity, how is the application supposed to handle this?
 
 This needs to be considered case-by-case, but the general strategy is to become certain if the operation succeeded or not, and to retry it if required.
 
-For instance, for inserts, they can simply be retried to see if they fail on `DocumentExistsException`, in which case the operation was successful:
+For instance, consider inserts:
+on an ambiguous Exception, you can simply *retry* the insert.
+If it now fails with a `DocumentExistsException`, we know that the previous operation was in fact successful:
 
 [source,python]
 ----
@@ -132,13 +134,19 @@ include::howtos:example$error_handling.py[tag=DurabilitySyncWriteAmbiguousExcept
 
 === Non-Idempotent Operations
 
-Idempotent operations are those that can be applied multiple times yet still have the one, same effect. Repeatedly setting an email field is idempotent increasing a counter by one is not.
+An "Idempotent operation" is one that can be applied multiple times yet still have the same effect, exactly once.
 
-Some operations we can view as idempotent as they will fail with no effect after the first success such as inserts.
+* Repeatedly setting an email field is Idempotent. (If you do it twice, the email field will have the same, expected value.)
+* Increasing a counter by one is Non-Idempotent. (If you do it twice, the result will now have increased by *2*.)
+
+We can view some operations as idempotent because they will fail with no effect after the first success.
+This was the case for inserts, as we saw above.
 
 Idempotent operations are much easier to handle, as on ambiguous error results (`DurabilitySyncWriteAmbiguousException` and `TimeoutException`) the operation can simply be retried.
 
-Most key-value operations are idempotent. For those that are not, such as a Sub-Document arrayAppend call, or a counter increment, the application should, on an ambiguous result, first read the document to see if that change was applied.
+Most key-value operations are idempotent.
+Non-Idempotent operations include a Sub-Document arrayAppend call, or a counter increment.
+After an ambiguous exception on a Non-Idempotent operation, you should first read the document to check for yourself whether or not that change was applied.
 
 == Query and Analytics Errors
 
