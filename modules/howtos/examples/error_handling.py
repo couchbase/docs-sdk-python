@@ -45,23 +45,23 @@ def allow_retries(retry_limit=3,                # type: int
     def handle_retries(func):
         @functools.wraps(func)
         def func_wrapper(*args, **kwargs):
-            for i in range(retry_limit):
+            for retry_num in reversed(range(retry_limit)):
                 try:
                     return func(*args, **kwargs)
                 except Exception as ex:
                     if allowed_exceptions is None or not isinstance(ex, allowed_exceptions):
                         raise
 
-                    if (retry_limit-1)-i == 0:
+                    if retry_num == 0:
                         raise
 
                     delay = backoff
                     if exponential_backoff is True:
-                        delay *= (2**i)
+                        delay *= (2**retry_num)
                     elif linear_backoff is True:
-                        delay *= (i+1)
+                        delay *= (retry_num+1)
 
-                    print(f"Retries left: {(retry_limit-1) - i}")
+                    print(f"Retries left: {retry_num}")
                     print(f"Backing Off: {delay} seconds")
                     time.sleep(delay)
 
