@@ -1,5 +1,5 @@
 = Handling Errors
-:description: Errors, handling them from the Python SDK.
+:description: Errors are inevitable. The developer's job is to be prepared for whatever is likely to come up -- and to try and be prepared for anything that conceivably could come up.
 :navtitle: Handling Errors
 :page-topic-type: howto
 :page-aliases: ROOT:handling-error-conditions,ROOT:exception-handling
@@ -8,50 +8,58 @@
 [abstract]
 {description}
 
-
-Errors are inevitable.
-The developer’s job is to be prepared for whatever is likely to come up -- and to try and be prepared for anything that conceivably could come up.
 Couchbase gives you a lot of flexibility, but it is recommended that you equip yourself with an understanding of the possibilities.
 
-== How the SDK Handles Errors
+== How the SDK Handles Exceptions
 
 Couchbase-specific exceptions are all derived from `CouchbaseException`.
 Errors that cannot be recovered by the SDK will be returned to the application.
 These unrecoverable errors are left to the application developer to handle -- this section covers handling many of the common error scenarios.
 
-== Handling Errors
+== Handling Exceptions
 
-The approach will depend upon the type of error thrown.
+The Python SDK works directly with the built in exception handling available in Python. This enables you to catch, interrogate, and handle or log them and continue. Depending on the type of the exception you catch, there are a number of properties which will be available to you. Couchbase-specific exceptions are all derived from `CouchbaseException`.
+
+How you handle exceptions in your application will depend upon the type of exception thrown.
 Is it transient?
 Is it even recoverable?
 Below we examine error handling strategies in relation to the Couchbase SDKs, then take a practical walk through some common error scenarios you are likely to have to handle when working with a Couchbase cluster.
 
 === Failing
-While most of the time you want more sophisticated error handling strategies, sometimes you just need to fail.
-It makes no sense for some errors to be retried, either because they are not transient, or because you already tried everything to make it work and it still keeps failing.
-If containment is not able to handle the error, then it needs to propagate up to a parent component that can handle it.
+While most of the time you want more sophisticated exception handling strategies, sometimes you just need to fail.
+It makes no sense for some exceptions to be retried, either because they are not transient, or because you already tried everything to make it work and it still keeps failing.
+If containment is not able to handle the exception, then it needs to propagate up to a parent component that can handle it.
 
-For synchronous programs, every error is converted into an Exception and thrown so that you can use regular `try`/`catch` semantics.
+For synchronous programs, every error is converted into an Exception and thrown so that you can use regular `try`/`except` semantics.
+
+[source,python]
+----
+include::howtos:example$error_handling.py[tag=generic_try_catch]
+----
 
 If you do not catch the Exception, it will bubble up:
 
 [source,python]
 ----
-Exception in thread "main" java.lang.RuntimeException: java.lang.Exception: I'm failing
- at rx.observables.BlockingObservable.blockForSingle(BlockingObservable.java:482)
- at rx.observables.BlockingObservable.single(BlockingObservable.java:349)
+Traceback (most recent call last):
+  File "../sample_code/3x/docs/error_handling.py", line 21, in <module>
+    res = collection.get("not-a-key")
+  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/collection.py", line 293, in wrapped
+    return func(self, *args, **kwargs)
+  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/result.py", line 507, in wrapped
+    x, options = func(*args, **kwargs)
+  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/collection.py", line 521, in get
+    return self._get_generic(key, kwargs, options)
+  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/collection.py", line 484, in _get_generic
+    x = CoreClient.get(self.bucket, key, **opts)
+  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase_core/client.py", line 409, in get
+    return super(Client, self).get(*args, **kwargs)
+couchbase.exceptions.DocumentNotFoundException: <Key='not-a-key', RC=0x12D[LCB_ERR_DOCUMENT_NOT_FOUND (301)], Operational Error, Results=1, C Source=(src/multiresult.c,332), Context={'status_code': 1, 'opaque': 1, 'cas': 0, 'key': 'not-a-key', 'bucket': 'travel-sample', 'collection': 'hotel', 'scope': 'inventory', 'context': '', 'ref': '', 'endpoint': '172.23.111.139:11210', 'type': 'KVErrorContext'}, Tracing Output={"not-a-key": {"debug_info": {"FILE": "src/callbacks.c", "FUNC": "value_callback", "LINE": 848}}}>
 ----
 
 === Logging
 
 It is always important to log errors, but even more so in the case of reactive applications. Because of the event driven nature, stack traces get harder to look at, and caller context is sometimes lost.
-
-////
-# SDK-specific text in each case
-# Note that Logging has its own page.
-
-# recommendation of good practice ADMONITION link
-////
 
 === Retry
 
@@ -63,141 +71,93 @@ Retry with a linearly increasing delay.
 Retry with an exponentially increasing delay.
 Retry with a random delay.
 
+Consider a decorator that provides flexibility to determine which Exceptions to retry and how to retry (fixed, linear or exponential delay).
+
 [source,python]
 ----
-include::example$error-handling.py[tag=handle_retryable]
+include::howtos:example$error_handling.py[tag=retries]
 ----
 
-=== Fallback
-
-Instead of (or in addition to) retrying, another valid option is falling back to either a different `Observable`, or to a default value.
-
-// == Generic Errors (see Errors rfc)
-// There are some errors which can be surfaced from across all of the SDK services. These include...
-
-////
-=== Temporary Failure
-=== Timeout (possibly covered below in connections?)
-=== ServiceNotAvailable
-=== ServiceNotConfigured
-////
-
-== KV
+== Key-Value Exceptions
 
 The KV Service exposes several common errors that can be encountered - both during development, and to be handled by the production app. Here we will cover some of the most common errors.
 
-=== Doc does not exist
 
-If a particular key cannot be found a `KeyNotFoundException` is raised:
-
-[source,python]
-----
-include::example$error-handling.py[tag=KeyNotFoundException]
-----
-
-=== Doc already exists
-
-On the other hand if the key already exists and should not (e.g. on an insert) then a `KeyExistsException` is raised:
+If a particular key cannot be found a `DocumentNotFoundException` is raised:
 
 [source,python]
 ----
-include::example$error-handling.py[tag=KeyExistsException]
+include::howtos:example$error_handling.py[tag=DocumentNotFoundException]
 ----
 
-=== Doc too large
+On the other hand if the key already exists and should not (e.g. on an insert) then a `DocumentExistsException` is raised:
 
-`RequestTooBigException`
+[source,python]
+----
+include::howtos:example$error_handling.py[tag=DocumentExistsException]
+----
 
 === CAS Mismatch
 
 Couchbase provides optimistic concurrency using CAS.
 Each document gets a CAS value on the server, which is changed on each mutation.
 When you get a document you automatically receive its CAS value, and when replacing the document, if you provide that CAS the server can check that the document has not been concurrently modified by another agent in-between.
-If it has, it returns `ErrCasMismatch`, and the most appropriate response is to simply retry it:
-
+If it has, it returns `CASMismatchException`. See the xref:#retry[Retry] section for an approach to retry in this scenario.
 
 [source,python]
 ----
-include::example$error-handling.py[tag=CASMismatchException]
+include::howtos:example$error_handling.py[tag=CASMismatchException]
 ----
 
-=== Durability ambiguous
+=== Ambiguity
 
 There are situations with any distributed system in which it is simply impossible to know for sure if the operation completed successfully or not.
 Take this as an example: your application requests that a new document be created on Couchbase Server.
 This completes, but, just before the server can notify the client that it was successful, a network switch dies and the application's connection to the server is lost.
 The client will timeout waiting for a response and will raise a `TimeoutException`, but it's ambiguous to the app whether the operation succeeded or not.
 
-So `ErrTimeout` is one ambiguous error, another is `ErrDurabilityAmbiguous`, which can returned when performing a durable operation.
-This similarly indicates that the operation may or may not have succeeded: though when using durability you are guaranteed that the operation will either have been applied to all replicas, or none.
+Another ambiguous exception is `DurabilitySyncWriteAmbiguousException`, which can returned when performing a durable operation.
+This also indicates that the operation may or may not have succeeded: though when using durability you are guaranteed that the operation will either have been applied to all replicas, or none.
 
-Given the inevitability of ambiguity, how is the application supposed to handle this?
+.Given the inevitability of ambiguity, how is the application supposed to handle this?
 
-It really needs to be considered case-by-case, but the general strategy is to become certain if the operation succeeded or not, and to retry it if required.
+This needs to be considered case-by-case, but the general strategy is to become certain if the operation succeeded or not, and to retry it if required.
 
-For instance, for inserts, they can simply be retried to see if they fail on `ErrDocumentExists`, in which case the operation was successful:
-
-[source,python]
-----
-include::example$error-handling.py[tag=DurabilitySyncWriteAmbiguousException]
-----
-
-=== Durability invalid level
+For instance, consider inserts:
+on an ambiguous Exception, you can simply *retry* the insert.
+If it now fails with a `DocumentExistsException`, we know that the previous operation was in fact successful:
 
 [source,python]
 ----
-include::example$error-handling.py[tag=DurabilityInvalidLevelException]
+include::howtos:example$error_handling.py[tag=DurabilitySyncWriteAmbiguousException]
 ----
 
-=== No Cluster replicas configured
+=== Non-Idempotent Operations
 
-[source,python]
-----
-include::example$error-handling.py[tag=ReplicaNotConfiguredException]
-----
+An "Idempotent operation" is one that can be applied multiple times yet still have the same effect, exactly once.
 
-=== Replicate to / persist to greater than replica count
+* Repeatedly setting an email field is Idempotent. (If you do it twice, the email field will have the same, expected value.)
+* Increasing a counter by one is Non-Idempotent. (If you do it twice, the result will now have increased by *2*.)
 
-[source,python]
-----
-include::example$error-handling.py[tag=DurabilityImpossibleException]
-----
+We can view some operations as idempotent because they will fail with no effect after the first success.
+This was the case for inserts, as we saw above.
 
-=== Timeout with replicate to / persist to requirements
+Idempotent operations are much easier to handle, as on ambiguous error results (`DurabilitySyncWriteAmbiguousException` and `TimeoutException`) the operation can simply be retried.
 
-[source,python]
-----
-include::example$error-handling.py[tag=TimeoutException]
-----
+Most key-value operations are idempotent.
+Non-Idempotent operations include a Sub-Document arrayAppend call, or a counter increment.
+After an ambiguous exception on a Non-Idempotent operation, you should first read the document to check for yourself whether or not that change was applied.
 
 == Query and Analytics Errors
 
-N1ql and Analytics either return results or an error. If there is an error then it exposed in the following way(s)...
+A N1QL query either returns results or will throw an error with a `QueryErrorContext`, like so:
 
-== Search and View Errors
+[source,python]
+----
+include::howtos:example$error_handling.py[tag=QueryErrorContext]
+----
 
-Unlike N1ql and Analytics, Search and Views can return multiple errors as well as errors and partial results.
-// This next bit is going to be highly SDK specific too.
-
-== Connections...
-// Network / buckets / Timeouts / …
-
-Networks, remotely-located clusters, and XDCR all offer opportunities for packets to go astray, or resources to go offline or become temporarily unavailable.
-// As well as the above `Timeout` errors, and those in the next section on authenticating against clusters, there are ??network-related??
-// The most common scenarios that the developer is likely to encounter when working with Couchbase Clusters are ?????
-
-== Authentication
-
-=== RBAC Roles - permissions on Service / Bucket / etc.
-
-Standard since Couchbase Data Platform 5.0, xref:[Role Based Access Control (RBAC)] gives fine-grained permissions designed to protect the security of and access to data with a range of user roles encompassing different privileges.
-xref:6.5@server:learn:security/authorization-overview.adoc[Refer to our Authorization pages] for a fuller understanding.
-
-The developer must match an application’s need for data access with the necessary permissions for access.
-// SCENARIO??
-// ---> Certificates?
-
-NOTE: If you are using Couchbase Community Edition, the only _roles_ available are xref:link-here[Bucket Full Access, Admin, and Read-only Admin].
+Analytics works in an identical fashion, potentially raising an analytics specific error and having an `AnalyticsErrorContext`.
 
 == Additional Resources
 Errors & Exception handling is an expansive topic.
