@@ -58,7 +58,9 @@ During first-time setup:
 $ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
 ----
 
-For TLS/SSL support (optional):
+For TLS/SSL support (recommended):
+
+NOTE: Connecting to Couchbase Capella _requires_ TLS support.
 
 [source,console]
 ----
@@ -79,7 +81,9 @@ $ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
 TIP: You may need to update your installed version of CMake.
 For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
 
-For TLS/SSL support (optional):
+For TLS/SSL support (recommended):
+
+NOTE: Connecting to Couchbase Capella _requires_ TLS support.
 
 [source,console]
 ----
@@ -134,12 +138,16 @@ $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
 $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
 ----
 
-.For TLS/SSL support - optional
+.For TLS/SSL support - recommended
+
+Best practice is to use a secure connection.  However, since some scenarios don't require a secure connection, TLS support is recommended but not required.
+
+NOTE: Connecting to Couchbase Capella _requires_ TLS support.
+
 [source,console]
 ----
 $ brew install openssl
 ----
-
 
 === Microsoft Windows
 
