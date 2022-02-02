@@ -140,7 +140,8 @@ $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
 
 .For TLS/SSL support - recommended
 
-Best practice is to use a secure connection.  However, since some scenarios don't require a secure connection, TLS support is recommended but not required.
+Best practice is to use a secure connection.
+However, since some scenarios don't require a secure connection, TLS support is recommended but not required.
 
 NOTE: Connecting to Couchbase Capella _requires_ TLS support.
 
