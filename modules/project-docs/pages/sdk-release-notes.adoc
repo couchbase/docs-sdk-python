@@ -58,15 +58,15 @@ Other Python versions might work but are not tested and are not supported.
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1219[PYCBC-1219]:
-Fixed `preserve_expiry` N1QL test
+Fixed `preserve_expiry` N1QL test.
 
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1182[PYCBC-1182]:
-Added index management for collections to Index Management API
+Added index management for collections to Index Management API.
 
 * https://issues.couchbase.com/browse/PYCBC-1223[PYCBC-1223]:
-Added environment config to allow for optional custom OpenSSL path
+Added environment config to allow for optional custom OpenSSL path.
 
 == Version 3.2.5 (12 January 2022)
 
