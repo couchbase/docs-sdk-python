@@ -17,7 +17,7 @@ Like all other `OptionBlock` s, this is akin to a Python `dict`, but with named 
 
 Once it is passed in to the Cluster constructor or Cluster.connect, its settings are fixed.
 
-Beyond the connection string, most settings are changed by calls to libcouchbase -- refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl.html[API doc on `lcb_cntl()`] and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl-settings.html[settings list].
+Beyond the connection string, most settings are changed by calls to libcouchbase -- refer to the https://docs.couchbase.com/sdk-api/couchbase-c-client/group\__lcb-cntl.html[API doc on `lcb_cntl()`] and the https://docs.couchbase.com/sdk-api/couchbase-c-client/group__lcb-cntl-settings.html[settings list].
 
 .Creating a cluster with custom settings
 [source,python]
