@@ -58,7 +58,7 @@ Your Python interpreter may crash if the same [.api]`Bucket` object exists in mo
 
 include::6.0@sdk:pages:partial$max-connections.adoc[tag=limits]
 
-include::2.8@c-sdk::page$managing-connections.adoc[tag=group]
+include::2.10@c-sdk::page$managing-connections.adoc[tag=group]
 
 [IMPORTANT]
 ====
