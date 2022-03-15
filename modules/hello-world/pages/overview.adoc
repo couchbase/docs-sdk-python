@@ -1,4 +1,4 @@
-= Couchbase Python SDK 3.2
+= Couchbase Python SDK 4.0
 :page-type: landing-page
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
@@ -45,7 +45,7 @@ print('Get result - value: {}; CAS: {}'.format(get_res.content, get_res.cas))
 [.column]
 ====== {empty}
 
-== Couchbase Python SDK 3.2
+== Couchbase Python SDK 4.0
 
 ++++
 <div class="card-row three-column-row">

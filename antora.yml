@@ -1,7 +1,7 @@
 name: python-sdk
-version: '3.2'
+version: '4.0'
 title: Python SDK
 start_page: hello-world:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
-server_version: '7.0'
+server_version: '7.1'
