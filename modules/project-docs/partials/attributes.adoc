@@ -1,5 +1,5 @@
-:python-api-link: http://docs.couchbase.com/sdk-api/couchbase-python-client-3.1.0/files/couchbase.html
-:python-current-version: 3.2.0
-:version-server: 7.0
+:python-api-link: http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/files/couchbase.html
+:python-current-version: 4.0.0
+:version-server: 7.1
 :name-sdk: Python SDK
-:version-sdk: 3.2
+:version-sdk: 4.0
