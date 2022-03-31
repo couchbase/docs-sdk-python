@@ -2,196 +2,157 @@
 :description: Installing the Couchbase Python SDK & a Hello World example program.
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
 :navtitle: Start Using the SDK
+:description: Get up and running quickly, installing the Couchbase Python SDK, and running our Hello World example.
 :page-partial:
 
 include::project-docs:partial$attributes.adoc[]
 
 [abstract]
+{description}
+
 The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
 It offers a traditional synchronous API as well as integration with _twisted_, _gevent_, and _asyncio_.
-It depends on the C SDK, _libcouchbase_, (included automatically) which it uses for performance and reliability.
-
-// tag::prep[]
-
-The Couchbase Python SDK 3.x is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
-
-The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 
 
-== Requirements
+== Hello Couchbase
 
-Couchbase Python SDK bundles libcouchbase automatically, so no need to install it separately.
-You may need CMake to install, although the installer will attempt to download it from PyPI automatically.
+On this page we show you how to quickly get up and running -- installing the Couchbase Python SDK, and trying out the _Hello World_ code example against Couchbase Capella, or against a local Couchbase cluster.
 
-The Python SDK 3.x requires Python 3, with https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5], https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6], https://www.python.org/dev/peps/pep-0537/#lifespan[Python 3.7], https://www.python.org/dev/peps/pep-0569/#lifespan[Python 3.8] and https://www.python.org/dev/peps/pep-0596/#lifespan[Python 3.9] supported. See the xref:project-docs:compatibility.adoc#python-version-compat[Compatibility] section for details.
+We will go through the code sample step by step, but for those in a hurry to see it, here it is:
 
-CAUTION: The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release, tentatively March 2022.
-
-// end::prep[]
-
-// tag::install[]
-
-[NOTE]
-====
-Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself for TLS support to be provided.
-Additionally the installer relies on PEP517 which older versions of PIP do not support.
-If you experience issues installing it is advised to upgrade your PIP/setuptools installation as follows:
-[source,console]
-----
-$ python3 -m pip install --upgrade pip setuptools wheel
-----
-====
-
-
-=== Linux
-
-Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python. 
-See https://github.com/pyenv/pyenv#basic-github-checkout[pyenv docs^] for details.
-
-[{tabs}]
-====
-Debian and Ubuntu::
+[{tabs}] 
+==== 
+Couchbase Capella Sample::
 +
 --
-During first-time setup:
+To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, certificate and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
 
-[source,console]
+[source,python]
 ----
-$ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
-----
-
-For TLS/SSL support (recommended):
-
-NOTE: Connecting to Couchbase Capella _requires_ TLS support.
-
-[source,console]
-----
-$ sudo apt-get install libssl-dev
+include::hello-world:example$cloud.py[tag=cloud_connect]
 ----
 --
 
-RHEL and CentOS::
+Local Couchbase Server::
++ 
+-- 
+[source,python]
+----
+include::hello-world:example$hello_world_t.py[tag=connect]
+
+include::hello-world:example$hello_world_t.py[tag=bucket]
+
+include::hello-world:example$hello_world_t.py[tag=collection]
+
+include::hello-world:example$hello_world_t.py[tag=upsert-func]
+
+include::hello-world:example$hello_world_t.py[tag=get-func]
+
+include::hello-world:example$hello_world_t.py[tag=lookup-func]
+
+include::hello-world:example$hello_world_t.py[tag=test-doc]
+
+include::hello-world:example$hello_world_t.py[tag=upsert-invoke]
+
+include::hello-world:example$hello_world_t.py[tag=get-invoke]
+
+include::hello-world:example$hello_world_t.py[tag=lookup-invoke]
+
+----
+
+As well as the Python SDK (see below), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
+using either the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
+or the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+--
+====
+
+The Couchbase Capella free trial version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
+
+
+== Quick Installation
+
+A more detailed guide in our xref:project-pages:sdk-full-installation.adoc[Installation page] covers every supported platform, but this section should be enough to get up and running in most cases.
+
+[{tabs}] 
+====
+macOS 11 & 12::
 +
 --
-During first-time setup:
+If you are running Catalina (macOS 10.15) or earlier -- or have other detailed requirements -- take a look at our xref:project-pages:sdk-full-installation.adoc[full installation guide].
+Otherwise, read on for a quick install on macOS _Big Sur_ or _Monterey_.
 
-[source,console]
-----
-$ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
-----
-
-TIP: You may need to update your installed version of CMake.
-For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
-
-For TLS/SSL support (recommended):
-
-NOTE: Connecting to Couchbase Capella _requires_ TLS support.
-
-[source,console]
-----
-$ sudo yum install openssl-devel
-----
-
-NOTE: RHEL/CentOS distributions may not provide the `python3-pip` package in the base repositories.
-It may be found in the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
---
-====
-
-
-=== Mac OS
-
-Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
-
-[NOTE]
-====
-There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
-It is advised to install Python via https://github.com/pyenv/pyenv#homebrew-on-macos[pyenv^]
-(see the Python SDK https://github.com/couchbase/couchbase-python-client#mac-os-pyenv-install[Github README^] for further details on pyenv installation), http://brew.sh/[Homebrew^], or https://www.python.org/downloads[python.org^]
-====
-
-To install the library on Mac OS, first install http://brew.sh/[Homebrew^]. 
-
-NOTE: Later versions of Mac OS can break the python3 homebrew installer. 
-Simple mitigating steps may be found https://stackoverflow.com/questions/47255517/brew-install-python3-didnt-install-pip3[here^].
-
-The following example uses the Python supplied by the _Homebrew_ package manager and not the vendor-supplied Python which ships with Mac OS. Once _Homebrew_ is configured:
-
-.Get a list of the latest packages
+First, make sure that your _brew_ package index is up-to-date:
 [source,console]
 ----
 $ brew update
 ----
 
-.Install compatible Python 3
+Install a compatible Python 3:
 [source,console]
 ----
-$ brew install python3
+$ brew install openssl python3
 ----
 
-.For ZSH (MacOS 10.15 Catalina and newer)
+Ensure that the Python installation can be called from the shell:
 [source,console]
 ----
 $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
 ----
 
-.For BASH (MacOS 10.14 Mojave and older)
+Now, install the Python SDK:
 [source,console]
 ----
-$ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
+$ sudo -H python3 -m pip install couchbase
 ----
+--
 
-.For TLS/SSL support - recommended
-
-Best practice is to use a secure connection.
-However, since some scenarios don't require a secure connection, TLS support is recommended but not required.
-
-NOTE: Connecting to Couchbase Capella _requires_ TLS support.
+Red Hat & CentOS::
++
+--
+During first-time setup, install the prerequisites:
 
 [source,console]
 ----
-$ brew install openssl
+$ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake openssl-devel
 ----
+Full details can be found ?????? prerequisites / compat
 
-=== Microsoft Windows
+Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
 
+[source,console]
+----
+$ python3 -m pip install couchbase
+----
+--
+
+Debian & Ubuntu::
++
+--
+During first-time setup, install the prerequisites:
+
+[source,console]
+----
+$ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential libssl-dev
+----
+Full details can be found ?????? prerequisites / compat...
+
+Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
+
+[source,console]
+----
+$ python3 -m pip install couchbase
+----
+--
+
+Windows::
++
+--
 Download and install Python from https://www.python.org/downloads[python.org^].  
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_.
 
 TIP: Checkout the https://github.com/pyenv-win/pyenv-win[pyenv-win^] project to manage multiple versions of Python.
 
 Wheels are available on Windows for Python 3.7, 3.8 and 3.9.
-
-
-== Installing on Linux
-
-First, make sure the <<linux, requirements>> have been installed.
-
-Install the latest Python SDK:
-
-[source,console]
-----
-$ python3 -m pip install couchbase
-----
-
-== Installation on Mac OS
-
-First, make sure the <<mac-os, requirements>> have been installed.
-
-Install the latest Python SDK:
-
-[source,console]
-----
-$ sudo -H python3 -m pip install couchbase
-----
-
-
-== Installing on Microsoft Windows
-
-First, make sure the <<microsoft-windows, requirements>> have been installed.
-
-NOTE: Commands assume user is working within a virtual environment.
-
-Install the latest Python SDK (if using Python 3.7, 3.8 or 3.9):
 
 [source,console]
 ----
@@ -202,40 +163,30 @@ The standard Python distributions for Windows include OpenSSL DLLs, as PIP and t
 The binary wheels for Windows are packaged as a binary wheel built against the relevant version OpenSSL (which is fixed per Windows version of Python).
 
 If you require a version without OpenSSL support, or that doesn't have a suitable binary wheel on PyPi, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
+--
+====
 
-== Installing with Anaconda/Miniconda
-
-To use the SDK within the Anaconda/Miniconda platform, make sure the prerequisites for the desired Operating System are met:
-
-* <<linux, Linux>>
-* <<mac-os, Mac OS>>
-* <<microsoft-windows, Windows>>
-
-In the _Anaconda Prompt_, create a new environment:
-[source,console]
-----
-conda create -n test_env python=3.9
-----
-
-Activate the environment:
-[source,console]
-----
-conda activate test_env
-----
-
-Install the SDK:
-[source,console]
-----
-python -m pip install couchbase
-----
-
-NOTE: If using Windows, and no wheel is available, see the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[alternate installlation] methods on the Github README.  
-The same process should work within the Anaconda/Miniconda platform.
-
-// end::install[]
+If there are any problems, refer to the full xref:project-pages:sdk-full-installation.adoc[Installation page].
 
 
-== Hello Couchbase
+TIP: If you are evaluating the Python SDK as a tester, architect, or otherwise not a regular Python developer, our xref:platform-help.adoc[Platform Help] pages may help get you over any humps in the road.
+
+
+
+
+
+== Cloud Connections
+
+// Need to replace this with simplified KV timeout setting  +  admonition.
+
+For developing on Couchbase Capella, if you are not working from the same _Availability Zone_ as your Capella instance, refer to the following:
+
+* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
+* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
+* If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
+
+
+== Step-by-Step
 
 At this point we want to transition from the terminal to your code editor of choice.
 
@@ -247,9 +198,6 @@ Let's now create an empty file named `cb-test.py` and walk through adding code s
 
 === Prerequisites
 
-As well as the Python SDK (see above), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
-using either the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
-or the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
 
 === Connection
 
@@ -376,60 +324,6 @@ Lookup Result:
 Couchbase Airways
 ----
 
-== Full Example
-
-If you want to copy and paste to run the full example, here it is:
-
-[{tabs}] 
-==== 
-Local Couchbase Server::
-+ 
--- 
-[source,python]
-----
-include::hello-world:example$hello_world_t.py[tag=connect]
-
-include::hello-world:example$hello_world_t.py[tag=bucket]
-
-include::hello-world:example$hello_world_t.py[tag=collection]
-
-include::hello-world:example$hello_world_t.py[tag=upsert-func]
-
-include::hello-world:example$hello_world_t.py[tag=get-func]
-
-include::hello-world:example$hello_world_t.py[tag=lookup-func]
-
-include::hello-world:example$hello_world_t.py[tag=test-doc]
-
-include::hello-world:example$hello_world_t.py[tag=upsert-invoke]
-
-include::hello-world:example$hello_world_t.py[tag=get-invoke]
-
-include::hello-world:example$hello_world_t.py[tag=lookup-invoke]
-
-----
---
-
-Couchbase Capella Sample::
-+
---
-If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella], be sure to get the correct endpoint as well as user, password, certificate and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
-
-[source,python]
-----
-include::hello-world:example$cloud.py[tag=cloud_connect]
-----
---
-====
-
-== Cloud Connections
-
-For developing on Capella, if you are not working from the same _Availability Zone_ as your Capella instance, refer to the following:
-
-* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
-* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
-* If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
-
 
 == Additional Resources
 
@@ -442,10 +336,3 @@ xref:project-docs:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 pa
 
 Couchbase welcomes community contributions to the Python SDK.
 The Python SDK source code is available on link:https://github.com/couchbase/couchbase-python-client[GitHub].
-
-
-=== PyPy support
-
-Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
-
-Please link:https://issues.couchbase.com/projects/PYCBC/issues[create a Jira ticket] if you require a PyPy-compatible version of the SDK.

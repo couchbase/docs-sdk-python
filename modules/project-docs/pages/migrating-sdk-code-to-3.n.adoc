@@ -14,6 +14,11 @@ Retry behaviour is more proactive, and lazy bootstrapping moves all error handli
 Individual behaviour changes across services are explained here.
 
 
+Couchbase Python SDK 4.0, like the 3.2, 3.1, and 3.0 versions, conforms to the Couchbase 3.x SDK API.
+Couchbase Python SDK 4.0 is built upon Couchbase++, whereas 3.x releases were built upon LCB (libcouchbase).
+For the most part, migration from 2.x versions remains the same -- the few 4.0-specific changes can be found at the end of this document.
+
+
 include::{version-server}@sdk:shared:partial$migration.adoc[tag=intro]
 
 
