@@ -115,7 +115,7 @@ During first-time setup, install the prerequisites:
 ----
 $ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake openssl-devel
 ----
-Full details can be found ?????? prerequisites / compat
+Full details can be found ?????? xref:project-pages:sdk-full-installation.adoc prerequisites / compat
 
 Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
 
@@ -134,7 +134,7 @@ During first-time setup, install the prerequisites:
 ----
 $ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential libssl-dev
 ----
-Full details can be found ?????? prerequisites / compat...
+Full details can be found ?????? xref:project-pages:sdk-full-installation.adoc  prerequisites / compat...
 
 Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
 

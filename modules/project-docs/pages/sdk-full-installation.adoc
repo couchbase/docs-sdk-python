@@ -24,9 +24,9 @@ This guide assumes you have some familiarity with development using Python -- if
 
 // tag::prep[]
 
-The Couchbase Python SDK 3.x is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
+The Couchbase SDK 3.x API (used in the Python SDK 3.0 - 4.0) is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
 
-The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
+3.x Python SDK introduced comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
 
 
 == Requirements
@@ -34,7 +34,7 @@ The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-
 Couchbase Python SDK bundles Couchbase++ automatically, so no need to install it separately.
 You may need CMake to install, although the installer will attempt to download it from PyPI automatically.
 
-The Python SDK 4.x requires Python 3, with https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5], https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6], https://www.python.org/dev/peps/pep-0537/#lifespan[Python 3.7], https://www.python.org/dev/peps/pep-0569/#lifespan[Python 3.8] and https://www.python.org/dev/peps/pep-0596/#lifespan[Python 3.9] supported. See the xref:project-docs:compatibility.adoc#python-version-compat[Compatibility] section for details.
+The Python SDK 4.x requires Python 3, with versions 3.7 - 3.10 supported. See the xref:project-docs:compatibility.adoc#python-version-compat[Compatibility] section for details.
 
 CAUTION: The Couchbase Python SDK will drop support for https://www.python.org/dev/peps/pep-0478/#release-schedule[Python 3.5] and https://www.python.org/dev/peps/pep-0494/#lifespan[Python 3.6] with the 3.3.0 release, tentatively March 2022.
 
