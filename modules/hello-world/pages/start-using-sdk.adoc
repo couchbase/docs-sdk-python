@@ -11,7 +11,7 @@ include::project-docs:partial$attributes.adoc[]
 {description}
 
 The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
-It offers a traditional synchronous API as well as integration with _twisted_, _gevent_, and _asyncio_.
+It offers a traditional synchronous API as well as integration with _twisted_ and _asyncio_.
 
 
 == Hello Couchbase
