@@ -89,11 +89,9 @@ https://docs.couchbase.com/sdk-api/couchbase-python-client/[API Docs^]
 .What's Hot?
 
 [.content]
-Leverage the new Couchbase Server Scopes and Collection features to build multi-tenant micro-service application.
-// Integrate with Open Telemetry API to instrument telemetry data for your mission critical workloads that will make troubleshooting and debugging of your applications easier than ever.
-Add an additional layer of security and protect your sensitive workloads using our Client Side Field Level Encryption capability. 
+Moving from libcouchbase (LCB) to a Couchbase++ core brings Multi-Document, Distributed ACID Transactions to the Python SDK.
 
-The 3.x Python SDK introduces comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484^]-style type annotations.
+// Integrate with Open Telemetry API to instrument telemetry data for your mission critical workloads that will make troubleshooting and debugging of your applications easier than ever.
 
 [.column]
 ====== {empty}
