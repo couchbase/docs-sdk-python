@@ -25,7 +25,7 @@ We will go through the code sample step by step, but for those in a hurry to see
 Couchbase Capella Sample::
 +
 --
-To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, certificate and `couchbasecloudbucket`  -- and see the <<cloud-connections, Cloud section>>, below.
+To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, certificate and bucket name  -- and see the <<cloud-connections, Cloud section>>, below.
 
 [source,python]
 ----
