@@ -2,6 +2,20 @@
 :description: Provisioning cluster resources is managed at the collection or bucket level, depending upon the service affected.
 :navtitle: Provisioning Cluster Resources
 :page-aliases: ROOT:managing-clusters
+:page-toclevels: 2
+
+// API refs
+:bucket-api-reference: pass:q[BucketManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.Buckets[`Cluster.buckets()`]]
+:user-api-reference: pass:q[UserManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.Users[`Cluster.users()`]]
+:query-api-reference: pass:q[QueryIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.QueryIndexes[`Cluster.queryIndexes()`]]
+:analytics-api-reference: pass:q[AnalyticsIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.AnalyticsIndexes[`Cluster.analyticsIndexes()`]]
+:search-api-reference: pass:q[SearchIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.SearchIndexes[`Cluster.searchIndexes()`]]
+:collection-api-reference: pass:q[CollectionManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Bucket.Collections[`Bucket.collections()`]]
+:view-api-reference: pass:q[ ViewIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Bucket.ViewIndexes[`Bucket.viewIndexes()`]]
+
+// one-view-update-warning common partial
+:upsertDesignDocument: pass:q[`upsert_design_document` method]
+:getDesignDocument: pass:q[`get_design_document`]
 
 include::project-docs:partial$attributes.adoc[]
 
@@ -15,18 +29,18 @@ The Python SDK also comes with some convenience functionality for common Couchba
 
 Management operations in the SDK may be performed through several interfaces depending on the object:
 
-* BucketManager -- `Cluster.Buckets()`
-* UserManager -- `Cluster.Users()`
-* QueryIndexManager -- `Cluster.QueryIndexes()`
-* AnalyticsIndexManager -- `Cluster.AnalyticsIndexes()`
-* SearchIndexManager -- `Cluster.SearchIndexes()`
-* CollectionManager -- `Bucket.Collections()`
-* ViewIndexManager -- `Bucket.ViewIndexes()`
+* {bucket-api-reference}
+* {user-api-reference}
+* {query-api-reference} 
+* {analytics-api-reference}
+* {search-api-reference}
+* {collection-api-reference}
+* {view-api-reference}
 
-NOTE: When using a Couchbase version earlier than 6.5, you must create a valid Bucket connection using `cluster.Bucket(name)` before you can use cluster level managers.
+NOTE: When using a Couchbase version earlier than 6.5, you must create a valid Bucket connection using `Cluster.bucket(name)` before you can use cluster level managers.
 
 
-== Creating and Removing Buckets
+== Bucket Management
 
 The `BucketManager` interface may be used to create and delete buckets from the Couchbase cluster.
 It is instantiated through the `Cluster.buckets()` method.
@@ -79,7 +93,7 @@ include::howtos:example$provisioning_resources_buckets.py[tag=drop_bucket]
 ----
 
 [#python-flushing]
-== Flushing Buckets
+=== Flushing Buckets
 
 include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
@@ -104,8 +118,6 @@ for further details.
 ----
 include::howtos:example$provisioning_resources_collections.py[tag=create_collections_mgr]
 ----
-
-=== Creating and Deleting Scopes and Collections
 
 You can create a scope:
 
@@ -141,8 +153,6 @@ You can create users with the appropriate RBAC programmatically:
 include::howtos:example$provisioning_resources_collections.py[tag=scopeAdmin]
 ----
 
-=== Listing the Scopes and Collections available
-
 You can enumerate Scopes and Collections using
 the `CollectionManager.get_all_scopes()` method and
 the `Scope.collections` property.
@@ -154,20 +164,72 @@ include::howtos:example$provisioning_resources_collections.py[tag=listing-scope-
 
 == Index Management
 
-In general,you will rarely need to work with Index Managers from the SDK.
-For those occasions when you do, please see the relevant API docs:
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=index-management-intro]
 
-* QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#n1ql-index-management[`Cluster.QueryIndexes()`];
-* AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html[`Cluster.AnalyticsIndexes()`];
-* SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html[`Cluster.SearchIndexes()`];
-* ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html[`Bucket.ViewIndexes()`].
+=== QueryIndexManager
 
+The `QueryIndexManager` interface contains the means for managing indexes used for queries.
+It can be instantiated through the `Cluster.query_indexes()` method.
 
-// * Query
+[source,python]
+----
+include::howtos:example$query_index_manager.py[tag=creating-index-mgr,indent=0]
+----
+
+include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=query-index-manager-intro]
+
+The example below shows how to create a simple primary index, restricted to a named scope and collection, by calling the `create_primary_index()` method.
+Note that you cannot provide a named scope or collection separately, both must be set for the `QueryIndexManager` to create an index on the relevant keyspace path. 
+
+.Creating a primary index
+
+[source,python]
+----
+include::howtos:example$query_index_manager.py[tag=primary,indent=0]
+----
+
+When a primary index name is not specified, the SDK will create the index as `#primary` by default.
+However, if you wish to provide a custom name, you can simply set a `index_name` property in the `CreatePrimaryQueryIndexOptions` class.
+
+You may have noticed that the example also sets the `ignore_if_exists` boolean flag. 
+When set to `True`, this optional argument ensures that an error is not thrown if an index under the same name already exists.
+
+Creating a _secondary_ index follows a similar approach, with some minor differences:
+
+.Creating a secondary index
+
+[source,python]
+----
+include::howtos:example$query_index_manager.py[tag=secondary,indent=0]
+----
+
+The `create_index()` method requires an index name to be provided, along with the fields to create the index on.
+Like the _primary_ index, you can restrict a _secondary_ index to a named scope and collection by passing some options.
+
+Indexes can easily take a long time to build if they contain a lot of documents.
+In these situations, it is more ideal to build indexes in the background.
+To achieve this we can use the `deferred` boolean option, and set it to `True`.
+
+.Deferring index creation
+
+[source,python]
+----
+include::howtos:example$query_index_manager.py[tag=defer-indexes,indent=0]
+----
+
+To delete a query index you can use the `drop_index()` or `drop_primary_index()` methods. 
+Which one you use depends on the type of query index you wish to drop from the database.
+
+.Deleting an index
+
+[source,python]
+----
+include::howtos:example$query_index_manager.py[tag=drop-primary-or-secondary-index,indent=0]
+----
 
 // * Search - note & link to FTS page & API?
 
-== View Management
+== Views Management
 
 include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
 
