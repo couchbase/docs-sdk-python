@@ -37,7 +37,7 @@ Management operations in the SDK may be performed through several interfaces dep
 * {collection-api-reference}
 * {view-api-reference}
 
-NOTE: When using a Couchbase version earlier than 6.5, you must create a valid Bucket connection using `cluster.bucket(name)` before you can use cluster level managers.
+NOTE: When using a Couchbase version earlier than 6.5, you must create a valid Bucket connection using `Cluster.bucket(name)` before you can use cluster level managers.
 
 
 == Bucket Management
