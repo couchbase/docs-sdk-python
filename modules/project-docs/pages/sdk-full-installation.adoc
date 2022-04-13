@@ -55,12 +55,9 @@ macOS::
 +
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
 
-[NOTE]
-====
-There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
+NOTE: There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
 It is advised to install Python via https://github.com/pyenv/pyenv#homebrew-on-macos[pyenv^]
 (see the Python SDK https://github.com/couchbase/couchbase-python-client#mac-os-pyenv-install[Github README^] for further details on pyenv installation), http://brew.sh/[Homebrew^], or https://www.python.org/downloads[python.org^]
-====
 
 To install the library on Mac OS, first install http://brew.sh/[Homebrew^]. 
 
