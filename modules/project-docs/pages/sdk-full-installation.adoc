@@ -53,6 +53,7 @@ $ python3 -m pip install --upgrade pip setuptools wheel
 ====
 macOS::
 +
+--
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
 
 NOTE: There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
