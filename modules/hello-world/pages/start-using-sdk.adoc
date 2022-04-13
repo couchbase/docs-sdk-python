@@ -116,7 +116,7 @@ During first-time setup, install the prerequisites:
 ----
 $ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake openssl-devel
 ----
-Full details can be found ?????? xref:project-pages:sdk-full-installation.adoc prerequisites / compat
+Full details of prerequisites can be found xref:project-pages:sdk-full-installation.adoc#requirements[here].
 
 Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
 
@@ -135,7 +135,7 @@ During first-time setup, install the prerequisites:
 ----
 $ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential libssl-dev
 ----
-Full details can be found ?????? xref:project-pages:sdk-full-installation.adoc  prerequisites / compat...
+Full details of prerequisites can be found xref:project-pages:sdk-full-installation.adoc#requirements[here].
 
 Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
 
@@ -173,20 +173,6 @@ If there are any problems, refer to the full xref:project-pages:sdk-full-install
 TIP: If you are evaluating the Python SDK as a tester, architect, or otherwise not a regular Python developer, our xref:platform-help.adoc[Platform Help] pages may help get you over any humps in the road.
 
 
-
-
-
-== Cloud Connections
-
-// Need to replace this with simplified KV timeout setting  +  admonition.
-
-For developing on Couchbase Capella, if you are not working from the same _Availability Zone_ as your Capella instance, refer to the following:
-
-* Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
-* xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
-* If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
-
-
 == Step-by-Step
 
 At this point we want to transition from the terminal to your code editor of choice.
@@ -199,6 +185,21 @@ Let's now create an empty file named `cb-test.py` and walk through adding code s
 
 === Prerequisites
 
+Here are all of the import statements that you will need to run the sample code.
+
+[source,python,indent=0]
+----
+from datetime import timedelta
+
+# needed for any cluster connection
+from couchbase.auth import PasswordAuthenticator
+from couchbase.cluster import Cluster
+
+# needed for options -- cluster, timeout, SQL++ (N1QL) query, etc.
+from couchbase.options import (ClusterOptions,
+                               ClusterTimeoutOptions,
+                               QueryOptions)
+----
 
 === Connection
 
@@ -326,19 +327,6 @@ Couchbase Airways
 ----
 
 
-== Additional Resources
-
-The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
-
-Older API references are linked from their respective sections in the xref:project-docs:sdk-release-notes.adoc[Individual Release Notes].
-Most of the API documentation can also be accessed via `pydoc`.
-
-xref:project-docs:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 page] highlights the main differences to be aware of when migrating your code.
-
-Couchbase welcomes community contributions to the Python SDK.
-The Python SDK source code is available on link:https://github.com/couchbase/couchbase-python-client[GitHub].
-
-
 == Next Steps
 
 Now you're up and running, try one of the following:
@@ -350,3 +338,25 @@ Now you're up and running, try one of the following:
 * A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
 * Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
 
+
+=== Additional Resources
+
+The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
+
+Older API references are linked from their respective sections in the xref:project-docs:sdk-release-notes.adoc[Individual Release Notes].
+Most of the API documentation can also be accessed via `pydoc`.
+
+xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migration page] highlights the main differences to be aware of when migrating your code.
+
+Couchbase welcomes community contributions to the Python SDK.
+The Python SDK source code is available on https://github.com/couchbase/couchbase-python-client[GitHub].
+
+=== Troubleshooting
+
+* Couchbase Server is designed to work in the same WAN or availability zone as the client application.
+If you're running the SDK on your laptop against a Capella cluster, see further information on:
+** Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
+** xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
+** If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
+* 
+* Our https://forums.couchbase.com/c/python-sdk/10[community forum] is a great source of help.
