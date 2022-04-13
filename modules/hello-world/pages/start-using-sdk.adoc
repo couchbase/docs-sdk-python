@@ -3,6 +3,7 @@
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
 :navtitle: Start Using the SDK
 :description: Get up and running quickly, installing the Couchbase Python SDK, and running our Hello World example.
+:page-toclevels: 2
 :page-partial:
 
 include::project-docs:partial$attributes.adoc[]
@@ -336,3 +337,16 @@ xref:project-docs:migrating-sdk-code-to-3.n.adoc[The Migrating from SDK2 to 3 pa
 
 Couchbase welcomes community contributions to the Python SDK.
 The Python SDK source code is available on link:https://github.com/couchbase/couchbase-python-client[GitHub].
+
+
+== Next Steps
+
+Now you're up and running, try one of the following:
+
+* Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
+* Explore xref:howtos:kv-operations.adoc[Key Value Operations] against a document database;
+* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based N1QL language
+* Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
+* A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
+* Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
+
