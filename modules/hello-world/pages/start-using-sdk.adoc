@@ -358,5 +358,4 @@ If you're running the SDK on your laptop against a Capella cluster, see further 
 ** Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 ** xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
 ** If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
-* 
 * Our https://forums.couchbase.com/c/python-sdk/10[community forum] is a great source of help.
