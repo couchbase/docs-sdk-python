@@ -14,16 +14,13 @@ from couchbase.management.queries import (BuildDeferredQueryIndexOptions,
 def primary_index(query_index_mgr):
     print("Example - [primary]")
     # tag::primary[]
-    try:
-        query_index_mgr.create_primary_index("travel-sample", CreatePrimaryQueryIndexOptions(
-            scope_name="tenant_agent_01",
-            collection_name="users",
-            # Set this if you wish to use a custom name
-            # index_name="custom_name",
-            ignore_if_exists=True
-        ))
-    except QueryIndexAlreadyExistsException:
-        print("Index already exists")
+    query_index_mgr.create_primary_index("travel-sample", CreatePrimaryQueryIndexOptions(
+        scope_name="tenant_agent_01",
+        collection_name="users",
+        # Set this if you wish to use a custom name
+        # index_name="custom_name",
+        ignore_if_exists=True
+    ))
     # end::primary[]
 
 
