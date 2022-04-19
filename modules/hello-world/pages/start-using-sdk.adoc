@@ -331,13 +331,14 @@ Couchbase Airways
 
 Now you're up and running, try one of the following:
 
+// Should search and analytics be removed?
+
 * Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
-* Explore xref:howtos:kv-operations.adoc[Key Value Operations] against a document database;
+* Explore xref:howtos:kv-operations.adoc[Key Value Operations] (CRUD) against a document database;
 * Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based N1QL language
 * Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
 * A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
 * Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
-
 
 === Additional Resources
 
