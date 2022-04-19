@@ -41,6 +41,7 @@ They are categorized into groups for
 
 By default the client will connect to Couchbase Server using an unencrypted connection.
 If you are using the Enterprise Edition, it's possible to secure the connection using TLS.
+For connecting to Couchbase Capella -- our fully hosted cloud service -- TLS is a prerequisite.
 
 Name: *Enable Secure Connections*::
 Options Class: `ClusterOptions`
