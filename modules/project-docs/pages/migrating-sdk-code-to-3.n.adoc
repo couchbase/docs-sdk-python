@@ -1,7 +1,7 @@
-= Migrating from SDK2 to SDK3 API
-:description: The 3.0 API breaks the existing 2.0 APIs in order to provide a number of improvements. \
+= Migrating from SDK API 2 to SDK API 3
+:description: The SDK API 3 (used in Python SDK 3.x and 4.x) introduces breaking changes to the previous SDK API 2 APIs (used in Python SDK 2.x) in order to provide a number of improvements. \
 Collections and Scopes are introduced.
-:nav-title: Migrating to Python SDK 3.0 API
+:nav-title: Migrating to SDK API 3.x
 :page-topic-type: concept
 :page-aliases: ROOT:migrate
 
@@ -13,10 +13,18 @@ The Document class and structure has been completely removed from the API, and t
 Retry behaviour is more proactive, and lazy bootstrapping moves all error handling to a single place.
 Individual behaviour changes across services are explained here.
 
+The current PHP SDK 4.0 is also based on the xref:project-docs:compatibility.adoc#sdk3.3[SDK API 3.3 specification], and offers an entirely new backend (Couchbase++) with better support for new features like Distributed ACID Transactions.
+We have increased the major version to reflect the importance of this implementation change as per https://semver.org/[semantic versioning].
 
 Couchbase Python SDK 4.0, like the 3.2, 3.1, and 3.0 versions, conforms to the Couchbase 3.x SDK API.
-Couchbase Python SDK 4.0 is built upon Couchbase++, whereas 3.x releases were built upon LCB (libcouchbase).
-For the most part, migration from 2.x versions remains the same -- the few 4.0-specific changes can be found at the end of this document.
+Couchbase Python SDK 4.0 is built upon Couchbase++, whereas 3.x releases were built upon LCB (libcouchbase)
+
+NOTE: For the most part, migration from SDK API 2._x_ versions remains the same.
+The few 4.0-specific changes can be found at the end of this document.
+If you are an existing Python SDK 3._x_ user considering migrating to SDK 4.0,
+you may wish to skip to the <<sdk4-specifics,SDK 4.0 specifics>> below.
+
+include::{version-server}@sdk:shared:partial$api-version.adoc[tag=api-version]
 
 
 include::{version-server}@sdk:shared:partial$migration.adoc[tag=intro]
@@ -28,7 +36,6 @@ As an example here is a KeyValue document fetch:
 
 [source,python]
 ----
-
 from datetime import timedelta
 from couchbase.cluster import Cluster
 from couchbase.collection import GetOptions
@@ -42,7 +49,7 @@ Compare this to a N1QL query:
 // change to $Your_language
 [source,python]
 ----
-query_result = cluster.query("select 1=1", QueryOptions(timeout=timedelta(seconds=3))
+query_result = cluster.query("select 1=1", QueryOptions(timeout=timedelta(seconds=3)))
 ----
 
 include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms2]
@@ -63,33 +70,36 @@ include::{version-server}@sdk:shared:partial$migration.adoc[tag=lang]
 
 ===  Installation and Configuration
 
-The Python SDK 3.x is available for download from the same resources as the previous generation. Builds can be found on PyPi.
+The primary source of artifacts is xref:installation.adoc[the installation page], 
+where we publish links to pre-built binaries, as well as to source tarballs.
+Builds can be found on PyPi.
 Please see the xref:sdk-release-notes.adoc[Release Notes] for up-to-date information.
 
 ////
- - discuss new dependencies if needed
- - discuss configuration old and new, especially if certain
-   custom options are not present anymore (why they are not used)
-   and how users might want to transfer this config over to the
-   new one
- - discuss cert auth
- - discuss encryption config
+//  - discuss new dependencies if needed
+//  - discuss configuration old and new, especially if certain
+//    custom options are not present anymore (why they are not used)
+//    and how users might want to transfer this config over to the
+//    new one
+//  - discuss cert auth
+//  - discuss encryption config
 ////
-IMPORTANT: Python SDK 3.x has a minimum required Python version of 3.5, although we recommend running the latest version (i.e. at the time of writing Python 3.8) with the highest patch version available.
+
+IMPORTANT: Python SDK 3.x and 4.x have a minimum required Python version of 3.5, although we recommend running the latest fully supported version (i.e. at the time of writing Python 3.10) with the highest patch version available.
 
 Note that the transitive dependency list has changed.
-As a refresher, Python SDK 2 depended on the following packages:
+As a refresher, Python SDK API 2 depended on the following packages:
 
 * **typing**
 
-SDK 3 depends on the following ones instead:
+SDK API 3 depends on the following ones instead:
 
 * **typing** (on Python<3.7)
 * **typing-extensions** (on Python<3.8)
 * **boltons**
 * **pyrsistent**
 
-Additionally these are supported optionally in SDK 2 and SDK 3.
+Additionally these are supported optionally in SDK API 2 and SDK API 3.
 
 * **Twisted**
 * **gevent**
@@ -97,14 +107,13 @@ Additionally these are supported optionally in SDK 2 and SDK 3.
 TIP: If you are pulling in the SDK through a package manager (recommended), all mandatory dependencies will be resolved for you automatically.
 
 
-
 === Configuring Collections
 
-The fundamental semantics of the `Bucket` from SDK 2 are analogous to that of the `Collection` in SDK 3.
+The fundamental semantics of the `Bucket` from SDK API 2 are analogous to that of the `Collection` in SDK API 3.
 
 [source,python]
 ----
-# SDK 2 custom KV timeout
+# SDK API 2 custom KV timeout
 bucket = Bucket("couchbases://127.0.0.1/default")
 bucket.timeout=5
 ----
@@ -116,14 +125,14 @@ include::example$migrating.py[tag=timeoutbuilder,indent=0]
 ----
 
 The default settings can still be customized through either the connection string or xref:ref:client-settings.adoc[system properties].
-The SDK has elaborate reflection logic in place to parse "flat" string values and apply them to the builder, which means that you can now configure more properties than in SDK 2.
+The SDK has elaborate reflection logic in place to parse "flat" string values and apply them to the builder, which means that you can now configure more properties than in SDK API 2.
 Note that the property paths have changed.
 
 ////
-[source,python]
-----
-include::example$migrating.py[tag=sysprops,indent=0]
-----
+// [source,python]
+// ----
+// include::example$migrating.py[tag=sysprops,indent=0]
+// ----
 ////
 
 [source,python]
@@ -132,17 +141,16 @@ include::example$migrating.py[tag=connstr,indent=0]
 ----
 See the xref:ref:client-settings.adoc[configuration section] for full specifics.
 
-At the end of this guide you'll find a xref:#configurations-options-reference[reference] that describes the SDK 2 environment options and their SDK 3 equivalents where applicable.
+At the end of this guide you'll find a xref:#configurations-options-reference[reference] that describes the SDK API 2 environment options and their SDK 3 equivalents where applicable.
 
 
 === Authentication
 
-Since SDK 2 supports Couchbase Server clusters older than 5.0, it had to support both Role-Based Access Control (RBAC) as well as bucket-level passwords.
-The minimum cluster version supported by SDK 3 is Server 5.0, which means that only RBAC is supported.
+Since SDK API 2 supports Couchbase Server clusters older than 5.0, it had to support both Role-Based Access Control (RBAC) as well as bucket-level passwords.
+The minimum cluster version supported by SDK API 3 is Server 5.0, which means that only RBAC is supported.
 This is why you can set the username and password when directly connecting:
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=rbac,indent=0]
 ----
@@ -150,7 +158,6 @@ include::example$migrating.py[tag=rbac,indent=0]
 This is just a shorthand for:
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=rbac-full,indent=0]
 ----
@@ -159,7 +166,6 @@ The reason why you can pass in a specific authenticator is that you can also use
 
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=certauth,indent=0]
 ----
@@ -173,101 +179,95 @@ include::example$migrating.py[tag=certauth,indent=0]
 //- important: bootstrapping is now "lazy" so also discuss how to do the eager
 // checks and any impact it might have on the first op being slow?
 
-From a high-level perspective, bootstrapping and shutdown is very similar to SDK 2.
+From a high-level perspective, bootstrapping and shutdown is very similar to SDK API 2.
+
 ////
-One notable difference is that the `Collection` is introduced and that the individual methods like `bucket` immediately return, and do not throw an exception.
-Compare SDK 2: the `openBucket` method would not work if it could not open the bucket.
+// One notable difference is that the `Collection` is introduced and that the individual methods like `bucket` immediately return, and do not throw an exception.
+// Compare SDK API 2: the `openBucket` method would not work if it could not open the bucket.
 
-The reason behind this change is that even if a bucket can be opened, a millisecond later it may not be available any more.
-All this state has been moved into the actual operation so there is only a single place where the error handling needs to take place.
-This simplifies error handling and retry logic for an application.
+// The reason behind this change is that even if a bucket can be opened, a millisecond later it may not be available any more.
+// All this state has been moved into the actual operation so there is only a single place where the error handling needs to take place.
+// This simplifies error handling and retry logic for an application.
 
-- discuss shutdown
-- if external state is passed in optionally, discuss
-management of this state
-- discuss the impact of 6.5 "gcccp" and cluster level queries
-- SASL by default on non-PLAIN (if applicable)
+// - discuss shutdown
+// - if external state is passed in optionally, discuss
+// management of this state
+// - discuss the impact of 6.5 "gcccp" and cluster level queries
+// - SASL by default on non-PLAIN (if applicable)
 
+// In SDK API 2, you connected, opened a bucket and performed a KV op like this:
 
+// [source,python]
+// ----
+// from couchbase_v2.cluster import Cluster as SDK2Cluster, PasswordAuthenticator
+// cluster = SDK2Cluster("127.0.0.1")
+// cluster.authenticate(PasswordAuthenticator("user", "pass"))
+// bucket = cluster.open_bucket("travel-sample")
 
-In SDK 2, you connected, opened a bucket and performed a KV op like this:
+// get_result = bucket.get("airline_10")
+// ----
 
-[source,python]
+// Here is the SDK API 3 equivalent:
 
-----
-from couchbase_v2.cluster import Cluster as SDK2Cluster, PasswordAuthenticator
-cluster = SDK2Cluster("127.0.0.1")
-cluster.authenticate(PasswordAuthenticator("user", "pass"))
-bucket = cluster.open_bucket("travel-sample")
-
-get_result = bucket.get("airline_10")
-
-----
-
-Here is the SDK 3 equivalent:
-
-[source,python]
-
-----
-include::example$migrating.py[tag=simpleget,indent=0]
-----
+// [source,python]
+// ----
+// include::example$migrating.py[tag=simpleget,indent=0]
+// ----
 ////
+
 `Collections` will be generally available with an upcoming Couchbase Server release, but the SDK already encodes it in its API to be future-proof.
 If you are using a Couchbase Server version which does not support `Collections`, always use the `default_collection()` method to access the KV API; it will map to the full bucket.
 
 ////
-IMPORTANT: You'll notice that `bucket(str)` returns immediately, even if the bucket resources are not completely opened.
-This means that the subsequent `get` operation may be dispatched even before the socket is open in the background.
-The SDK will handle this case transparently, and reschedule the operation until the bucket is opened properly.
-This also means that if a bucket could not be opened (say, because no server was reachable) the operation will time out.
-Please check the logs to see the cause of the timeout (in this case, you'll see socket connect rejections).
+// IMPORTANT: You'll notice that `bucket(str)` returns immediately, even if the bucket resources are not completely opened.
+// This means that the subsequent `get` operation may be dispatched even before the socket is open in the background.
+// The SDK will handle this case transparently, and reschedule the operation until the bucket is opened properly.
+// This also means that if a bucket could not be opened (say, because no server was reachable) the operation will time out.
+// Please check the logs to see the cause of the timeout (in this case, you'll see socket connect rejections).
 ////
+
 Also note, you will now find Query, Search, and Analytics at the `Cluster` level.
 This is where they logically belong.
 If you are using Couchbase Server 6.5 or later, you will be able to perform cluster-level queries even if no bucket is open.
 If you are using an earlier version of the cluster you must open at least one bucket, otherwise cluster-level queries will fail.
 
 ////
-=== Serialization and Transcoding
+// === Serialization and Transcoding
 
- - describe how it works for your language, how to override and any platform-specific
-   encoding and decoding guidelines.
- - Also important how to convert from the document types to the new approach
+//  - describe how it works for your language, how to override and any platform-specific
+//    encoding and decoding guidelines.
+//  - Also important how to convert from the document types to the new approach
 
-In SDK 2 the main method to control transcoding was through providing different `Document` instances (which in turn had their own transcoder associated), such as the `JsonDocument`.
-This only worked for the KV APIs though -- Query, Search, Views, and other services exposed their JSON rows/hits in different ways.
-All of this has been unified in SDK 3 under a single concept: serializers and transcoders.
+// In SDK 2 the main method to control transcoding was through providing different `Document` instances (which in turn had their own transcoder associated), such as the `JsonDocument`.
+// This only worked for the KV APIs though -- Query, Search, Views, and other services exposed their JSON rows/hits in different ways.
+// All of this has been unified in SDK 3 under a single concept: serializers and transcoders.
 
-By default, all KV APIs transcode to and from JSON -- you can also provide Python Transcodable objects which you couldn't in the past.
+// By default, all KV APIs transcode to and from JSON -- you can also provide Python Transcodable objects which you couldn't in the past.
 
-[source,python]
+// [source,python]
+// ----
+// include::example$migrating.py[tag=upsertandget_sdk2,indent=0]
+// ----
 
-----
-include::example$migrating.py[tag=upsertandget_sdk2,indent=0]
-----
+// [source,python]
+// ----
+// include::example$migrating.py[tag=upsertandget,indent=0]
+// ----
 
-[source,python]
-
-----
-include::example$migrating.py[tag=upsertandget,indent=0]
-----
-
-
-//[source,python]
-//
-//----
-//include::example$migrating.py[tag=rawjson,indent=0]
-//----
+// //[source,python]
+// //----
+// //include::example$migrating.py[tag=rawjson,indent=0]
+// //----
 
 
-Serializers and transcoders can also be customized and overwritten on a per-operation basis, please see the appropriate documentation section for details.
+// Serializers and transcoders can also be customized and overwritten on a per-operation basis, please see the appropriate documentation section for details.
 
-The JSON `Transcoders` use a `Serializer` underneath.
-While a transcoder can handle many different storage types, the serializer is specialized for JSON encoding and decoding.
-On all JSON-only APIs (i.e. Sub-doc, Query, Search,...) you'll only find a `Serializer`, not a `Transcoder`, in the operation options.
-Usually there is no need to override it unless you want to provide your own implementation (i.e. if you have your own POJO mapping json logic in place, and want to reuse it).
-
+// The JSON `Transcoders` use a `Serializer` underneath.
+// While a transcoder can handle many different storage types, the serializer is specialized for JSON encoding and decoding.
+// On all JSON-only APIs (i.e. Sub-doc, Query, Search,...) you'll only find a `Serializer`, not a `Transcoder`, in the operation options.
+// Usually there is no need to override it unless you want to provide your own implementation (i.e. if you have your own POJO mapping json logic in place, and want to reuse it).
 ////
+
 == Exception Handling
 
 //- discuss new exception hierarchy in principle and how users should
@@ -275,7 +275,7 @@ Usually there is no need to override it unless you want to provide your own impl
 //- explain maybe new error handling strategies that are in place,
 // around retry strategies especially and their behavior
 
-How to _handle_ exceptions is unchanged from SDK 2.
+How to _handle_ exceptions is unchanged from SDK API 2.
 You should still use `try/catch` on the blocking APIs and the corresponding async methods on the other APIs.
 There have been changes made in the following areas:
 
@@ -287,91 +287,90 @@ There have been changes made in the following areas:
 The exception hierarchy is now unified under a `CouchbaseException`.
 // TODO: update after ErrorContexts exposed
 //Each `CouchbaseException` has an associated `ErrorContext` which is populated with as much info as possible and then dumped alongside the stack trace if an error happens.
-////
-Here is an example of the error context if a N1QL query is performed with an invalid syntax (i.e. `select 1= from`):
-
-[source]
-----
-Exception in thread "main" com.couchbase.client.core.error.ParsingFailedException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,"message":"syntax error - at from"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:62253","lastDispatchedTo":"127.0.0.1:8093","requestId":3,"requestType":"QueryRequest","retried":11,"retryReasons":["ENDPOINT_TEMPORARILY_NOT_AVAILABLE","BUCKET_OPEN_IN_PROGRESS"],"service":{"operationId":"9111b961-e585-42f2-9cab-e1501da7a40b","statement":"select 1= from","type":"query"},"timeoutMs":75000,"timings":{"dispatchMicros":15599,"totalMicros":1641134}}
-----
-
-The expectation is that the application catches the `CouchbaseException` and deals with it as an unexpected error
-(e.g. logging with subsequent bubbling up of the exception or failing).
-In addition to that, each method exposes exceptions that can be caught separately if needed.
-As an example, consider the javadoc for the `Collection.get` API:
-
-[source]
-----
-...
-   * @throws DocumentNotFoundException the given document id is not found in the collection.
-   * @throws TimeoutException if the operation times out before getting a result.
-   * @throws CouchbaseException for all other error reasons (acts as a base type and catch-all).
-...
-----
-
-These exceptions extend `CouchbaseException`, but both the `TimeoutException` and the `DocumentNotFoundException` can be caught individually if specific logic should be executed to handle them.
-////
 
 ////
-=== Proactive Retry
+// Here is an example of the error context if a N1QL query is performed with an invalid syntax (i.e. `select 1= from`):
 
-One reason why the APIs do not expose a long list of exceptions is that the SDK now retries as many operations as it can if it can do so safely.
-This depends on the type of operation (idempotent or not), in which state of processing it is (already dispatched or not), and what the actual response code is if it arrived already.
-As a result, many transient cases -- such as locked documents, or temporary failure -- are now retried by default and should less often impact applications.
-It also means, when migrating to the new SDK API, you may observe a longer period of time until an error is returned by default.
+// [source]
+// ----
+// Exception in thread "main" com.couchbase.client.core.error.ParsingFailedException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,"message":"syntax error - at from"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:62253","lastDispatchedTo":"127.0.0.1:8093","requestId":3,"requestType":"QueryRequest","retried":11,"retryReasons":["ENDPOINT_TEMPORARILY_NOT_AVAILABLE","BUCKET_OPEN_IN_PROGRESS"],"service":{"operationId":"9111b961-e585-42f2-9cab-e1501da7a40b","statement":"select 1= from","type":"query"},"timeoutMs":75000,"timings":{"dispatchMicros":15599,"totalMicros":1641134}}
+// ----
 
-NOTE: Operations are retried by default as described above with the default `BestEffortRetryStrategy`.
-Like in SDK 2 you can configure fail-fast retry strategies to not retry certain or all operations.
-The `RetryStrategy` interface has been extended heavily in SDK 3 -- please see the xref:howtos:error-handling.adoc[error handling documentation].
+// The expectation is that the application catches the `CouchbaseException` and deals with it as an unexpected error
+// (e.g. logging with subsequent bubbling up of the exception or failing).
+// In addition to that, each method exposes exceptions that can be caught separately if needed.
+// As an example, consider the javadoc for the `Collection.get` API:
 
-When migrating your SDK 2 exception handling code to SDK 3, make sure to wrap every call with a catch for `CouchbaseException` (or let it bubble up immediately).
-You can likely remove your user-level retry code for temporary failures, backpressure exception, and so on.
-One notable exception from this is the `CasMismatchException`, which is still thrown since it requires more app-level code to handle (most likely identical to SDK 2).
+// [source]
+// ----
+// ...
+//    * @throws DocumentNotFoundException the given document id is not found in the collection.
+//    * @throws TimeoutException if the operation times out before getting a result.
+//    * @throws CouchbaseException for all other error reasons (acts as a base type and catch-all).
+// ...
+// ----
 
+// These exceptions extend `CouchbaseException`, but both the `TimeoutException` and the `DocumentNotFoundException` can be caught individually if specific logic should be executed to handle them.
 ////
 
 ////
-=== Logging and Events
+// === Proactive Retry
 
- - discuss any changes to the logging infrastructure or event system if made
+// One reason why the APIs do not expose a long list of exceptions is that the SDK now retries as many operations as it can if it can do so safely.
+// This depends on the type of operation (idempotent or not), in which state of processing it is (already dispatched or not), and what the actual response code is if it arrived already.
+// As a result, many transient cases -- such as locked documents, or temporary failure -- are now retried by default and should less often impact applications.
+// It also means, when migrating to the new SDK API, you may observe a longer period of time until an error is returned by default.
+
+// NOTE: Operations are retried by default as described above with the default `BestEffortRetryStrategy`.
+// Like in SDK 2 you can configure fail-fast retry strategies to not retry certain or all operations.
+// The `RetryStrategy` interface has been extended heavily in SDK 3 -- please see the xref:howtos:error-handling.adoc[error handling documentation].
+
+// When migrating your SDK 2 exception handling code to SDK 3, make sure to wrap every call with a catch for `CouchbaseException` (or let it bubble up immediately).
+// You can likely remove your user-level retry code for temporary failures, backpressure exception, and so on.
+// One notable exception from this is the `CasMismatchException`, which is still thrown since it requires more app-level code to handle (most likely identical to SDK 2).
+////
+
+////
+// === Logging and Events
+
+//  - discuss any changes to the logging infrastructure or event system if made
 
 
-Configuring and consuming logs has not greatly changed.
-The SDK still uses _SLF4J_, if found on the classpath, and if not reverts back to the JDK logger (it can also be configured to log to `stderr` instead).
-The big difference is that the `EventBus` (also present in SDK 2) has been made much more powerful -- and all logs are sent as events through it.
-The `LoggingEventConsumer` being one of the potential consumers, and turning events into log lines.
+// Configuring and consuming logs has not greatly changed.
+// The SDK still uses _SLF4J_, if found on the classpath, and if not reverts back to the JDK logger (it can also be configured to log to `stderr` instead).
+// The big difference is that the `EventBus` (also present in SDK 2) has been made much more powerful -- and all logs are sent as events through it.
+// The `LoggingEventConsumer` being one of the potential consumers, and turning events into log lines.
 
-The biggest impact you'll see from it is that the log messages now look very structured and contain contextual information where possible.
+// The biggest impact you'll see from it is that the log messages now look very structured and contain contextual information where possible.
 
-[source]
-----
-13:36:46 INFO  [com.couchbase.node:470] [com.couchbase.node][NodeConnectedEvent] Node connected {"coreId":1,"managerPort":"8091","remote":"127.0.0.1"}
-13:36:46 INFO  [com.couchbase.core:470] [com.couchbase.core][BucketOpenedEvent][393161µs] Opened bucket "travel-sample" {"coreId":1}
-----
+// [source]
+// ----
+// 13:36:46 INFO  [com.couchbase.node:470] [com.couchbase.node][NodeConnectedEvent] Node connected {"coreId":1,"managerPort":"8091","remote":"127.0.0.1"}
+// 13:36:46 INFO  [com.couchbase.core:470] [com.couchbase.core][BucketOpenedEvent][393161µs] Opened bucket "travel-sample" {"coreId":1}
+// ----
 
-Notice the package path (which you can also filter on if needed), the event name, an optional time that it took to perform the operation, the message and surrounding context.
-This makes it easier to debug potential problems but also allows consuming all the events and feeding them in other monitoring systems without having to round-trip a file log.
-Please see xref:howtos:collecting-information-and-logging.adoc[the logging documentation] for further information.
+// Notice the package path (which you can also filter on if needed), the event name, an optional time that it took to perform the operation, the message and surrounding context.
+// This makes it easier to debug potential problems but also allows consuming all the events and feeding them in other monitoring systems without having to round-trip a file log.
+// Please see xref:howtos:collecting-information-and-logging.adoc[the logging documentation] for further information.
 
+// ===  Migrating Services
 
-===  Migrating Services
+//  - one section for each service that goes in-depth on each command
+//    and discusses old vs. new
 
- - one section for each service that goes in-depth on each command
-   and discusses old vs. new
-
-The following section discusses each service in detail and covers specific bits that have not been covered by the more generic sections above.
+// The following section discusses each service in detail and covers specific bits that have not been covered by the more generic sections above.
 ////
 
 == Key Value
 
 The Key/Value (KV) API is now located under the `Collection` interface, so even if you do not use collections, the `default_collection()` call needs to be opened in order to access it.
 
-The following table describes the SDK 2 KV APIs and where they are now located in SDK 3:
+The following table describes the mappings from SDK API 2 KV to those of SDK API 3:
 
-.SDK 2.x KV API vs. SDK 3.x KV API
+.KV Changes
 [options="header"]
 |====
-|SDK 2                    |SDK 3
+|SDK API 2                |SDK API 3
 |`Bucket.upsert`          |`Collection.upsert`
 |`Bucket.get`             |`Collection.get`
 |`Bucket.exists`          |`Collection.exists`
@@ -387,9 +386,9 @@ The following table describes the SDK 2 KV APIs and where they are now located i
 |`Bucket.lookup_in`       |`Collection.lookup_in`
 |`Bucket.mutate_in`       |`Collection.mutate_in`
 ////
-|`Bucket.counter`         |`BinaryCollection.increment` and `BinaryCollection.decrement`
-|`Bucket.append`          |`BinaryCollection.append`
-|`Bucket.prepend`         |`BinaryCollection.prepend`
+// |`Bucket.counter`         |`BinaryCollection.increment` and `BinaryCollection.decrement`
+// |`Bucket.append`          |`BinaryCollection.append`
+// |`Bucket.prepend`         |`BinaryCollection.prepend`
 ////
 |====
 
@@ -398,7 +397,7 @@ In addition, the datastructure APIs have been renamed and moved:
 .Datastructure API Changes
 [options="header"]
 |====
-| SDK 2                          | SDK 3
+| SDK API 2                       | SDK API 3
 |`Bucket.map_add`                 | `Collection.map_add`
 |`Bucket.map_get`                 | `Collection.map_get`
 |`Bucket.map_remove`              | `Collection.map_remove`
@@ -424,10 +423,10 @@ There are two important API changes:
 
 The signatures now look very similar.
 ////
-The concept of the `Document` as a type is gone in SDK 3 and instead you need to pass in the properties explicitly.
-This makes it very clear what is returned, especially on the response side.
+// The concept of the `Document` as a type is gone in SDK API 3 and instead you need to pass in the properties explicitly.
+// This makes it very clear what is returned, especially on the response side.
 ////
-In SDK3, the `get` method returns a `GetResult`, and the `upsert` returns `MutationResult`.
+In SDK API 3, the `get` method returns a `GetResult`, and the `upsert` returns `MutationResult`.
 
 Each of those results only contains the fields that the specific method can actually return, making it impossible to accidentally try to access the `expiry` on the `Result` after a mutation, for example.
 
@@ -439,67 +438,64 @@ All required params are still part of the method signature, making it clear what
 The timeout can be overridden on every operation and now takes a `datetime.timedelta` object from the Python standard library.
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=customtimeout,indent=0]
 ----
 
-In SDK 2, the `get_from_replica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
+In SDK API 2, the `get_from_replica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
 We have identified this as a potential source of confusion and as a result split it up in two methods that simplify usage significantly.
 There is now a `get_all_replicas` method and a `get_any_replica` method.
 
 * `get_all_replicas` asks the active node and all available replicas and returns the results as a stream.
 * `get_any_replica` uses `get_all_replicas`, and returns the first result obtained.
 
-Unless you want to build some kind of consensus between the different replica responses, we recommend `get_any_replica` for a fallback to a regular `get` when the active node times out.
+Unless you want to build some kind of consensus bet(ween the different replica responses, we recommend `get_any_replica` for a fallback to a regular `get` when the active node times out.
+
 ////
-NOTE: Operations which cannot be performed on JSON documents have been moved to the `BinaryCollection`, accessible through `Collection.binary()`.
-These operations include `append`, `prepend`, `increment`, and `decrement` (previously called `counter` in SDK 2).
-These operations should only be used against non-json data.
-Similar functionality is available through `mutateIn` on JSON documents.
+// NOTE: Operations which cannot be performed on JSON documents have been moved to the `BinaryCollection`, accessible through `Collection.binary()`.
+// These operations include `append`, `prepend`, `increment`, and `decrement` (previously called `counter` in SDK 2).
+// These operations should only be used against non-json data.
+// Similar functionality is available through `mutateIn` on JSON documents.
 ////
+
 === Query
 
 N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK 2 with its SDK 3 equivalent:
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=querysimple_sdk2,indent=0]
 ----
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=querysimple,indent=0]
 ----
 
-The following shows how to do named and positional parameters in SDK 2, and their SDK 3 counterparts:
+The following shows how to do named and positional parameters in SDK API 2, and their SDK API 3 counterparts:
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=queryparameterized_sdk2,indent=0]
-
 ----
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=queryparameterized,indent=0]
 ----
+
 ////
-If you want to use prepared statements, the `adhoc()` method is still available on the `QueryOptions`, alongside every other option that used to be exposed on the SDK 2 Query options.
+// If you want to use prepared statements, the `adhoc()` method is still available on the `QueryOptions`, alongside every other option that used to be exposed on the SDK 2 Query options.
 
-Much of the non-row metadata has been moved into a specific `QueryMetaData` section:
-.Query Metadata Changes
-[options="header"]
-|====
-| SDK 2                     | SDK 3
-|`N1QLRequest.metrics`      | `QueryResult.metrics`
-|`N1QLRequest.profile`      | `QueryResult.profile`
+// Much of the non-row metadata has been moved into a specific `QueryMetaData` section:
+// .Query Metadata Changes
+// [options="header"]
+// |====
+// | SDK 2                     | SDK 3
+// |`N1QLRequest.metrics`      | `QueryResult.metrics`
+// |`N1QLRequest.profile`      | `QueryResult.profile`
 
-|====
+// |====
 ////
 
 
@@ -509,137 +505,130 @@ Analytics querying, like N1QL, is also moved to the `Cluster` level: it is now a
 As with the Query service, parameters for the Analytics queries have moved into the `AnalyticsOptions`:
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=analyticssimple,indent=0]
 ----
 
 [source,python]
-
 ----
 include::example$migrating.py[tag=analyticsparameterized,indent=0]
 ----
-////
-Also, errors will now be thrown as top level exceptions and it is no longer necessary to explicitly check for errors:
-
-[source,python]
-
-----
-include::example$migrating.py[tag=errorcheck_sdk2,indent=0]
-----
-
-[source]
-----
-include::example$migrating.py[tag=errorcheck,indent=0]
-// SDK 3 top level exception
-com.couchbase.client.core.error.DatasetNotFoundException: The analytics dataset is not found {"completed":true,"coreId":1,"errors":[{"code":24045,"message":"Cannot find dataset foo in dataverse Default nor an alias with name foo! (in line 1, at column 15)"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:51942","lastDispatchedTo":"127.0.0.1:8095","requestId":5,"requestType":"AnalyticsRequest","retried":0,"service":{"operationId":"80265061-62e0-4c35-860f-a07a97e1a5ee","priority":0,"statement":"select * from foo","type":"analytics"},"timeoutMs":75000,"timings":{"dispatchMicros":27005,"totalMicros":89888}}
-	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
-	at com.couchbase.client.java.Cluster.analyticsQuery(Cluster.java:250)
-----
-////
 
 ////
-=== Search
+// Also, errors will now be thrown as top level exceptions and it is no longer necessary to explicitly check for errors:
 
-The Search API has changed a bit in SDK 3 so that it aligns with the other query APIs.
-The type of queries have stayed the same, but all optional parameters moved into `SearchOptions`.
-Also, similar to the other query APIs, it is now available at the `Cluster` level.
+// [source,python]
+// ----
+// include::example$migrating.py[tag=errorcheck_sdk2,indent=0]
+// ----
 
-Here is a SDK 2 Search query with some options, and its SDK 3 equivalent:
-
-[source,python]
-
-----
-# SDK 2 search query
-from couchbase_v2.cluster import Cluster, PasswordAuthenticator
-cluster=Cluster("couchbase://127.0.0.1","default","password")
-bucket=cluster.open_bucket("default")
-search_result = bucket.query(new SearchQuery(
-  "indexname",
-  SearchQuery.queryString("airports")).limit(5).fields("a", "b", "c"),
-  2,
-  TimeUnit.SECONDS
-);
-for (SearchQueryRow row : searchResult.hits()) {
-  // ...
-}
-----
-
-[source,python]
-
-----
-include::example$migrating.py[tag=searchsimple,indent=0]
-----
-
-Error handling for streaming is handled differently.
-While fatal errors will still raise top-level exceptions, any errors that happend during streaming (for example if one node is down, and only partial results are returned) they will not terminate the result.
-The reasoning behind this is that usually with search results, having partial results is better than none.
-
-Here is a top level exception, for _the index does not exist_:
-
-[source]
-----
-com.couchbase.client.core.error.SearchIndexNotFoundException: The search index is not found on the server {"completed":true,"coreId":1,"httpStatus":400,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53280","lastDispatchedTo":"127.0.0.1:8094","requestId":5,"requestType":"SearchRequest","retried":0,"service":{"indexName":"myindex","type":"search"},"status":"INVALID_ARGS","timeoutMs":75000,"timings":{"dispatchMicros":12741,"totalMicros":66262}}
-	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
-	at com.couchbase.client.java.Cluster.searchQuery(Cluster.java:275)
-----
-
-If you want to be absolutely sure that you didn't get only partial data, you can check the error map:
-
-[source,python]
-
-----
-include::example$migrating.py[tag=searchcheck,indent=0]
-----
+// [source]
+// ----
+// include::example$migrating.py[tag=errorcheck,indent=0]
+// // SDK 3 top level exception
+// com.couchbase.client.core.error.DatasetNotFoundException: The analytics dataset is not found {"completed":true,"coreId":1,"errors":[{"code":24045,"message":"Cannot find dataset foo in dataverse Default nor an alias with name foo! (in line 1, at column 15)"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:51942","lastDispatchedTo":"127.0.0.1:8095","requestId":5,"requestType":"AnalyticsRequest","retried":0,"service":{"operationId":"80265061-62e0-4c35-860f-a07a97e1a5ee","priority":0,"statement":"select * from foo","type":"analytics"},"timeoutMs":75000,"timings":{"dispatchMicros":27005,"totalMicros":89888}}
+// 	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
+// 	at com.couchbase.client.java.Cluster.analyticsQuery(Cluster.java:250)
+// ----
 ////
 
 ////
-=== Views
+// === Search
 
-Views have stayed at the `Bucket` level, because it does not have the concept of collections and is scoped at the bucket level on the server as well.
-The API has stayed mostly the same, the most important change is that `staleness` is unified under the `ViewConsistency` enum.
+// The Search API has changed a bit in SDK 3 so that it aligns with the other query APIs.
+// The type of queries have stayed the same, but all optional parameters moved into `SearchOptions`.
+// Also, similar to the other query APIs, it is now available at the `Cluster` level.
 
-.View Staleness Mapping
-[options="header"]
-|====
-| SDK 2                             | SDK 3
-|`Stale.TRUE`                       | `ViewScanConsistency.NOT_BOUNDED`
-|`Stale.FALSE`                      | `ViewScanConsistency.REQUEST_PLUS`
-|`Stale.UPDATE_AFTER`               | `ViewScanConsistency.UPDATE_AFTER`
-|====
+// Here is a SDK 2 Search query with some options, and its SDK 3 equivalent:
 
-Compare this SDK 2 view query with its SDK 3 equivalent:
+// [source,python]
 
-[source,python]
+// ----
+// # SDK 2 search query
+// from couchbase_v2.cluster import Cluster, PasswordAuthenticator
+// cluster=Cluster("couchbase://127.0.0.1","default","password")
+// bucket=cluster.open_bucket("default")
+// search_result = bucket.query(new SearchQuery(
+//   "indexname",
+//   SearchQuery.queryString("airports")).limit(5).fields("a", "b", "c"),
+//   2,
+//   TimeUnit.SECONDS
+// );
+// for (SearchQueryRow row : searchResult.hits()) {
+//   // ...
+// }
+// ----
 
-----
-// SDK 2 view query
-ViewResult query = bucket.query(
-  ViewQuery.from("design", "view").limit(5).skip(2),
-  10,
-  TimeUnit.SECONDS
-);
-for (ViewRow row : query) {
-  // ...
-}
-----
+// [source,python]
+// ----
+// include::example$migrating.py[tag=searchsimple,indent=0]
+// ----
 
-[source,python]
+// Error handling for streaming is handled differently.
+// While fatal errors will still raise top-level exceptions, any errors that happend during streaming (for example if one node is down, and only partial results are returned) they will not terminate the result.
+// The reasoning behind this is that usually with search results, having partial results is better than none.
 
-----
-include::example$migrating.py[tag=viewquery,indent=0]
-----
+// Here is a top level exception, for _the index does not exist_:
 
-Exceptions are exclusively raised at the top level: for example, if the design document is not found:
+// [source]
+// ----
+// com.couchbase.client.core.error.SearchIndexNotFoundException: The search index is not found on the server {"completed":true,"coreId":1,"httpStatus":400,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53280","lastDispatchedTo":"127.0.0.1:8094","requestId":5,"requestType":"SearchRequest","retried":0,"service":{"indexName":"myindex","type":"search"},"status":"INVALID_ARGS","timeoutMs":75000,"timings":{"dispatchMicros":12741,"totalMicros":66262}}
+// 	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
+// 	at com.couchbase.client.java.Cluster.searchQuery(Cluster.java:275)
+// ----
 
-[source]
-----
-com.couchbase.client.core.error.ViewNotFoundException: The queried view is not found on the server {"completed":true,"coreId":1,"httpStatus":404,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53474","lastDispatchedTo":"127.0.0.1:8092","requestId":5,"requestType":"ViewRequest","retried":0,"service":{"bucket":"travel-sample","designDoc":"foo","development":false,"type":"views","viewName":"bar"},"status":"NOT_FOUND","timeoutMs":75000,"timings":{"dispatchMicros":77572,"totalMicros":189389},"viewError":"not_found","viewErrorReason":"Design document _design/foo not found"}
-	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
-	at com.couchbase.client.java.Bucket.viewQuery(Bucket.java:182)
+// If you want to be absolutely sure that you didn't get only partial data, you can check the error map:
 
-----
+// [source,python]
+// ----
+// include::example$migrating.py[tag=searchcheck,indent=0]
+// ----
+////
 
+////
+// === Views
+
+// Views have stayed at the `Bucket` level, because it does not have the concept of collections and is scoped at the bucket level on the server as well.
+// The API has stayed mostly the same, the most important change is that `staleness` is unified under the `ViewConsistency` enum.
+
+// .View Staleness Mapping
+// [options="header"]
+// |====
+// | SDK 2                             | SDK 3
+// |`Stale.TRUE`                       | `ViewScanConsistency.NOT_BOUNDED`
+// |`Stale.FALSE`                      | `ViewScanConsistency.REQUEST_PLUS`
+// |`Stale.UPDATE_AFTER`               | `ViewScanConsistency.UPDATE_AFTER`
+// |====
+
+// Compare this SDK 2 view query with its SDK 3 equivalent:
+
+// [source,python]
+// ----
+// // SDK 2 view query
+// ViewResult query = bucket.query(
+//   ViewQuery.from("design", "view").limit(5).skip(2),
+//   10,
+//   TimeUnit.SECONDS
+// );
+// for (ViewRow row : query) {
+//   // ...
+// }
+// ----
+
+// [source,python]
+// ----
+// include::example$migrating.py[tag=viewquery,indent=0]
+// ----
+
+// Exceptions are exclusively raised at the top level: for example, if the design document is not found:
+
+// [source]
+// ----
+// com.couchbase.client.core.error.ViewNotFoundException: The queried view is not found on the server {"completed":true,"coreId":1,"httpStatus":404,"idempotent":true,"lastDispatchedFrom":"127.0.0.1:53474","lastDispatchedTo":"127.0.0.1:8092","requestId":5,"requestType":"ViewRequest","retried":0,"service":{"bucket":"travel-sample","designDoc":"foo","development":false,"type":"views","viewName":"bar"},"status":"NOT_FOUND","timeoutMs":75000,"timings":{"dispatchMicros":77572,"totalMicros":189389},"viewError":"not_found","viewErrorReason":"Design document _design/foo not found"}
+// 	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
+// 	at com.couchbase.client.java.Bucket.viewQuery(Bucket.java:182)
+
+// ----
 ////
 
 == Management APIs
@@ -648,17 +637,17 @@ com.couchbase.client.core.error.ViewNotFoundException: The queried view is not f
 // - where it is found, what exceptions it throws, etc.
 
 
-In SDK 2, the management APIs were centralized in the `Admin` class at the cluster level and the `BucketManager` class at the bucket level.
-Since SDK 3 provides more management APIs, they have been split up in their respective domains.
-So for example when in SDK 2 you needed to remove a bucket you would call `Admin.bucket_remove` you will now find it under `BucketManager.drop_bucket`.
+In SDK API 2, the management APIs were centralized in the `Admin` class at the cluster level and the `BucketManager` class at the bucket level.
+Since SDK API 3 provides more management APIs, they have been split up in their respective domains.
+So for example when in SDK API 2 you needed to remove a bucket you would call `Admin.bucket_remove` you will now find it under `BucketManager.drop_bucket`.
 Also, creating a N1QL index now lives in the `QueryIndexManager`, which is accessible through the `Cluster`.
 
-The following table provides a mapping from the SDK 2 management APIs to those of SDK 3:
+The following table provides a mapping from the SDK API 2 management APIs to those of SDK API 3:
 
-.SDK 2.x vs SDK 3.x ClusterManager
+.`ClusterManager` changes
 [options="header"]
 |====
-| SDK 2                | SDK 3
+| SDK API 2            | SDK API 3
 |`Admin.bucket_create` | `BucketManager.create_bucket`
 |`Admin.bucket_remove` | `BucketManager.drop_bucket`
 |`Admin.bucket_update` | `BucketManager.update_bucket`
@@ -670,10 +659,10 @@ The following table provides a mapping from the SDK 2 management APIs to those o
 |`Admin.users_get`     | `UserManager.get_all_users`
 |====
 
-.SDK 2.x vs SDK 3.x BucketManager
+.`BucketManager` changes
 [options="header"]
 |====
-| SDK 2                                      | SDK 3
+| SDK API 2                                  | SDK API 3
 | `BucketManager.design_create`              | `ViewIndexManager.upsert_design_document`
 | `BucketManager.design_delete`              | `ViewIndexManager.drop_design_document`
 | `BucketManager.design_get`                 | `ViewIndexManager.get_design_document`
@@ -688,130 +677,28 @@ The following table provides a mapping from the SDK 2 management APIs to those o
 | `BucketManager.n1ql_index_watch`           | `QueryIndexManager.watch_indexes`
 |====
 
-////
-Extra Java stuff to be ported if possible
+[#sdk4-specifics]
+== SDK 4.x specifics
 
+Python SDK 4.0 implements the SDK API 3 spec, so all the steps above also apply to a migration from a Python SDK 2.x directly to Python SDK 4.0.
 
+Importantly, the Python SDK 4.0 has been substantially reworked to use a new backend (Couchbase++ instead of libcouchbase.)
+Though the API surfaces are intended to be compatible, any code that relies on undocumented or uncommitted internal details is not guaranteed to work.
 
-== Reactive and Async APIs
+The new backend enables the capabilities required for many upcoming features.
+Key new features include:
 
-The move to Python 3 as a baseline has opened the door to expose `CompletableFuture` in addition to a reactive API.
-You can now find it under the `async()` namespace of each level (for example, `Cluster.async()` -> `AsyncCluster`).
-We also moved from `RxJava` to `Reactor` because it provides native Java 8 support and better performance out of the box.
-`Reactor` has a growing community, and integrates very well into the Spring ecosystem.
-The reactive API can now be found under the `reactive()` namespace (for example, `Collection.reactive()` -> `ReactiveCollection`).
+* xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[multi-document ACID transactions]
 
-Like in SDK 2, the async and reactive APIs provide the same functionality as their blocking counterpart.
-There are only a couple places in the SDK where it does not make sense (such as the blocking datastructure APIs, which at the collection level implement the Java interfaces which do not have async or reactive counterparts).
+The following features are unsupported in 4.0. 
+They are available in 3.2, and will be available in a later 4.x release.
 
-IMPORTANT: if you need to use non-blocking APIs, we recommend using the reactive one.
-The async API based on `CompletableFuture` should only be used as a building block for higher level abstractions, or if you absolutely need the last drop of performance.
-The `Flux` and `Mono` types of reactor are very powerful and allow you to build efficient and flexible domain logic without blocking.
+* xref:concept-docs:response-time-observability.adoc[Response Time Availability]
+* xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions[Legacy durability]
+* Log forwarding
+* Replica reads
 
-Since `Reactor` implements the reactive stream specification, you can still use `RxJava` through the interoperability interfaces.
-This is out of scope for the migration guide -- please consult the reactor and rxjava documentations for further information.
+In addition:
 
-As a starting point, the following types are comparable:
-
-.SDK Reactor vs RxJava
-[options="header"]
-|====
-| SDK 2 RxJava          | SDK 3 Reactor
-|`Observable<T>`        | `Flux<T>`
-|`Single<T>`            | `Mono<T>`
-|`Completable`          | `Mono<Void>`
-|====
-
-
-== Configuration Options Reference
-
-The following table provides commonly used configuration options in SDK 2 and where they can be now applied in SDK 3.
-Note that some options have been removed, and others have different ways to configure them.
-
-.SDK 2.x vs SDK 3.x Environment Configs
-[options="header"]
-|====
-| SDK 2                        | SDK 3
-|`sslEnabled`                  | `SecurityConfig.enableTls`
-|`sslKeystoreFile`             | on `CertificateAuthenticator`
-|`sslKeystorePassword`         | on `CertificateAuthenticator`
-|`sslKeystore`                 | on `CertificateAuthenticator`
-|`sslTruststoreFile`           | `SecurityConfig.trustCertificate`
-|`sslTruststorePassword`       | `SecurityConfig.trustCertificate`
-|`sslTruststore`               | `SecurityConfig.trustManagerFactory`
-|`bootstrapCarrierEnabled`     | removed
-|`bootstrapHttpDirectPort`     | via custom `SeedNode`
-|`bootstrapHttpSslPort`        | via custom `SeedNode`
-|`bootstrapCarrierDirectPort`  | via custom `SeedNode`
-|`bootstrapCarrierSslPort`     | via custom `SeedNode`
-|`ioPoolSize`                  | via custom `IoEnvironment` pools
-|`computationPoolSize`         | removed
-|`requestBufferSize`           | removed
-|`responseBufferSize`          | removed
-|`kvEndpoints`                 | `IoConfig.numKvConnections`
-|`viewEndpoints`               | `IoConfig.maxHttpConnections`
-|`queryEndpoints`              | `IoConfig.maxHttpConnections`
-|`searchEndpoints`             | `IoConfig.maxHttpConnections`
-|`userAgent`                   | removed
-|`packageNameAndVersion`       | removed
-|`observeIntervalDelay`        | removed
-|`reconnectDelay`              | removed
-|`retryDelay`                  | removed
-|`ioPool`                      | via custom `IoEnvironment` pools
-|`kvIoPool`                    | via custom `IoEnvironment` pools
-|`viewIoPool`                  | via custom `IoEnvironment` pools
-|`queryIoPool`                 | via custom `IoEnvironment` pools
-|`searchIoPool`                | via custom `IoEnvironment` pools
-|`analyticsIoPool`             | via custom `IoEnvironment` pools
-|`scheduler`                   | `scheduler`
-|`retryStrategy`               | `retryStrategy`
-|`maxRequestLifetime`          | removed
-|`keepAliveInterval`           | removed
-|`autoreleaseAfter`            | removed
-|`eventBus`                    | `eventBus`
-|`bufferPoolingEnabled`        | removed
-|`tcpNodelayEnabled`           | `IoConfig.enableTcpKeepAlives`
-|`mutationTokensEnabled`       | `IoConfig.enableMutationTokens`
-|`runtimeMetricsCollectorConfig`         | removed
-|`networkLatencyMetricsCollectorConfig`  | removed
-|`defaultMetricsLoggingConsumer`         | removed
-|`socketConnectTimeout`        | removed
-|`callbacksOnIoPool`           | removed
-|`requestBufferWaitStrategy`   | removed
-|`memcachedHashingStrategy`    | removed
-|`keyValueServiceConfig`       | removed
-|`viewServiceConfig`           | removed
-|`queryServiceConfig`          | removed
-|`searchServiceConfig`         | removed
-|`analyticsServiceConfig`      | removed
-|`configPollInterval`          | removed
-|`configPollFloorInterval`     | removed
-|`certAuthEnabled`             | on `CertificateAuthenticator`
-|`continuousKeepAliveEnabled`  | removed
-|`keepAliveErrorThreshold`     | removed
-|`keepAliveTimeout`            | removed
-|`couchbaseCoreSendHook`       | removed
-|`forceSaslPlain`              | on `PasswordAuthenticator.allowedSaslMechanisms`
-|`operationTracingEnabled`     | removed
-|`operationTracingServerDurationEnabled`  | removed
-|`tracer`                      | `requestTracer`
-|`compressionMinSize`          | `CompressionConfig.minSize`
-|`compressionMinRatio`         | `CompressionConfig.minRatio`
-|`compressionEnabled`          | `CompressionConfig.enable`
-|`orphanResponseReportingEnabled`         | removed
-|`orphanResponseReporter`                 | removed
-|`networkResolution`           | `IoConfig.networkResolution`
-|`managementTimeout`           | `TimeoutConfig.managementTimeout`
-|`queryTimeout`                | `TimeoutConfig.queryTimeout`
-|`kvTimeout`                   | `TimeoutConfig.kvTimeout`
-|`viewTimeout`                 | `TimeoutConfig.viewTimeout`
-|`searchTimeout`               | `TimeoutConfig.searchTimeout`
-|`analyticsTimeout`            | `TimeoutConfig.analyticsTimeout`
-|`connectTimeout`              | `TimeoutConfig.connectTimeout`
-|`disconnectTimeout`           | `TimeoutConfig.disconnectTimeout`
-|`dnsSrvEnabled`               | `IoConfig.enableDnsSrv`
-|`cryptoManager`               | removed
-|`propagateParentSpan`         | removed
-|====
-
-////
+* `get` requests on locked documents now retry rather than fast-fail.
+* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] are not currently documented.

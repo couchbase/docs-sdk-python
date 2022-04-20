@@ -125,7 +125,7 @@ class TimeoutTest(couchbase_tests.base.CollectionTestCase):
 
     def test_customtimeout(self):
 #tag::customtimeout[]
-# SDK 3 custom timeout
+        # SDK 3 custom timeout
         get_result = collection.get(
             "mydoc-id",
             GetOptions(timeout=timedelta(seconds=5)))

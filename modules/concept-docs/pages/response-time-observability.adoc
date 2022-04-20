@@ -3,10 +3,15 @@
 :nav-title: Request Tracing and Metrics
 :page-topic-type: concept
 :page-aliases: ROOT:threshold-logging.adoc
+:page-status: UNDER CONSTRUCTION
 
 include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
 
-include::{version-server}@sdk:shared:partial$rto.adoc[tag=rto]
+// include::{version-server}@sdk:shared:partial$rto.adoc[tag=rto]
+WARNING: Response Time Observability is not supported in Python SDK 4.0.
+View xref:3.2@response-time-observability[the Node.js SDK 3.2 docs]
+RTO support will be available in a later 4.x release.
+See the xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[SDK 4.0 migration considerations].
