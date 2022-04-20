@@ -167,7 +167,7 @@ If you require a version without OpenSSL support, or that doesn't have a suitabl
 --
 ====
 
-If there are any problems, refer to the full xref:project-pages:sdk-full-installation.adoc[Installation page].
+If there are any problems, refer to the full xref:project-docs:sdk-full-installation.adoc[Installation page].
 
 
 TIP: If you are evaluating the Python SDK as a tester, architect, or otherwise not a regular Python developer, our xref:platform-help.adoc[Platform Help] pages may help get you over any humps in the road.
@@ -335,9 +335,9 @@ Now you're up and running, try one of the following:
 
 * Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
 * Explore xref:howtos:kv-operations.adoc[Key Value Operations] (CRUD) against a document database;
-* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based N1QL language
-* Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
-* A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
+* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based N1QL language;
+// * Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
+// * A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
 * Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
 
 === Additional Resources
