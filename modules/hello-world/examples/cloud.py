@@ -1,25 +1,26 @@
-# tag::cloud_connect[]
+# tag::imports[]
 from datetime import timedelta
 
 # needed for any cluster connection
 from couchbase.auth import PasswordAuthenticator
 from couchbase.cluster import Cluster
-
 # needed for options -- cluster, timeout, SQL++ (N1QL) query, etc.
-from couchbase.options import (ClusterOptions,
-                               ClusterTimeoutOptions,
+from couchbase.options import (ClusterOptions, ClusterTimeoutOptions,
                                QueryOptions)
 
+# end::imports[]
+
+# tag::connect[]
 # Update this to your cluster
 endpoint = "--your-instance--.dp.cloud.couchbase.com"
 username = "username"
-password = "password"
-bucket_name = "bucketname"
-cert_path = "path/to/certificate"
+password = "Password123!"
+bucket_name = "travel-sample"
 # User Input ends here.
 
 # Connect options - authentication
-auth = PasswordAuthenticator(username, password, cert_path=cert_path)
+auth = PasswordAuthenticator(username, password)
+
 # Connect options - global timeout opts
 timeout_opts = ClusterTimeoutOptions(kv_timeout=timedelta(seconds=10))
 
@@ -30,7 +31,7 @@ cluster = Cluster('couchbases://{}'.format(endpoint),
 
 # tag::bucket[]
 # get a reference to our bucket
-cb = cluster.bucket('travel-sample')
+cb = cluster.bucket(bucket_name)
 # end::bucket[]
 
 # tag::collection[]

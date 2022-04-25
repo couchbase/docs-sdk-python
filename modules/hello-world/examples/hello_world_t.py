@@ -1,23 +1,41 @@
-"""
-[source,python]
-----
-"""
-# tag::connect[]
+from datetime import timedelta
+
 # needed for any cluster connection
-from couchbase.cluster import Cluster, ClusterOptions
 from couchbase.auth import PasswordAuthenticator
+from couchbase.cluster import Cluster
+# needed for options -- cluster, timeout, SQL++ (N1QL) query, etc.
+from couchbase.options import (ClusterOptions, ClusterTimeoutOptions,
+                               QueryOptions)
 
-# needed to support SQL++ (N1QL) query
-from couchbase.cluster import QueryOptions
+# tag::connect[]
+# Update this to your cluster
+username = "username"
+password = "password"
+bucket_name = "travel-sample"
+cert_path = "path/to/certificate"
+# User Input ends here.
 
-# get a reference to our cluster
-cluster = Cluster('couchbase://localhost', ClusterOptions(
-  PasswordAuthenticator('Administrator', 'password')))
+# Connect options - authentication
+auth = PasswordAuthenticator(
+    username,
+    password,
+    # NOTE: If using SSL/TLS, add the certificate_path.
+    # We strongly reccomend this for production use.
+    # cert_path=cert_path
+)
+
+# Connect options - global timeout opts
+timeout_opts = ClusterTimeoutOptions(kv_timeout=timedelta(seconds=10))
+
+# Get a reference to our cluster
+# NOTE: For TLS/SSL connection use 'couchbases://<your-ip-address>' instead
+cluster = Cluster('couchbase://localhost',
+                  ClusterOptions(auth, timeout_options=timeout_opts))
 # end::connect[]
 
 # tag::bucket[]
 # get a reference to our bucket
-cb = cluster.bucket('travel-sample')
+cb = cluster.bucket(bucket_name)
 # end::bucket[]
 
 # tag::collection[]
@@ -30,52 +48,59 @@ cb_coll_default = cb.default_collection()
 # end::default-collection[]
 
 # tag::upsert-func[]
-def upsert_document(doc): 
-  print("\nUpsert CAS: ")
-  try:
-    # key will equal: "airline_8091"
-    key = doc["type"] + "_" + str(doc["id"])
-    result = cb_coll.upsert(key, doc)
-    print(result.cas)
-  except Exception as e:
-    print(e)
+# upsert document function
+
+
+def upsert_document(doc):
+    print("\nUpsert CAS: ")
+    try:
+        # key will equal: "airline_8091"
+        key = doc["type"] + "_" + str(doc["id"])
+        result = cb_coll.upsert(key, doc)
+        print(result.cas)
+    except Exception as e:
+        print(e)
 # end::upsert-func[]
 
 # tag::get-func[]
 # get document function
+
+
 def get_airline_by_key(key):
-  print("\nGet Result: ")
-  try:
-    result = cb_coll.get(key)
-    print(result.content_as[str])
-  except Exception as e:
-    print(e)
+    print("\nGet Result: ")
+    try:
+        result = cb_coll.get(key)
+        print(result.content_as[str])
+    except Exception as e:
+        print(e)
 # end::get-func[]
 
-#tag::lookup-func[]
+# tag::lookup-func[]
 # query for new document by callsign
-def lookup_by_callsign(cs):
-  print("\nLookup Result: ")
-  try:
-    sql_query = 'SELECT VALUE name FROM `travel-sample`.inventory.airline WHERE callsign = $1'
-    row_iter = cluster.query(
-      sql_query,
-      QueryOptions(positional_parameters=[cs]))
-    for row in row_iter: print(row)
-  except Exception as e:
-    print(e)
-# end::lookup-func[]
 
+
+def lookup_by_callsign(cs):
+    print("\nLookup Result: ")
+    try:
+        sql_query = 'SELECT VALUE name FROM `travel-sample`.inventory.airline WHERE callsign = $1'
+        row_iter = cluster.query(
+            sql_query,
+            QueryOptions(positional_parameters=[cs]))
+        for row in row_iter:
+            print(row)
+    except Exception as e:
+        print(e)
+# end::lookup-func[]
 
 
 # tag::test-doc[]
 airline = {
-  "type": "airline",
-  "id": 8091,
-  "callsign": "CBS",
-  "iata": None,
-  "icao": None,
-  "name": "Couchbase Airways",
+    "type": "airline",
+    "id": 8091,
+    "callsign": "CBS",
+    "iata": None,
+    "icao": None,
+    "name": "Couchbase Airways",
 }
 # end::test-doc[]
 
@@ -85,7 +110,7 @@ upsert_document(airline)
 
 # tag::get-invoke[]
 get_airline_by_key("airline_8091")
-#end::get-invoke[]
+# end::get-invoke[]
 
 # tag::lookup-invoke[]
 lookup_by_callsign("CBS")

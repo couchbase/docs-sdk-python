@@ -25,39 +25,20 @@ We will go through the code sample step by step, but for those in a hurry to see
 Couchbase Capella Sample::
 +
 --
-To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, certificate and bucket name  -- and see the <<cloud-connections, Cloud section>>, below.
+To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, certificate and bucket name.
 
 [source,python]
 ----
-include::hello-world:example$cloud.py[tag=cloud_connect]
+include::hello-world:example$cloud.py[tags=**]
 ----
 --
 
 Local Couchbase Server::
 + 
--- 
+--
 [source,python]
 ----
-include::hello-world:example$hello_world_t.py[tag=connect]
-
-include::hello-world:example$hello_world_t.py[tag=bucket]
-
-include::hello-world:example$hello_world_t.py[tag=collection]
-
-include::hello-world:example$hello_world_t.py[tag=upsert-func]
-
-include::hello-world:example$hello_world_t.py[tag=get-func]
-
-include::hello-world:example$hello_world_t.py[tag=lookup-func]
-
-include::hello-world:example$hello_world_t.py[tag=test-doc]
-
-include::hello-world:example$hello_world_t.py[tag=upsert-invoke]
-
-include::hello-world:example$hello_world_t.py[tag=get-invoke]
-
-include::hello-world:example$hello_world_t.py[tag=lookup-invoke]
-
+include::hello-world:example$hello_world_t.py[tags=**]
 ----
 
 As well as the Python SDK (see below), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
@@ -178,7 +159,7 @@ At this point we want to transition from the terminal to your code editor of cho
 
 Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step:
 
-* Connect to a cluster, bucket, and default collection;
+* Connect to a cluster, bucket, and collection;
 * Add and retrieve a new document;
 * Look up (SQL-type query) the new document by attribute value.
 
@@ -188,25 +169,40 @@ Here are all of the import statements that you will need to run the sample code.
 
 [source,python,indent=0]
 ----
-from datetime import timedelta
-
-# needed for any cluster connection
-from couchbase.auth import PasswordAuthenticator
-from couchbase.cluster import Cluster
-
-# needed for options -- cluster, timeout, SQL++ (N1QL) query, etc.
-from couchbase.options import (ClusterOptions,
-                               ClusterTimeoutOptions,
-                               QueryOptions)
+include::example$cloud.py[tag=imports]
 ----
 
 === Connection
 
-The basic imports and connection string that you'll need are given below -- for more background information, refer to the xref:howtos:managing-connections.adoc#connection-strings[Managing Connections page].
+The basic connection details that you'll need are given below -- for more background information, refer to the xref:howtos:managing-connections.adoc#connection-strings[Managing Connections page].
 
-[source,python,indent=0]
+[tabs]
+====
+Couchbase Capella::
++
+--
+IMPORTANT: Couchbase Capella requires mandatory use of TLS (Transport Layer Security).
+As of Python SDK version 4.0, the standard certificate required to connect to a Capella cluster is automatically included with no additional configuration.
+
+[source,python]
 ----
-include::../examples/hello_world_t.py[tag=connect]
+include::example$cloud.py[tag=connect,indent=0]
+----
+
+Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
+For the purposes of this example, we can use the _Organization Owner_ role automatically assigned to a user account during installation of the Capella cluster.
+This role grants full access to a Capella organization, including full data access to all projects and clusters.
+In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice. 
+
+For the SDK client to access cluster data, you will need to set up credentials for your database by xref:cloud:get-started:cluster-and-data.adoc#credentials[following these steps].
+--
+
+Local Couchbase Server::
++
+--
+[source,python]
+----
+include::example$hello_world_t.py[tag=connect,indent=0]
 ----
 
 Couchbase uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
@@ -215,61 +211,65 @@ The connection is being made to a single Couchbase node, running locally.
 
 Couchbase RBAC is fully described in the section xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Authorization].
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
+--
+====
+
 Following successful authentication, the bucket can be opened:
 
-[source,python,indent=0]
+[source,python]
 ----
-include::../examples/hello_world_t.py[tag=bucket]
-----
-
-NOTE: We are working with the link:https://docs.couchbase.com/server/current/manage/manage-settings/install-sample-buckets.html[travel-sample] data bucket. If you are not, substitute _travel-sample_ with your _bucket-name_.
-
-If you are connecting to https://docs.couchbase.com/cloud/index.html[Couchbase Capella] rather than a local Couchbase Server, then also refer to the <<cloud-connections, Cloud section>>, below.
-
-See xref:howtos:managing-connections.adoc[Managing Connections] for more connection options and details about the connection string.
-
-[source,python,indent=0]
-----
-include::../examples/hello_world_t.py[tag=collection]
+include::example$cloud.py[tag=bucket,indent=0]
 ----
 
-The 3.2 SDK is ready for the introduction of xref:concept-docs:collections.adoc[Collections] in the xref:{version-server}@server:introduction:whats-new.adoc#whats-new-server-700[7.0 release] of the Couchbase Data Platform.
-The latest release, Couchbase Server 7.0, brings Collections, allowing Documents to be grouped by purpose or theme, according to specified _Scope_.
+NOTE: We are working with the link:https://docs.couchbase.com/server/current/manage/manage-settings/install-sample-buckets.html[travel-sample] data bucket.
+If you are not, update the `bucket_name` variable used in the example with your bucket name.
 
-NOTE: This feature was previously available as a _developer preview_ from Couchbase Server 6.6. _When connecting to a 6.6 cluster or earlier_, we must use the `DefaultCollection`, which covers the whole Bucket.
+The Python SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
+_Collections_ allow documents to be grouped by purpose or theme, according to a specified _Scope_.
+Here we will use the `airline` collection within the `inventory` scope from `travel-sample` bucket as an example.
 
-[source,python,indent=0]
+[source,python]
 ----
-include::../examples/hello_world_t.py[tag=default-collection]
+include::example$hello_world_t.py[tag=collection,indent=0]
+----
+
+The code shows how you would use a named collection and scope. 
+A named or default collection will provide the same functionality as bucket-level operations did in previous versions of Couchbase Server.
+
+The `default_collection` must be used when connecting to a 6.6 cluster or earlier.
+[source,python]
+----
+include::example$hello_world_t.py[tag=default-collection,indent=0]
 ----
 
 === Document Addition and Retrieval
 
 Let's create a dictionary object in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
 
-[source,python,indent=0]
+[source,python]
 ----
-include::../examples/hello_world_t.py[tag=test-doc]
+include::example$hello_world_t.py[tag=test-doc,indent=0]
 ----
 
 xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the `Collection` class such as `Collection.get` and `Collection.upsert`.
 Simply pass the key (and value, if applicable) to the relevant methods.
 
-The following function will `upsert()` a document and print the returned link:https://docs.couchbase.com/python-sdk/3.2/howtos/concurrent-document-mutations.html[CAS] value:
+The following function will _upsert_ a document and print the returned xref:concurrent-document-mutations.adoc[CAS] value:
 
-[source,python,indent=0]
+[source,python]
 ----
-include::../examples/hello_world_t.py[tag=upsert-func]
-----
-
-Now, we can simply call the `upsert_document` function passing in our `airline` document:
-
-[source,python,indent=0]
-----
-include::../examples/hello_world_t.py[tag=upsert-invoke]
+include::example$hello_world_t.py[tag=upsert-func,indent=0]
 ----
 
-Now let's retrieve that document using a key-value operation. The following function runs a `get()` for a document key and either logs out the result or error in our console:
+Now, we can simply call the `upsert_document()` function passing in our `airline` document:
+
+[source,python]
+----
+include::examples$hello_world_t.py[tag=upsert-invoke,indent=0]
+----
+
+Now let's retrieve that document using a key-value operation.
+The following function runs a `get()` for a document key and either logs out the result or error in our console:
 
 [source,python,indent=0]
 ----
