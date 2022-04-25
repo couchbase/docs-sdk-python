@@ -1,5 +1,4 @@
 = Install and Start Using the Python SDK with Couchbase Server
-:description: Installing the Couchbase Python SDK & a Hello World example program.
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
 :navtitle: Start Using the SDK
 :description: Get up and running quickly, installing the Couchbase Python SDK, and running our Hello World example.
