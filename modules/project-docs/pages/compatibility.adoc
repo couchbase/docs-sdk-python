@@ -3,6 +3,7 @@
 Plus notes on Cloud, networks, and AWS Lambda.
 :navtitle: Compatibility
 :page-aliases: ROOT:overview,ROOT:compatibility-versions-features,compatibility-versions-features
+:page-toclevels: 2
 
 include::project-docs:partial$attributes.adoc[]
 
