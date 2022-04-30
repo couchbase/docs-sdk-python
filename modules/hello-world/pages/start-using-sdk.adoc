@@ -113,7 +113,7 @@ During first-time setup, install the prerequisites:
 
 [source,console]
 ----
-$ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake openssl-devel
+$ sudo yum install gcc gcc-c++ git python3-devel python3-pip cmake openssl-devel
 ----
 Full details of prerequisites can be found xref:project-docs:sdk-full-installation.adoc#requirements[here].
 
