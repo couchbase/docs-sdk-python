@@ -77,7 +77,7 @@ During first-time setup:
 
 [source,console]
 ----
-$ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
+$ sudo yum install gcc gcc-c++ git python3-devel python3-pip cmake
 ----
 
 TIP: You may need to update your installed version of CMake.
