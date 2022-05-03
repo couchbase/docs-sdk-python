@@ -41,11 +41,11 @@ def main():
     # tag::ts-default-collection[]
 
     # Set up for what we'll do below
-    remove_or_warn('doc-a')
-    remove_or_warn('doc-b')
-    remove_or_warn('doc-c')
-    remove_or_warn(test_doc)
-    remove_or_warn('docId')
+    remove_or_warn(collection, 'doc-a')
+    remove_or_warn(collection, 'doc-b')
+    remove_or_warn(collection, 'doc-c')
+    remove_or_warn(collection, test_doc)
+    remove_or_warn(collection, 'docId')
 
     # await collection.upsert("doc-a", {})
     collection.upsert('doc-b', {})
@@ -78,7 +78,6 @@ def main():
 
         Committing is implicit at the end of the closure.
         """
-        pass
         cluster.transactions.run(txn_logic_ex)
     except TransactionFailed as ex:
         print(f'Transaction did not reach commit point.  Error: {ex}')
