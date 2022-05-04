@@ -58,6 +58,7 @@ include::example$managing_connections.py[tag=customenv,indent=0]
 WARNING: The backend implementation of connection strings parameters changed substantially in 4.0 and is not currently fully documented.
 This will be resolved in a future 4.x release.
 See xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[more details on migrating to 4.0].
+In any case, xref:ref:client-settings.adoc[configuring client settings with `ClusterOptions()`] is the preferred option.
 
 A Couchbase connection string is a comma-delimited list of IP addresses and/or hostnames, optionally followed by a list of parameters.
 

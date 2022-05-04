@@ -13,7 +13,7 @@ The Document class and structure has been completely removed from the API, and t
 Retry behaviour is more proactive, and lazy bootstrapping moves all error handling to a single place.
 Individual behaviour changes across services are explained here.
 
-The current PHP SDK 4.0 is also based on the xref:project-docs:compatibility.adoc#sdk3.3[SDK API 3.3 specification], and offers an entirely new backend (Couchbase++) with better support for new features like Distributed ACID Transactions.
+The current Python SDK 4.0 is also based on the xref:project-docs:compatibility.adoc#sdk3.3[SDK API 3.3 specification], and offers an entirely new backend (Couchbase++) with better support for new features like Distributed ACID Transactions.
 We have increased the major version to reflect the importance of this implementation change as per https://semver.org/[semantic versioning].
 
 Couchbase Python SDK 4.0, like the 3.2, 3.1, and 3.0 versions, conforms to the Couchbase 3.x SDK API.
