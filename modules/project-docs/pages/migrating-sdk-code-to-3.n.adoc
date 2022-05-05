@@ -684,6 +684,38 @@ Python SDK 4.0 implements the SDK API 3 spec, so all the steps above also apply 
 
 Importantly, the Python SDK 4.0 has been substantially reworked to use a new backend (Couchbase++ instead of libcouchbase.)
 Though the API surfaces are intended to be compatible, any code that relies on undocumented or uncommitted internal details is not guaranteed to work.
+Key areas that have been reworked:
+
+* The `couchbase_core` package has been removed.  The 4.0 SDK provides appropriate import paths within the `couchbase` package (or possibly the `acouchbase`/`txcouchbase` packages if using one of the async APIs) for anything that is needed with respect to the APIs provided by the SDK.
+* As there is a new backend, the previous `_libcouchbase` c-extension has been removed
+* Remnants of the 2.x API in previous Python 3.x SDK versions have been removed or deprecated
+** Key items that have been removed:
+*** The `ClassicAuthenticator` class
+*** Key-value operations are no longer available with a `bucket` instance.  Use a `collection` instance for key-value operations.
+*** A `cluster` and `bucket` instance do not inherit from the same base class
+**** The `Client` class has been removed
+*** `Items` API
+*** `Admin` cluster
+** Key items that have been deprecated:
+*** Datastructure methods provided by the `collection` instance have been deprecated and replaced with their respective APIs (i.e. `CouchbaseList`, `CouchbaseMap`, `CouchbaseQueue` and `CouchbaseSet`)
+*** `OperationResult` (deprecated, still available from `couchbase.result`)
+*** `ValueResult` (deprecated, still available from `couchbase.result`)
+* Import paths have been reorganized to follow consistent patterns.  While the import paths that existed in 3.x SDK are mostly available (see previous points on removal of `couchbase_core` package), some paths are deprecated and will be removed in a future release.
+** All authenticators should be imported from `couchbase.auth`
+** All constants should be imported from `couchbase.constants`
+** All options should be imported from `couchbase.options`
+** All management options should be imported from `couchbase.management.options`
+** All results should be imported from `couchbase.result`
+** All exceptions should be imported from `couchbase.exceptions`
+** Enumerations and Classes related to operations should be imported from that operation's path.  For example, `QueryScanConsistency` should be imported from `couchbase.n1ql` (i.e. `from couchbase.n1ql import QueryScanConsistency`)
+* If using the `txcouchbase` API, the reactor that should be installed is the `asyncioreactor`.  Therefore, the `txcouchbase` package _needs_ to be imported prior to importing the `reactor`.  See example import below.
+
+[source,python,indent=0]
+----
+import txcouchbase
+
+from twisted.internet import reactor
+----
 
 The new backend enables the capabilities required for many upcoming features.
 Key new features include:
