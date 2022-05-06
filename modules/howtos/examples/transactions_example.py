@@ -8,17 +8,20 @@ from couchbase.durability import DurabilityLevel, ServerDurability
 from couchbase.exceptions import (DocumentNotFoundException,
                                   TransactionCommitAmbiguous,
                                   TransactionFailed)
-from couchbase.options import ClusterOptions, TransactionConfig
-from couchbase.transactions import TransactionQueryOptions
+from couchbase.n1ql import QueryProfile
+from couchbase.options import (ClusterOptions, TransactionConfig,
+                               TransactionQueryOptions)
 
 if TYPE_CHECKING:
     from couchbase.transactions import AttemptContext
+
 
 def main():
     # tag::config[]
     opts = ClusterOptions(authenticator=PasswordAuthenticator("Administrator", "password"),
                           transaction_config=TransactionConfig(
-        durability=ServerDurability(DurabilityLevel.PERSIST_TO_MAJORITY)))
+                              durability=ServerDurability(DurabilityLevel.PERSIST_TO_MAJORITY))
+                          )
 
     cluster = Cluster.connect('couchbase://localhost', opts)
     # end::config[]
@@ -62,7 +65,7 @@ def main():
         print(f'Transaction did not reach commit point.  Error: {ex}')
     except TransactionCommitAmbiguous as ex:
         print(f'Transaction possibly committed.  Error: {ex}')
-    
+
     # tag::create[]
     def txn_logic_ex(ctx  # type: AttemptContext
                      ):
@@ -72,8 +75,8 @@ def main():
 
     try:
         """
-        'txn_logic' is a Python closure that takes a TransactionAttemptContext. The
-        TransactionAttemptContext permits getting, inserting, removing and replacing documents,
+        'txn_logic_ex' is a Python closure that takes an AttemptContext. The
+        AttemptContext permits getting, inserting, removing and replacing documents,
         performing N1QL queries, etc.
 
         Committing is implicit at the end of the closure.
@@ -105,12 +108,16 @@ def main():
         doc_c = ctx.get(collection, 'doc-c')
         ctx.remove(doc_c)
 
+        # tag::scope-example[]
+        # Added the above tag (scope-example) to ignore this section in the docs for now.
+        # Once the below TODO is addressed we can remove the tag completely.
         # N1QL query
         # @TODO:  clean up txns query options, scope, pos args and named args won't work
         # query_str = 'SELECT * FROM hotel WHERE country = $1 LIMIT 2'
         # res = ctx.query(query_str,
         #         TransactionQueryOptions(scope=inventory,
         #                                 positional_args = ['United Kingdom']))
+        # end::scope-example[]
         query_str = 'SELECT * FROM `travel-sample`.inventory.hotel WHERE country = "United Kingdom" LIMIT 2;'
         res = ctx.query(query_str)
         rows = [r for r in res.rows()]
@@ -133,7 +140,8 @@ def main():
         get(cluster, collection, 'doc-a')
         # be sure to use a new key here...
         print('transaction - get w/ read own writes')
-        get_read_own_writes(cluster, collection, 'doc-id', {'some': 'content'})
+        get_read_own_writes(cluster, collection,
+                            'doc-id2', {'some': 'content'})
         print('transaction - replace')
         replace(cluster, collection, 'doc-id')
         print('transaction - remove')
@@ -158,63 +166,65 @@ def get_cluster():
 
 
 def get_collection():
-    example_collection = (get_cluster()).bucket("travel-sample").scope("inventory").collection("airline")
+    example_collection = (get_cluster()).bucket(
+        "travel-sample").scope("inventory").collection("airline")
     return example_collection
 
 
 def get_scope():
-    inventory_scope = (get_cluster()).bucket("travel-sample").scope("inventory")
+    inventory_scope = (get_cluster()).bucket(
+        "travel-sample").scope("inventory")
     return inventory_scope
 
 
 def replace(cluster, collection, key):
+    # tag::replace[]
     def txn_logic(ctx):
         doc = ctx.get(collection, key)
         content = doc.content_as[dict]
         content['transactions'] = 'are awesome!'
         ctx.replace(doc, content)
 
-    # tag::replace[]
     cluster.transactions.run(txn_logic)
     # end::replace[]
 
 
 def remove(cluster, collection, key):
+    # tag::remove[]
     def txn_logic(ctx):
         doc = ctx.get(collection, key)
         ctx.remove(doc)
 
-    # tag::remove[]
     cluster.transactions.run(txn_logic)
     # end::remove[]
 
 
 def insert(cluster, collection, key, content):
+    # tag::insert[]
     def txn_logic(ctx):
         ctx.insert(collection, key, content)
 
-    # tag::insert[]
     cluster.transactions.run(txn_logic)
     # end::insert[]
 
 
 def get(cluster, collection, key):
+    # tag::get[]
     def txn_logic(ctx):
         doc = ctx.get(collection, key)
         doc_content = doc.content_as[dict]
 
-    # tag::get[]
     cluster.transactions.run(txn_logic)
     # end::get[]
 
 
 def get_read_own_writes(cluster, collection, key, content):
+    # tag::get_read_own_writes[]
     def txn_logic(ctx):
         ctx.insert(collection, key, content)
         doc = ctx.get(collection, key)
         doc_content = doc.content_as[dict]
 
-    # tag::get_read_own_writes[]
     cluster.transactions.run(txn_logic)
     # end::get_read_own_writes[]
 
@@ -225,38 +235,50 @@ def query_examples(cluster):
         query_str = 'SELECT * FROM `travel-sample`.inventory.hotel WHERE country = "United Kingdom" LIMIT 2;'
         res = ctx.query(query_str)
         rows = [r for r in res.rows()]
+
     cluster.transactions.run(txn_select)
     # end::query_examples_select[]
 
+    # @TODO: Ensure that using Scope works, currently this throws an error:
+    # Error: TransactionFailed{<message=AttributeError("'Scope' object has no attribute 'bucket'")>}
     # tag::query_examples_select_scope[]
-    def txn_select_scope(ctx):
-        query_str = 'SELECT * FROM hotel WHERE country = "United Kingdom"'
-        res = ctx.query(query_str)
-        rows = [r for r in res.rows()]
-    cluster.transactions.run(txn_select_scope)
+    # def txn_select_scope(ctx):
+    #     query_str = 'SELECT * FROM hotel WHERE country = "United Kingdom"'
+    #     inventory_scope = get_scope()
+    #     res = ctx.query(query_str, TransactionQueryOptions(
+    #         scope=inventory_scope)
+    #     )
+    #     rows = [r for r in res.rows()]
+
+    # cluster.transactions.run(txn_select_scope)
     # end::query_examples_select_scope[]
 
+    # @TODO: Add a check to see if the mutation has gone through (not sure how to do this in python)
+    # @TODO: Also, ensure that using Scope works, currently this throws an error:
+    # Error: TransactionFailed{<message=AttributeError("'Scope' object has no attribute 'bucket'")>}
     # tag::query_examples_update[]
-    country = "United States"
-    def txn_update(ctx):
-        query_str = 'UPDATE hotel.inventory SET price = 99.99 WHERE url LIKE "http://marriot%" AND country = "United States"'
-        res = ctx.query(query_str)
+    # def txn_update(ctx):
+    #     inventory_scope = get_scope()
+    #     query_str = 'UPDATE hotel SET price = 99.99 WHERE url LIKE "http://marriot%" AND country = "United States"'
+    #     res = ctx.query(query_str, TransactionQueryOptions(
+    #         scope=inventory_scope)
+    #     )
 
-        # @TODO: Add a check to see if the mutation has gone through (not sure how to do this in python)
-    cluster.transactions.run(txn_update)
-    # tag::query_examples_update[]
+    # cluster.transactions.run(txn_update)
+    # end::query_examples_update[]
 
     # tag::query_examples_complex[]
     def txn_complex(ctx):
         # find all hotels of the chain
-        res = ctx.query('SELECT reviews FROM hotel.inventory WHERE url = "http://marriot%" AND country = "United States"')
+        res = ctx.query(
+            'SELECT reviews FROM `travel-sample`.inventory.hotel WHERE url = "http://marriot%" AND country = "United States"')
 
         # This function (not provided here) will use a trained machine learning model to provide a
         # suitable price based on recent customer reviews.
         updated_price = price_from_recent_reviews(res)
 
         # Set the price of all hotels in the chain
-        query_str = f'UPDATE hotel.inventory SET price = {updated_price} WHERE url LIKE "http://marriot%" AND country = "United States"'
+        query_str = f'UPDATE `travel-sample`.inventory.hotel SET price = {updated_price} WHERE url LIKE "http://marriot%" AND country = "United States"'
         ctx.query(query_str)
 
     cluster.transactions.run(txn_complex)
@@ -266,9 +288,11 @@ def query_examples(cluster):
 def query_insert(cluster):
     # tag::query_insert[]
     def txn_logic(ctx):
-        ctx.query("INSERT INTO `default` VALUES ('doc', {'hello':'world'})") # <1>
-        query_str = "SELECT `default`.* FROM `default` WHERE META().id = 'doc'" # <2>
+        ctx.query(
+            "INSERT INTO `travel-sample` VALUES ('doc', {'hello':'world'})")  # <1>
+        query_str = "SELECT hello FROM `travel-sample` WHERE META().id = 'doc'"  # <2>
         res = ctx.query(query_str)
+
     cluster.transactions.run(txn_logic)
     # end::query_insert[]
 
@@ -276,16 +300,37 @@ def query_insert(cluster):
 def query_ryow(cluster):
     # tag::query_ryow[]
     def txn_logic(ctx):
-        res = ctx.query('UPDATE inventory SET price = 99.00 WHERE name LIKE "Marriott%"')
-        # @TODO: Add a check to see if the mutation has gone through (not sure how to do this in python)
+        collection = cluster.defaultCollection()
+        ctx.insert(collection, 'doc-greeting',
+                   {'greeting': 'hello world'})  # <1>
+        query_str = "SELECT greeting FROM `travel-sample` WHERE META().id = 'doc-greeting'"  # <2>
+        res = ctx.query(query_str)
+
     cluster.transactions.run(txn_logic)
     # end::query_ryow[]
 
+
+def query_options(cluster):
+    # tag::query_options[]
+    def txn_logic(ctx):
+        res = ctx.query(
+            "INSERT INTO `travel-sample` VALUES ('doc-abc', {'hello':'world'})",
+            TransactionQueryOptions(
+                profile=QueryProfile.TIMINGS
+            )
+        )
+
+    cluster.transactions.run(txn_logic)
+    # end::query_options[]
+
+
 def query_single(cluster):
     # tag::query_single[]
-    bulkLoadStatement = "" # a bulk-loading N1QL statement not provided here
+    bulk_load_statement = ""  # a bulk-loading N1QL statement not provided here
+
     def txn_logic(ctx):
-        ctx.query(bulkLoadStatement)
+        ctx.query(bulk_load_statement)
+
     try:
         cluster.transactions.run(txn_logic)
     except TransactionFailed as ex:
@@ -295,8 +340,10 @@ def query_single(cluster):
     # end::query_single[]
 
 # can't do as there are no query options
+
+
 def query_single_scoped(cluster):
-    bulkLoadStatement = "" # your statement here
+    bulkLoadStatement = ""  # your statement here
 
     # tag::query_single_scoped[]
     travelSample = cluster.bucket("travel-sample")
@@ -305,11 +352,12 @@ def query_single_scoped(cluster):
 
 
 def query_single_configured(cluster, collection):
-    #tag::full[]
+    # tag::full[]
     def player_hits_monster(damage, player_id, monster_id, cluster, collection):
         try:
             def txn_logic(ctx):
-                monster_doc = (ctx.get(collection, monster_id)).content_as[dict]
+                monster_doc = (ctx.get(collection, monster_id)
+                               ).content_as[dict]
                 player_doc = (ctx.get(collection, player_id)).content_as[dict]
 
                 monster_hit_points = monster_doc["hitpoints"]
@@ -324,7 +372,8 @@ def query_single_configured(cluster, collection):
                     experience_for_killing_monster = monster_doc["experience_when_killed"]
                     player_experience = player_doc["experience"]
                     player_new_experience = player_experience + experience_for_killing_monster
-                    player_new_level = calculate_level_for_experience(player_new_experience)
+                    player_new_level = calculate_level_for_experience(
+                        player_new_experience)
 
                     player_content = player_doc.copy()
 
@@ -349,22 +398,23 @@ def query_single_configured(cluster, collection):
             # Situations that may cause this would include a network or node failure
             # after the transactions operations completed and committed, but before the
             # commit result was returned to the client.
-    #end::full[]
+    # end::full[]
 
 
 def rollback(cluster, collection):
     cost_of_item = 10
 
-    #tag::rollback[]
+    # tag::rollback[]
     def txn_logic(ctx):
         customer = ctx.get(collection, "customer-name")
 
         if customer.content_as[dict]["balance"] < cost_of_item:
-            raise Exception("Transaction failed, customer does not have enough funds.")
+            raise Exception(
+                "Transaction failed, customer does not have enough funds.")
 
         # else continue transaction
     cluster.transactions.run(txn_logic)
-    #end::rollback[]
+    # end::rollback[]
 
 
 class InsufficientBalanceException(Exception):
@@ -374,7 +424,7 @@ class InsufficientBalanceException(Exception):
 def rollback_cause(cluster, collection):
     cost_of_item = 10
 
-    #tag::rollback_cause[]
+    # tag::rollback_cause[]
     try:
         def txn_logic(ctx):
             customer = ctx.get(collection, "customer-name")
@@ -391,11 +441,11 @@ def rollback_cause(cluster, collection):
         pass
     except InsufficientBalanceException as e:
         raise InsufficientBalanceException("user had Insufficient balance", e)
-    #end::rollback_cause[]
-    
+    # end::rollback_cause[]
+
 
 def complete_error_handling(cluster, collection):
-    #tag::complete_error_handling[]
+    # tag::complete_error_handling[]
     try:
         def txn_logic(ctx):
             # ... transactional code here ...
@@ -405,19 +455,20 @@ def complete_error_handling(cluster, collection):
         # the transaction definitely reached the commit point. Unstaging
         # the individual documents may or may not have completed
 
-        #TODO find python equivalent
-        #if(!result.unstaging_complete):
-            # In rare cases, the application may require the commit to have
-            # completed.  (Recall that the asynchronous cleanup process is
-            # still working to complete the commit.)
-            # The next step is application-dependent.
+        # TODO find python equivalent
+        # if(!result.unstaging_complete):
+        # In rare cases, the application may require the commit to have
+        # completed.  (Recall that the asynchronous cleanup process is
+        # still working to complete the commit.)
+        # The next step is application-dependent.
     except TransactionCommitAmbiguous as ex:
         # The transaction may or may not have reached commit point
-        print(f'Transaction returned TransactionCommitAmbiguous and may have succeeded.  Error: {ex}')
+        print(
+            f'Transaction returned TransactionCommitAmbiguous and may have succeeded.  Error: {ex}')
     except TransactionFailed as ex:
         # The transaction definitely did not reach commit point
         print(f'Transaction failed with TransactionFailed.  Error: {ex}')
-    #tag::complete_error_handling[]
+    # end::complete_error_handling[]
 
 
 def remove_or_warn(collection, key):
