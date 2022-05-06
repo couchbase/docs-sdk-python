@@ -102,7 +102,8 @@ API docs for acouchbase API are not yet available.
 * https://issues.couchbase.com/browse/PYCBC-1321[PYCBC-1321]:
 API docs for txcouchbase API are not yet available.
 
-
+* https://issues.couchbase.com/browse/PYCBC-1322[PYCBC-1322]:
+Scoped transactional queries currently throw a `TransactionFailed` error.
 
 
 
