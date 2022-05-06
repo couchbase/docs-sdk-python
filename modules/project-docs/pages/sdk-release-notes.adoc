@@ -43,7 +43,7 @@ For more detailed installation instructions, see the xref:project-pages:sdk-full
 
 == Release Notes
 
-== Version 4.0.0 (6 March 2022)
+== Version 4.0.0 (6 May 2022)
 
 Version 4.0.0 is the first major release of the next generation Python SDK, built on the Couchbase++ library -- featuring multi-document distributed ACID transactions, and bringing a number of improvements to the SDK.
 
