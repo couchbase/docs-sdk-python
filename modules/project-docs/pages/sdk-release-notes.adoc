@@ -43,8 +43,64 @@ For more detailed installation instructions, see the xref:project-pages:sdk-full
 
 == Release Notes
 
-// === Version 3.2.6 (2 February 2022)
+== Version 4.0.0 (6 March 2022)
 
+Version 4.0.0 is the first major release of the next generation Python SDK, built on the Couchbase++ library -- featuring multi-document distributed ACID transactions, and bringing a number of improvements to the SDK.
+
+[source,bash]
+----
+pip install couchbase==4.0.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/
+
+=== New Features
+
+* Support for distributed transactions has now been implemented.
+* Reimplemented the library using couchbase++.
+* Improved alignment between couchbase, acouchbase and txcouchbase APIs.
+* Support for Python versions 3.7 - 3.10.
+* Improved API documentation.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-849[PYCBC-849]:
+Implemented wait until ready.
+
+* https://issues.couchbase.com/browse/PYCBC-1146[PYCBC-1146]:
+Aligned multi key-value methods with couchbase API.
+
+* https://issues.couchbase.com/browse/PYCBC-1280[PYCBC-1280]:
+Fixed implementation of the `CertificateAuthenticator`.
+
+* https://issues.couchbase.com/browse/PYCBC-1296[PYCBC-1296]:
+Updated `SearchRow` to not print locations when not included.
+
+=== Known Issues
+
+* https://issues.couchbase.com/browse/PYCBC-1232[PYCBC-1232]:
+Core IO logging is not forwarded through to Python.
+
+* https://issues.couchbase.com/browse/PYCBC-1257[PYCBC-1257]:
+Replica reads are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1261[PYCBC-1261]:
+Distributed tracing is not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1276[PYCBC-1276]:
+Legacy durability operations are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1290[PYCBC-1290]:
+Transactions for txcouchbase are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1319[PYCBC-1319]:
+Management APIs for txcouchbase are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1320[PYCBC-1320]:
+API docs for acouchbase API are not yet available.
+
+* https://issues.couchbase.com/browse/PYCBC-1321[PYCBC-1321]:
+API docs for txcouchbase API are not yet available.
 
 
 
