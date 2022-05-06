@@ -5,13 +5,13 @@
 :page-toclevels: 2
 
 // API refs
-:bucket-api-reference: pass:q[BucketManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.Buckets[`Cluster.buckets()`]]
-:user-api-reference: pass:q[UserManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.Users[`Cluster.users()`]]
-:query-api-reference: pass:q[QueryIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.QueryIndexes[`Cluster.queryIndexes()`]]
-:analytics-api-reference: pass:q[AnalyticsIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.AnalyticsIndexes[`Cluster.analyticsIndexes()`]]
-:search-api-reference: pass:q[SearchIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Cluster.SearchIndexes[`Cluster.searchIndexes()`]]
-:collection-api-reference: pass:q[CollectionManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Bucket.Collections[`Bucket.collections()`]]
-:view-api-reference: pass:q[ ViewIndexManager -- https://pkg.go.dev/github.com/couchbase/gocb/v2?tab=doc#Bucket.ViewIndexes[`Bucket.viewIndexes()`]]
+:bucket-api-reference: pass:q[BucketManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.buckets[`Cluster.buckets()`]]
+:user-api-reference: pass:q[UserManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.users[`Cluster.users()`]]
+:query-api-reference: pass:q[QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.query_indexes[`Cluster.query_indexes()`]]
+:analytics-api-reference: pass:q[AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.query_indexes[`Cluster.analytics_ndexes()`]]
+:search-api-reference: pass:q[SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.query_indexes[`Cluster.search_indexes()`]]
+:collection-api-reference: pass:q[CollectionManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/couchbase_api/couchbase_core.html#couchbase.bucket.Bucket.collections[`Bucket.collections()`]]
+:view-api-reference: pass:q[ ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/couchbase_api/couchbase_core.html#couchbase.bucket.Bucket.collections[`Bucket.view_indexes()`]]
 
 // one-view-update-warning common partial
 :upsertDesignDocument: pass:q[`upsert_design_document` method]
