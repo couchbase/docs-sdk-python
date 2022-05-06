@@ -24,13 +24,9 @@ auth = PasswordAuthenticator(
     # cert_path=cert_path
 )
 
-# Connect options - global timeout opts
-timeout_opts = ClusterTimeoutOptions(kv_timeout=timedelta(seconds=10))
-
 # Get a reference to our cluster
 # NOTE: For TLS/SSL connection use 'couchbases://<your-ip-address>' instead
-cluster = Cluster('couchbase://localhost',
-                  ClusterOptions(auth, timeout_options=timeout_opts))
+cluster = Cluster('couchbase://localhost', ClusterOptions(auth))
 # end::connect[]
 
 # tag::bucket[]

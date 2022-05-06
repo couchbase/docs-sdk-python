@@ -222,7 +222,7 @@ Following successful authentication, the bucket can be opened:
 include::example$cloud.py[tag=bucket,indent=0]
 ----
 
-NOTE: We are working with the link:https://docs.couchbase.com/server/current/manage/manage-settings/install-sample-buckets.html[travel-sample] data bucket.
+NOTE: We are working with the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket.
 If you are not, update the `bucket_name` variable used in the example with your bucket name.
 
 The Python SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
@@ -294,14 +294,14 @@ The following function executes a lookup for `airline` documents by a provided `
 
 [source,python]
 ----
-include::example$cloud.py[tag=lookup-func]
+include::example$cloud.py[tag=lookup-func,indent=0]
 ----
 
 We call the `lookup_by_callsign` function passing in our callsign `CBS`:
 
-[source,python,indent=0]
+[source,python]
 ----
-include::example$cloud.py[tag=lookup-invoke]
+include::example$cloud.py[tag=lookup-invoke,indent=0]
 ----
 
 === Execute!
