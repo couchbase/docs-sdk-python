@@ -9,11 +9,8 @@
 [abstract]
 {description}
 
-include::hello-world:page$start-using-sdk.adoc[tag=prep]
+Couchbase Python SDK 4.x is built upon Couchbase++, and SDK 3.x is built upon LCB (libcouchbase), but both conform to the xref:project-docs:compatibility.adoc#api-version[SDK API 3.x].
 
-
-
-Couchbase Python SDK 4.x is built upon Couchbase++, and SDK 3.x is built upon LCB (libcouchbase), but both conform to the xref:compatibility.adoc#api-version[3.x SDK API].
 The move to Couchbase++ facilitates the introduction of xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[distributed ACID transactions].
 
 NOTE: Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
@@ -36,7 +33,7 @@ For example, to install version 3.2.6:
 $ python3 -m pip install git+https://github.com/couchbase/couchbase-python-client@3.2.6
 ----
 
-For more detailed installation instructions, see the xref:project-pages:sdk-full-installation.adoc[full installation guide].
+For more detailed installation instructions, see the xref:project-docs:sdk-full-installation.adoc[full installation guide].
 
 
 
@@ -125,5 +122,5 @@ There are binary Python wheels provided for Windows, and for Mac.
 
 == Older Releases
 
-Couchbase Python SDK 4.x is built upon Couchbase++, and SDK 3.x is built upon LCB (libcouchbase), but both conform to the xref:compatibility.adoc#api-version[3.x SDK API], and as such you may find the xref:3.2@python-sdk:project-docs:sdk-release-notes.adoc[3.x release notes] of use.
+For documentation on older releases please refer to the xref:3.2@python-sdk:project-docs:sdk-release-notes.adoc[3.x release notes] page.
 // end::all[] 

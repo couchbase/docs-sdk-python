@@ -19,7 +19,7 @@ cert_path = "path/to/certificate"
 auth = PasswordAuthenticator(
     username,
     password,
-    # NOTE: If using SSL/TLS, add the certificate_path.
+    # NOTE: If using SSL/TLS, add the certificate path.
     # We strongly reccomend this for production use.
     # cert_path=cert_path
 )
@@ -27,6 +27,9 @@ auth = PasswordAuthenticator(
 # Get a reference to our cluster
 # NOTE: For TLS/SSL connection use 'couchbases://<your-ip-address>' instead
 cluster = Cluster('couchbase://localhost', ClusterOptions(auth))
+
+# Wait until the cluster is ready for use.
+cluster.wait_until_ready(timedelta(seconds=5))
 # end::connect[]
 
 # tag::bucket[]
