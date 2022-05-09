@@ -47,7 +47,7 @@ or the xref:{version-server}@server:manage:manage-settings/install-sample-bucket
 --
 ====
 
-The Couchbase Capella free trial version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
+The https://cloud.couchbase.com/sign-up[Couchbase Capella free trial] version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
 
 
 == Quick Installation
@@ -235,13 +235,17 @@ include::example$cloud.py[tag=collection,indent=0]
 ----
 
 The code shows how you would use a named collection and scope. 
-A named or default collection will provide the same functionality as bucket-level operations did in previous versions of Couchbase Server.
 
+.For Local Couchbase Server only
+[IMPORTANT]
+====
 The `default_collection` must be used when connecting to a 6.6 cluster or earlier.
+
 [source,python]
 ----
-include::example$cloud.py[tag=default-collection,indent=0]
+include::example$hello_world_t.py[tag=default-collection,indent=0]
 ----
+====
 
 === Document Addition and Retrieval
 

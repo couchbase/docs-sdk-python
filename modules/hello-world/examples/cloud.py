@@ -27,6 +27,9 @@ timeout_opts = ClusterTimeoutOptions(kv_timeout=timedelta(seconds=10))
 # get a reference to our cluster
 cluster = Cluster('couchbases://{}'.format(endpoint),
                   ClusterOptions(auth, timeout_options=timeout_opts))
+
+# Wait until the cluster is ready for use.
+cluster.wait_until_ready(timedelta(seconds=5))
 # end::connect[]
 
 # tag::bucket[]
@@ -37,11 +40,6 @@ cb = cluster.bucket(bucket_name)
 # tag::collection[]
 cb_coll = cb.scope("inventory").collection("airline")
 # end::collection[]
-
-# tag::default-collection[]
-# get a reference to the default collection, required for older Couchbase server versions
-cb_coll_default = cb.default_collection()
-# end::default-collection[]
 
 # tag::upsert-func[]
 

@@ -19,7 +19,7 @@ cert_path = "path/to/certificate"
 auth = PasswordAuthenticator(
     username,
     password,
-    # NOTE: If using SSL/TLS, add the certificate_path.
+    # NOTE: If using SSL/TLS, add the certificate path.
     # We strongly reccomend this for production use.
     # cert_path=cert_path
 )
@@ -27,6 +27,9 @@ auth = PasswordAuthenticator(
 # Get a reference to our cluster
 # NOTE: For TLS/SSL connection use 'couchbases://<your-ip-address>' instead
 cluster = Cluster('couchbase://localhost', ClusterOptions(auth))
+
+# Wait until the cluster is ready for use.
+cluster.wait_until_ready(timedelta(seconds=5))
 # end::connect[]
 
 # tag::bucket[]
@@ -39,7 +42,7 @@ cb_coll = cb.scope("inventory").collection("airline")
 # end::collection[]
 
 # tag::default-collection[]
-# get a reference to the default collection, required for older Couchbase server versions
+# Get a reference to the default collection, required for older Couchbase server versions
 cb_coll_default = cb.default_collection()
 # end::default-collection[]
 
