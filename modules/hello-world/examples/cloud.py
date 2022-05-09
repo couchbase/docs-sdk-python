@@ -41,11 +41,6 @@ cb = cluster.bucket(bucket_name)
 cb_coll = cb.scope("inventory").collection("airline")
 # end::collection[]
 
-# tag::default-collection[]
-# get a reference to the default collection, required for older Couchbase server versions
-cb_coll_default = cb.default_collection()
-# end::default-collection[]
-
 # tag::upsert-func[]
 
 

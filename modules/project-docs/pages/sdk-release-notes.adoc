@@ -9,9 +9,8 @@
 [abstract]
 {description}
 
-Couchbase Python SDK 4.x is built upon Couchbase++, and SDK 3.x is built upon LCB (libcouchbase), but both conform to the xref:project-docs:compatibility.adoc#api-version[SDK API 3.x].
-
-The move to Couchbase++ facilitates the introduction of xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[distributed ACID transactions].
+Couchbase Python SDK 4.x is built upon {cbpp}, and SDK 3.x is built upon LCB (libcouchbase), but both conform to the xref:project-docs:compatibility.adoc#api-version[SDK API 3.x].
+The move to {cbpp} facilitates the introduction of xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[distributed ACID transactions].
 
 NOTE: Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
 
@@ -44,9 +43,9 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 Version 4.0.0 is the first major release of the next generation Python SDK, built on the Couchbase++ library -- featuring multi-document distributed ACID transactions, and bringing a number of improvements to the SDK.
 
-[source,bash]
+[source,console]
 ----
-pip install couchbase==4.0.0
+$ pip install couchbase==4.0.0
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/
