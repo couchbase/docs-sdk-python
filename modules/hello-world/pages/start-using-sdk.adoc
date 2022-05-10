@@ -206,11 +206,11 @@ Local Couchbase Server::
 include::example$hello_world_t.py[tag=connect,indent=0]
 ----
 
-Couchbase uses xref:7.0@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+Couchbase uses xref:7.1@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
 For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
 The connection is being made to a single Couchbase node, running locally.
 
-Couchbase RBAC is fully described in the xref:7.0@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups, and Roles] page.
+Couchbase RBAC is fully described in the xref:7.1@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups, and Roles] page.
 An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
 --
 ====
@@ -222,7 +222,7 @@ Following successful authentication, the bucket can be opened:
 include::example$cloud.py[tag=bucket,indent=0]
 ----
 
-NOTE: We are working with the xref:7.0@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket.
+NOTE: We are working with the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket.
 If you are not, update the `bucket_name` variable used in the example with your bucket name.
 
 The Python SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
