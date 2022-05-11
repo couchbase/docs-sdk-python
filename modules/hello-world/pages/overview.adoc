@@ -14,7 +14,7 @@
 ====== {empty}
 [.content]
 The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
-The Python SDK uses the high-performance C library libcouchbase to handle communicating to the cluster over Couchbase's binary protocols.
+The Python SDK uses the high-performance {cpp} library Couchbase++ to handle communicating to the cluster over Couchbase's binary protocols.
 
 
 [.column]
