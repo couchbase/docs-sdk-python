@@ -113,7 +113,7 @@ During first-time setup, install the prerequisites:
 
 [source,console]
 ----
-$ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential libssl-dev
+$ sudo apt-get install git python3-dev python3-pip python3-setuptools cmake build-essential libssl-dev
 ----
 Full details of prerequisites can be found xref:project-docs:sdk-full-installation.adoc#requirements[here].
 
