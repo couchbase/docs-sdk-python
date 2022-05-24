@@ -1,3 +1,5 @@
+# TODO: This is currently not implemented in SDK 4.x.
+# Don't use this example for now, recommend setting the `PYCBC_LOG_LEVEL` env variable instead.
 # tag::logging[]
 import logging
 import sys
