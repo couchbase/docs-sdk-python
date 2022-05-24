@@ -1,9 +1,10 @@
 = Collecting Information & Logging
-:description: Logging.
+:description: Logging with the Python SDK.
 :page-topic-type: howto
 :navtitle: Collecting Information
 :page-aliases: logging
 :page-aliases: event-bus-metrics,logging
+:page-status: UNDER CONSTRUCTION
 
 include::project-docs:partial$attributes.adoc[]
 
@@ -11,65 +12,55 @@ include::project-docs:partial$attributes.adoc[]
 
 {description}
 
+WARNING: the Logging implementation has changed substantially in SDK 4.0 and is not currently fully documented.
+This will be resolved in a future 4.x release.
 
-The Python SDK allows logging via the standard `logging` module, or via the `LCB_LOGLEVEL` environment variable.
+The Python SDK allows logging via the `PYCBC_LOG_LEVEL` environment variable.
+// TODO: Add this back when it is available and remove the line above.
+// The Python SDK allows logging via the standard `logging` module, or via the `PYCBC_LOG_LEVEL` environment variable.
 
+// == Enabling Logging
 
-== Enabling Logging
-
-.Python Logging Module
-[source,python]
-----
-import logging
-import sys
-
-import couchbase
-from couchbase.cluster import Cluster, ClusterOptions
-from couchbase_core.cluster import PasswordAuthenticator
-
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-couchbase.enable_logging()
-
-cluster = Cluster('couchbase://localhost/default',ClusterOptions(PasswordAuthenticator("default","password")))
-bucket=cluster.bucket("fred")
-coll=bucket.default_collection()
-coll.upsert('key', ['value'])
-----
+// .Python Logging Module
+// [source,python]
+// ----
+// include::example$logging_example.py[tag=logging,indent=0]
+// ----
 
 === Environmental Settings
 
-In the command line environment, the `LCB_LOGLEVEL` variable is set as follows:
+In the command line environment, the `PYCBC_LOG_LEVEL` variable is set as follows:
 
 .GNU/Linux and Mac
 [source,console]
 ----
-export LCB_LOGLEVEL=[0-5]
+export PYCBC_LOG_LEVEL=<log-level>
 ----
 
 .Windows
 [source,console]
 ----
-set LCB_LOGLEVEL=[0-5]
+set PYCBC_LOG_LEVEL=<log-level>
 ----
 
 
 == Log Levels
 
-Increase the log level for greater verbosity (more information) in the logs:
+You can increase the log level for greater verbosity (more information) in the logs:
 
-* 0 is `LCB_LOG_FATAL` -- fatal errors, the library cannot proceed.
-* 1 is `LCB_LOG_ERROR` -- error messages, usually libcouchbase having to re-initialize the connection instance.
-* 2 is `LCB_LOG_WARN` -- error notifications.
-* 3 is `LCB_LOG_INFO` -- useful notices, not often.
-* 4 is `LCB_LOG_DEBUG` -- diagnostic information, required to investigate problems.
-* 5 is `LCB_LOG_TRACE` -- the most verbose level.
+* off -- disables all logging, which is normally set by default.
+* error -- error messages.
+* warn -- error notifications.
+* info -- useful notices, not often.
+* debug -- diagnostic information, required to investigate problems.
+* trace -- the most verbose level.
 
 
 == Log Redaction
 
 Redacting logs is a two-stage process.
 If you want to redact client logs (for example before handing them off to the Couchbase Support team) you first need to enable log redaction in your application.
-This is done through the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=log_redaction[`ClusterOptions` to the Cluster object], setting `log_redaction` to `True`.
+This is done through the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#clusteroptions[`ClusterOptions`], setting `log_redaction` to `True`.
 
 Once the SDK writes the logs with the tags to a file, you can then use the
 xref:{version-server}@server:cli:cbcli/cblogredaction.adoc[`cblogredaction` tool] to obfuscate the log.

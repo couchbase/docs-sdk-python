@@ -736,3 +736,4 @@ In addition:
 
 * `get` requests on locked documents now retry rather than fast-fail.
 * The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] are not currently documented.
+* The xref:howtos:collecting-information-and-logging.adoc[Logging] changes are not fully documented.
