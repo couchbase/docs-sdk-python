@@ -227,7 +227,7 @@ Conda::
 --
 To use the SDK within the Anaconda / Miniconda platform, make sure the prerequisites for the desired Operating System are met:
 
-git-all python3-dev python3-pip python3-setuptools cmake build-essential
+`git-all python3-dev python3-pip python3-setuptools cmake build-essential`
 
 In the _Anaconda Prompt_, create a new environment:
 [source,console]
