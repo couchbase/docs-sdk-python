@@ -35,9 +35,78 @@ $ python3 -m pip install git+https://github.com/couchbase/couchbase-python-clien
 For more detailed installation instructions, see the xref:project-docs:sdk-full-installation.adoc[full installation guide].
 
 
-
-
 == Release Notes
+
+== Version 4.0.1 (9 June 2022)
+
+Version 4.0.1 is the first patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.0.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.1/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1324[PYCBC-1324]:
+Fixed N1QL Query options scan_wait/scan_cap misspelling.
+
+* https://issues.couchbase.com/browse/PYCBC-1335[PYCBC-1335]:
+Fixed positional and named parameters in TransactionQueryOptions.
+
+* https://issues.couchbase.com/browse/PYCBC-1336[PYCBC-1336]:
+Fixed crash when using ViewOptions keys parameter.
+
+* https://issues.couchbase.com/browse/PYCBC-1342[PYCBC-1342]:
+Fixed the txcouchbase API Bucket Management API.
+
+* https://issues.couchbase.com/browse/PYCBC-1343[PYCBC-1343]:
+Fixed the txcouchbase Collection Management API.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1328[PYCBC-1328]
+Implemented txcouchbase test suite.
+
+* https://issues.couchbase.com/browse/PYCBC-1320[PYCBC-1320]:
+Added acouchbase core API Docs.
+
+* https://issues.couchbase.com/browse/PYCBC-1329[PYCBC-1329]:
+Cleaned up the acouchbase API test suite.
+
+* https://issues.couchbase.com/browse/PYCBC-1331[PYCBC-1331]:
+Updated streaming API options tests to validate all parameters.
+
+* https://issues.couchbase.com/browse/PYCBC-1333[PYCBC-1333]:
+Updated README, API docs for 4.0.1 release.
+
+* https://issues.couchbase.com/browse/PYCBC-1334[PYCBC-1334]:
+Cleaned up couchbase API test suite.
+
+* https://issues.couchbase.com/browse/PYCBC-1358[PYCBC-1358]:
+Updated Windows wheel to dynamically link against OpenSSL.
+
+=== Known Issues
+
+* https://issues.couchbase.com/browse/PYCBC-1232[PYCBC-1232]:
+Core IO logging is not forwarded through to Python.
+
+* https://issues.couchbase.com/browse/PYCBC-1257[PYCBC-1257]:
+Replica reads are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1261[PYCBC-1261]:
+Distributed tracing is not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1276[PYCBC-1276]:
+Legacy durability operations are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1290[PYCBC-1290]:
+Transactions for txcouchbase are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1321[PYCBC-1321]:
+API docs for txcouchbase API are not yet available.
 
 == Version 4.0.0 (6 May 2022)
 
@@ -45,7 +114,7 @@ Version 4.0.0 is the first major release of the next generation Python SDK, buil
 
 [source,console]
 ----
-$ pip install couchbase==4.0.0
+$ python3 -m pip install couchbase==4.0.0
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/
