@@ -52,6 +52,7 @@ The https://cloud.couchbase.com/sign-up[Couchbase Capella free trial] version co
 
 == Quick Installation
 
+The SDK will run on Python 3.7 - 3.10.
 A more detailed guide in our xref:project-docs:sdk-full-installation.adoc[Installation page] covers every supported platform, but this section should be enough to get up and running in most cases.
 
 [{tabs}] 
@@ -90,6 +91,10 @@ $ sudo -H python3 -m pip install couchbase
 Red Hat & CentOS::
 +
 --
+Note, check that you have a supported version of Python (3.7 - 3.10).
+Suggestions for platforms with an outdated build chain, such as CentOS 7, can be found in our xref:project-docs:sdk-full-installation.adoc[Installation Guide].
+Assuming you have an updated build environment, follow these steps.
+
 During first-time setup, install the prerequisites:
 
 [source,console]
