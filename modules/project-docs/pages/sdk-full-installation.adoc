@@ -152,7 +152,7 @@ $ python3 -m pip install couchbase
 RHEL & CentOS::
 +
 --
-include::{version-server}@sdk:pages:partials$docker.adoc[]
+include::{version-server}@sdk:pages:partial$docker.adoc[]
 
 Check that you have a new enough release of Python (3.7 - 3.10), and if not then investigate the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
