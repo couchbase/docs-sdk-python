@@ -80,11 +80,14 @@ The Python SDK is built on top of the C++ SDK (not currently available separatel
 === GNU/Linux
 
 * Amazon Linux 2.
-* Red Hat Enterprise Linux 7 & 8;
-* CentOS 7 & 8.
+* Red Hat Enterprise Linux 7 & 8 -- but see note below;
+* CentOS 7 & 8 -- but see note below.
 * Ubuntu (LTS) 16.04 (_Xenial_), 18.04 (_Bionic_), & 20.04 (_Focal_).
 * Debian 9 (_Stretch_) & 10 (_Buster_).
 * Alpine Linux
+
+Note, for stability reasons, CentOS and Red Hat ship with far older versions of Python and GCC than the ones needed to run the latest Python SDK.
+See the xref:project-docs:sdk-full-installation.adoc[full installation page] for details of using the EPEL repo, and other workarounds.
 
 [discrete]
 === Microsoft Windows
