@@ -102,7 +102,7 @@ At time of writing (April 2022): 10.15 (_Catalina_), 11 (_Big Sur_), and 12 (_Mo
 M1 ARM  architecture is fully supported in the 4.0 Python SDK.
 ****
 
-Wheels are available for macOS and Windows -- see the xref:sdk-release-notes.adoc[releases page] for details.
+Wheels are available for macOS, Linux and Windows -- see the xref:sdk-release-notes.adoc[releases page] for details.
 
 Although installable or compilable on many other platforms, we cannot provide support for untested combinations.
 
