@@ -39,9 +39,10 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 == Version 4.0.2 (29 June 2022)
 
-Version 4.0.2 is the second patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the 4.0.2 release provides manylinux wheels which significantly improves the installation process on Linux platforms.
+Version `4.0.2` is the second patch release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably the `4.0.2` release provides manylinux wheels which significantly improves the installation process on Linux platforms.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.0.2
 ----
@@ -68,7 +69,7 @@ https://issues.couchbase.com/browse/PYCBC-1368[PYCBC-1368]:
 Created custom spdlog sink for pass-through logging to python logging.
 
 * https://issues.couchbase.com/browse/PYCBC-1373[PYCBC-1373]:
-Provided example linux build system Dockerfiles.
+Provided example Linux build system Dockerfiles.
 
 * https://issues.couchbase.com/browse/PYCBC-1332[PYCBC-1332]:
 Added formatting and linting to CI pipeline.
