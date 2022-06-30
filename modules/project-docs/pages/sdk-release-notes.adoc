@@ -37,6 +37,61 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 == Release Notes
 
+== Version 4.0.2 (29 June 2022)
+
+Version `4.0.2` is the second patch release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably the `4.0.2` release provides manylinux wheels which significantly improves the installation process on Linux platforms.
+
+[source,console]
+----
+$ python3 -m pip install couchbase==4.0.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.2/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1370[PYCBC-1370]:
+Added environment variables to direct CMake to use specified Python3 version.
+
+* https://issues.couchbase.com/browse/PYCBC-1374[PYCBC-1374]:
+Added option to dynamically link stdc++ libs.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-628[PYCBC-628];
+https://issues.couchbase.com/browse/PYCBC-1330[PYCBC-1330];
+https://issues.couchbase.com/browse/PYCBC-1367[PYCBC-1367]:
+Added manylinux wheels.
+
+* https://issues.couchbase.com/browse/PYCBC-1232[PYCBC-1232];
+https://issues.couchbase.com/browse/PYCBC-1368[PYCBC-1368]:
+Created custom spdlog sink for pass-through logging to python logging.
+
+* https://issues.couchbase.com/browse/PYCBC-1373[PYCBC-1373]:
+Provided example Linux build system Dockerfiles.
+
+* https://issues.couchbase.com/browse/PYCBC-1332[PYCBC-1332]:
+Added formatting and linting to CI pipeline.
+
+=== Known Issues
+
+* https://issues.couchbase.com/browse/PYCBC-1257[PYCBC-1257]:
+Replica reads are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1261[PYCBC-1261]:
+Distributed tracing is not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1276[PYCBC-1276]:
+Legacy durability operations are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1290[PYCBC-1290]:
+Transactions for txcouchbase are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1321[PYCBC-1321]:
+API docs for txcouchbase API are not yet available.
+
+
 == Version 4.0.1 (9 June 2022)
 
 Version 4.0.1 is the first patch release of the fourth generation Python SDK, bringing a number of improvements.
