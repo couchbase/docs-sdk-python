@@ -33,13 +33,13 @@ The Couchbase SDK 3.x API (used in the Python SDK 3.0 - 4.0) is a complete rewri
 == Requirements
 
 Couchbase Python SDK bundles Couchbase++ automatically, so no need to install it separately.
-You may need CMake to install, although the installer will attempt to download it from PyPI automatically.
+You may need CMake (a version >= 3.18) to install, although the installer will attempt to download it from PyPI automatically.
 
 The Python SDK 4.x requires Python 3, with versions 3.7 - 3.10 supported. See the xref:project-docs:compatibility.adoc#python-version-compat[Compatibility] section for details.
 
 [NOTE]
 ====
-Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself for TLS support to be provided.
+Currently the Python Client source distribution requires the OpenSSL headers and libraries that the Python client itself was built against to be installed prior to the client itself.
 Additionally the installer relies on PEP517 which older versions of PIP do not support.
 If you experience issues installing it is advised to upgrade your PIP/setuptools installation as follows:
 [source,console]
@@ -60,6 +60,8 @@ macOS::
 +
 --
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
+
+As of the 4.0.1 release of the Python SDK, wheels are available for Python 3.7 - 3.10.
 
 NOTE: There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
 It is advised to install Python via https://github.com/pyenv/pyenv#homebrew-on-macos[pyenv^]
@@ -90,22 +92,11 @@ $ brew install python3
 $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
 ----
 
-.For BASH (MacOS 10.14 Mojave and older)
-[source,console]
-----
-$ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.bash_profile
-----
-
-.For TLS/SSL support - recommended
-
-Best practice is to use a secure connection.
-However, since some scenarios don't require a secure connection, TLS support is recommended but not required.
-
-NOTE: Connecting to Couchbase Capella _requires_ TLS support.
+.For TLS/SSL support - required for Python SDK 4.x
 
 [source,console]
 ----
-$ brew install openssl
+$ brew install openssl@1.1
 ----
 
 
@@ -120,19 +111,25 @@ $ sudo -H python3 -m pip install couchbase
 Debian & Ubuntu::
 +
 --
+This SDK runs on top of the {cpp} core, Couchbase{plus}{plus}, which requires a {cpp} 17 compiler, such as GCC 8.0, or more recent versions. Older versions of Debian and Ubuntu ship with an older version of GCC.
+
+IMPORTANT:  While workarounds are available for installing a newer build chain, some may not be within your company’s policy, so also take a look at container options -- such as the unofficial Docker builds provided in the Python SDK 4.x examples folder https://github.com/couchbase/couchbase-python-client/tree/master/examples/dockerfiles[here^], which can at least be used as a reference to a known working set-up.
+
+Check that you have a new enough release of Python (3.7 - 3.10).
+
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python. 
 See https://github.com/pyenv/pyenv#basic-github-checkout[pyenv docs^] for details.
+
+As of the 4.0.2 release of the Python SDK, manylinux wheels are available for Python 3.7 - 3.10.
 
 During first-time setup:
 
 [source,console]
 ----
-$ sudo apt-get install git-all python3-dev python3-pip python3-setuptools cmake build-essential
+$ sudo apt-get install git-all python3-dev python3-pip python3-setuptools build-essential
 ----
 
-For TLS/SSL support (recommended):
-
-NOTE: Connecting to Couchbase Capella _requires_ TLS support.
+For TLS/SSL support (required for Python SDK 4.x):
 
 [source,console]
 ----
@@ -152,26 +149,28 @@ $ python3 -m pip install couchbase
 RHEL & CentOS::
 +
 --
-include::{version-server}@sdk:pages:partial$docker.adoc[]
+This SDK runs on top of the {cpp} core, Couchbase{plus}{plus}, which requires a {cpp} 17 compiler, such as GCC 8.0, or more recent versions. Older versions of Debian and Ubuntu ship with an older version of GCC.
+
+IMPORTANT:  Workarounds are available for installing a newer build chain with https://fedoraproject.org/wiki/EPEL[EPEL^], but this may not be within your company’s policy, so also take a look at container options -- such as the unofficial Docker builds provided in the Python SDK 4.x examples folder https://github.com/couchbase/couchbase-python-client/tree/master/examples/dockerfiles[here^], which can at least be used as a reference to a known working set-up.
 
 Check that you have a new enough release of Python (3.7 - 3.10), and if not then investigate the https://fedoraproject.org/wiki/EPEL[EPEL^] repository.
 
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python. 
 See https://github.com/pyenv/pyenv#basic-github-checkout[pyenv docs^] for details.
 
+As of the 4.0.2 release of the Python SDK, manylinux wheels are available for Python 3.7 - 3.10.
+
 During first-time setup:
 
 [source,console]
 ----
-$ sudo yum install gcc gcc-c++ python3-devel python3-pip cmake
+$ sudo yum install gcc gcc-c++ python3-devel python3-pip
 ----
 
 TIP: You may need to update your installed version of CMake.
 For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
 
-For TLS/SSL support (recommended):
-
-NOTE: Connecting to Couchbase Capella _requires_ TLS support.
+For TLS/SSL support (required for Python SDK 4.x):
 
 [source,console]
 ----
@@ -190,7 +189,6 @@ Install the latest Python SDK:
 $ python3 -m pip install couchbase
 ----
 
-
 Note, the OpenSSL version needed for TLS 1.3 (mandated for secure connection to Couchbase Capella) is openssl 1.1.1.
 This is newer than the one available in CentOS 7, and updated your OS's libraries is beyond the scope of this documentation --
 but this can be installed through the already-mentioned EPEL repository.
@@ -198,7 +196,7 @@ Once openssl (and other dependencies) are updated, an already-installed Couchbas
 
 [source,console]
 ----
-$ python3 -m pip install --force-reinstall --no-cache --no-binary couchbase couchbase==3.3.0
+$ python3 -m pip install --force-reinstall --no-cache couchbase
 ----
 --
 
@@ -210,13 +208,13 @@ Best practice is to use a Python virtual environment such as _venv_ or _pyenv_.
 
 TIP: Checkout the https://github.com/pyenv-win/pyenv-win[pyenv-win^] project to manage multiple versions of Python.
 
-Wheels are available on Windows for Python 3.7, 3.8, and 3.9.
+Wheels are available on Windows for Python 3.7 - 3.10.
 
 First, make sure the <<microsoft-windows, requirements>> have been installed.
 
 NOTE: Commands assume user is working within a virtual environment.
 
-Install the latest Python SDK (if using Python 3.7, 3.8 or 3.9):
+Install the latest Python SDK (if using Python 3.7 - 3.10):
 
 [source,console]
 ----
@@ -224,9 +222,9 @@ python -m pip install couchbase
 ----
 
 The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
-The binary wheels for Windows are packaged as a binary wheel built against the relevant version OpenSSL (which is fixed per Windows version of Python).
+The binary wheels for Windows are packaged as a binary wheel built against OpenSSL.
 
-If you require a version without OpenSSL support, or that doesn't have a suitable binary wheel on PyPi, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
+NOTE: If you require a version that doesn't have a suitable binary wheel on PyPi, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
 --
 
 Conda::
@@ -234,7 +232,7 @@ Conda::
 --
 To use the SDK within the Anaconda / Miniconda platform, make sure the prerequisites for the desired Operating System are met:
 
-`git-all python3-dev python3-pip python3-setuptools cmake build-essential`
+`git-all python3-dev python3-pip python3-setuptools build-essential`
 
 In the _Anaconda Prompt_, create a new environment:
 [source,console]
@@ -253,11 +251,10 @@ Install the SDK:
 ----
 python -m pip install couchbase
 ----
+
+NOTE: If you require a version that doesn't have a suitable binary wheel on PyPi, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
 --
 ====
-
-NOTE: If using Windows, and no wheel is available, see the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[alternate installlation] methods on the Github README.  
-The same process should work within the Anaconda/Miniconda platform.
 // end::install[]
 
 
