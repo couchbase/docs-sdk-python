@@ -11,7 +11,7 @@
 Users who have been assigned the *Admin* role for the cluster are able to create, edit, and remove users.
 The Python SDK provides APIs to support these activities.
 A high-level summary of the APIs can be found in xref:concept-docs:sdk-user-management-overview.adoc[User-Management],
-and details of all options in the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html[UserManager API docs].
+and details of all options in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_management.html#module-couchbase.management.users[UserManager API docs].
 
 == Using the UserManager API
 
