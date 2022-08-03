@@ -37,6 +37,7 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 == Release Notes
 
+
 == Version 4.0.3 (2 August 2022)
 
 Version `4.0.3` is the third patch release of the fourth generation Python SDK, bringing a number of improvements.
@@ -74,10 +75,10 @@ Fixed Search query results to forward metrics for user access.
 Added replica reads.
 
 * https://issues.couchbase.com/browse/PYCBC-1385[PYCBC-1385]:
-Updated Couchbase++ version.
+Updated {cbpp} version.
 
 * https://issues.couchbase.com/browse/PYCBC-1137[PYCBC-1137]:
-Deprecated the CounterResult CAS property.
+Deprecated the `CounterResult` CAS property.
 
 === Known Issues
 
@@ -88,10 +89,10 @@ Distributed tracing is not yet supported.
 Legacy durability operations are not yet supported.
 
 * https://issues.couchbase.com/browse/PYCBC-1290[PYCBC-1290]:
-Transactions for txcouchbase are not yet supported.
+Transactions for `txcouchbase` are not yet supported.
 
 * https://issues.couchbase.com/browse/PYCBC-1321[PYCBC-1321]:
-API docs for txcouchbase API are not yet available.
+API docs for `txcouchbase` API are not yet available.
 
 
 == Version 4.0.2 (29 June 2022)
