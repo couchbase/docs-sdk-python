@@ -37,6 +37,64 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 == Release Notes
 
+
+== Version 4.0.3 (2 August 2022)
+
+Version `4.0.3` is the third patch release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably the `4.0.3` release added key-value replica read operations and improved memory performance.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.0.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.3/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1201[PYCBC-1201];
+https://issues.couchbase.com/browse/PYCBC-1282[PYCBC-1282];
+https://issues.couchbase.com/browse/PYCBC-1382[PYCBC-1382]
+Fixed memory leak in key-value Result objects.
+
+* https://issues.couchbase.com/browse/PYCBC-1383[PYCBC-1383]:
+Fixed memory leak in key-value Exception objects.
+
+* https://issues.couchbase.com/browse/PYCBC-1386[PYCBC-1386]:
+Fixed OpenSSL discovery for MacOS M1 platforms.
+
+* https://issues.couchbase.com/browse/PYCBC-1389[PYCBC-1389]:
+Removed typing-extensions dependency.
+
+* https://issues.couchbase.com/browse/PYCBC-1390[PYCBC-1390]:
+Fixed Search query results to forward metrics for user access.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1257[PYCBC-1257]:
+Added replica reads.
+
+* https://issues.couchbase.com/browse/PYCBC-1385[PYCBC-1385]:
+Updated {cbpp} version.
+
+* https://issues.couchbase.com/browse/PYCBC-1137[PYCBC-1137]:
+Deprecated the `CounterResult` CAS property.
+
+=== Known Issues
+
+* https://issues.couchbase.com/browse/PYCBC-1261[PYCBC-1261]:
+Distributed tracing is not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1276[PYCBC-1276]:
+Legacy durability operations are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1290[PYCBC-1290]:
+Transactions for `txcouchbase` are not yet supported.
+
+* https://issues.couchbase.com/browse/PYCBC-1321[PYCBC-1321]:
+API docs for `txcouchbase` API are not yet available.
+
+
 == Version 4.0.2 (29 June 2022)
 
 Version `4.0.2` is the second patch release of the fourth generation Python SDK, bringing a number of improvements.
