@@ -1,4 +1,4 @@
-# logging implement in 4.0.2
+# logging implemented in 4.0.2
 # tag::logging[]
 import logging
 import traceback
