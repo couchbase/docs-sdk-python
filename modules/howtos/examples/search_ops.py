@@ -23,7 +23,7 @@ try:
         print("Found row: {}".format(row))
 
     print("Reported total rows: {}".format(
-        result.metadata().metrics.total_rows))
+        result.metadata().metrics().total_rows()))
 
 except CouchbaseException as ex:
     import traceback

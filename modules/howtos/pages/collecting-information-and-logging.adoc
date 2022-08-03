@@ -4,7 +4,6 @@
 :navtitle: Collecting Information
 :page-aliases: logging
 :page-aliases: event-bus-metrics,logging
-:page-status: UNDER CONSTRUCTION
 
 include::project-docs:partial$attributes.adoc[]
 
@@ -12,36 +11,32 @@ include::project-docs:partial$attributes.adoc[]
 
 {description}
 
-WARNING: the Logging implementation has changed substantially in SDK 4.0 and is not currently fully documented.
-This will be resolved in a future 4.x release.
+The Python SDK allows logging via the standard `logging` module.
 
-The Python SDK allows logging via the `PYCBC_LOG_LEVEL` environment variable.
-// TODO: Add this back when it is available and remove the line above.
-// The Python SDK allows logging via the standard `logging` module, or via the `PYCBC_LOG_LEVEL` environment variable.
+== Enabling Logging
 
-// == Enabling Logging
+.Python Logging Module
+[source,python]
+----
+include::example$logging_example.py[tag=logging,indent=0]
+----
 
-// .Python Logging Module
-// [source,python]
+// PYCBC_LOG_LEVEL is not utilized as of 4.0.2, maybe at a later date
+// === Environmental Settings
+
+// In the command line environment, the `PYCBC_LOG_LEVEL` variable is set as follows:
+
+// .GNU/Linux and Mac
+// [source,console]
 // ----
-// include::example$logging_example.py[tag=logging,indent=0]
+// export PYCBC_LOG_LEVEL=<log-level>
 // ----
 
-=== Environmental Settings
-
-In the command line environment, the `PYCBC_LOG_LEVEL` variable is set as follows:
-
-.GNU/Linux and Mac
-[source,console]
-----
-export PYCBC_LOG_LEVEL=<log-level>
-----
-
-.Windows
-[source,console]
-----
-set PYCBC_LOG_LEVEL=<log-level>
-----
+// .Windows
+// [source,console]
+// ----
+// set PYCBC_LOG_LEVEL=<log-level>
+// ----
 
 
 == Log Levels
@@ -49,11 +44,11 @@ set PYCBC_LOG_LEVEL=<log-level>
 You can increase the log level for greater verbosity (more information) in the logs:
 
 * off -- disables all logging, which is normally set by default.
+* critical -- important functionality not working.
 * error -- error messages.
 * warn -- error notifications.
 * info -- useful notices, not often.
 * debug -- diagnostic information, required to investigate problems.
-* trace -- the most verbose level.
 
 
 == Log Redaction
