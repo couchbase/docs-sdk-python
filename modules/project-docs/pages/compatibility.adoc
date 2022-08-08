@@ -126,7 +126,7 @@ Python 4.0 SDK supports AWS Amazon Graviton2 and Apple M1 ARM processors.
 | Not Supported
 3+| Since 3.0
 
-| Default Collections
+| Collections
 | Not Supported
 | Developer Preview in 6.5-6.6, SDK 3.0
 2+| Since 3.0.10
