@@ -19,7 +19,7 @@ logging.basicConfig(filename='example.log',
                     datefmt='%Y-%m-%d %H:%M:%S')
 
 logger = logging.getLogger()
-couchbase.configure_logging(logger.name, level=logger.level)
+couchbase.configure_logging(logger.name, level=logger.level) # <1>
 
 cluster = Cluster('couchbase://localhost',
                   ClusterOptions(PasswordAuthenticator("Administrator", "password")))
