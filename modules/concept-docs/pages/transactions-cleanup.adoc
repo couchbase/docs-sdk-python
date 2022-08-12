@@ -1,0 +1,47 @@
+= Cleanup
+:description: The SDK takes care of failed or lost transactions, using an asynchronous cleanup background task.
+:page-toclevels: 2
+:page-pagination: full
+
+[abstract]
+{description}
+
+include::project-docs:partial$attributes.adoc[]
+include::howtos:partial$acid-transactions-attributes.adoc[]
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=cleanup;!library-cleanup-buckets]
+
+[#tuning-cleanup]
+=== Configuring Cleanup
+
+The cleanup settings can be configured as so:
+
+[options="header"]
+|===
+|Setting|Default|Description
+|`cleanup_window`|60 seconds|This determines how long a cleanup 'run' is; that is, how frequently this client will check its subset of ATR documents.  It is perfectly valid for the application to change this setting, which is at a conservative default.  Decreasing this will cause expiration transactions to be found more swiftly (generally, within this cleanup window), with the tradeoff of increasing the number of reads per second used for the scanning process.
+|`cleanup_lost_attempts`|true|This is the thread that takes part in the distributed cleanup process described above, that cleans up expired transactions created by any client.  It is strongly recommended that it is left enabled.
+|`cleanup_client_attempts`|true|This thread is for cleaning up transactions created just by this client.  The client will preferentially aim to send any transactions it creates to this thread, leaving transactions for the distributed cleanup process only when it is forced to (for example, on an application crash).  It is strongly recommended that it is left enabled.
+|===
+
+=== Monitoring Cleanup
+
+To monitor cleanup, increase the verbosity on the logging.
+
+//TODO: once events are available, re-add the below with relevant examples
+//[source,java]
+//----
+//include::example$TransactionsExample.java[tag=cleanup-events,indent=0]
+//----
+//
+//`TransactionCleanupEndRunEvent` is raised whenever a current 'run' is finished, and contains statistics from the run.
+//(A run is typically around every 60 seconds, with default configuration.)
+//
+//A `TransactionCleanupAttempt` event is raised when an expired transaction was found by this process, and a cleanup attempt was made.
+//It contains whether that attempt was successful, along with any logs relevant to the attempt.
+//
+//In addition, if cleanup fails to cleanup a transaction that is more than two hours past expiry, it will raise the `TransactionCleanupAttempt` event at WARN level (rather than the default DEBUG).
+//With most default configurations of the event-bus (see <<Logging>> below), this will cause that event to be logged somewhere visible to the application.
+//If there is not a good reason for the cleanup to be failed (such as a downed node that has not yet been failed-over), then the user is encouraged to report the issue.
+
+Please see the xref:howtos:collecting-information-and-logging.adoc[Node.js SDK logging documentation] for details.

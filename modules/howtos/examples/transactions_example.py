@@ -1,5 +1,6 @@
 import sys
 import traceback
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from couchbase.auth import PasswordAuthenticator
@@ -9,8 +10,8 @@ from couchbase.exceptions import (DocumentNotFoundException,
                                   TransactionCommitAmbiguous,
                                   TransactionFailed)
 from couchbase.n1ql import QueryProfile
-from couchbase.options import (ClusterOptions, TransactionConfig,
-                               TransactionQueryOptions)
+from couchbase.options import (ClusterOptions, ClusterTimeoutOptions,
+                               TransactionConfig, TransactionQueryOptions)
 
 if TYPE_CHECKING:
     from couchbase.transactions import AttemptContext
@@ -150,6 +151,8 @@ def main():
         insert(cluster, collection, 'doc-id', {'some': 'content'})
         print("transaction - query_examples")
         query_examples(cluster)
+        print("transaction - create_simple")
+        create_simple(cluster, collection)
     except TransactionFailed as ex:
         print(f'Txn did not reach commit point.  Error: {ex}')
     except TransactionCommitAmbiguous as ex:
@@ -175,6 +178,18 @@ def get_scope():
     inventory_scope = (get_cluster()).bucket(
         "travel-sample").scope("inventory")
     return inventory_scope
+
+
+def create_simple(cluster, collection):
+    # tag::create-simple[]
+    def txn_logic(ctx):
+        ctx.insert(collection, 'doc1', {'hello': 'world'})
+
+        doc = ctx.get(collection, 'doc1')
+        ctx.replace(doc, {'foo': 'bar'})
+
+    cluster.transactions.run(txn_logic)
+    # end::create-simple[]
 
 
 def replace(cluster, collection, key):
@@ -324,6 +339,9 @@ def query_options(cluster):
     # end::query_options[]
 
 
+# @TODO: Verify this is the correct way to perform a single query transaction.
+# Currently doesn't seem any different than a normal transaction.
+# For example in Java, we would do: inventory.query(bulkLoadStatement, QueryOptions.queryOptions().asTransaction());
 def query_single(cluster):
     # tag::query_single[]
     bulk_load_statement = ""  # a bulk-loading N1QL statement not provided here
@@ -451,16 +469,11 @@ def complete_error_handling(cluster, collection):
             # ... transactional code here ...
             pass
         result = cluster.transactions.run(txn_logic)
-
-        # the transaction definitely reached the commit point. Unstaging
-        # the individual documents may or may not have completed
-
-        # TODO find python equivalent
-        # if(!result.unstaging_complete):
-        # In rare cases, the application may require the commit to have
-        # completed.  (Recall that the asynchronous cleanup process is
-        # still working to complete the commit.)
-        # The next step is application-dependent.
+        if not result.unstaging_complete:
+            # In rare cases, the application may require the commit to have completed.
+            # (Recall that the asynchronous cleanup process is still working to complete the commit.)
+            # The next step is application-dependent.
+            print("do something...")
     except TransactionCommitAmbiguous as ex:
         # The transaction may or may not have reached commit point
         print(
