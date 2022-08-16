@@ -49,12 +49,6 @@ See the notes there for Support details.
 
 === Capella Compatibility
 
-At time of release, the Couchbase 4.0 Python SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service.
-To make development easier, the 4.0 SDK includes the Capella client certificate ready installed.
-
-
-=== Capella Compatibility
-
 At time of release, the Couchbase 4.0 Python SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service. 
 To make development easier, the 4.0 Python SDK includes the Capella client certificate ready installed.
 
