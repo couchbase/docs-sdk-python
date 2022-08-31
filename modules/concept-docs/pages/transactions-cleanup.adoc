@@ -44,4 +44,4 @@ To monitor cleanup, increase the verbosity on the logging.
 //With most default configurations of the event-bus (see <<Logging>> below), this will cause that event to be logged somewhere visible to the application.
 //If there is not a good reason for the cleanup to be failed (such as a downed node that has not yet been failed-over), then the user is encouraged to report the issue.
 
-Please see the xref:howtos:collecting-information-and-logging.adoc[Node.js SDK logging documentation] for details.
+Please see the xref:howtos:collecting-information-and-logging.adoc[Python SDK logging documentation] for details.
