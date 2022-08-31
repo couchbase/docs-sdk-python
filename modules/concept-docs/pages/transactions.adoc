@@ -1,0 +1,68 @@
+= Distributed ACID Transactions
+:description:  A high-level overview of Distributed ACID Transactions with Couchbase.
+:page-toclevels: 2
+:page-pagination: next
+
+include::project-docs:partial$attributes.adoc[]
+include::howtos:partial$acid-transactions-attributes.adoc[]
+
+[abstract]
+{description}
+
+For a practical guide, see xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[Distributed ACID Transactions from the Python SDK].
+
+== Overview
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=intro]
+
+== Transaction Mechanics
+
+[source,python]
+----
+include::howtos:example$transactions_example.py[tag=create-simple,indent=0]
+----
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=mechanics;!library-cleanup-process]
+
+== Rollback
+
+If an exception is thrown, either by the application from the lambda, or by the transaction internally, then that attempt is rolled back.
+The transaction logic may or may not be retried, depending on the exception.
+
+If the transaction is not retried then it will throw an exception, and its `message` property can be used to inspect the details of the failure.
+
+The application can use this to signal why it triggered a rollback, as so:
+
+[source,python]
+----
+include::howtos:example$transactions_example.py[tag=rollback_cause,indent=0]
+----
+
+After a transaction is rolled back, it cannot be committed, no further operations are allowed on it, and the system will not try to automatically commit it at the end of the code block.
+
+== Transaction Operations
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=query;!library-begin-transaction]
+
+== Concurrency with Non-Transactional Writes
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=concurrency]
+
+// TODO: uncomment once custom metadata collections are supported
+//== Custom Metadata Collections
+//
+//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-1]
+//
+//[source,python]
+//----
+//include::howtos:example$transactions_example.py[tag=custom_metadata,indent=0]
+//----
+//
+//or at an individual transaction level with:
+//
+//[source,java]
+//----
+//include::howtos:example$transactions_example.py[tag=custom_metadata_per,indent=0]
+//----
+//
+//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=integrated-sdk-custom-metadata-2]

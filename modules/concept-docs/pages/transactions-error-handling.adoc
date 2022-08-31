@@ -1,0 +1,35 @@
+= Error Handling
+:description: Handling transaction errors with Couchbase.
+:page-toclevels: 2
+:page-pagination: prev
+
+[abstract]
+{description}
+
+include::project-docs:partial$attributes.adoc[]
+include::howtos:partial$acid-transactions-attributes.adoc[]
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=error-intro]
+
+== Transaction Errors
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=error]
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed]
+
+// TODO: Need an equivalent python snippet for the below
+//[source,java]
+//----
+//include::example$TransactionsExample.java[tag=config-expiration,indent=0]
+//----
+
+include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed1]
+
+=== Full Error Handling Example
+
+Pulling all of the above together, this is the suggested best practice for error handling:
+
+[source,python]
+----
+include::howtos:example$transactions_example.py[tag=complete_error_handling,indent=0]
+----
