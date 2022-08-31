@@ -11,7 +11,7 @@ include::partial$acid-transactions-attributes.adoc[]
 [abstract]
 {description}
 
-This guide will show you examples of how to perform multi-document ACID (atomic, consistent, isolated, and durable) database transactions within your application, using the Couchbase Node.js SDK.
+This guide will show you examples of how to perform multi-document ACID (atomic, consistent, isolated, and durable) database transactions within your application, using the Couchbase Python SDK.
 
 Refer to the xref:concept-docs:transactions.adoc[Distributed ACID Transactions] concept material for a high-level overview.
 
