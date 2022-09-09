@@ -41,7 +41,7 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Version 4.0.4 (8 September 2022)
 
 Version `4.0.4` is the fourth patch release of the fourth generation Python SDK, bringing a number of improvements.
-Most notably the `4.0.4` release added legacy durability to mutation operations, tracing and metrics.
+Most notably the `4.0.4` release added legacy durability to mutation operations, tracing, and metrics.
 
 [source,bash]
 ----
@@ -65,7 +65,7 @@ Added legacy durability to mutation operations.
 This allows the use of client durability within operations that allow for a durability option.
 
 * https://issues.couchbase.com/browse/PYCBC-1399[PYCBC-1399]:
-Added Metrics API - users can now provide a custom meter for logging metrics. 
+Added Metrics API -- users can now provide a custom meter for logging metrics. 
 
 * https://issues.couchbase.com/browse/PYCBC-1391[PYCBC-1391]:
 Removed `_raw_metrics` property from streaming API Metrics result objects.
@@ -76,6 +76,7 @@ Users will no longer see an error if a document doesn't exist, instead the `resp
 
 * https://issues.couchbase.com/browse/PYCBC-1395[PYCBC-1395]:
 Updated build deferred index logic to align with recent change in {cbpp} client.
+
 
 == Version 4.0.3 (2 August 2022)
 
@@ -259,6 +260,7 @@ Transactions for txcouchbase are not yet supported.
 
 * https://issues.couchbase.com/browse/PYCBC-1321[PYCBC-1321]:
 API docs for txcouchbase API are not yet available.
+
 
 == Version 4.0.0 (6 May 2022)
 
