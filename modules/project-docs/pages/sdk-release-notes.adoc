@@ -38,6 +38,43 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+== Version 4.0.4 (8 September 2022)
+
+Version `4.0.4` is the fourth patch release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably the `4.0.4` release added legacy durability to mutation operations, tracing and metrics.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.0.4
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.4/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1398[PYCBC-1398]:
+Fixed potential crash when accessing error_context from a base_exception object.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1261[PYCBC-1261]:
+Added Tracing API.
+
+* https://issues.couchbase.com/browse/PYCBC-1276[PYCBC-1276]:
+Added legacy durability to mutation operations.
+
+* https://issues.couchbase.com/browse/PYCBC-1399[PYCBC-1399]:
+Added Metrics API.
+
+* https://issues.couchbase.com/browse/PYCBC-1391[PYCBC-1391]:
+Removed _raw_metrics property from streaming API Metrics result objects.
+
+* https://issues.couchbase.com/browse/PYCBC-1392[PYCBC-1392]:
+Updated exists logic to align with recent change in {cbpp} client.
+
+* https://issues.couchbase.com/browse/PYCBC-1395[PYCBC-1395]:
+Updated build deferred index logic to align with recent change in {cbpp} client.
+
 == Version 4.0.3 (2 August 2022)
 
 Version `4.0.3` is the third patch release of the fourth generation Python SDK, bringing a number of improvements.
