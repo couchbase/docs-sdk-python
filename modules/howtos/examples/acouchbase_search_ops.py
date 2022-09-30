@@ -1,6 +1,6 @@
 # tag::simple_query[]
 from acouchbase.cluster import Cluster, get_event_loop
-from couchbase.cluster import ClusterOptions
+from couchbase.options import ClusterOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 import couchbase.search as search
@@ -16,7 +16,7 @@ async def get_couchbase():
 
     return cluster, bucket, collection
 
-
+# NOTE: the travel-sample-index search index might need to be created
 async def simple_query(cluster):
     try:
         result = cluster.search_query(

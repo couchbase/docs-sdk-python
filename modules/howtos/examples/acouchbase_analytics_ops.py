@@ -1,9 +1,8 @@
 # tag::simple_query[]
 from acouchbase.cluster import Cluster, get_event_loop
-from couchbase.cluster import ClusterOptions
+from couchbase.options import AnalyticsOptions, ClusterOptions
 from couchbase.auth import PasswordAuthenticator
-from couchbase.exceptions import CompilationFailedException
-from couchbase.analytics import AnalyticsOptions
+from couchbase.exceptions import CouchbaseException
 
 
 async def get_couchbase():
@@ -16,7 +15,7 @@ async def get_couchbase():
 
     return cluster, bucket, collection
 
-
+# NOTE: the analytics dataset might need to be created
 async def simple_query(cluster):
     try:
         result = cluster.analytics_query(
@@ -24,7 +23,7 @@ async def simple_query(cluster):
             AnalyticsOptions(named_parameters={"country": "France"}))
         async for row in result:
             print("Found row: {}".format(row))
-    except CompilationFailedException as ex:
+    except CouchbaseException as ex:
         print(ex)
 
 loop = get_event_loop()

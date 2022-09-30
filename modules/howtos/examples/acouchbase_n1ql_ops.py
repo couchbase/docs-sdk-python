@@ -1,6 +1,6 @@
 # tag::simple_query[]
 from acouchbase.cluster import Cluster, get_event_loop
-from couchbase.cluster import ClusterOptions, QueryOptions
+from couchbase.options import ClusterOptions, QueryOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import ParsingFailedException
 

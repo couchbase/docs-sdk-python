@@ -80,6 +80,14 @@ As opposed to the synchronous SDK methods which wait for completion and return `
 You may configure `Deferred` with callback and errback handlers. 
 `Result` objects are propagated to the callback as seen in the examples below.
 
+IMPORTANT: The txcouchbase package _must_ be imported prior to importing the Twisted reactor.
+
+._txcouchbase_ imports
+[source,python]
+----
+include::howtos:example$txcouchbase_operations.py[tag=txcouchbase_imports]
+----
+
 .Create a _txcouchbase_ Cluster
 [source,python]
 ----

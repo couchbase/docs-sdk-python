@@ -7,20 +7,20 @@ from acouchbase.cluster import get_event_loop
 # needed for sub-document operations
 import couchbase.subdocument as SD
 
-# needed to support SQL++ (N1QL) query
-from couchbase.cluster import QueryOptions
+# used to support SQL++ (N1QL) query
+from couchbase.options import QueryOptions
 
 # needed for FTS support
 import couchbase.search as search
 
-# needed for
-from couchbase.analytics import AnalyticsOptions
+# used for analytics operations
+from couchbase.options import AnalyticsOptions
 
 # tag::create[]
 
 # needed for cluster creation
 from acouchbase.cluster import Cluster
-from couchbase.cluster import ClusterOptions
+from couchbase.options import ClusterOptions
 from couchbase.auth import PasswordAuthenticator
 
 
@@ -83,7 +83,7 @@ async def n1ql_query(cluster):
         print(ex)
 # end::n1ql[]
 
-
+# NOTE: the travel-sample-index search index might need to be created
 # tag::search[]
 async def search_query(cluster):
     try:
@@ -99,7 +99,7 @@ async def search_query(cluster):
         print(ex)
 # end::search[]
 
-
+# NOTE: the analytics dataset might need to be created
 # tag::analytics[]
 async def analytics_query(cluster):
     try:
