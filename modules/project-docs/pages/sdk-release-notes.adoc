@@ -38,6 +38,46 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+== Version 4.0.5 (7 October 2022)
+
+Version `4.0.5` is the fifth patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.0.5
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.5/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1312[PYCBC-1312];
+https://issues.couchbase.com/browse/PYCBC-1407[PYCBC-1407]:
+Fixed crash related to closing a cluster connection.
+
+* https://issues.couchbase.com/browse/PYCBC-1409[PYCBC-1409]:
+Updated to version of {cbpp} client that correctly closes HTTP connections.
+
+* https://issues.couchbase.com/browse/PYCBC-1413[PYCBC-1413]:
+Fixed possible streaming API exceptions when executing in threaded environment.
+
+* https://issues.couchbase.com/browse/PYCBC-1415[PYCBC-1415]:
+Updated async APIs to use correct future chaining method for read KV operations.
+
+* https://issues.couchbase.com/browse/PYCBC-1416[PYCBC-1416]:
+Fixed `txcouchbase` search API.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1405[PYCBC-1405]:
+Updated legacy durability to use the internal {cbpp} client API.
+
+* https://issues.couchbase.com/browse/PYCBC-1406[PYCBC-1406]:
+Updated replica reads to use the internal {cbpp} client API.
+
+* https://issues.couchbase.com/browse/PYCBC-1411[PYCBC-1411]:
+Added support for LDAP authentication.
+
 == Version 4.0.4 (8 September 2022)
 
 Version `4.0.4` is the fourth patch release of the fourth generation Python SDK, bringing a number of improvements.
