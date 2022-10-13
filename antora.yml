@@ -1,5 +1,5 @@
 name: python-sdk
-version: '4.0'
+version: '4.1'
 title: Python SDK
 start_page: hello-world:overview.adoc
 nav:
