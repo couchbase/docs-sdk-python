@@ -14,19 +14,21 @@ from couchbase.options import (ClusterOptions, ClusterTimeoutOptions,
 # Update this to your cluster
 endpoint = "--your-instance--.dp.cloud.couchbase.com"
 username = "username"
-password = "Password123!"
+password = "Password!123"
 bucket_name = "travel-sample"
 # User Input ends here.
 
 # Connect options - authentication
 auth = PasswordAuthenticator(username, password)
 
-# Connect options - global timeout opts
-timeout_opts = ClusterTimeoutOptions(kv_timeout=timedelta(seconds=10))
-
 # get a reference to our cluster
+options = ClusterOptions(auth)
+# Sets a pre-configured profile called "wan_development" to help avoid latency issues
+# when accessing Capella from a different Wide Area Network
+# or Availability Zone(e.g. your laptop).
+options.apply_profile('wan_development')
 cluster = Cluster('couchbases://{}'.format(endpoint),
-                  ClusterOptions(auth, timeout_options=timeout_opts))
+                  ClusterOptions(auth))
 
 # Wait until the cluster is ready for use.
 cluster.wait_until_ready(timedelta(seconds=5))
@@ -75,8 +77,9 @@ def get_airline_by_key(key):
 def lookup_by_callsign(cs):
     print("\nLookup Result: ")
     try:
-        sql_query = 'SELECT VALUE name FROM `travel-sample`.inventory.airline WHERE callsign = $1'
-        row_iter = cluster.query(
+        inventory_scope = cb.scope('inventory')
+        sql_query = 'SELECT VALUE name FROM airline WHERE callsign = $1'
+        row_iter = inventory_scope.query(
             sql_query,
             QueryOptions(positional_parameters=[cs]))
         for row in row_iter:

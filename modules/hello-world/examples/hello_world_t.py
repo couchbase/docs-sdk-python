@@ -9,19 +9,15 @@ from couchbase.options import (ClusterOptions, ClusterTimeoutOptions,
 
 # tag::connect[]
 # Update this to your cluster
-username = "username"
+username = "Administrator"
 password = "password"
 bucket_name = "travel-sample"
-cert_path = "path/to/certificate"
 # User Input ends here.
 
 # Connect options - authentication
 auth = PasswordAuthenticator(
     username,
     password,
-    # NOTE: If using SSL/TLS, add the certificate path.
-    # We strongly reccomend this for production use.
-    # cert_path=cert_path
 )
 
 # Get a reference to our cluster
@@ -81,8 +77,9 @@ def get_airline_by_key(key):
 def lookup_by_callsign(cs):
     print("\nLookup Result: ")
     try:
-        sql_query = 'SELECT VALUE name FROM `travel-sample`.inventory.airline WHERE callsign = $1'
-        row_iter = cluster.query(
+        inventory_scope = cb.scope('inventory')
+        sql_query = 'SELECT VALUE name FROM airline WHERE callsign = $1'
+        row_iter = inventory_scope.query(
             sql_query,
             QueryOptions(positional_parameters=[cs]))
         for row in row_iter:

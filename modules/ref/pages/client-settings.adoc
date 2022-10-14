@@ -644,3 +644,50 @@ The transcoder configured here is just the default; it can be overridden on a pe
 // User Agent Extra.
 
 include::{version-server}@sdk:shared:partial$client-settings-wide-network.adoc[]
+
+== Configuration Profiles
+
+Configuration Profiles provide predefined client settings that allow you to quickly configure an environment for common use-cases.
+When using a configuration profile, the current client settings are overridden with the values provided in the profile.
+Any property that is not specified in the profile is left unchanged.
+
+CAUTION: The Configuration Profiles feature is currently a xref:python-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
+
+=== WAN Development
+
+*Cluster Option:* apply_profile("wan_development")`
+
+A `wan_development` configuration profile can be used to modify client settings for development or high-latency environments.
+This profile changes the default timeouts.
+
+
+.Profile Settings
+[cols="1,1"]
+|===
+| Setting | Value
+
+| `connect_timeout`
+| 20s
+
+| `kv_timeout`
+| 20s
+
+| `kv_durable_timeout`
+| 20s
+
+| `views_timeout`
+| 120s
+
+| `query_timeout`
+| 120s
+
+| `analyticsTimeout`
+| 120s
+
+| `search_timeout`
+| 120s
+
+| `management_timeout`
+| 120s
+|===
+

@@ -1,9 +1,10 @@
-= Install and Start Using the Python SDK with Couchbase Server
+= Start Using the Python SDK
 :page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
-:navtitle: Start Using the SDK
 :description: Get up and running quickly, installing the Couchbase Python SDK, and running our Hello World example.
 :page-toclevels: 2
 :page-partial:
+:page-pagination: next
+:page-topic-type: tutorial
 
 include::project-docs:partial$attributes.adoc[]
 
@@ -13,10 +14,15 @@ include::project-docs:partial$attributes.adoc[]
 The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
 It offers a traditional synchronous API as well as integration with _twisted_ and _asyncio_.
 
+In this guide, you will learn:
+
+* How to xref:connect[connect to Couchbase Capella or Couchbase Server].
+
+* How to xref:add-and-retrieve-documents[add and retrieve Documents].
+
+* How to xref:sql-lookup[lookup documents] with the {sqlpp_url}[{sqlpp} (formerly N1QL)] query language.
 
 == Hello Couchbase
-
-On this page we show you how to quickly get up and running -- installing the Couchbase Python SDK, and trying out the _Hello World_ code example against Couchbase Capella, or against a local Couchbase cluster.
 
 We will go through the code sample step by step, but for those in a hurry to see it, here it is:
 
@@ -48,7 +54,6 @@ or the xref:{version-server}@server:manage:manage-settings/install-sample-bucket
 ====
 
 The https://cloud.couchbase.com/sign-up[Couchbase Capella free trial] version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
-
 
 == Quick Installation
 
@@ -168,27 +173,58 @@ If there are any problems, refer to the full xref:project-docs:sdk-full-installa
 // TODO: There's not much in the Platform Help page, we should avoid pointing users to it for now.
 // TIP: If you are evaluating the Python SDK as a tester, architect, or otherwise not a regular Python developer, our xref:platform-help.adoc[Platform Help] pages may help get you over any humps in the road.
 
+== Prerequisites
+
+The following code samples assume:
+
+[{tabs}]
+====
+Couchbase Capella::
++
+--
+* You have signed up to https://cloud.couchbase.com/sign-up[Couchbase Capella].
+
+* You have created your own bucket, or loaded the Travel Sample dataset.
+Note, the Travel Sample dataset is installed automatically by the Capella free trial.
+
+* A user is created with permissions to access the cluster (at least Application Access permissions).
+See the xref:cloud:get-started:cluster-and-data.adoc#credentials[Capella connection page] for more details.
+
+IMPORTANT: Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
+For the purposes of this guide, you can use the *Organization Owner* role automatically assigned to your account during installation of the Capella cluster.
+In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice.
+--
+
+Local Couchbase Server::
++
+--
+* xref:{version-server}@server:getting-started/do-a-quick-install.adoc[Couchbase Server] is installed and accessible locally.
+
+* You have created your own bucket, or loaded the Travel Sample dataset using the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface].
+
+* A user is created with permissions to access your cluster (at least Application Access permissions).
+See xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups and Roles] for more details.
+
+IMPORTANT: Couchbase Server uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+In this guide we suggest using the *Full Admin* role created during setup of your local Couchbase Server cluster.
+For production client code, you will want to use more appropriate, restrictive settings.
+--
+====
 
 == Step-by-Step
 
 At this point we want to transition from the terminal to your code editor of choice.
 
-Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step:
+Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step.
 
-* Connect to a cluster, bucket, and collection;
-* Add and retrieve a new document;
-* Look up (SQL-type query) the new document by attribute value.
-
-=== Prerequisites
-
-Here are all of the import statements that you will need to run the sample code.
+Here are all the import statements that you will need to run the sample code:
 
 [source,python,indent=0]
 ----
 include::example$cloud.py[tag=imports]
 ----
 
-=== Connection
+=== Connect
 
 The basic connection details that you'll need are given below -- for more background information, refer to the xref:howtos:managing-connections.adoc#connection-strings[Managing Connections page].
 
@@ -197,20 +233,20 @@ The basic connection details that you'll need are given below -- for more backgr
 Couchbase Capella::
 +
 --
-IMPORTANT: Couchbase Capella requires mandatory use of TLS (Transport Layer Security).
-As of Python SDK version 4.0, the standard certificate required to connect to a Capella cluster is automatically included with no additional configuration.
+
+From version 4.0, the Python SDK includes Capella’s standard certificates by default, so you don't need any additional configuration.
+You do need to enable TLS, which can be done by simply using `couchbases://` in the connection string as in this example.
 
 [source,python]
 ----
 include::example$cloud.py[tag=connect,indent=0]
 ----
 
-Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
-For the purposes of this example, we can use the _Organization Owner_ role automatically assigned to a user account during installation of the Capella cluster.
-This role grants full access to a Capella organization, including full data access to all projects and clusters.
-In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice. 
+When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
+SDK 3.4 introduces a `wan_development` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
+Basic usage is shown in the example above, but if you want to learn more see xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 
-For the SDK client to access cluster data, you will need to set up credentials for your database by xref:cloud:get-started:cluster-and-data.adoc#credentials[following these steps].
+CAUTION: The Configuration Profiles feature is currently a xref:python-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
 --
 
 Local Couchbase Server::
@@ -221,35 +257,31 @@ Local Couchbase Server::
 include::example$hello_world_t.py[tag=connect,indent=0]
 ----
 
-Couchbase uses xref:7.1@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
-For the sake of this example, we are connecting to Couchbase using the _Full Admin_ role created during the installation of our Couchbase Server.
-The connection is being made to a single Couchbase node, running locally.
-
-Couchbase RBAC is fully described in the xref:7.1@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups, and Roles] page.
-An _authenticator_, containing username and password, should be defined, and then passed to the cluster.
+For developing locally on the same machine as Couchbase Server, your URI can be `couchbase://localhost` as shown here.
+For production deployments, you will want to use a secure server, with `couchbases://`.
 --
 ====
 
-Following successful authentication, the bucket can be opened:
+Following successful authentication, add this code snippet to access your `Bucket`:
 
 [source,python]
 ----
 include::example$cloud.py[tag=bucket,indent=0]
 ----
 
-NOTE: We are working with the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc[travel-sample] data bucket.
-If you are not, update the `bucket_name` variable used in the example with your bucket name.
+=== Add and Retrieve Documents
 
 The Python SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
-_Collections_ allow documents to be grouped by purpose or theme, according to a specified _Scope_.
-Here we will use the `airline` collection within the `inventory` scope from `travel-sample` bucket as an example.
+*Collections* allow documents to be grouped by purpose or theme, according to a specified _Scope_.
+
+Here we refer to the `users` collection within the `tenant_agent_00` scope from the Travel Sample bucket as an example, but you may replace this with your own data.
 
 [source,python]
 ----
 include::example$cloud.py[tag=collection,indent=0]
 ----
 
-The code shows how you would use a named collection and scope. 
+The code shows how you would use a named collection and scope.
 
 .For Local Couchbase Server only
 [IMPORTANT]
@@ -262,8 +294,6 @@ include::example$hello_world_t.py[tag=default-collection,indent=0]
 ----
 ====
 
-=== Document Addition and Retrieval
-
 Let's create a dictionary object in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
 
 [source,python]
@@ -271,7 +301,7 @@ Let's create a dictionary object in our application that we can add to our `trav
 include::example$cloud.py[tag=test-doc,indent=0]
 ----
 
-xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using simple methods on the `Collection` class such as `Collection.get` and `Collection.upsert`.
+xref:howtos:kv-operations.adoc[Data operations], such as storing and retrieving documents, can be done using simple methods on the `Collection` class such as `Collection.get` and `Collection.upsert`.
 Simply pass the key (and value, if applicable) to the relevant methods.
 
 The following function will _upsert_ a document and print the returned xref:howtos:concurrent-document-mutations.adoc[CAS] value:
@@ -281,7 +311,7 @@ The following function will _upsert_ a document and print the returned xref:howt
 include::example$cloud.py[tag=upsert-func,indent=0]
 ----
 
-Now, we can simply call the `upsert_document()` function passing in our `airline` document:
+Call the `upsert_document()` function passing in our `airline` document:
 
 [source,python]
 ----
@@ -296,20 +326,19 @@ The following function runs a `get()` for a document key and either logs out the
 include::example$cloud.py[tag=get-func,indent=0]
 ----
 
-Key-value Operations are described in detail on the xref:howtos:kv-operations.adoc[KV Operations page].
-
-Now, we can simply call the `get_airline_by_key` function passing in our valid document key `airline_8091`:
+Call the `get_airline_by_key` function passing in our valid document key `airline_8091`:
 
 [source,python]
 ----
 include::example$cloud.py[tag=get-invoke,indent=0]
 ----
 
-
 === SQL++ Lookup
 
-Couchbase N1QL queries are performed by invoking the `Cluster.query()` method.
-The following function executes a lookup for `airline` documents by a provided `callsign`:
+Couchbase {sqlpp} queries can be performed at the `Cluster` or `Scope` level by invoking `Cluster.query()` or `Scope.query()`.
+
+Cluster level queries require you to specify the fully qualified keyspace each time (e.g. `travel-sample.inventory.airline`).
+However, with a Scope level query you only need to specify the Collection name -- which in this case is `airline`:
 
 [source,python]
 ----
@@ -355,7 +384,7 @@ Now you're up and running, try one of the following:
 
 * Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
 * Explore xref:howtos:kv-operations.adoc[Key Value Operations] (CRUD) against a document database;
-* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based N1QL language;
+* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based {sqlpp} query language;
 // * Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
 // * A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
 * Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
