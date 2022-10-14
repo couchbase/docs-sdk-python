@@ -643,7 +643,7 @@ The transcoder configured here is just the default; it can be overridden on a pe
 // +
 // User Agent Extra.
 
-include::{version-server}@sdk:shared:partial$client-settings-wide-network.adoc[]
+include::{version-common}@sdk:shared:partial$client-settings-wide-network.adoc[]
 
 == Configuration Profiles
 
