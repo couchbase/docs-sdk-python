@@ -111,7 +111,7 @@ Although installable or compilable on many other platforms, we cannot provide su
 
 === ARM Processor Support
 
-Python 4.0 SDK supports AWS Amazon Graviton2 and Apple M1 ARM processors.
+AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04 (from SDK 4.1).
 
 
 == Couchbase New Feature Availability Matrix
