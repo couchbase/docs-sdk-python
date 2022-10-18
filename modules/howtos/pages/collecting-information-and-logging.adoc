@@ -1,7 +1,6 @@
-= Collecting Information & Logging
+= Logging
 :description: Logging with the Python SDK.
 :page-topic-type: howto
-:navtitle: Collecting Information
 :page-aliases: logging
 :page-aliases: event-bus-metrics,logging
 

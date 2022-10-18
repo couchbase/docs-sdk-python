@@ -1,6 +1,5 @@
 = Client Settings
 :description: pass:q[The `ClusterOptions` class enables you to configure Python SDK options for bootstrapping, timeouts, reliability, and performance.]
-:nav-title: Client Settings
 :page-topic-type: reference
 :page-aliases: ROOT:client-settings.adoc
 :page-toclevels: 2

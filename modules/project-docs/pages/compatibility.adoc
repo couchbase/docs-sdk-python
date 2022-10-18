@@ -1,9 +1,9 @@
-= Compatibility of Couchbase Features, Couchbase Server Versions, and the Couchbase Python SDK
+= Compatibility
 :description: Features available in different SDK versions, and compatibility between Server and SDK. \
 Plus notes on Cloud, networks, and AWS Lambda.
-:navtitle: Compatibility
 :page-aliases: ROOT:overview,ROOT:compatibility-versions-features,compatibility-versions-features
 :page-toclevels: 2
+:page-topic-type: reference
 
 include::project-docs:partial$attributes.adoc[]
 

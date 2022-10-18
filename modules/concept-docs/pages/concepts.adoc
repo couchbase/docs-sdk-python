@@ -1,5 +1,4 @@
-= Concepts
-:navtitle: Concepts
+= Overview
 :page-topic-type: landing-page
 
 include::project-docs:partial$attributes.adoc[]

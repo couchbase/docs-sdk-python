@@ -1,8 +1,7 @@
-= Couchbase Python SDK Installation
+= Full Installation
 :description: Installation instructions for the Couchbase Python Client.
-:navtitle: Full Installation
 :page-partial:
-:page-topic-type: project-doc
+:page-topic-type: reference
 
 include::project-docs:partial$attributes.adoc[]
 

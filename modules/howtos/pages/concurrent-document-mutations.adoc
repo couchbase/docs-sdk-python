@@ -1,6 +1,7 @@
 = Concurrent Document Mutations
 :page-topic-type: howto
 :page-aliases: ROOT:concurrent-document-mutations.adoc
+
 include::project-docs:partial$attributes.adoc[]
 
 include::{version-server}@sdk:shared:partial$cas.adoc[tag=intro]

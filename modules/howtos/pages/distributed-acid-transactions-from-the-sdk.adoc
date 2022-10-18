@@ -1,6 +1,5 @@
-= Distributed Transactions from the Python SDK
+= Using Couchbase Transactions
 :description: A practical guide to using Couchbase distributed ACID transactions with the Python SDK.
-:navtitle: ACID Transactions
 :page-topic-type: howto
 :page-toclevels: 2
 :page-pagination: next
@@ -13,7 +12,7 @@ include::partial$acid-transactions-attributes.adoc[]
 
 This guide will show you examples of how to perform multi-document ACID (atomic, consistent, isolated, and durable) database transactions within your application, using the Couchbase Python SDK.
 
-Refer to the xref:concept-docs:transactions.adoc[Distributed ACID Transactions] concept material for a high-level overview.
+Refer to the xref:concept-docs:transactions.adoc[] page for a high-level overview.
 
 == Prerequisites
 

@@ -2,6 +2,7 @@
 :description: Handling transaction errors with Couchbase.
 :page-toclevels: 2
 :page-pagination: prev
+:page-topic-type: concept
 
 [abstract]
 {description}
