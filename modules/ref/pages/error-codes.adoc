@@ -1,7 +1,6 @@
-= Errors & Exceptions Reference
+= Error Messages
 :description: The standardized error codes returned by the Couchbase Python SDK, from cloud connection to sub-document.
-:nav-title: Error Codes
-:page-topic-type: ref
+:page-topic-type: reference
 
 include::project-docs:partial$attributes.adoc[]
 

@@ -1,6 +1,5 @@
 = Provisioning Cluster Resources
 :description: Provisioning cluster resources is managed at the collection or bucket level, depending upon the service affected.
-:navtitle: Provisioning Cluster Resources
 :page-aliases: ROOT:managing-clusters
 :page-toclevels: 2
 

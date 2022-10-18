@@ -1,6 +1,5 @@
 = Health Check
 :description: Health Check provides ping() and diagnostics() tests for the health of the network and the cluster.
-:nav-title: Health Check
 :page-topic-type: concept
 :page-aliases: ROOT:health-check
 

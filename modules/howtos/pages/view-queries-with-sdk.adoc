@@ -1,4 +1,4 @@
-= MapReduce Views Using the Python SDK with Couchbase Server
+= MapReduce Views
 :description: You can use MapReduce views to create queryable indexes in Couchbase Data Platform.
 :navtitle: MapReduce Views
 :page-topic-type: howto

@@ -2,6 +2,7 @@
 :description: The SDK takes care of failed or lost transactions, using an asynchronous cleanup background task.
 :page-toclevels: 2
 :page-pagination: full
+:page-topic-type: concept
 
 [abstract]
 {description}

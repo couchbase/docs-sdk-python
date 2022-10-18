@@ -1,7 +1,7 @@
-= Caching Example for Python SDK
+= Caching Example
 :description: A walk-through of the basics of Key-Value operations with Couchbase, through the lens of a REST api caching layer.
-:navtitle: KV Caching Example
 :page-topic-type: howto
+:page-pagination: full
 
 include::project-docs:partial$attributes.adoc[]
 

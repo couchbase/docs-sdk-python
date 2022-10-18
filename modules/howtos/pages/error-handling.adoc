@@ -1,6 +1,5 @@
-= Handling Errors
+= Error Handling
 :description: Errors are inevitable. The developer's job is to be prepared for whatever is likely to come up -- and to try and be prepared for anything that conceivably could come up.
-:navtitle: Handling Errors
 :page-topic-type: howto
 :page-aliases: ROOT:handling-error-conditions,ROOT:exception-handling
 :source-language: python

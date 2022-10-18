@@ -1,7 +1,6 @@
-= Collections & Scope
+= Collections and Scopes
 :description: Fully supported in Couchbase Server 7.0.
 :page-topic-type: concept
-:nav-title: Collections
 
 include::project-docs:partial$attributes.adoc[]
 
