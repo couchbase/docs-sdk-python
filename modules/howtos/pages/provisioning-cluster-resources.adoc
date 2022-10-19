@@ -22,7 +22,7 @@ include::project-docs:partial$attributes.adoc[]
 {description}
 Common use cases are outlined here, less common use cases are covered in the https://docs.couchbase.com/sdk-api/couchbase-python-client/[API docs].
 
-include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
+include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=management-intro]
 
 The Python SDK also comes with some convenience functionality for common Couchbase management requests.
 
@@ -51,7 +51,7 @@ include::howtos:example$provisioning_resources_buckets.py[tag=create_bucket_mgr]
 
 The `CreateBucketSettings` and `BucketSettings` classes are used for creating and updating buckets, `BucketSettings` is also used for exposing information about existing buckets.
 
-include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=update-bucket-warning]
+include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=update-bucket-warning]
 
 Here is the list of parameters available:
 
@@ -93,7 +93,7 @@ include::howtos:example$provisioning_resources_buckets.py[tag=drop_bucket]
 
 === Flushing Buckets
 
-include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
+include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
 You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#flushing-clearing-the-bucket[`flush_bucket()` method].
 
@@ -162,7 +162,7 @@ include::howtos:example$provisioning_resources_collections.py[tag=listing-scope-
 
 == Index Management
 
-include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=index-management-intro]
+include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=index-management-intro]
 
 === QueryIndexManager
 
@@ -174,7 +174,7 @@ It can be instantiated through the `Cluster.query_indexes()` method.
 include::howtos:example$query_index_manager.py[tag=creating-index-mgr,indent=0]
 ----
 
-include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=query-index-manager-intro]
+include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=query-index-manager-intro]
 
 The example below shows how to create a simple primary index, restricted to a named scope and collection, by calling the `create_primary_index()` method.
 Note that you cannot provide a named scope or collection separately, both must be set for the `QueryIndexManager` to create an index on the relevant keyspace path. 
@@ -229,7 +229,7 @@ include::howtos:example$query_index_manager.py[tag=drop-primary-or-secondary-ind
 
 == Views Management
 
-include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
+include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=view-management]
 
 In the SDK, design documents are represented by the `DesignDocument` and `View` classes.
 All operations on design documents are performed on the `ViewIndexManager` instance:
@@ -247,7 +247,7 @@ The following example upserts a design document with two views:
 include::howtos:example$provisioning_resources_views.py[tag=create_view]
 ----
 
-include::{version-server}@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
+include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
 
 Note the use of `DesignDocumentNamespace.DEVELOPMENT`, the other option is `DesignDocumentNamespace.PRODUCTION`.
 This parameter specifies whether the design document should be created as development, or as production -- with the former running over only a small fraction of the documents.

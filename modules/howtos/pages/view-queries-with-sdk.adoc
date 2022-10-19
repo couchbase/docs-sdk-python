@@ -9,10 +9,10 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
-include::{version-server}@sdk:shared:partial$views.adoc[tag=deprecate]
+include::{version-common}@sdk:shared:partial$views.adoc[tag=deprecate]
 
 
-include::{version-server}@sdk:shared:partial$views.adoc[tag=views-intro]
+include::{version-common}@sdk:shared:partial$views.adoc[tag=views-intro]
 
 
 == Querying Views

@@ -14,7 +14,7 @@ For a practical guide, see xref:howtos:distributed-acid-transactions-from-the-sd
 
 == Overview
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=intro]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=intro]
 
 == Transaction Mechanics
 
@@ -23,7 +23,7 @@ include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=intro]
 include::howtos:example$transactions_example.py[tag=create-simple,indent=0]
 ----
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=mechanics;!library-cleanup-process]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=mechanics;!library-cleanup-process]
 
 == Rollback
 
@@ -43,16 +43,16 @@ After a transaction is rolled back, it cannot be committed, no further operation
 
 == Transaction Operations
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tags=query;!library-begin-transaction]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=query;!library-begin-transaction]
 
 == Concurrency with Non-Transactional Writes
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=concurrency]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=concurrency]
 
 // TODO: uncomment once custom metadata collections are supported
 //== Custom Metadata Collections
 //
-//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-1]
+//include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=custom-metadata-1]
 //
 //[source,python]
 //----
@@ -66,4 +66,4 @@ include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=concurre
 //include::howtos:example$transactions_example.py[tag=custom_metadata_per,indent=0]
 //----
 //
-//include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=integrated-sdk-custom-metadata-2]
+//include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=integrated-sdk-custom-metadata-2]

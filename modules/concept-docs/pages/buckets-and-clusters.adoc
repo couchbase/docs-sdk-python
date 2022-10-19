@@ -8,7 +8,7 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
-include::{version-server}@sdk:shared:partial$clusters-buckets.adoc[tag=management]
+include::{version-common}@sdk:shared:partial$clusters-buckets.adoc[tag=management]
 
 ////
 Management operations in the Python SDK may be performed through several interfaces depending on the object:

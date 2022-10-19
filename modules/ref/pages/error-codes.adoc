@@ -7,39 +7,39 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=intro]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=intro]
 
 == Shared Error Definitions
 
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=shared]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=shared]
 
 
 == KeyValue Error Definitions
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=kv]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=kv]
 
 
 == Query Error Definitions
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=query]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=query]
 
 
 == Analytics Error Definitions
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=analytics]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=analytics]
 
 
 == Search Error Definition
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=search]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=search]
 
 
 == View Error Definitions
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=views]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=views]
 
 
 == Management API Error Definitions
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=mgmnt]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=mgmnt]
 
 
 == Field-Level Encryption Error Definitions
-include::{version-server}@sdk:shared:partial$error-ref.adoc[tag=fle]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=fle]
 
 
 ////
