@@ -6,6 +6,7 @@
 :version: 3.2.0
 :example-source: 3.2@python-sdk:howtos:example$search_ops.py
 :example-source-lang: Python
+:page-pagination: full
 
 
 [abstract]
