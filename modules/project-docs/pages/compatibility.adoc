@@ -26,14 +26,9 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 [#table_sdk_versions]
 [cols="30,20,25,20"]
 |===
-| | SDK 3.0, 3.1 | 3.2 | 4.0
+| | SDK 3.0, 3.1 | 3.2 | 4.0, 4.1
 
-| *Server 6.0*
-| *✔*
-| *✔*
-| *✔*
-
-| *Server 6.5-6.6*
+| *Server 6.6*
 | *✔*
 | *✔*
 | *✔*
@@ -49,8 +44,8 @@ See the notes there for Support details.
 
 === Capella Compatibility
 
-At time of release, the Couchbase 4.0 Python SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service. 
-To make development easier, the 4.0 Python SDK includes the Capella client certificate ready installed.
+The Python SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service.
+To make development easier, the Python SDK includes the Capella client certificate ready installed.
 
 include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 
@@ -101,8 +96,8 @@ Microsoft Windows 10 / All LTS releases from Windows Server 2016.
 === Mac OS X
 
 The current and previous two releases of OS X.
-At time of writing (April 2022): 10.15 (_Catalina_), 11 (_Big Sur_), and 12 (_Monterey_).
-M1 ARM  architecture is fully supported in the 4.0 Python SDK.
+At time of writing (October 2022): 13 (Ventura), 12 (Monterey), and 11 (Big Sur).
+M1 ARM  architecture is fully supported in the Python SDK.
 ****
 
 Wheels are available for macOS, Linux and Windows -- see the xref:sdk-release-notes.adoc[releases page] for details.
@@ -118,36 +113,31 @@ AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04 (from S
 
 .Couchbase Server and SDK Supported Version Matrix
 [.table-merge-cells]
-[cols="7,7,5,6,5"]
+[cols="7,5,6,5"]
 |===
-| | Server 6.0 | Server 6.5 & 6.6 | Server 7.0 | Server 7.1
+| | Server 6.6 | Server 7.0 | Server 7.1
 
 | Enhanced Durability
-4+| All SDK versions
+3+| All SDK versions
 
 | Durable Writes
-| Not Supported
 3+| Since 3.0
 
 | Collections
-| Not Supported
-| Developer Preview in 6.5-6.6, SDK 3.0
+| Developer Preview in 6.6, SDK 3.0
 2+| Since 3.0.10
 
 | Scope-Level N1QL Queries & all Collections features
-2+| Not Supported
+| Not Supported
 2+| Since SDK 3.2.0
 
 | Field Level Encryption v2
-| Not Supported
 3+| Since SDK 3.2.0footnote:[Field Level Encryption distributed as separate library.]
 
 | Request Tracing
-| Not Supported
 3+| Since SDK 3.2.0
 
 | Distributed ACID Transactions
-|
 3+| Since Couchbase Server 6.6.1 and SDK 4.0
 |===
 
