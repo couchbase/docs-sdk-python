@@ -243,7 +243,7 @@ include::example$cloud.py[tag=connect,indent=0]
 ----
 
 When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
-SDK 3.4 introduces a `wan_development` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
+SDK 4.1 introduces a `wan_development` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
 Basic usage is shown in the example above, but if you want to learn more see xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 
 CAUTION: The Configuration Profiles feature is currently a xref:python-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
