@@ -24,17 +24,51 @@ $ python3 -m pip install git+https://github.com/couchbase/couchbase-python-clien
 ----
 
 where VERSION is the version you wish to install. 
-For example, to install version 3.2.6:
+For example, to install version 4.1.0:
 
 [source,console]
 ----
-$ python3 -m pip install git+https://github.com/couchbase/couchbase-python-client@3.2.6
+$ python3 -m pip install git+https://github.com/couchbase/couchbase-python-client@4.1.0
 ----
 
 For more detailed installation instructions, see the xref:project-docs:sdk-full-installation.adoc[full installation guide].
 
 
 == Release Notes
+
+
+== Version 4.1.0 (3 November 2022)
+
+Version `4.1.0` is the first minor release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.0/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1420[PYCBC-1420]:
+Fixed potential `InternalSDKException` for replica read operations.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1402[PYCBC-1402]:
+Added support for using PYCBC_LOG_LEVEL to create console logger.
+
+* https://issues.couchbase.com/browse/PYCBC-1417[PYCBC-1417]:
+Updated authentication error message for Bucket Hibernation.
+
+* https://issues.couchbase.com/browse/PYCBC-1422[PYCBC-1422]:
+Updated Couchbase++ version to incorporate latest changes.
+
+* https://issues.couchbase.com/browse/PYCBC-1167[PYCBC-1167]:
+Added support for Serverless Execution Environments.
+
+* https://issues.couchbase.com/browse/PYCBC-1423[PYCBC-1423]:
+Added durability improvements.
 
 
 == Version 4.0.5 (7 October 2022)
