@@ -229,11 +229,19 @@ Couchbase Server::
 --
 As of SDK 4.1, if you connect to a Couchbase Server cluster with a root certificate issued by a trusted CA (Certificate Authority), you no longer need to configure the `cert_path` property in the `PasswordAuthenticator`.
 
-The cluster's root certificate just needs to be issued by a CA whose certificate is in your system trust store.
-This includes publicly trusted CAs (e.g., GoDaddy, Verisign, etc...), plus any other CA certificates that you wish to add.
-The Python SDK uses https://github.com/couchbaselabs/couchbase-cxx-client[{cbpp}] internally to retrieve the platform root CA.
+The cluster's root certificate just needs to be issued by a CA whose certificate is in your OpenSSL trust store.
+This can include publicly trusted CAs (e.g., GoDaddy, Verisign, etc...), plus any other CA certificates that you wish to add.
+The Python SDK uses https://github.com/couchbaselabs/couchbase-cxx-client[{cbpp}] internally to retrieve the root CAs.
 
 IMPORTANT: {cbpp} loads your platform's root CA store using OpenSSL, therefore you should make sure that your system or platform is configured to support this.
+
+Depending on your OpenSSL installation, OpenSSL might not contain any certificates in its CA store by default, which you might wish to populate.
+You can find Python's OpenSSL defaults with the following command.  Alternatively, you can configure the `SSL_CERT_DIR` or `SSL_CERT_FILE` environment variable to set the directory or root CA store file {cbpp} uses to retrieve root CAs.
+
+[source,console]
+----
+python -c "import ssl; print(ssl.get_default_verify_paths())"
+----
 
 You can still provide a certificate explicitly if necessary:
 

@@ -20,20 +20,24 @@ The Python SDK allows logging via the standard `logging` module.
 include::example$logging_example.py[tag=logging,indent=0]
 ----
 
-<.> In Python SDK versions 4.0.0 and 4.0.1, `configure_logging()` is not implemented and logging must be set with an environmental variable, as follows: 
-+
+=== Environmental Settings
+
+IMPORTANT: Only one logger can be created.  Either use `PYCBC_LOG_LEVEL` to create a console logger or `configure_logging` as mentioned above.
+
+In the command line environment, the PYCBC_LOG_LEVEL variable is set as follows:
+
 .GNU/Linux and Mac
 [source,console]
 ----
 export PYCBC_LOG_LEVEL=<log-level>
 ----
-+
+
 .Windows
 [source,console]
 ----
 set PYCBC_LOG_LEVEL=<log-level>
 ----
-+
+
 Where `<log-level>` is either `error`, `warn`, `info`, or `debug`.
 
 
