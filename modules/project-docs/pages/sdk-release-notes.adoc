@@ -62,7 +62,7 @@ Added support for using PYCBC_LOG_LEVEL to create console logger.
 Updated authentication error message for Bucket Hibernation.
 
 * https://issues.couchbase.com/browse/PYCBC-1422[PYCBC-1422]:
-Updated Couchbase++ version to incorporate latest changes.
+Updated {cbpp} version to incorporate latest changes.
 
 * https://issues.couchbase.com/browse/PYCBC-1167[PYCBC-1167]:
 Added support for Serverless Execution Environments.
