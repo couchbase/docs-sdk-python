@@ -305,7 +305,7 @@ Methods in the asynchronous API return instances of the relevant Async API:
 1. `Future` for asyncio (`acouchbase.cluster.Cluster` supplies the relevant Cluster object)
 2. `Deferred` for Twisted
 
-Reference our xref:concurrent-async-apis.adoc[asynchronous programmaing] page for more details.
+Reference our xref:concurrent-async-apis.adoc[asynchronous programming] page for more details.
 
 ////
 TODO: write up pending https://issues.couchbase.com/browse/PYCBC-805 etc
