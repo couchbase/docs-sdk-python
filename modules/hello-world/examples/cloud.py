@@ -27,8 +27,7 @@ options = ClusterOptions(auth)
 # when accessing Capella from a different Wide Area Network
 # or Availability Zone(e.g. your laptop).
 options.apply_profile('wan_development')
-cluster = Cluster('couchbases://{}'.format(endpoint),
-                  ClusterOptions(auth))
+cluster = Cluster('couchbases://{}'.format(endpoint), options)
 
 # Wait until the cluster is ready for use.
 cluster.wait_until_ready(timedelta(seconds=5))

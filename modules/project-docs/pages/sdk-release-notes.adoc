@@ -37,6 +37,26 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+== Version 4.1.1 (14 December 2022)
+
+Version `4.1.1` is the first patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.1/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1428[PYCBC-1428]:
+Fixed view query `ViewOrdering` to allow user specified ordering to be applied.
+
+* https://issues.couchbase.com/browse/PYCBC-1429[PYCBC-1429]:
+Fixed defaults for boolean options in N1QL query `QueryOptions`.
+
+
 == Version 4.1.0 (3 November 2022)
 
 Version `4.1.0` is the first minor release of the fourth generation Python SDK, bringing a number of improvements.
