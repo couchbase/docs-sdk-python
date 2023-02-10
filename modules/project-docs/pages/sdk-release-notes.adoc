@@ -37,6 +37,43 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+== Version 4.1.2 (9 February 2023)
+
+Version `4.1.2` is the second patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the `4.1.2` release provides improved performance for key-value operations.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.2/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1433[PYCBC-1433]:
+Fixed initialization of legacy durability options in {cpp} bindings.
+
+* https://issues.couchbase.com/browse/PYCBC-1434[PYCBC-1434]:
+Added Python SDK and Python version to {cpp} `user_agent` option.
+
+* https://issues.couchbase.com/browse/PYCBC-1441[PYCBC-1441]:
+Fixed inconsistencies when handling of `MutationState` in streaming APIs.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1371[PYCBC-1371]:
+Implemented `ChangePassword` feature in user management API.
+
+* https://issues.couchbase.com/browse/PYCBC-1436[PYCBC-1436]:
+Updated pre-commit iSort Revision.
+
+* https://issues.couchbase.com/browse/PYCBC-1440[PYCBC-1440]:
+Updated logging to get latest from {cpp} client.
+
+* https://issues.couchbase.com/browse/PYCBC-1438[PYCBC-1438]:
+Updated Test Suite/Framework.
+
+
 == Version 4.1.1 (14 December 2022)
 
 Version `4.1.1` is the first patch release of the fourth generation Python SDK, bringing a number of improvements.
