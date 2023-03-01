@@ -25,7 +25,8 @@ We will go through the code sample step by step, but for those in a hurry to see
 Couchbase Capella Sample::
 +
 --
-To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, certificate and bucket name.
+To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, and bucket name.
+The certificate for connecting to Capella is included in the 4.0 Python SDK.
 
 [source,python]
 ----
