@@ -62,13 +62,13 @@ Fixed build issue for Fedora 37 (gcc 12).
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1431[PYCBC-1431]:
-Updated how the SDK to handle new query_context changes.
+Updated the SDK to handle new `query_context` changes.
 
 * https://issues.couchbase.com/browse/PYCBC-1444[PYCBC-1444]:
 Improved CertificateAuthenticator parameter validation.
 
 * https://issues.couchbase.com/browse/PYCBC-1445[PYCBC-1445]:
-Updated the SDK to populate `allowed_sasl_mechanisms` only if user explicitly chooses.
+Updated the SDK to only populate `allowed_sasl_mechanisms` if user explicitly chooses.
 
 
 == Version 4.1.2 (9 February 2023)
