@@ -37,6 +37,40 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+== Version 4.1.3 (9 March 2023)
+
+Version `4.1.3` is the third patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.3/
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1443[PYCBC-1443]:
+Fixed ssl import error.
+
+* https://issues.couchbase.com/browse/PYCBC-1446[PYCBC-1446]:
+Updated API Documentation.
+
+* https://issues.couchbase.com/browse/PYCBC-1455[PYCBC-1455]:
+Fixed build issue for Fedora 37 (gcc 12).
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1431[PYCBC-1431]:
+Updated how the SDK to handle new query_context changes.
+
+* https://issues.couchbase.com/browse/PYCBC-1444[PYCBC-1444]:
+Improved CertificateAuthenticator parameter validation.
+
+* https://issues.couchbase.com/browse/PYCBC-1445[PYCBC-1445]:
+Updated the SDK to populate `allowed_sasl_mechanisms` only if user explicitly chooses.
+
+
 == Version 4.1.2 (9 February 2023)
 
 Version `4.1.2` is the second patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the `4.1.2` release provides improved performance for key-value operations.
