@@ -19,10 +19,13 @@ Our xref:hello-world:start-using-sdk.adoc[Getting Started] guide introduced basi
 
 [source,python]
 ----
-from couchbase.cluster import Cluster, ClusterOptions
-from couchbase_core.cluster import PasswordAuthenticator
+from couchbase.auth import PasswordAuthenticator
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions
 
-cluster = Cluster('couchbase://localhost', ClusterOptions(PasswordAuthenticator('username', 'password')))
+
+cluster = Cluster('couchbase://localhost',
+                  ClusterOptions(PasswordAuthenticator('username', 'password')))
 ----
 
 include::{version-common}@sdk:shared:partial$auth-overview.adoc[tag=rbac]
@@ -53,5 +56,7 @@ include::{version-common}@sdk:shared:partial$auth-overview.adoc[tag=ldap]
 [source,python]
 ----
 # Use over TLS for production
-cluster = Cluster("couchbases://10.143.205.101?sasl_mech_force=PLAIN&certpath=cert.ca",ClusterOptions(PasswordAuthenticator("einstein","password")))
+opts = ClusterOptions(PasswordAuthenticator('einstein', 'password'))
+connection_str = "couchbases://10.143.205.101?sasl_mech_force=PLAIN&certpath=cert.ca"
+cluster = Cluster(connection_str, opts)
 ----
