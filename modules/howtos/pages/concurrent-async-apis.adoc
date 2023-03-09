@@ -39,12 +39,12 @@ include::howtos:example$acouchbase_operations.py[tag=kv]
 include::howtos:example$acouchbase_operations.py[tag=sub_doc]
 ----
 
-=== Asyncio N1QL Operations
+=== Asyncio {sqlpp} Operations
 
-The API for issuing N1QL queries is almost identical to the synchronous API. 
+The API for issuing {sqlpp} (formerly N1QL) queries is almost identical to the synchronous API. 
 The notable difference is the use of `async for` rather than `for` when iterating over the results.
 
-.N1QL Query
+.{sqlpp} Query
 [source,python]
 ----
 include::howtos:example$acouchbase_operations.py[tag=n1ql]
@@ -111,12 +111,12 @@ include::howtos:example$txcouchbase_operations.py[tag=kv]
 include::howtos:example$txcouchbase_operations.py[tag=sub_doc]
 ----
 
-=== Twisted N1QL Operations
+=== Twisted {sqlpp} Operations
 
-The API for issuing N1QL queries is almost identical to the synchronous API. 
+The API for issuing {sqlpp} queries is almost identical to the synchronous API. 
 The notable difference is the use of a callback in order to handle iterating over results.
 
-.N1QL Query
+.{sqlpp} Query
 [source,python]
 ----
 include::howtos:example$txcouchbase_operations.py[tag=n1ql]

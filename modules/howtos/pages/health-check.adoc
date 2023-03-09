@@ -115,7 +115,7 @@ Note the ping is available both on the cluster and bucket level.  The difference
 include::howtos:example$health_check.py[tag=cluster_diagnostics]
 ----
 
-Which will print the diagnostics result as a json string.  For instance, on a single node cluster that has had n1ql queries and kv operations
+Which will print the diagnostics result as a json string.  For instance, on a single node cluster that has had {sqlpp} (formerly N1QL) queries and kv operations
 executed, you will see something like:
 
 [source,json]
