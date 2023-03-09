@@ -709,10 +709,15 @@ Use a `collection` instance for key-value operations.
 ** All results should be imported from `couchbase.result`
 ** All exceptions should be imported from `couchbase.exceptions`
 ** Enumerations and Classes related to operations should be imported from that operation's path.  For example, `QueryScanConsistency` should be imported from `couchbase.n1ql` (i.e. `from couchbase.n1ql import QueryScanConsistency`)
-* If using the `txcouchbase` API, the reactor that should be installed is the `asyncioreactor`.  Therefore, the `txcouchbase` package _needs_ to be imported prior to importing the `reactor`.  See example import below.
+* Changes to the async APIs (`acouchbase` and `txcouchbase`):
+** While multi-operations (`get_multi`, `upsert_multi`, etc.) still exist for the `couchbase` API, they have been removed from the async APIs (`acouchbase` and `txcouchbase`) as each of the async APIs are built with libraries that have mechanisms to handle multi/bulk operations (`asyncio` has `asyncio.gather(...)` and `Twisted` has `DeferredList(...)`).
+** If using the `txcouchbase` API, the reactor that should be installed is the `asyncioreactor`.  Therefore, the `txcouchbase` package _needs_ to be imported prior to importing the `reactor`.  See example import below.
 
 [source,python,indent=0]
 ----
+
+# this is new with Python SDK 4.x, it needs to be imported prior to
+# importing the twisted reactor
 import txcouchbase
 
 from twisted.internet import reactor
