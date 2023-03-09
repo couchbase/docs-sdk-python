@@ -10,11 +10,8 @@ import os.path
 # the script in etc/x509-cert will generate these
 clientdir = "etc/x509-cert/SSLCA/clientdir"
 options = dict(cert_path=os.path.join(clientdir, "client.pem"),
-    trust_store_path=os.path.join(clientdir, "trust.pem"),
-    key_path=os.path.join(clientdir, "client.key"))
+               trust_store_path=os.path.join(clientdir, "trust.pem"),
+               key_path=os.path.join(clientdir, "client.key"))
 
-cluster = Cluster('couchbase://localhost', ClusterOptions(
-    CertAuthenticator(options)
-    )
-)
+cluster = Cluster('couchbase://localhost', ClusterOptions(CertAuthenticator(**options)))
 # end::auth[]
