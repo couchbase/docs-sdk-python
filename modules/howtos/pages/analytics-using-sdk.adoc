@@ -1,5 +1,5 @@
 = Analytics using the SDK
-:description: Parallel data management for complex queries over many records, using a familiar N1QL-like syntax.
+:description: Parallel data management for complex queries over many records, using a familiar {sqlpp} syntax.
 :navtitle: Analytics using the SDK
 :page-topic-type: howto
 :page-aliases: analytics-query

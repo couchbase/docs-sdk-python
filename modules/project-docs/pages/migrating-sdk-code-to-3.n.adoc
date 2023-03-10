@@ -44,7 +44,7 @@ collection=cluster.default_collection()
 get_result = collection.get("key", GetOptions(timeout=timedelta(seconds=3)))
 ----
 
-Compare this to a N1QL query:
+Compare this to a {sqlpp} (formerly N1QL) query:
 
 // change to $Your_language
 [source,python]
@@ -289,7 +289,7 @@ The exception hierarchy is now unified under a `CouchbaseException`.
 //Each `CouchbaseException` has an associated `ErrorContext` which is populated with as much info as possible and then dumped alongside the stack trace if an error happens.
 
 ////
-// Here is an example of the error context if a N1QL query is performed with an invalid syntax (i.e. `select 1= from`):
+// Here is an example of the error context if a {sqlpp} query is performed with an invalid syntax (i.e. `select 1= from`):
 
 // [source]
 // ----
@@ -460,7 +460,7 @@ Unless you want to build some kind of consensus bet(ween the different replica r
 
 === Query
 
-N1QL querying is now available at the `Cluster` level instead of the bucket level, because you can also write N1QL queries that span multiple buckets. Compare a simple N1QL query from SDK 2 with its SDK 3 equivalent:
+{sqlpp} querying is now available at the `Cluster` level instead of the bucket level, because you can also write {sqlpp} queries that span multiple buckets. Compare a simple {sqlpp} query from SDK 2 with its SDK 3 equivalent:
 
 [source,python]
 ----
@@ -501,7 +501,7 @@ include::example$migrating.py[tag=queryparameterized,indent=0]
 
 ==== Analytics
 
-Analytics querying, like N1QL, is also moved to the `Cluster` level: it is now accessible through the `Cluster.analytics_query` method.
+Analytics querying, like {sqlpp}, is also moved to the `Cluster` level: it is now accessible through the `Cluster.analytics_query` method.
 As with the Query service, parameters for the Analytics queries have moved into the `AnalyticsOptions`:
 
 [source,python]
@@ -640,7 +640,7 @@ include::example$migrating.py[tag=analyticsparameterized,indent=0]
 In SDK API 2, the management APIs were centralized in the `Admin` class at the cluster level and the `BucketManager` class at the bucket level.
 Since SDK API 3 provides more management APIs, they have been split up in their respective domains.
 So for example when in SDK API 2 you needed to remove a bucket you would call `Admin.bucket_remove` you will now find it under `BucketManager.drop_bucket`.
-Also, creating a N1QL index now lives in the `QueryIndexManager`, which is accessible through the `Cluster`.
+Also, creating a {sqlpp} index now lives in the `QueryIndexManager`, which is accessible through the `Cluster`.
 
 The following table provides a mapping from the SDK API 2 management APIs to those of SDK API 3:
 
