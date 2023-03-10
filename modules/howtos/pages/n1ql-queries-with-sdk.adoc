@@ -245,5 +245,5 @@ Be sure to check that xref:concept-docs:http-services.adoc[your use case fits yo
 * The http://query.pub.couchbase.com/tutorial/#1[{sqlpp} interactive tutorial] is a good introduction to the basics of {sqlpp} use.
 * For scaling up queries, be sure to
 xref:{version-server}@server:n1ql:n1ql-language-reference/index.adoc[read up on Indexes].
-* {sqlpp} is for operational queries; for analytical workloads, read more on xref:concept-docs:http-services.adoc#Long-Running-Queries-&-Big-Data[when to choose Analytics Service].
+* The Query Service is for operational queries; for analytical workloads, read more on xref:concept-docs:http-services.adoc#Long-Running-Queries-&-Big-Data[when to choose Analytics Service].
 
