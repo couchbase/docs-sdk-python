@@ -32,7 +32,7 @@ pip install couchbase==3.0.0b3
 Bumped LCB requirement to 3.0.0.
 
 * https://issues.couchbase.com/browse/PYCBC-757[PYCBC-757]:
-Refactored for FTS/{sqlpp} (N1QL)/durability LCB changes.
+Refactored for FTS/N1QL/durability LCB changes.
 
 * https://issues.couchbase.com/browse/PYCBC-758[PYCBC-758]:
 Reflected renaming of `lcb_wait3` to `lcb_wait` in LCB.
@@ -58,7 +58,7 @@ Implemented replica reads according to RFC.
 Refactored durability params to prevent impossible combinations.
 
 * https://issues.couchbase.com/browse/PYCBC-639[PYCBC-639]:
-Example {sqlpp} statements do seem to work in "Hello Couchbase" example.
+Example N1QL statements do seem to work in "Hello Couchbase" example.
 
 * https://issues.couchbase.com/browse/PYCBC-667[PYCBC-667]:
 Fixed Upsert Group fails with 'roles: value must be supplied'.
@@ -153,7 +153,7 @@ Update sphinx-autodoc-typehints to attempt to use type comments
 Get rid of obsolete coll/scope injection calls
 
 * https://issues.couchbase.com/browse/PYCBC-683[PYCBC-683]:
-{sqlpp} Query Index Management
+N1QL Query Index Management
 
 * https://issues.couchbase.com/browse/PYCBC-718[PYCBC-718]:
 Refactor error handling for libcouchbase 3.0.0 Beta 2
