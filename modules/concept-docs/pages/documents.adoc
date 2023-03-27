@@ -32,7 +32,7 @@ Although query and path-based (Sub-Document) services are available, the simplic
 
 
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=document]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=document]
 
 == Primitive Key-Value Operations
 
@@ -45,9 +45,9 @@ get(docid)
 remove(docid)
 ----
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=crud-overview]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=crud-overview]
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=store-update]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=store-update]
 
 [NOTE]
 ====
@@ -66,7 +66,7 @@ update `default` SET sale_price = msrp * 0.75 WHERE msrp < 19.95;
 ----
 ====
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=get_generic]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=get_generic]
 
 [source,sql]
 ----
@@ -89,7 +89,7 @@ name, email = cb.retrieve_in('user:kingarthur', 'contact.name', 'contact.email')
 
 // Counters
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters1]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=counters1]
 
 [source,python]
 ----
@@ -101,7 +101,7 @@ include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters1]
 51L
 ----
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters2]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=counters2]
 
 [source,python]
 ----
@@ -111,7 +111,7 @@ if should_increment_value(value):
   cb.upsert('counter_id', value + increment_amount, cas=cas)
 ----
 
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=counters3]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=counters3]
 
 
 === Use Cases
@@ -122,4 +122,4 @@ You will find several ways of working with counters https://docs.couchbase.com/s
 
 
 // Expiry
-include::{version-server}@sdk:shared:partial$documents.adoc[tag=expiration]
+include::{version-common}@sdk:shared:partial$documents.adoc[tag=expiration]

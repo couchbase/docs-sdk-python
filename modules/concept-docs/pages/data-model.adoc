@@ -11,7 +11,7 @@ include::project-docs:partial$attributes.adoc[]
 Several data structures are supported by the SDK, including map, list, queue, and set.
 
 
-include::{version-server}@sdk:shared:partial$data-model.adoc[tag=intro]
+include::{version-common}@sdk:shared:partial$data-model.adoc[tag=intro]
 
 == Data Structures
 

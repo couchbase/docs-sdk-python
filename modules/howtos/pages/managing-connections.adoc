@@ -269,7 +269,7 @@ E.....@.@.............+....Z.'yZ..#........
 
 ////
 TODO: verify
-include::{version-server}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
+include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
 
 DNS SRV bootstrapping is available in the Python SDK from version 2.5.
 In order to make the SDK actually use the SRV records, you need to enable DNS SRV on the environment and pass in the host name from your records (here `example.com`):
@@ -297,7 +297,7 @@ Proceeding with normal bootstrap.
 ----
 ////
 
-include::{version-server}@sdk:shared:partial$managing-connections.adoc[tag=cloud]
+include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=cloud]
 
 
 == Async APIs

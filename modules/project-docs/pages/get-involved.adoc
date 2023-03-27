@@ -8,4 +8,4 @@ Couchbase welcomes community contributions to the Python SDK.
 The https://github.com/couchbase/couchbase-python-client[Python SDK source code^] is available on GitHub.
 Please see the https://github.com/couchbase/couchbase-python-client/blob/master/CONTRIBUTING.md[CONTRIBUTING^] file for further information.
 
-include::{version-server}@sdk:shared:partial$contrib.adoc[tag=contrib]
+include::{version-common}@sdk:shared:partial$contrib.adoc[tag=contrib]

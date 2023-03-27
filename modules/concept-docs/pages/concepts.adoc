@@ -4,5 +4,5 @@
 
 include::project-docs:partial$attributes.adoc[]
 
-include::{version-server}@sdk:shared:partial$concepts.adoc[tag=concepts]
+include::{version-common}@sdk:shared:partial$concepts.adoc[tag=concepts]
 

@@ -1,4 +1,4 @@
 include::project-docs:partial$attributes.adoc[]
 
-include::{version-server}@sdk:pages:partial$travel-app-data-model.adoc[]
+include::{version-common}@sdk:pages:partial$travel-app-data-model.adoc[]
 

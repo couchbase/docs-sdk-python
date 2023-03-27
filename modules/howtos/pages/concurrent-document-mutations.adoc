@@ -3,13 +3,13 @@
 :page-aliases: ROOT:concurrent-document-mutations.adoc
 include::project-docs:partial$attributes.adoc[]
 
-include::{version-server}@sdk:shared:partial$cas.adoc[tag=intro]
+include::{version-common}@sdk:shared:partial$cas.adoc[tag=intro]
 
-include::{version-server}@sdk:shared:partial$cas.adoc[tag=demo]
+include::{version-common}@sdk:shared:partial$cas.adoc[tag=demo]
 
-include::{version-server}@sdk:shared:partial$cas.adoc[tag=example]
+include::{version-common}@sdk:shared:partial$cas.adoc[tag=example]
 
-include::{version-server}@sdk:shared:partial$cas.adoc[tag=errors]
+include::{version-common}@sdk:shared:partial$cas.adoc[tag=errors]
 
 [source,python]
 ----
@@ -34,11 +34,11 @@ def increment_visit_count(collection, user_id):
 Sometimes more logic is needed when performing updates, for example, if a property is mutually exclusive with another property; only one or the other can exist, but not both.
 
 
-include::{version-server}@sdk:shared:partial$cas.adoc[tag=performance]
+include::{version-common}@sdk:shared:partial$cas.adoc[tag=performance]
 
-include::{version-server}@sdk:shared:partial$cas.adoc[tag=format]
+include::{version-common}@sdk:shared:partial$cas.adoc[tag=format]
 
-include::{version-server}@sdk:shared:partial$cas.adoc[tag=locking]
+include::{version-common}@sdk:shared:partial$cas.adoc[tag=locking]
 
 [source,python]
 ----

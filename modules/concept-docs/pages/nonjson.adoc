@@ -9,7 +9,7 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
-include::{version-server}@sdk:shared:partial$nonjson.adoc[tag=intro]
+include::{version-common}@sdk:shared:partial$nonjson.adoc[tag=intro]
 
-include::{version-server}@sdk:shared:partial$nonjson.adoc[tag=using]
+include::{version-common}@sdk:shared:partial$nonjson.adoc[tag=using]
 

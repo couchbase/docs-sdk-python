@@ -10,11 +10,11 @@ include::project-docs:partial$attributes.adoc[]
 {description}
 
 
-include::{version-server}@sdk:pages:partial$health-check.adoc[tag="intro"]
+include::{version-common}@sdk:pages:partial$health-check.adoc[tag="intro"]
 
-include::{version-server}@sdk:pages:partial$health-check.adoc[tag="users"]
+include::{version-common}@sdk:pages:partial$health-check.adoc[tag="users"]
 
-include::{version-server}@sdk:pages:partial$health-check.adoc[tag="ping"]
+include::{version-common}@sdk:pages:partial$health-check.adoc[tag="ping"]
 
 [source,javascript]
 ----
@@ -83,7 +83,7 @@ bucket.ping(services, (err, res) => {
 */
 ----
 
-include::{version-server}@sdk:pages:partial$health-check.adoc[tag="diag"]
+include::{version-common}@sdk:pages:partial$health-check.adoc[tag="diag"]
 
 
 [source,javascript]

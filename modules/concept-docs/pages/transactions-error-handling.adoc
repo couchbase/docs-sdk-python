@@ -9,13 +9,13 @@
 include::project-docs:partial$attributes.adoc[]
 include::howtos:partial$acid-transactions-attributes.adoc[]
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=error-intro]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=error-intro]
 
 == Transaction Errors
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=error]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=error]
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed]
 
 // TODO: Need an equivalent python snippet for the below
 //[source,java]
@@ -23,7 +23,7 @@ include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=txnfaile
 //include::example$TransactionsExample.java[tag=config-expiration,indent=0]
 //----
 
-include::{version-server}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed1]
+include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed1]
 
 === Full Error Handling Example
 

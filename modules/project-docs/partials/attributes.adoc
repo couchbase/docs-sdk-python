@@ -3,3 +3,4 @@
 :version-server: 7.1
 :name-sdk: Python SDK
 :version-sdk: 4.0
+:version-common: 7.1.2

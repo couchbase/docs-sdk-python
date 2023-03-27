@@ -24,13 +24,13 @@ The few 4.0-specific changes can be found at the end of this document.
 If you are an existing Python SDK 3._x_ user considering migrating to SDK 4.0,
 you may wish to skip to the <<sdk4-specifics,SDK 4.0 specifics>> below.
 
-include::{version-server}@sdk:shared:partial$api-version.adoc[tag=api-version]
+include::{version-common}@sdk:shared:partial$api-version.adoc[tag=api-version]
 
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=intro]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=intro]
 
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=terms]
 
 As an example here is a KeyValue document fetch:
 
@@ -52,13 +52,13 @@ Compare this to a {sqlpp} (formerly N1QL) query:
 query_result = cluster.query("select 1=1", QueryOptions(timeout=timedelta(seconds=3)))
 ----
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=terms2]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=terms2]
 
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=new]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=new]
 
 
-include::{version-server}@sdk:shared:partial$migration.adoc[tag=lang]
+include::{version-common}@sdk:shared:partial$migration.adoc[tag=lang]
 
 
 
