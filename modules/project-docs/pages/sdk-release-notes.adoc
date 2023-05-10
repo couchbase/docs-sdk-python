@@ -51,30 +51,30 @@ $ python3 -m pip install couchbase==4.1.4
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1469[PYCBC-1469]:
-Added check to determine if Python interpreter is finalizing prior to logging
+Added check to determine if Python interpreter is finalizing prior to logging.
 
 * https://issues.couchbase.com/browse/PYCBC-1471[PYCBC-1471]:
-Fixed acouchbase streaming API blocking behavior while when executing queries
+Fixed `acouchbase` streaming API blocking behavior while when executing queries.
 
 * https://issues.couchbase.com/browse/PYCBC-1474[PYCBC-1474]:
-Fixed transaction error handling
+Fixed transaction error handling.
 
 * https://issues.couchbase.com/browse/PYCBC-1475[PYCBC-1475]:
-Updated exception classes to allow first positional arg to be a string message
+Updated exception classes to allow first positional arg to be a string message.
 
 * https://issues.couchbase.com/browse/PYCBC-1477[PYCBC-1477]:
-Fixed potential crash in certain scenarios that use MutationState
+Fixed potential crash in certain scenarios that use `MutationState`.
 
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1468[PYCBC-1468]:
-Added replica read operations to API docs
+Added replica read operations to API docs.
 
 * https://issues.couchbase.com/browse/PYCBC-1472[PYCBC-1472]:
-Updated API Docs to indicate expiry option should be a timedelta
+Updated API Docs to indicate expiry option should be a timedelta.
 
 * https://issues.couchbase.com/browse/PYCBC-1478[PYCBC-1478]:
-Added missing bootstrap timeouts to WAN Config Profile
+Added missing bootstrap timeouts to WAN Config Profile.
 
 === Underlying C++ SDK Core Changes
 
@@ -83,7 +83,7 @@ Allow the use of schemaless connection strings (e.g. `"cb1.example.com,cb2.examp
 (https://github.com/couchbaselabs/couchbase-cxx-client/pull/394[#394]).
 
 * https://issues.couchbase.com/browse/CXXCBC-320[CXXCBC-320]:
-Negative expiry in atr can 'stick' docs
+Negative expiry in atr was leaving docs in a stuck state -- this has been fixed, with expiry atr now becoming an `int32_t`
 (https://github.com/couchbaselabs/couchbase-cxx-client/pull/393[#393]).
 
 * https://issues.couchbase.com/browse/CXXCBC-318[CXXCBC-318]:
@@ -91,11 +91,11 @@ Always try TCP if UDP fails in DNS-SRV resolver
 (https://github.com/couchbaselabs/couchbase-cxx-client/pull/390[#390]).
 
 * https://issues.couchbase.com/browse/CXXCBC-145[CXXCBC-145]:
-Search query request raw option not used
+Search query request raw option now used
 (https://github.com/couchbaselabs/couchbase-cxx-client/pull/380[#380]).
 
 * https://issues.couchbase.com/browse/CXXCBC-144[CXXCBC-144]:
-Search query on collections should not require scope_name
+Search query on collections now no longer requires `scope_name`, as it can be inferred from the index
 (https://github.com/couchbaselabs/couchbase-cxx-client/pull/379[#379]).
 
 
