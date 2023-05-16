@@ -17,7 +17,7 @@ cluster = Cluster("couchbases://{}".format(endpoint), ClusterOptions(
 cb = cluster.bucket(bucket_name)
 cb_coll = cb.default_collection()
 
-# Create a N1QL Primary Index (but ignore if it exists)
+# Create a Query Primary Index (but ignore if it exists)
 cluster.query_indexes().create_primary_index(
     bucket_name, ignore_if_exists=True)
 
@@ -28,7 +28,7 @@ cb_coll.upsert("u:king_arthur", {
 # Load the Document and print it
 print(cb_coll.get("u:king_arthur").content_as[str])
 
-# Perform a N1QL Query
+# Perform a SQL++ (formerly N1QL) Query
 row_iter = cluster.query("SELECT cbc.* FROM {} cbc WHERE $1 IN cbc.interests".format(
     bucket_name), QueryOptions(positional_parameters=["African Swallows"]))
 

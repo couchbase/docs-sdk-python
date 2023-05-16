@@ -78,7 +78,7 @@ def main():
         """
         'txn_logic_ex' is a Python closure that takes an AttemptContext. The
         AttemptContext permits getting, inserting, removing and replacing documents,
-        performing N1QL queries, etc.
+        performing SQL++ (formerly N1QL) queries, etc.
 
         Committing is implicit at the end of the closure.
         """
@@ -112,7 +112,7 @@ def main():
         # tag::scope-example[]
         # Added the above tag (scope-example) to ignore this section in the docs for now.
         # Once the below TODO is addressed we can remove the tag completely.
-        # N1QL query
+        # SQL++ (formerly N1QL) query
         # @TODO:  clean up txns query options, scope, pos args and named args won't work
         # query_str = 'SELECT * FROM hotel WHERE country = $1 LIMIT 2'
         # res = ctx.query(query_str,
@@ -344,7 +344,7 @@ def query_options(cluster):
 # For example in Java, we would do: inventory.query(bulkLoadStatement, QueryOptions.queryOptions().asTransaction());
 def query_single(cluster):
     # tag::query_single[]
-    bulk_load_statement = ""  # a bulk-loading N1QL statement not provided here
+    bulk_load_statement = ""  # a bulk-loading SQL++ (formerly N1QL) statement not provided here
 
     def txn_logic(ctx):
         ctx.query(bulk_load_statement)

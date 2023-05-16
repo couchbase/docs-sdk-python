@@ -149,7 +149,7 @@ After an ambiguous exception on a Non-Idempotent operation, you should first rea
 
 == Query and Analytics Errors
 
-A N1QL query either returns results or will throw an error with a `QueryErrorContext`, like so:
+A {sqlpp} (formerly N1QL) query either returns results or will throw an error with a `QueryErrorContext`, like so:
 
 [source,python]
 ----

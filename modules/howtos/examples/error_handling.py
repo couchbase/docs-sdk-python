@@ -138,7 +138,7 @@ try:
     cluster.query("SELECT * FROM no_such_bucket").rows()
 except CouchbaseException as ex:
     if isinstance(ex.context, QueryErrorContext):
-        # We have a N1QL error context, we can print out some useful information:
+        # We have a Query error context, we can print out some useful information:
         print(ex.context.statement)
         print(ex.context.first_error_code)
         print(ex.context.first_error_message)
