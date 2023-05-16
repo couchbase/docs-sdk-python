@@ -156,11 +156,11 @@ prefix = "__crpyt_"
 mgr = DefaultCryptoManager(encrypted_field_prefix=prefix)
 ----
 
-Alternatively, you can https://forums.couchbase.com/t/replacing-field-name-prefix/28786[rename the existing fields using a N1QL statement].
+Alternatively, you can https://forums.couchbase.com/t/replacing-field-name-prefix/28786[rename the existing fields using a {sqlpp} (formerly N1QL) statement].
 
 WARNING: In SDK 2, only top-level fields could be encrypted.
 SDK 3 allows encrypting fields at any depth.
-If you decide to rename the existing fields, make sure to do so _before_ writing any encrypted fields below the top level, otherwise it may be difficult to rename the nested fields using a generic N1QL statement.
+If you decide to rename the existing fields, make sure to do so _before_ writing any encrypted fields below the top level, otherwise it may be difficult to rename the nested fields using a generic {sqlpp} statement.
 
 
 [#configure-legacy-decrypters]

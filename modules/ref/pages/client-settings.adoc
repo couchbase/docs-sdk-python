@@ -104,7 +104,7 @@ Parameter: `enable_mutation_tokens: Optional[bool]`
 +
 Default:  `True`
 +
-Mutation tokens allow enhanced durability requirements as well as advanced N1QL querying capabilities.
+Mutation tokens allow enhanced durability requirements as well as advanced {sqlpp} (formerly N1QL) querying capabilities.
 Set this to `False` if you do not require these features and wish to avoid the associated overhead.
 
 Name: *Network Resolution*::
@@ -268,7 +268,7 @@ Parameter: `query_timeout: Optional[timedelta]`
 +
 Default:  `None`
 +
-The Query timeout is used on all N1QL query operations if not overridden by a custom timeout.
+The Query timeout is used on all {sqlpp} query operations if not overridden by a custom timeout.
 Note that it is set to such a high timeout compared to key/value since it can affect hundreds or thousands of rows.
 
 Name: *Analytics Timeout*::
