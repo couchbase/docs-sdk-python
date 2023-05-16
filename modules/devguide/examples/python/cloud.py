@@ -17,7 +17,7 @@ cluster = Cluster("couchbases://{}".format(endpoint), ClusterOptions(
 cb = cluster.bucket(bucket_name)
 cb_coll = cb.default_collection()
 
-# Create a SQL++ (formerly N1QL) Primary Index (but ignore if it exists)
+# Create a Query Primary Index (but ignore if it exists)
 cluster.query_indexes().create_primary_index(
     bucket_name, ignore_if_exists=True)
 

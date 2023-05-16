@@ -40,7 +40,7 @@ After familiarizing yourself with the basics on how the {sqlpp} query language w
 include::howtos:example$n1ql_ops.py[tag=n1ql_basic_example]
 ----
 
-NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use {sqlpp}.
+NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can execute queries.
 
 Let's break it down. A query is always performed at the `Cluster` level, using the `query` method. It takes the statement as a required argument and then allows to provide additional options if needed.
 
