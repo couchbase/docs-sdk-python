@@ -218,11 +218,14 @@ For TLS certificate verification the SDK uses the following CA certificates:
 * The certificates in OpenSSL's default CA certificate store (as of SDK 4.1.0).
 * The self-signed root certificate that is used to sign the Couchbase Capella certificates (bundled with the SDK as of 4.0.0).
 
-The OpenSSL defaults can be overridden using the `SSL_CERT_DIR` and `SSL_CERT_FILE` environment variables. The `SSL_CERT_DIR` variable is used to set a specific directory in which the client should look for individual certificate files, whereas the `SSL_CERT_FILE` environment variable is used to point to a single file containing one or more certificates. More information can be found in the relevant https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_load_verify_locations.html[OpenSSL documentation].
+The OpenSSL defaults can be overridden using the `SSL_CERT_DIR` and `SSL_CERT_FILE` environment variables. 
+The `SSL_CERT_DIR` variable is used to set a specific directory in which the client should look for individual certificate files, whereas the `SSL_CERT_FILE` environment variable is used to point to a single file containing one or more certificates. 
+More information can be found in the relevant https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_load_verify_locations.html[OpenSSL documentation].
 
 Loading the Mozilla certificates can be disabled by setting the `disable_mozilla_ca_certificates` property of `ClusterOptions`.
 
-The {cbpp} core's metadata provide information about where OpenSSL's default certificate store is located,  which version of the Mozilla CA certificate store was bundled, and other useful details. You can get the metadata using the following command:
+The {cbpp} core's metadata provide information about where OpenSSL's default certificate store is located,  which version of the Mozilla CA certificate store was bundled, and other useful details. 
+You can get the metadata using the following command:
 
 ====
 [source,console]
@@ -247,7 +250,8 @@ $ python -c "from couchbase import get_metadata; print(get_metadata(detailed=Tru
 ----
 ====
 
-With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with the information about the version of the Mozilla CA certificate store will be outputted. For example:
+With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with the information about the version of the Mozilla CA certificate store will be outputted. 
+For example:
 
 [source,console]
 ----
@@ -269,7 +273,8 @@ However, as the certificate is bundled with the SDK, it is trusted by default.
 Couchbase Server::
 +
 --
-Certificates from the Mozilla Root CA store are now bundled with the SDK (as of version 4.1.5). If the server's certificate is signed by a well-known CA (e.g., GoDaddy, Verisign, etc.), you don't need to configure the `cert_path` property in the `PasswordAuthenticator` -- simply use `couchbases://` in your connection string.
+Certificates from the Mozilla Root CA store are now bundled with the SDK (as of version 4.1.5). 
+If the server's certificate is signed by a well-known CA (e.g., GoDaddy, Verisign, etc.), you don't need to configure the `cert_path` property in the `PasswordAuthenticator` -- simply use `couchbases://` in your connection string.
 
 You can still provide a certificate explicitly if necessary:
 
