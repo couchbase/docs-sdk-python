@@ -214,9 +214,9 @@ Make sure you have the Enterprise Edition of Couchbase Server, or a Couchbase Ca
 
 For TLS certificate verification the SDK uses the following CA certificates:
 
-* The certificates in the Mozilla Root CA bundle (bundled with the SDK as of 4.1.5 and obtained from https://curl.se/docs/caextract.html[curl])
-* The certificates in OpenSSL's default CA certificate store (as of SDK 4.1.0)
-* The self-signed root certificate that is used to sign the Couchbase Capella certificates (bundled with the SDK as of 4.0.0)
+* The certificates in the Mozilla Root CA bundle (bundled with the SDK as of 4.1.5 and obtained from https://curl.se/docs/caextract.html[curl]).
+* The certificates in OpenSSL's default CA certificate store (as of SDK 4.1.0).
+* The self-signed root certificate that is used to sign the Couchbase Capella certificates (bundled with the SDK as of 4.0.0).
 
 The OpenSSL defaults can be overridden using the `SSL_CERT_DIR` and `SSL_CERT_FILE` environment variables. The `SSL_CERT_DIR` variable is used to set a specific directory in which the client should look for individual certificate files, whereas the `SSL_CERT_FILE` environment variable is used to point to a single file containing one or more certificates. More information can be found in the relevant https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_load_verify_locations.html[OpenSSL documentation].
 
@@ -249,7 +249,7 @@ $ python -c "from couchbase import get_metadata; print(get_metadata(detailed=Tru
 
 With debug-level logging enabled, if the Mozilla certificates have been loaded, a message with the information about the version of the Mozilla CA certificate store will be outputted. For example:
 
-[source]
+[source,console]
 ----
 loading 137 CA certificates from Mozilla bundle. Update date: "Tue Jan 10 04:12:06 2023 GMT", SHA256: "fb1ecd641d0a02c01bc9036d513cb658bbda62a75e246bedbc01764560a639f0"
 ----
