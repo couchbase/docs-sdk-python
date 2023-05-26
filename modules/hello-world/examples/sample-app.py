@@ -276,6 +276,7 @@ class TenantUserView(SwaggerView):
             print(e)
             return abortmsg(500, "Failed to save user", flush=True)
 # end::signup-code[]
+# tag::view-flight-get-keys[]
     @api.route('/tenants/<tenant>/user/<username>/flights', methods=['GET', 'OPTIONS'])
     @cross_origin(supports_credentials=True)
     def getflights(tenant, username):
@@ -288,33 +289,39 @@ class TenantUserView(SwaggerView):
         users = scope.collection('users')
         flights = scope.collection('bookings')
 
+        # HTTP token authentication
         bearer = request.headers['Authorization']
         if not auth(bearer, username):
             return abortmsg(401, 'Username does not match token username: ' + username)
+        
         try:
-            userdockey = lowercase(username)
-            
-            rv = users.lookup_in(
-              userdockey,
+            userDocumentKey = lowercase(username)
+
+            lookupResult = users.lookup_in(
+              userDocumentKey,
               [
                 SD.get('bookings'),
                 SD.exists('bookings')
               ])
-            booked_flights = rv.content_as[list](0) if rv.exists(1) else []
-
+            
+            bookedFlightKeys = []
+            if lookupResult.exists(1):
+                bookedFlightKeys = lookupResult.content_as[list](0)
+# end::view-flight-get-keys[]
+# tag::view-flight-get-details[]
             rows = []
-            for key in booked_flights:
+            for key in bookedFlightKeys:
                 rows.append(flights.get(key).content_as[dict])
-            print(rows)
-            querytype = "KV get - scoped to {name}.users: for {num} bookings in document ".format(
-                name=scope.name, num=len(booked_flights))
-            respjson = jsonify({"data": rows, "context": [querytype + userdockey]})
-            response = make_response(respjson)
+
+            queryType = f"KV get - scoped to {scope.name}.users: for {len(bookedFlightKeys)} bookings in document "
+            response = make_response(jsonify({"data": rows, "context": [queryType + userDocumentKey]}))
             return response
+        
         except DocumentNotFoundException:
             return abortmsg(401, "User does not exist")
+# end::view-flight-get-details[]
 
-    # tag::booking-doc[]
+# tag::booking-doc[]
     @api.route('/tenants/<tenant>/user/<username>/flights', methods=['PUT', 'OPTIONS'])
     @cross_origin(supports_credentials=True)
     def updateflights(tenant, username):
@@ -343,8 +350,8 @@ class TenantUserView(SwaggerView):
         except Exception as e:
             print(e, flush=True)
             return abortmsg(500, "Failed to add flight data")
-    # end::booking-doc[]
-    # tag::update-user[]
+# end::booking-doc[]
+# tag::update-user[]
         try:
             users.mutate_in(user, (SD.array_append('bookings', flightID, create_parents=True),))
             resultJSON = {'data': {'added': [flightData]},
@@ -355,22 +362,21 @@ class TenantUserView(SwaggerView):
             return abortmsg(401, "User does not exist")
         except Exception:
             return abortmsg(500, "Couldn't update flights")
-    # end::update-user[]
+# end::update-user[]
 
 class HotelView(SwaggerView):
     """Class for storing Hotel search related information"""
-
+# tag::search-query[]
     @api.route('/hotels/<description>/<location>/', methods=['GET'])
     @cross_origin(supports_credentials=True)
     def hotels(description, location):
         # Requires FTS index called 'hotels-index'
-        # TODO auto create index if missing
         """Find hotels using full text search
         ...
         """
-        qp = FT.ConjunctionQuery()
+        queryPrep = FT.ConjunctionQuery()
         if location != '*' and location != "":
-            qp.conjuncts.append(
+            queryPrep.conjuncts.append(
                 FT.DisjunctionQuery(
                     FT.MatchPhraseQuery(location, field='country'),
                     FT.MatchPhraseQuery(location, field='city'),
@@ -379,31 +385,59 @@ class HotelView(SwaggerView):
                 ))
 
         if description != '*' and description != "":
-            qp.conjuncts.append(
+            queryPrep.conjuncts.append(
                 FT.DisjunctionQuery(
                     FT.MatchPhraseQuery(description, field='description'),
                     FT.MatchPhraseQuery(description, field='name')
                 ))
 
+        # Attempting to run a compound query with no sub-queries will result in
+        # a 'NoChildrenException'.
+
+        if len(queryPrep.conjuncts) == 0:
+            queryType = "FTS search rejected - no search terms were provided"
+            response = {'data': [], 'context': [queryType]}
+            return jsonify(response)
+
+        searchRows = cluster.search_query('hotels-index', 
+                                          queryPrep, 
+                                          SearchOptions(limit=100))
+# end::search-query[]
+# tag::search-subdoc[]
+        allResults = []
+        addressFields = ['address', 'city', 'state', 'country']
+        dataFields = ['name', 'description']
+
         scope = bucket.scope('inventory')
         hotel_collection = scope.collection('hotel')
-        q = cluster.search_query('hotels-index', qp, SearchOptions(limit=100))
-        results = []
-        cols = ['address', 'city', 'state', 'country', 'name', 'description']
-        for row in q:
-            subdoc = hotel_collection.lookup_in(
-                row.id, tuple(SD.get(x) for x in cols))
-            # Get the address fields from the document, if they exist
-            addr = ', '.join(subdoc.content_as[str](c) for c in cols[:4]
-                             if subdoc.content_as[str](c) != "None")
-            subresults = dict((c, subdoc.content_as[str](c)) for c in cols[4:])
-            subresults['address'] = addr
-            results.append(subresults)
 
-        querytype = "FTS search - scoped to: {name}.hotel within fields {fields}".format(
-            name=scope.name, fields=','.join(cols))
-        response = {'data': results, 'context': [querytype]}
+        for hotel in searchRows:
+
+            hotelFields = hotel_collection.lookup_in(
+                hotel.id, [SD.get(x) for x in [*addressFields, *dataFields]])
+
+            hotelAddress = []
+            for x in range(len(addressFields)):
+                try:
+                    hotelAddress.append(hotelFields.content_as[str](x))
+                except:
+                    pass
+            hotelAddress = ', '.join(hotelAddress)
+
+            hotelData = {}
+            for x, field in enumerate(dataFields):
+                try:    
+                    hotelData[field] = hotelFields.content_as[str](x+len(addressFields))
+                except:
+                    pass
+                
+            hotelData['address'] = hotelAddress
+            allResults.append(hotelData)
+
+        queryType = f"FTS search - scoped to: {scope.name}.hotel within fields {','.join([*addressFields, *dataFields])}"
+        response = {'data': allResults, 'context': [queryType]}
         return jsonify(response)
+# end::search-subdoc[]
 
 
 def abortmsg(code, message):
