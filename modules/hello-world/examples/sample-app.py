@@ -416,11 +416,12 @@ class HotelView(SwaggerView):
             hotelFields = hotel_collection.lookup_in(
                 hotel.id, [SD.get(x) for x in [*addressFields, *dataFields]])
 
+            # Concatenates the first 4 fields to form the address. 
             hotelAddress = []
             for x in range(len(addressFields)):
                 try:
                     hotelAddress.append(hotelFields.content_as[str](x))
-                except:
+                except DocumentNotFoundException:
                     pass
             hotelAddress = ', '.join(hotelAddress)
 
@@ -428,7 +429,7 @@ class HotelView(SwaggerView):
             for x, field in enumerate(dataFields):
                 try:    
                     hotelData[field] = hotelFields.content_as[str](x+len(addressFields))
-                except:
+                except DocumentNotFoundException:
                     pass
                 
             hotelData['address'] = hotelAddress

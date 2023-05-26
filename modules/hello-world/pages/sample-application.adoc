@@ -86,7 +86,7 @@ See xref:howtos:managing-connections.adoc#connection-strings[Managing Connection
 === User Login
 
 The first thing the user needs to do when using the application is to either log in, or register an account.
-There are multiple endpoints needed to implement this capability, so a SwaggerView class is defined to organize these endpoints together:
+Multiple endpoints implement this capability, so a SwaggerView class organizes these endpoints together:
 
 [source, python]
 ----
@@ -213,7 +213,7 @@ include::example$sample-app.py[tags=airport-class-def;airports-endpoint, indent=
 === Booking Flights
 
 The frontend handles the cart, so adding flights doesn't affect the database. 
-Booked flights are added only when the user clicks btn:[Buy].
+Only when the user clicks btn:[Buy] are flights booked.
 
 The `updateflights` endpoint adds a flight booking to the database. 
 The frontend provides the flight details in the request body, and the user and tenant in the URL.
@@ -253,10 +253,50 @@ NOTE: If the booking document insert succeeds, but the update to the user docume
 
 === Viewing Booked Flights
 
-//TODO
+The user can also view their flights after they have booked them.
+The `getflights` endpoint takes a user, and returns details on each flight they have booked.
+
+First, the endpoint performs a xref:howtos:subdocument-operations.adoc[Sub-Document] operation to retrieve the `bookings` field. 
+
+If the user hasn't booked any flights, there is no `bookings` field. 
+However, if the application tries a lookup on this non-existent field, the operation still succeeds, but reading these results causes a `PathNotFoundException`.
+To avoid handling this exception, the lookup contains both a `get` and an `exists` operation.
+The endpoint can then verify the path exists before attempting to read the results:
+
+[source, python]
+----
+include::example$sample-app.py[tag=view-flight-get-keys, indent=0]
+----
+
+The endpoint can now iterate over the booking keys, performing `GET` requests for the flight details:
+
+[source, python]
+----
+include::example$sample-app.py[tag=view-flight-get-details, indent=0]
+----
 
 === Searching for Hotels
 
-//TODO
+The user can also search for hotels. 
+The `hotels` endpoint uses the xref:howtos:searching-with-sdk.adoc[Search queries] to find the details of hotels that match given search terms. 
+The frontend provides two search terms:
 
-include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=rest-api]
+* Location-this could refer to a country, city, or even an exact address.
+* Description-this could be anything from a name to a keyword.
+
+Since multiple fields could match these terms, the endpoint uses a conjunction query containing multiple match queries:
+
+[source, python]
+----
+include::example$sample-app.py[tag=search-query, indent=0]
+----
+
+The result of a search query is an iterable containing `SearchRow` objects. 
+Each row represents a match in one document.
+It doesn't contain the document data, instead just the matching string and metadata. 
+This metadata includes the document key, so a sub-document operation retrieves the fields needed by the frontend.
+
+[source, python]
+----
+include::example$sample-app.py[tag=search-subdoc, indent=0]
+----
