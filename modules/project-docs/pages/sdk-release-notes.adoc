@@ -37,6 +37,66 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+== Version 4.1.5 (8 June 2023)
+
+Version `4.1.5` is the fifth patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.5
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.5/
+
+=== Behavioral Change
+
+Accessing content from an Exist operation with the `LookupInResult`'s `content_as` method now returns a boolean.
+This boolean is `True` if the path exists, `False` otherwise. 
+Prior to this change the SDK raised a `DocumentNotFoundException` if the path existed or `PathNotFoundException` if the path didn't exist.
+The behavioral change aligns the Python SDK with Couchbase's CRUD RFC.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1480[PYCBC-1480]:
+Fixed subdocument read operations to allow for null values
+
+* https://issues.couchbase.com/browse/PYCBC-1486[PYCBC-1486]:
+Fixed broken imports for search `GeoBoundingBoxQuery`, `GeoDistanceQuery`, and `GeoPolygonQuery`
+
+* https://issues.couchbase.com/browse/PYCBC-1487[PYCBC-1487]:
+Updated Transcoders to be able to decode value when flags=0
+
+* https://issues.couchbase.com/browse/PYCBC-1490[PYCBC-1490]:
+Fixed `InternalServerFailureException` when executing a `Regex` FTS query
+
+* https://issues.couchbase.com/browse/PYCBC-1493[PYCBC-1493]:
+Updated search operations to correctly pass MutationState to C++ core
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1488[PYCBC-1488]:
+Added dump_configuration `ClusterOption`
+
+* https://issues.couchbase.com/browse/PYCBC-1479[PYCBC-1479]:
+Bundled Mozilla certificates with the library.
+Source: https://curl.se/docs/caextract.html. 
+Use the `disable_mozilla_ca_certificates` connection string option to disable the bundled certificates.
+See https://docs.couchbase.com/python-sdk/current/howtos/managing-connections.html#ssl[Secure Connections] for more details.
+
+
+=== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-328[CXXCBC-328]:
+Fix socket reconnection during rebalance process
+(https://github.com/couchbaselabs/couchbase-cxx-client/pull/406[#406]).
+** Several improvements have been implemented to make the library resilient to rapid topology changes when both DNS-SRV bootstrap is being used along with alternative addresses. 
+The changes include:
+*** Taking into account alternative hostname and ports during detection of added/removed nodes on configuration update.
+*** Replacing node index tracking with hostname/port matching when restarting the connections -- 
+this way the library ensures that no duplicate connections will be left, or live connections replaced by restarted session.
+*** Improved logging of critical events during rebalance: restarting, preservation, and removing connections.
+
+
 == Version 4.1.4 (9 May 2023)
 
 Version `4.1.4` is the fourth patch release of the fourth generation Python SDK, bringing a number of improvements.
