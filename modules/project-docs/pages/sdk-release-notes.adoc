@@ -75,7 +75,7 @@ Updated search operations to correctly pass MutationState to {cpp} core.
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1488[PYCBC-1488]:
-Added `dump_configuration` to `ClusterOptions`
+Added `dump_configuration` to `ClusterOptions`.
 
 * https://issues.couchbase.com/browse/PYCBC-1479[PYCBC-1479]:
 Bundled Mozilla certificates with the library.
