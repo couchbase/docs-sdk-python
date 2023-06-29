@@ -28,30 +28,7 @@ but also how to plug together all of the elements and build an application with 
 Here's the airport search code, which checks to see whether the search term for the query string is a three or four letter FAA or ICAO abbreviation,
 and if not searches for it as an airport name:
 
-[source,python]
-----
-def findall(self):
-    """Returns list of matching airports and the source query"""
-    querystr = request.args['search']
-    queryprep = "SELECT airportname FROM `travel-sample` WHERE "
-    sameCase = querystr == querystr.lower() or querystr == querystr.upper()
-    if sameCase and len(querystr) == 3:
-        queryprep += "faa=$1"
-        queryargs = [querystr.upper()]
-    elif sameCase and len(querystr) == 4:
-        queryprep += "icao=$1"
-        queryargs = [querystr.upper()]
-    else:
-        queryprep += "POSITION(LOWER(airportname), $1) = 0"
-        queryargs = [querystr.lower()]
-
-    res = cluster.query(queryprep, *queryargs)
-    airportslist = [x for x in res]
-    context = [queryprep]
-    response = make_response(
-        jsonify({"data": airportslist, "context": context}))
-    return response
-----
+TODO
 
 The https://github.com/couchbaselabs/{travel-sample-git-project}/blob/HEAD/{travel-sample-entrypoint}[{travel-sample-entrypoint}] file also contains the functions for handling users, registration, and N1QL queries.
 
