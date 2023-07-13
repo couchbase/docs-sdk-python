@@ -10,6 +10,7 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
+The Couchbase Python SDK aims to run on any https://devguide.python.org/versions/#supported-versions[supported Python version] in security or maintenance status -- see the table below for <<python-version-compat,supported versions>>.
 
 == Couchbase Version/SDK Version Matrix
 
@@ -54,20 +55,42 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 [#python-version-compat]
 == Python Version Compatibility
 
-The Python SDK is tested with Python versions 3.7 - 3.10.
-Other Python versions and implementations might work but are _not tested and are not supported_.
-We recommend using a Python version, with the highest patch version available, that is not close to reaching end of life according to the Python Software Foundation.
+The Couchbase Python SDK aims to support https://devguide.python.org/versions/#supported-versions[Python versions] in security or bug-fix (a.k.a. maintenance) status.
+The table below indicates the Python SDK version where support of a version of Python was added.
+Python versions that have reached their https://endoflife.date/python[End-of-Life date] are not supported.
 
 Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
 
-The following Python versions are supported:
-
-* https://www.python.org/dev/peps/pep-0537/#lifespan[Python 3.7]
-* https://www.python.org/dev/peps/pep-0569/#lifespan[Python 3.8]
-* https://www.python.org/dev/peps/pep-0596/#lifespan[Python 3.9]
-* https://peps.python.org/pep-0619/#lifespan[Python 3.10]
-
+Other Python versions and implementations might work but are _not tested and are not supported_.
 Please make sure you run on one of the latest patch releases, since they provide stability improvements and security fixes in general.
+
+.Supported Python Versions
+[cols="5,8,8"]
+|===
+| Python Version | Support EOL | Couchbase SDK Versions Supported
+
+| https://www.python.org/dev/peps/pep-0537/#lifespan[3.7]
+| until 2023-06-27
+| from 3.0.0
+
+| https://www.python.org/dev/peps/pep-0569/#lifespan[3.8]
+| until 2024-10
+| from 3.0.0
+
+| https://www.python.org/dev/peps/pep-0596/#lifespan[3.9]
+| until 2025-10
+| from 3.0.0
+
+| https://peps.python.org/pep-0619/#lifespan[3.10]
+| until 2026-10
+| from 4.0.0
+
+| https://peps.python.org/pep-0664/#lifespan[3.11]
+| until 2027-10
+| from 4.1.6
+
+|===
+
 
 == Platform Compatibility
 
@@ -143,6 +166,18 @@ AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04 (from S
 
 include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 
+[NOTE]
+.Binary Size
+====
+You may find the binary of the SDK from version 4.0.2 to 4.1.5 too large to run in some environments.
+If you cannot upgrade to 4.1.6 onwards for your app, 
+the size can be drastically reduced, prior to zipping up the application, by running `strip` against it to remove the debug symbols:
+[source,console]
+----
+strip --strip-debug
+----
+See the `strip` manpage for further details.
+====
 
 include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
 
