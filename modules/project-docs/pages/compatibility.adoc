@@ -177,6 +177,11 @@ Python 4.0 SDK supports AWS Amazon Graviton2 and Apple M1 ARM processors.
 
 include::{version-server}@sdk:shared:partial$network-requirements.adoc[]
 
+=== Serverless Environments
+
+SDK API 3.4 introduces better resilience in handling errors that may occur when running your application in serverless environments, in particular when processes are frozen or thawed, and a rebalance is required. 
+This means official support for AWS Lambda, Azure Functions, and GCP Functions -- _from xref:4.1@python-sdk:project-docs:compatibility.adoc#serverless-environments[Python SDK 4.1.0]_.
+
 [NOTE]
 .Binary Size
 ====
@@ -191,6 +196,8 @@ strip --strip-debug
 
 See the `strip` manpage for further details.
 ====
+
+
 
 include::{version-server}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
 
