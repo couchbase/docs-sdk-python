@@ -39,7 +39,7 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 == Version 4.1.6 (13 July 2023)
 
-Version 4.1.6 is the sixth patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the 4.1.6 release adds support for Python 3.11 and significantly reduces the size of published manylinux wheels.
+Version 4.1.6 is the sixth patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the 4.1.6 release adds support for Python 3.11 and significantly reduces the size of published _manylinux_ wheels.
 
 [source,bash]
 ----
@@ -51,7 +51,7 @@ $ python3 -m pip install couchbase==4.1.6
 === Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1500[PYCBC-1500]:
-Added max_expiry to `CollectionSpec` for collections returned in `get_all_scopes()` result.
+Added `max_expiry` to `CollectionSpec` for collections returned in `get_all_scopes()` result.
 
 === Enhancements
 
