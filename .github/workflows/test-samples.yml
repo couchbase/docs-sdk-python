@@ -1,0 +1,19 @@
+name: Test Python Code Samples
+
+on:
+  pull_request:
+    branches: ["release/4.*"]
+
+jobs:
+  init-test-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout actions
+        uses: actions/checkout@v3
+
+      - name: Start Docker container with Couchbase
+        run: docker compose up
+
+      - name: Cleanup
+        run: docker stop $(docker ps -a -q)
+
