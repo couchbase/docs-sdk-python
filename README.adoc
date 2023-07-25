@@ -13,12 +13,14 @@ This repository hosts the documentation source for the Couchbase Python SDK.
 
 == Contributing
 
-Check out our {url-contribute}[contributing guide] to learn how to:
+Check out the {url-contribute}[contributing guide] to learn how to:
 
 * submit a bug or feedback issue
 * set up your documentation workspace
 * build the documentation
 * submit a pull request
+
+a URL
 
 Thank you for helping to make the documentation better.
 
@@ -35,6 +37,26 @@ Keep in mind these key repository features:
 == Documentation Site Toolchain
 
 The documentation source files are marked up with AsciiDoc.
-Once merged into a version branch, the source files and their assets are aggregated, converted to HTML, and published by Antora to our staging and production sites.
+Once merged into a version branch, the source files and their assets are aggregated, converted to HTML, and published by Antora to the staging and production sites.
 The docs components and {url-ui}[site UI] are orchestrated by the {url-playbook}[docs site playbook].
 See the contributing guide to learn more.
+
+== Automated Testing
+
+This repository performs a check on the sample code upon opening a Pull Request. 
+These tests need to succeed to perform the merge.
+
+=== Test Framework Structure
+
+image::TestInfra.png[]
+
+The following steps conduct the check:
+
+1. The user opens a PR, triggering the GitHub Action
+2. The action creates a GitHub runner VM, and copies the repository over
+3. The runner starts the Docker test framework with `docker compose up --abort-on-container-exit`. The flag is to verify the database container is also killed when the tests finish.
+4. The database and SDK containers start. The following two steps occur concurrently.
+** Database Container: Uses the `server/sandbox` image from Docker Hub. This image configures and starts Couchbase, setting up a one node cluster with the travel-sample bucket installed.
+** SDK Container: Builds the SDK image from a debian python base image, copying the repository over, and installing dependencies. It then uses `wait-for-couchbase` to ping the Couchbase container, until it confirms the database is fully configured and running.
+5. Once the SDK confirms the database is ready for tests, it runs the bats test file.
+6. When the tests have completed, both the SDK and Couchbase containers should die. If they persist, such as in a case where the test framework crashes, the GitHub Action instead destroys them.

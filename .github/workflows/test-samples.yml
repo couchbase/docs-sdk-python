@@ -5,13 +5,13 @@ on:
     branches: ["release/4.*"]
 
 jobs:
-  init-test-environment:
+  Run-Tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout actions
         uses: actions/checkout@v3
 
-      - name: Start Docker container with Couchbase + SDK
+      - name: Start Docker test system
         run: docker compose up --abort-on-container-exit
 
       # Destroy any remaining containers
