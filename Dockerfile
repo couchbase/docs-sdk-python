@@ -7,9 +7,12 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     libssl-dev \
-    jq curl
+    jq curl \
+    npm
 
 RUN pip install -r requirements.txt
+RUN npm install -g bats
+RUN npm install --save-dev https://github.com/ztombol/bats-support
+RUN npm install --save-dev https://github.com/ztombol/bats-assert
 
-# Temporary, will eventually run tests
-ENTRYPOINT [ "sleep", "100" ]
+ENTRYPOINT [ "./wait-for-couchbase.sh" ]

@@ -1,14 +1,18 @@
 version: "3.9"
 
 services:
-  db:
-    image: "couchbase:enterprise-7.1.3"
+  your-ip:
+    image: couchbase/server-sandbox:7.1.1
     ports:
-      - 8091-8096:8091-8096
-      - 11210-11211:11210-11211
-    container_name: cb-7.1.3
-  sdk:
+      - "8091-8095:8091-8095"
+      - "9102:9102"
+      - "11210:11210"
+    expose:
+      - "8091"
+      - "8094"
+    container_name: Couchbase-7.1.1
+  python-sdk-repo:
     build: .
     depends_on:
-      - db
-    restart: on-failure:3
+      - your-ip
+    container_name: python-sdk

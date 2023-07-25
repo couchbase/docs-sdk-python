@@ -11,9 +11,18 @@ jobs:
       - name: Checkout actions
         uses: actions/checkout@v3
 
-      - name: Start Docker container with Couchbase
-        run: docker compose up
+      - name: Start Docker container with Couchbase + SDK
+        run: docker compose --abort-on-container-exit up
 
+      # Destroy any remaining containers
       - name: Cleanup
         run: docker stop $(docker ps -a -q)
 
+      - name: Notify slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: ":octocat: Python SDK Automation Test"
+          text: "https://tenor.com/en-GB/view/spanish-inquisition-surprise-monty-python-nobody-expects-it-laugh-gif-4970776"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
