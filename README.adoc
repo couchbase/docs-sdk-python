@@ -20,8 +20,6 @@ Check out the {url-contribute}[contributing guide] to learn how to:
 * build the documentation
 * submit a pull request
 
-a URL
-
 Thank you for helping to make the documentation better.
 
 == Docs Component Configuration
@@ -29,16 +27,16 @@ Thank you for helping to make the documentation better.
 This repository contains an Antora docs component.
 Keep in mind these key repository features:
 
-* Component name, version, and start page are configured in each branch's _antora.yml_ file.
-* The navigation for all of the modules is stored in the ROOT module's _nav.adoc_ file.
-* Production branches use the *release/X.Y* naming pattern (e.g., release/5.5, release/6.0).
+* Each branch's _antora.yml_ file configures the component name, version, and start page.
+* The ROOT module's _nav.adoc_ file stores the navigation for all of the modules.
+* Production branches use the *release/X.Y* naming pattern (for example, release/5.5, release/6.0).
  ** The {url-playbook}[docs site playbook] instructs Antora to automatically aggregate any branch names that start with *release/*.
 
 == Documentation Site Toolchain
 
-The documentation source files are marked up with AsciiDoc.
-Once merged into a version branch, the source files and their assets are aggregated, converted to HTML, and published by Antora to the staging and production sites.
-The docs components and {url-ui}[site UI] are orchestrated by the {url-playbook}[docs site playbook].
+The documentation source files written with AsciiDoc markup.
+Once merged into a version branch Antora aggregates the source files and their assets, converts to HTML, and publishes them to the staging and production sites.
+The {url-playbook}[docs site playbook] orchestrates the docs components and {url-ui}[site UI].
 See the contributing guide to learn more.
 
 == Automated Testing
@@ -58,5 +56,5 @@ The following steps conduct the check:
 4. The database and SDK containers start. The following two steps occur concurrently.
 ** Database Container: Uses the `server/sandbox` image from Docker Hub. This image configures and starts Couchbase, setting up a one node cluster with the travel-sample bucket installed.
 ** SDK Container: Builds the SDK image from a debian python base image, copying the repository over, and installing dependencies. It then uses `wait-for-couchbase` to ping the Couchbase container, until it confirms the database is fully configured and running.
-5. Once the SDK confirms the database is ready for tests, it runs the bats test file.
+5. Once the SDK confirms the database is ready for tests, it runs the bats test file. Bats retries each test up to three times upon failure.
 6. When the tests have completed, both the SDK and Couchbase containers should die. If they persist, such as in a case where the test framework crashes, the GitHub Action instead destroys them.
