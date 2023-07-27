@@ -35,7 +35,6 @@ services:
     depends_on:
       - your-ip
     container_name: python-sdk-local
-    tty: true
     volumes:
       - .:/app
     profiles: 

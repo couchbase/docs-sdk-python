@@ -103,8 +103,19 @@ wait-for $ATTEMPTS \
   '. | del(.indexer) | del(.["travel-sample:def_name_type"]) | map(.items_count > 0) | all' \
   '. | del(.indexer) | map(.num_pending_requests == 0) | all'
 
-log Couchbase Server ready
+# install beer-sample
+curl -u Administrator:password -X POST http://${CB_HOST}:8091/sampleBuckets/install -d '["beer-sample"]'
+
 # Give it a bit to stablise
 sleep 3
-# Run the tests
-exec bats test.bats
+log Couchbase Server ready
+
+# Check if we should run the tests
+if [ $1 -eq 1 ]
+then
+  log Performing tests - running in Prod mode
+  exec bats test.bats
+else
+  log Not performing tests - running in Dev mode
+  sleep infinity
+fi

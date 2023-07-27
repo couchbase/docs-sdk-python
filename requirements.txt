@@ -1,1 +1,6 @@
 couchbase==4.1.3
+flask
+fastapi
+twisted
+orjson
+msgpack

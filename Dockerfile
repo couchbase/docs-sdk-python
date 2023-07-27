@@ -13,4 +13,4 @@ RUN apt-get update && apt-get install -y \
 RUN pip install -r ../requirements.txt
 RUN npm install -g bats
 
-ENTRYPOINT [ "./wait-for-couchbase.sh" ]
+ENTRYPOINT [ "./wait-for-couchbase.sh", "1" ]
