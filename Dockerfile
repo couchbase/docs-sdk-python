@@ -10,9 +10,7 @@ RUN apt-get update && apt-get install -y \
     jq curl \
     npm
 
-RUN pip install -r requirements.txt
+RUN pip install -r ../requirements.txt
 RUN npm install -g bats
-RUN npm install --save-dev https://github.com/ztombol/bats-support
-RUN npm install --save-dev https://github.com/ztombol/bats-assert
 
 ENTRYPOINT [ "./wait-for-couchbase.sh" ]
