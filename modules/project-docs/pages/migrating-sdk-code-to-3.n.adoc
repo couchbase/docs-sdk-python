@@ -735,7 +735,7 @@ They are available in 3.2, and will be available in a later 4.x release.
 In addition:
 
 * `get` requests on locked documents now retry rather than fast-fail.
-* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] are not currently documented.
+* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] can be found documented in the https://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.5/couchbase_api/options.html#cluster[API reference].
 * The xref:howtos:collecting-information-and-logging.adoc[Logging] changes are not fully documented.
 
 include::7.1@sdk:shared:partial$archive.adoc[tag=migration]
