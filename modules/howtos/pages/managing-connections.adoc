@@ -55,11 +55,6 @@ include::example$managing_connections.py[tag=customenv,indent=0]
 [#connection-strings]
 == Connection Strings
 
-WARNING: The backend implementation of connection strings parameters changed substantially in 4.0 and is not currently fully documented.
-This will be resolved in a future 4.x release.
-See xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[more details on migrating to 4.0].
-In any case, xref:ref:client-settings.adoc[configuring client settings with `ClusterOptions()`] is the preferred option.
-
 A Couchbase connection string is a comma-delimited list of IP addresses and/or hostnames, optionally followed by a list of parameters.
 
 The parameter list is just like the query component of a URI; name-value pairs have an equals sign (`=`) separating the name and value, with an ampersand (`&`) between each pair.
@@ -85,9 +80,13 @@ Any client setting with a system property name may also be specified as a connec
 
 A connection string may optionally be prefixed by either `"couchbase://"` or `"couchbases://"`.
 
-For more detailed documentation please refer to the xref:c-sdk:howtos:managing-connections.adoc[libcouchbase connection string documentation].
-// TODO: update this when the LCB 3.x connstr docs are up
+=== Connection Options
 
+The backend implementation of connection strings parameters changed substantially in 4.0.
+See xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[more details on migrating to 4.0].
+
+xref:ref:client-settings.adoc#cluster-options[Configuring client settings with `ClusterOptions()`] is the preferred option.
+More details can be found in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#cluster[API reference].
 
 
 ////
