@@ -17,7 +17,7 @@
 ** xref:concept-docs:transactions-cleanup.adoc[]
 ** xref:concept-docs:transactions-error-handling.adoc[]
 
-.Working with Data
+.Further Data Ops
 * xref:howtos:subdocument-operations.adoc[]
 //  ** xref:howtos:sdk-xattr-example.adoc[]
 * xref:howtos:analytics-using-sdk.adoc[]
@@ -82,6 +82,7 @@
 * xref:project-docs:sdk-release-notes.adoc[]
 * xref:project-docs:compatibility.adoc[]
 ** xref:project-docs:migrating-sdk-code-to-3.n.adoc[]
+*** xref:howtos:working-with-collections.adoc[Working with Collections]
 * xref:project-docs:sdk-full-installation.adoc[]
 // ** xref:hello-world:platform-help.adoc[Platform Introduction]
 * https://docs-archive.couchbase.com/home/index.html[Older Versions Archive]
