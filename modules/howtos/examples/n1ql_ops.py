@@ -3,12 +3,13 @@ import uuid
 from couchbase.mutation_state import MutationState
 from couchbase.cluster import QueryScanConsistency
 # tag::n1ql_basic_example[]
-from couchbase.cluster import Cluster, ClusterOptions, QueryOptions
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions, QueryOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 
 cluster = Cluster.connect(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()
@@ -18,10 +19,9 @@ try:
         "SELECT * FROM `travel-sample`.inventory.airport LIMIT 10", QueryOptions(metrics=True))
 
     for row in result.rows():
-        print("Found row: {}".format(row))
+        print(f"Found row: {row}")
 
-    print("Report execution time: {}".format(
-        result.metadata().metrics().execution_time()))
+    print(f"Report execution time: {result.metadata().metrics().execution_time()}")
 
 except CouchbaseException as ex:
     import traceback
@@ -55,28 +55,31 @@ result = cluster.query(
 
 # tag::iterating[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.airline LIMIT 10")
+    "SELECT * FROM `travel-sample`.inventory.airline LIMIT 10")
 
 # iterate over rows
 for row in result:
     # each row is an instance of the query call
-    name = row["name"]
-    callsign = row["callsign"]
-    print("Airline name: {}, callsign: {}".format(name, callsign))
+    try:
+        name = row["airline"]["name"]
+        callsign = row["airline"]["callsign"]
+        print(f"Airline name: {name}, callsign: {callsign}")
+    except KeyError:
+        print("Row does not contain 'name' key")
 # end::iterating[]
 
 # tag::print_metrics[]
 
 result = cluster.query("SELECT 1=1", QueryOptions(metrics=True))
-
-print("Execution time: {}".format(
-    result.metadata().metrics().execution_time()))
+for row in result:
+    print(f"Result: {row}")
+print(f"Execution time: {result.metadata().metrics().execution_time()}")
 
 # end::print_metrics[]
 
 # tag::scan_consistency[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.airline LIMIT 10",
+    "SELECT * FROM `travel-sample`.inventory.airline LIMIT 10",
     QueryOptions(scan_consistency=QueryScanConsistency.REQUEST_PLUS))
 # end::scan_consistency[]
 

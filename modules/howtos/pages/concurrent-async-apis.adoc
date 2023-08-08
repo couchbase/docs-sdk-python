@@ -13,7 +13,7 @@ To use the Python SDK with https://docs.python.org/3/library/asyncio.html[asynci
 As opposed to the synchronous SDK methods which wait for completion and return `Result` objects, the _acouchbase_ methods return a `Future`. 
 You may `await` the success or failure of the `Future`.  
 If a `Future` is awaited, the method awaiting the task must have the `async` keyword in its signature. 
-`Result` objects are obtained after `await`ing the `Future` as seen in the examples below.
+`Result` objects are obtained after `await` ing the `Future` as seen in the examples below.
 
 .Create an _acouchbase_ Cluster
 [source,python]

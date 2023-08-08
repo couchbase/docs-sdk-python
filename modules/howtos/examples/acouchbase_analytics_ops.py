@@ -7,7 +7,7 @@ from couchbase.exceptions import CouchbaseException
 
 async def get_couchbase():
     cluster = Cluster(
-        "couchbase://localhost",
+        "couchbase://your-ip",
         ClusterOptions(PasswordAuthenticator("Administrator", "password")))
     bucket = cluster.bucket("travel-sample")
     await bucket.on_connect()

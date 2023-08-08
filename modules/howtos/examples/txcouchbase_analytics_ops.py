@@ -34,7 +34,7 @@ def on_connect_ok(result, cluster):
 def on_connect_err(error):
     print("Unable to connect.\n{}".format(error))
 
-cluster = TxCluster("couchbase://localhost",
+cluster = TxCluster("couchbase://your-ip",
                     ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 
 # wait for connect

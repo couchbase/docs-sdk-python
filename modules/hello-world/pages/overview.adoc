@@ -10,7 +10,7 @@
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 
-cluster = Cluster('couchbase://localhost', authenticator=PasswordAuthenticator('username', 'password'))
+cluster = Cluster('couchbase://your-ip', authenticator=PasswordAuthenticator('username', 'password'))
 bucket = cluster.bucket('default')
 coll = bucket.default_collection()
 

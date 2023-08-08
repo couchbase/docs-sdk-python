@@ -24,7 +24,7 @@ from couchbase.cluster import Cluster
 from couchbase.options import ClusterOptions
 
 
-cluster = Cluster('couchbase://localhost',
+cluster = Cluster('couchbase://your-ip',
                   ClusterOptions(PasswordAuthenticator('username', 'password')))
 ----
 

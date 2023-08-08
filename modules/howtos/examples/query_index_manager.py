@@ -84,7 +84,7 @@ def drop_primary_and_secondary_index(query_index_mgr):
 
 # tag::creating-index-mgr[]
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator("Administrator", "password")
 )
 

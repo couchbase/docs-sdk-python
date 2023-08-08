@@ -176,11 +176,11 @@ This behavior can be modified by providing a different sorting order which can a
 include::howtos:example$search_ops.py[tag=sort]
 ----
 
+=== Facets
+
 Facets are aggregate information collected on a result set and are useful when it comes to categorization of result data. 
 The SDK allows you to provide many different facet configurations to the Search Engine, the following example shows how to create a facet based on a term. 
 Other possible facets include numeric and date ranges.
-
-=== Facets
 
 [source,python]
 ----

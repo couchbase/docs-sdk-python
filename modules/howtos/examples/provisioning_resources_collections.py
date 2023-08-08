@@ -39,7 +39,7 @@ def get_collection(collection_mgr, scope_name, coll_name):
 # end::listing-scope-collection[]
 
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))
@@ -58,7 +58,7 @@ users.upsert_user(user)
 # end::scopeAdmin[]
 
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "scopeAdmin",
         "password"))

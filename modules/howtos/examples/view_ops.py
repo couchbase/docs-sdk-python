@@ -1,46 +1,50 @@
-from couchbase.cluster import Cluster, ClusterOptions
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions, ViewOptions
 from couchbase.auth import PasswordAuthenticator
-from couchbase.bucket import ViewOptions, ViewScanConsistency
-from couchbase.management.views import DesignDocumentNamespace
+from couchbase.bucket import ViewScanConsistency
+from couchbase.management.views import (
+    View,
+    DesignDocument,
+    DesignDocumentNamespace)
 
 cluster = Cluster.connect(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 bucket = cluster.bucket("travel-sample")
 
-"""
-Sample view:
-ddoc name:  dev_landmarks-by-country
-name:       by_country
+# Create views
+view_manager = bucket.view_indexes()
 
-Map:
-function (doc, meta) {
-  if(doc.type == "landmark" && doc.country){
-    emit(doc.country, null);
-  }
-}
+landmarks_by_country = DesignDocument(
+    name="dev_landmarks-by-country",
+    views={
+        "by_country": View(
+            map='function (doc, meta) {if(doc.type == "landmark" && doc.country){emit(doc.country, null);}}')})
 
-Sample view:
-ddoc name:  dev_landmarks-by-name
-name:       by_name
+view_manager.upsert_design_document(
+    landmarks_by_country, DesignDocumentNamespace.DEVELOPMENT)
 
-Map:
-function (doc, meta) {
-  if(doc.type == "landmark" && doc.name){
-    emit(doc.name, null);
-  }
-}
-"""
+view_manager.publish_design_document("landmarks-by-country")
+
+landmarks_by_name = DesignDocument(
+    name="dev_landmarks-by-name",
+    views={
+        "by_name": View(
+            map='function (doc, meta) {if(doc.type == "landmark" && doc.name){emit(doc.name, null);}}')})
+
+view_manager.upsert_design_document(
+    landmarks_by_name, DesignDocumentNamespace.DEVELOPMENT)
+view_manager.publish_design_document("landmarks-by-name")
 
 # tag::landmarks_by_name[]
-result = bucket.view_query("dev_landmarks-by-name",
+result = bucket.view_query("landmarks-by-name",
                            "by_name",
                            ViewOptions(key="Circle Bar",
-                                       namespace=DesignDocumentNamespace.DEVELOPMENT))
+                                       namespace=DesignDocumentNamespace.PRODUCTION))
 # end::landmarks_by_name[]
 
 # tag::landmarks_by_country[]
-result = bucket.view_query("dev_landmarks-by-country",
+result = bucket.view_query("landmarks-by-country",
                            "by_country",
                            ViewOptions(startkey="U",
                                        limit=10,

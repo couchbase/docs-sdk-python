@@ -156,7 +156,7 @@ crypto_mgr.register_legacy_decrypters(
 
 # Create a configuration to connect to your cluster
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     ClusterOptions(PasswordAuthenticator("Administrator", "password")),
 )
 bucket = cluster.bucket("default")

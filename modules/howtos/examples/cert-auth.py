@@ -16,5 +16,5 @@ options = dict(cert_path=os.path.join(clientdir, "client.pem"),
                key_path=os.path.join(clientdir, "client.key"))
 
 opts = ClusterOptions(CertificateAuthenticator(**options))
-cluster = Cluster('couchbase://localhost', opts)
+cluster = Cluster('couchbase://your-ip', opts)
 # end::auth[]
