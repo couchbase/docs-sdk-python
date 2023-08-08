@@ -37,6 +37,63 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+
+== Version 4.1.7 (8 August 2023)
+
+Version 4.1.7 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.7
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.7/
+
+=== Behavioral Change
+
+Since Python 3.7 has reached https://peps.python.org/pep-0537/#lifespan[end-of-life], the Couchbase Python SDK will no longer provide Python 3.7 wheels in future releases (>4.1.7). See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1502[PYCBC-1502]:
+Added `PasswordAuthenticator` validation.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1496[PYCBC-1496]:
+Added support for query with read from replica.
+
+* https://issues.couchbase.com/browse/PYCBC-1419[PYCBC-1419]:
+Added support for Native KV Range Scans.
+
+* https://issues.couchbase.com/browse/PYCBC-1505[PYCBC-1504];
+https://issues.couchbase.com/browse/PYCBC-1505[PYCBC-1505]:
+Updated API documentation to provide correct information on `LockMode`.
+
+* https://issues.couchbase.com/browse/PYCBC-1510[PYCBC-1510]:
+Updated CONTRIBUTING.md to improve contributing guidelines.
+
+* https://issues.couchbase.com/browse/PYCBC-1095[PYCBC-1095]:
+Added Subdoc mutate-in deletions with a blank path.
+
+=== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-349[CXXCBC-349]:
+Allow to pass trust certificate by value (https://github.com/couchbaselabs/couchbase-cxx-client/pull/430[#430]).
+** The change affects TLS v1.0 and v1.1 which are now disabled by default.
+* https://issues.couchbase.com/browse/CXXCBC-343[CXXCBC-343]:
+Continue bootsrap if DNS-SRV resolution fails (https://github.com/couchbaselabs/couchbase-cxx-client/pull/422[#422]).
+* https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
+Support query with read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/429[#429], ).
+* https://issues.couchbase.com/browse/CXXCBC-339[CXXCBC-339]:
+Disable older TLS protocols (https://github.com/couchbaselabs/couchbase-cxx-client/pull/418[#418]).
+* https://issues.couchbase.com/browse/CXXCBC-333[CXXCBC-333]:
+Fix parsing 'resolv.conf' on Linux. (https://github.com/couchbaselabs/couchbase-cxx-client/pull/416[#416]).
+** The library might not ignore trailing characters when reading nameserver address from the file.
+* https://issues.couchbase.com/browse/CXXCBC-242[CXXCBC-242]:
+SDK Support for Native KV Range Scans (https://github.com/couchbaselabs/couchbase-cxx-client/pull/419[#419], https://github.com/couchbaselabs/couchbase-cxx-client/pull/423[#423], https://github.com/couchbaselabs/couchbase-cxx-client/pull/424[#424], https://github.com/couchbaselabs/couchbase-cxx-client/pull/426[#426], https://github.com/couchbaselabs/couchbase-cxx-client/pull/428[#428], https://github.com/couchbaselabs/couchbase-cxx-client/pull/431[#431], https://github.com/couchbaselabs/couchbase-cxx-client/pull/432[#432],  https://github.com/couchbaselabs/couchbase-cxx-client/pull/433[#433],  https://github.com/couchbaselabs/couchbase-cxx-client/pull/434[#434]).
+
+
 == Version 4.1.6 (13 July 2023)
 
 Version 4.1.6 is the sixth patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the 4.1.6 release adds support for Python 3.11 and significantly reduces the size of published _manylinux_ wheels.
