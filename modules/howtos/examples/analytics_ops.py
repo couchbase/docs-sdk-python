@@ -7,7 +7,7 @@ from couchbase.exceptions import CouchbaseException
 from couchbase.analytics import AnalyticsScanConsistency
 
 cluster = Cluster.connect(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()

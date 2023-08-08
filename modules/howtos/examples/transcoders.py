@@ -11,15 +11,15 @@ from typing import Any, Tuple
 import orjson
 import msgpack
 
-from couchbase.cluster import Cluster, ClusterOptions
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions, GetOptions, UpsertOptions
 from couchbase.auth import PasswordAuthenticator
-from couchbase.collection import GetOptions, UpsertOptions
 from couchbase.exceptions import CouchbaseException, ValueFormatException
 from couchbase.transcoder import RawJSONTranscoder, RawStringTranscoder, RawBinaryTranscoder, Transcoder
 
-cluster = Cluster("couchbase://localhost", ClusterOptions(
+cluster = Cluster("couchbase://your-ip", ClusterOptions(
     PasswordAuthenticator("Administrator", "password")))
-bucket = cluster.bucket("default")
+bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()
 
 # tag::raw_json_encode[]
@@ -40,7 +40,7 @@ try:
 except (ValueFormatException, CouchbaseException) as ex:
     traceback.print_exc()
 
-decoded = orjson.loads(get_result.content)
+decoded = orjson.loads(get_result.value)
 assert decoded == user
 # end::raw_json_decode[]
 
@@ -56,7 +56,7 @@ try:
 except (ValueFormatException, CouchbaseException) as ex:
     traceback.print_exc()
 
-assert get_result.content == input_str
+assert get_result.value == input_str
 # end::raw_string_transcoder[]
 
 # tag::raw_binary_transcoder[]
@@ -71,7 +71,7 @@ try:
 except (ValueFormatException, CouchbaseException) as ex:
     traceback.print_exc()
 
-assert get_result.content == input_bytes
+assert get_result.value == input_bytes
 # end::raw_binary_transcoder[]
 
 
@@ -120,5 +120,5 @@ try:
 except (ValueFormatException, CouchbaseException) as ex:
     traceback.print_exc()
 
-assert get_result.content == user
+assert get_result.value == user
 # end::use_custom_transcoder[]

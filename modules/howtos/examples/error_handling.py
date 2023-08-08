@@ -10,7 +10,7 @@ from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 from couchbase.collection import InsertOptions, ReplaceOptions
 from couchbase.exceptions import (CASMismatchException, CouchbaseException,
-                                  CouchbaseTransientException, DocumentNotFoundException,
+                                  DocumentNotFoundException,
                                   DocumentExistsException,
                                   DurabilitySyncWriteAmbiguousException, QueryErrorContext)
 from couchbase.durability import Durability, ServerDurability
@@ -19,7 +19,7 @@ from couchbase.durability import Durability, ServerDurability
 warnings.filterwarnings("ignore")
 
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))
@@ -71,7 +71,7 @@ def allow_retries(retry_limit=3,                # type: int
 
 @allow_retries(retry_limit=5,
                backoff=0.5,
-               allowed_exceptions=(CASMismatchException, CouchbaseTransientException))
+               allowed_exceptions=(CASMismatchException))
 def update_with_cas(collection,    # type: str
                     doc_key       # type: str
                     ) -> bool:

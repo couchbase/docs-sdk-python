@@ -61,16 +61,16 @@ wait-for() {
   return # success
 }
 
-function createHotelsIndex() {
-  log "Creating hotels-index..."
-  http_code=$(curl -o hotel-index.out -w '%{http_code}' -s -u ${CB_USER}:${CB_PSWD} -X PUT \
-    http://${CB_HOST}:8094/api/index/hotels-index \
+function createSampleIndex() {
+  log "Creating travel-sample-index..."
+  http_code=$(curl -o travel-sample-index.out -w '%{http_code}' -s -u ${CB_USER}:${CB_PSWD} -X PUT \
+    http://${CB_HOST}:8094/api/index/travel-sample-index \
     -H 'cache-control: no-cache' \
     -H 'content-type: application/json' \
-    -d @fts-hotels-index.json)
+    -d @travel-sample-index.json)
   if [[ $http_code -ne 200 ]]; then
-    log Hotel index creation failed
-    cat hotel-index.out
+    log travel-sample-index creation failed
+    cat travel-sample-index.out
     exit 1
   fi
 }
@@ -86,12 +86,12 @@ wait-for $ATTEMPTS \
   ":8094/api/cfg" \
   '.status == "ok"'
 
-if (wait-for 1 ":8094/api/index/hotels-index" '.status == "ok"'); then
+if (wait-for 1 ":8094/api/index/travel-sample-index" '.status == "ok"'); then
   log index already exists
 else
-  createHotelsIndex
+  createSampleIndex
   wait-for $ATTEMPTS \
-    ":8094/api/index/hotels-index/count" \
+    ":8094/api/index/travel-sample-index/count" \
     '.count >= 917'
 fi
 

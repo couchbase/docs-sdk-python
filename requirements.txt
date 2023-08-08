@@ -4,3 +4,4 @@ fastapi
 twisted
 orjson
 msgpack
+cbencryption

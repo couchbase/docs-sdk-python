@@ -90,7 +90,7 @@ Once within the container, run the following command to run a single test:
 
 [source, console]
 ----
-bats -f "<test_name>" tests/test.bats
+bats -f "<test_name>" test.bats
 ----
 
 The `-f` flag only runs tests that match the given regular expression.
@@ -98,7 +98,7 @@ As test names are in a standard format, you can also run the following to test a
 
 [source, console]
 ----
-bats -f "<module name>" tests/test.bats
+bats -f "<module name>" test.bats
 ----
 
 === Creating a New Test
@@ -116,4 +116,4 @@ To add a new test, append the following to the `test.bats` file.
 You can find the module directory variables in `test_helper.bash`.
 The test name is `"[<module>] - <code_file>"`. 
 The name can be anything, but this standard format allows you to carry out single tests, as described in the preceding section.
-For more information about creating tests, see the [bats documentation].
+For more information about creating tests, see the https://bats-core.readthedocs.io/en/stable/writing-tests.html[bats documentation].

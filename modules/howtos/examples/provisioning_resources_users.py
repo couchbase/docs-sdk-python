@@ -9,7 +9,7 @@ username = "test-user"
 pw = "test-passw0rd!"
 
 adm_cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))
@@ -47,7 +47,7 @@ for u in users_metadata:
 
 # tag::user_operations[]
 user_cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(username, pw))
 
 # For Server versions 6.5 or later you do not need to open a bucket here

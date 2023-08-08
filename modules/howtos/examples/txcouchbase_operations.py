@@ -144,7 +144,7 @@ def on_connect_err(error):
 
 
 # create a cluster object
-cluster = TxCluster('couchbase://localhost',
+cluster = TxCluster('couchbase://your-ip',
                     authenticator=PasswordAuthenticator(
                         'Administrator',
                         'password'))

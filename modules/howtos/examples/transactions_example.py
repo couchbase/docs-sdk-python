@@ -24,7 +24,7 @@ def main():
                               durability=ServerDurability(DurabilityLevel.PERSIST_TO_MAJORITY))
                           )
 
-    cluster = Cluster.connect('couchbase://localhost', opts)
+    cluster = Cluster.connect('couchbase://your-ip', opts)
     # end::config[]
 
     test_doc = "foo"
@@ -164,7 +164,7 @@ def get_cluster():
                           transaction_config=TransactionConfig(
         durability=ServerDurability(DurabilityLevel.PERSIST_TO_MAJORITY)))
 
-    example_cluster = Cluster.connect('couchbase://localhost', opts)
+    example_cluster = Cluster.connect('couchbase://your-ip', opts)
     return example_cluster
 
 

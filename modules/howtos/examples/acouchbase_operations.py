@@ -26,7 +26,7 @@ from couchbase.auth import PasswordAuthenticator
 
 async def get_couchbase():
     cluster = Cluster(
-        "couchbase://localhost",
+        "couchbase://your-ip",
         ClusterOptions(PasswordAuthenticator("Administrator", "password")))
     bucket = cluster.bucket("travel-sample")
     await bucket.on_connect()
@@ -91,9 +91,8 @@ async def search_query(cluster):
             "travel-sample-index", search.QueryStringQuery("swanky"))
 
         async for row in result:
-            print("Found row: {}".format(row))
-        print("Reported total rows: {}".format(
-            result.metadata().metrics.total_rows))
+            print(f"Found row: {row}")
+        print(f"Reported total rows: {result.metadata().metrics().total_rows()}")
 
     except CouchbaseException as ex:
         print(ex)

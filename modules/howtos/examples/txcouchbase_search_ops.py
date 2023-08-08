@@ -12,7 +12,7 @@ import couchbase.search as search
 def handle_query_results(result):
     for r in result.rows():
         print("query row: {}".format(r))
-
+    print("loop finished")
     reactor.stop()
 
 
@@ -32,10 +32,10 @@ def on_connect_ok(result, cluster):
 
 
 def on_connect_err(error):
-    print("Unable to connect.\n{}".format(error))
+    print(f"Unable to connect.\n{error}")
 
 
-cluster = TxCluster("couchbase://localhost",
+cluster = TxCluster("couchbase://your-ip",
                     ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 
 # wait for connect

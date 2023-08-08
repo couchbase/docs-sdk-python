@@ -3,12 +3,11 @@ from couchbase.auth import PasswordAuthenticator
 from couchbase.management.views import (
     View,
     DesignDocument,
-    DesignDocumentNamespace,
-    DesignDocumentNotFoundException)
+    DesignDocumentNamespace)
 
 # tag::create_view_mgr[]
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))
@@ -45,6 +44,6 @@ view_manager.publish_design_document("landmarks")
 # end::publish_view[]
 
 # tag::drop_view[]
-view_manager.drop_design_document(
-    "landmarks", DesignDocumentNamespace.DEVELOPMENT)
+#view_manager.drop_design_document(
+#    "landmarks", DesignDocumentNamespace.DEVELOPMENT)
 # end::drop_view[]

@@ -1,10 +1,13 @@
 from datetime import timedelta
 import logging
+import traceback
 import sys
 
-from couchbase.cluster import Cluster, ClusterOptions, ClusterTracingOptions
+import couchbase
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions, ClusterTracingOptions
 from couchbase.auth import PasswordAuthenticator
-from couchbase import enable_logging
+from couchbase.exceptions import CouchbaseException
 
 # NOTE: for simple test to see output, drop the threshold
 #         ex:  tracing_threshold_kv=timedelta(microseconds=1)
@@ -13,7 +16,8 @@ from couchbase import enable_logging
 # configure logging
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 # setup couchbase logging
-enable_logging()
+logger = logging.getLogger()
+couchbase.configure_logging(logger.name, level=logger.level)
 
 tracing_opts = ClusterTracingOptions(
     tracing_threshold_queue_size=10,
@@ -25,12 +29,15 @@ cluster_opts = ClusterOptions(authenticator=PasswordAuthenticator(
     tracing_options=tracing_opts)
 
 cluster = Cluster(
-    "couchbase://localhost",
-    options=cluster_opts
+    "couchbase://your-ip",
+    cluster_opts
 )
 # end::threshold_logging_config[]
 
 collection = cluster.bucket("beer-sample").default_collection()
 
 for _ in range(100):
-    collection.get("21st_amendment_brewery_cafe")
+    try:
+        collection.get("21st_amendment_brewery_cafe")
+    except CouchbaseException:
+        logger.error(traceback.format_exc())

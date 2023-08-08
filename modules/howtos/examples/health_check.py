@@ -15,7 +15,7 @@ def ok(cluster):
 
 
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))

@@ -16,7 +16,7 @@ from couchbase.collection import (
 from couchbase.collection import DeltaValue, SignedInt64
 
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))

@@ -15,7 +15,8 @@ from datetime import timedelta
 
 from flask import Flask, jsonify, request
 
-from couchbase.cluster import Cluster, ClusterOptions
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import (
     CouchbaseException,
@@ -154,7 +155,7 @@ def delete(key):
 # done for example purposes only, some
 # sort of configuration should be used
 db_info = {
-    'host': 'localhost',
+    'host': 'your-ip',
     'bucket': 'default',
     'username': 'Administrator',
     'password': 'password'

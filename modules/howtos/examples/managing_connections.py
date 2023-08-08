@@ -6,15 +6,16 @@
 #  - /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts on Windows)
 #      with `127.0.0.1 node2.example.com`
 
-from couchbase.cluster import Cluster, ClusterOptions
-from couchbase_core.cluster import PasswordAuthenticator
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions
+from couchbase.auth import PasswordAuthenticator
 
 class ManagingConnections(object):
     def test_simpleconnect(self):
 
       print("simpleconnect")
       #tag::simpleconnect[]
-      cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")))
+      cluster = Cluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       bucket = cluster.bucket("travel-sample")
       collection = bucket.default_collection()
 
@@ -28,13 +29,13 @@ class ManagingConnections(object):
       #end::simpleconnect[]
 
       # For a graceful shutdown, disconnect from the cluster when the program ends.
-      cluster.disconnect()
+      cluster.close()
 
 
     def test_multinodeconnect(self):
       print("multinodeconnect")
       #tag::multinodeconnect[]
-      cluster = Cluster.connect("couchbase://node1.example.com,node2.example.com", ClusterOptions(PasswordAuthenticator("username", "password")))
+      cluster = Cluster.connect("couchbase://node1.example.com,node2.example.com", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       #end::multinodeconnect[]
 
     #
@@ -45,7 +46,7 @@ class ManagingConnections(object):
     #   # Customize client settings by calling methods on the builder
     #
     #   # Create a cluster using the environment's custom client settings.
-    #   cluster = Cluster.connect("couchbase://localhost", ClusterOptions
+    #   cluster = Cluster.connect("couchbase://your-ip", ClusterOptions
     #       .clusterOptions("username", "password")
     #       .environment(env))
     #
@@ -101,18 +102,18 @@ class ManagingConnections(object):
       print("connectionstringparams")
       #tag::connectionstringparams[]
       cluster = Cluster.connect(
-          "couchbase://localhost?compression=on&log_redaction=on", ClusterOptions(PasswordAuthenticator("username", "password")))
+          "couchbase://your-ip?compression=on&log_redaction=on", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       #end::connectionstringparams[]
 
     def test_async(self):
       print("blockingtoasync")
       #tag::blockingtoasync[]
-      cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")))
+      cluster = Cluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       bucket = cluster.bucket("travel-sample")
 
       # Same API as Bucket, but completely async with asyncio Futures
       from acouchbase.bucket import Bucket
-      async_bucket=Bucket("couchbase://localhost/default")
+      async_bucket=Bucket("couchbase://your-ip/default")
 
       cluster.disconnect()
       #end::blockingtoasync[]
@@ -120,7 +121,7 @@ class ManagingConnections(object):
       print("reactivecluster")
       #tag::reactivecluster[]
       from acouchbase.bucket import Bucket
-      cluster = Cluster("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")),bucket_class=Bucket)
+      cluster = Cluster("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")),bucket_class=Bucket)
       bucket = cluster.bucket("travel-sample")
 
       # A reactive cluster's disconnect methods returns a Mono<Void>.
@@ -131,7 +132,7 @@ class ManagingConnections(object):
 
       print("asynccluster")
       #tag::asynccluster[]
-      cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("username", "password")))
+      cluster = Cluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       bucket = cluster.bucket("travel-sample")
 
       # An async cluster's disconnect methods returns a CompletableFuture<Void>.
@@ -142,7 +143,7 @@ class ManagingConnections(object):
 
       print("tls")
       #tag::tls[]
-      cluster = Cluster("couchbases://localhost",ClusterOptions(PasswordAuthenticator("username","password",cert_path="/path/to/cluster.crt")))
+      cluster = Cluster("couchbases://your-ip",ClusterOptions(PasswordAuthenticator("Administrator","password",cert_path="/path/to/cluster.crt")))
       #end::tls[]
 
       print("dnssrv")
@@ -154,6 +155,7 @@ class ManagingConnections(object):
 
 example = ManagingConnections()
 example.test_simpleconnect()
-example.test_multinodeconnect()
+## Test env is only 1 node
+#example.test_multinodeconnect()
 example.test_connectionstringparams()
 # example.test_async() # TODO: DOC-9100

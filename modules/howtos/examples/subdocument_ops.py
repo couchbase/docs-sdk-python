@@ -11,14 +11,14 @@ from couchbase.exceptions import (
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 import couchbase.subdocument as SD
-from couchbase.collection import MutateInOptions
+from couchbase.options import MutateInOptions
 
 cluster = Cluster(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
         "password"))
-bucket = cluster.bucket("default")
+bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()
 
 json_doc = {

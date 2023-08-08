@@ -1,23 +1,24 @@
 
 from couchbase.mutation_state import MutationState
 from couchbase.search import (
-    SearchOptions, SearchScanConsistency, HighlightStyle, TermFacet)
+    SearchScanConsistency, HighlightStyle, TermFacet, TermQuery)
 # tag::search_basic_example[]
-from couchbase.cluster import Cluster, ClusterOptions
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions, SearchOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 import couchbase.search as search
 
 
 cluster = Cluster.connect(
-    "couchbase://localhost",
+    "couchbase://your-ip",
     ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()
 
 try:
     result = cluster.search_query(
-        "travel-sample-index", search.QueryStringQuery("swanky"))
+        "travel-sample-index", search.QueryStringQuery("Paris"))
 
     for row in result.rows():
         print("Found row: {}".format(row))
@@ -79,7 +80,7 @@ result = cluster.search_query(
 # end::highlight[]
 
 for row in result.rows():
-    print("Fragments: {}".format(row.fragments))
+    print(f"Fragments: {row.fragments}")
 
 # tag::sort[]
 result = cluster.search_query(
@@ -87,12 +88,18 @@ result = cluster.search_query(
 # end::sort[]
 
 # tag::facets[]
-result = cluster.search_query(
-    "travel-sample-index", search.QueryStringQuery("north"), SearchOptions(facets={"types": TermFacet("type", 5)}))
-# end::facets[]
+facet_name = 'activity'
+facet = TermFacet('activity')
+query = TermQuery('home')
+q_res = cluster.search_query('travel-sample-index',
+                            query,
+                            SearchOptions(limit=10, facets={facet_name: facet}))
 
-result.rows()
-print(result.facets()["types"])
+for row in q_res.rows():
+    print(f'Found row: {row}')
+
+print(f'facets: {q_res.facets()}')
+# end::facets[]
 
 # tag::fields[]
 result = cluster.search_query(

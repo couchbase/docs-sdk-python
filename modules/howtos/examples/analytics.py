@@ -22,7 +22,7 @@ class Analytics(object):
 
     def main(self, args):
         # tag::simple[]
-        cluster = Cluster.connect("couchbase://localhost", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
+        cluster = Cluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 
         try:
             result = cluster.analytics_query("select \"hello\" as greeting")
