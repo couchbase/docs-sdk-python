@@ -77,7 +77,7 @@ This creates two Docker containers with the same structure as described in <<Tes
 This means any changes you make to the files on your local machine are instantly reflected in the container.
 
 To run tests, you either need to use the 
-https://www.docker.com/blog/integrated-terminal-for-running-containers-extended-integration-with-containerd-and-more-in-docker-desktop-4-12/[Terminal] 
+https://docs.docker.com/desktop/use-desktop/container/#integrated-terminal[Integrated Terminal] 
 feature on Docker Desktop, or SSH into the container from the command line. 
 You can use the following command to use the SDK container shell:
 
