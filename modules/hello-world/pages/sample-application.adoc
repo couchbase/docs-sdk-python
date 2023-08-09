@@ -5,6 +5,7 @@
 :page-topic-type: tutorial
 :page-aliases: ROOT:sample-application,ROOT:tutorial4,ROOT:sample-app-backend
 :page-pagination: prev
+:page-toclevels: 2
 
 :travel-sample-git-project: try-cb-python
 :travel-sample-entrypoint: travel.py
@@ -15,47 +16,300 @@ include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=abstrac
 
 include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=quick-start]
 
-include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=bring-your-own]
-
 include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=using]
 
-
-== Sample App Backend
-
-The backend code shows Couchbase Python SDK in action with Query and Search,
-but also how to plug together all of the elements and build an application with Couchbase Server and the Python SDK.
-
-Here's the airport search code, which checks to see whether the search term for the query string is a three or four letter FAA or ICAO abbreviation,
-and if not searches for it as an airport name:
-
-[source,python]
-----
-def findall(self):
-    """Returns list of matching airports and the source query"""
-    querystr = request.args['search']
-    queryprep = "SELECT airportname FROM `travel-sample` WHERE "
-    sameCase = querystr == querystr.lower() or querystr == querystr.upper()
-    if sameCase and len(querystr) == 3:
-        queryprep += "faa=$1"
-        queryargs = [querystr.upper()]
-    elif sameCase and len(querystr) == 4:
-        queryprep += "icao=$1"
-        queryargs = [querystr.upper()]
-    else:
-        queryprep += "POSITION(LOWER(airportname), $1) = 0"
-        queryargs = [querystr.lower()]
-
-    res = cluster.query(queryprep, *queryargs)
-    airportslist = [x for x in res]
-    context = [queryprep]
-    response = make_response(
-        jsonify({"data": airportslist, "context": context}))
-    return response
-----
-
-The https://github.com/couchbaselabs/{travel-sample-git-project}/blob/HEAD/{travel-sample-entrypoint}[{travel-sample-entrypoint}] file also contains the functions for handling users, registration, and N1QL queries.
-
+include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=overview]
 
 include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=data-model]
 
-include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=rest-api]
+
+== Application Backend
+
+The backend code shows the Couchbase Python SDK in action with Data(K/V), Query, and Search services. 
+These elements are each plugged together with Couchbase Server to implement the API needed by the frontend of the application.
+
+For line by line explanations of the backend code, refer to the `{travel-sample-entrypoint}` file in the `{travel-sample-git-project}` repository.
+
+=== API Structural Overview
+
+Flask and Swagger implement the API endpoints. When starting the backend, the following code:
+
+. Initializes the Flask web application.
+. Updates the API configuration.
+. Sets the template to define the security schemes and result schemas.
+. Creates the API component to tie the endpoints to.
+. Restricts the API to only accept requests with content types and authorization headers.
+
+[source, python]
+----
+include::example$sample-app.py[tag=api, indent=0]
+----
+
+A function defines each endpoint. 
+The Flask `route` wrapper defines which URL triggers the function. 
+For instance, the URL `localhost:8080/` triggers the following function:
+
+[source, python]
+----
+include::example$sample-app.py[tag=route, indent=0]
+----
+
+Besides the default endpoint, each of the endpoint functions are inside a `SwaggerView` class. 
+This class is purely to group related endpoints together inside the Swagger API docs page, and has no direct effect on the endpoints:
+
+[source, python]
+----
+include::example$sample-app.py[tag=airport-class-def, indent=0]
+----
+
+Each endpoint begins with a docstring that Swagger uses to generate the documentation for that endpoint. 
+The code samples on this page omit the body of these docstrings for brevity.
+
+For more information regarding the web app and API definition, see the https://flask.palletsprojects.com/en/2.3.x/[Flask] and https://github.com/flasgger/flasgger[Flasgger] documentation.
+
+=== Connecting to Couchbase
+
+The backend expects several parameters when invoked:
+
+* The database connection string -- this is either a Capella endpoint, or a node IP address.
+* The URI scheme -- `couchbases` for Capella, and `couchbase` for a local server.
+* The username -- `cbdemo` for Capella, and `Administrator` for a local server.
+* The password -- `Password123!` for Capella, and `password` for a local server.
+
+[source, python]
+----
+include::example$sample-app.py[tags=args;connect;start-app, indent=0]
+----
+
+See xref:howtos:managing-connections.adoc#connection-strings[Managing Connections] for more information about connecting the Python SDK to Couchbase.
+
+=== User Login
+
+The first thing the user needs to do when using the application is to either log in, or register an account.
+Multiple endpoints implement this capability, so a SwaggerView class organizes these endpoints together:
+
+[source, python]
+----
+include::example$sample-app.py[tag=user-class-def, indent=0]
+----
+
+The application has two different tenants that store data in two different tenant scopes:
+
+* CB Travel uses `tenant_agent_00`
+* Behind the Sofa Bookings uses `tenant_agent_01`
+
+To avoid having two nearly identical sets of endpoints for each tenant, the application uses a variable section `<tenant>` in the URL to specify the tenant. 
+The signup code for both tenants is therefore defined at the single endpoint `/tenants/<tenant>/user/signup`:
+
+[source, python]
+----
+include::example$sample-app.py[tag=signup-def, indent=0]
+----
+
+The request body consists of a JSON object with two fields: `username` and `password`.
+The application tries a K/V insert into the users collection within the scope provided by the frontend. 
+The document key is the username, and the value is a JSON object of the form:
+
+----
+{
+  'username':<username>,
+  'password':<password>
+}
+----
+
+NOTE: The document key is a lowercase version of the provided username -- this means that different usernames can refer to the same document. 
+For example, if a user signs up with the username `Douglas Reynholm`, a different user can't sign up with the username `douglas reynholm`, as both resolve to the same document key.
+
+See xref:howtos:kv-operations.adoc[Data Operations] for more information about K/V operations.
+
+[source, python]
+----
+include::example$sample-app.py[tag=signup-code, indent=0]
+----
+
+To perform a login, the frontend provides the username and password given by the user in the same JSON format as the `signup` endpoint. 
+As the username is the document key, the application doesn't need to retrieve the entire document, only the password field. 
+The application uses a xref:howtos:subdocument-operations.adoc[Sub-Document] operation to perform a `GET` on this one field. 
+This password is then compared against the given username.
+
+[source, python]
+----
+include::example$sample-app.py[tags=login-def;login-code, indent=0]
+----
+
+=== Querying Flight Information
+
+The `flightPaths` endpoint takes a source and destination airport name, and a departure date. 
+It returns a list of matching flight routes:
+
+[source, python]
+----
+include::example$sample-app.py[tag=flights-class, indent=0]
+----
+
+Key/value operations aren't sufficient to service a complex request like searching for flight information. 
+The Query Service provides this capability with minimal complexity.
+
+NOTE: You may recall that the web application provides both outbound and return flights. 
+The frontend provides this information by making two separate requests to the backend, with the `<fromLoc>` and `<toLoc>` variable sections of the URL switched.
+
+A single query can't provide this information without significant complexity, as the route document schema doesn't include the airport names:
+
+[source, json]
+----
+{
+  "id": 10000,
+  "type": "route",
+  "airline": "AF",
+  "airlineid": "airline_137",
+  "sourceairport": "TLV",
+  "destinationairport": "MRS",
+  "stops": 0,
+  "equipment": "320",
+  "schedule": [{
+    "day": 0,
+    "utc": "10:13:00",
+    "flight": "AF198"
+  },
+  ...
+  {
+    "day": 6,
+    "utc": "07:00:00",
+    "flight": "AF496"
+  }],
+  "distance": 2881.617376098415
+}
+----
+
+Therefore an initial query fetches the `faa` field from the corresponding documents in the airport collection:
+
+[source, python]
+----
+include::example$sample-app.py[tag=flights-first-query, indent=0]
+----
+
+The routes are now queried. 
+xref:{version-server}@server:n1ql:n1ql-language-reference/unnest.adoc[UNNEST] flattens the schedule list, and a xref:{version-server}@server:n1ql:n1ql-language-reference/join.adoc[JOIN] on the airline collection gets the airline name from the airline id:
+
+[source, python]
+----
+include::example$sample-app.py[tag=flights-second-query, indent=0]
+----
+
+=== Auto-Completing Airport Names
+
+Users may not recognize an airport by the name stored in the database. 
+For example, Los Angles Intl is commonly known by its FAA code, LAX. 
+To avoid this mismatch, the frontend auto-completes potential airport names as the user is typing.
+
+The airports endpoint takes a string, and returns potential airport names. 
+The application modifies the query based on whether it thinks the provided string is a partial airport name, or FAA code:
+
+ * The endpoint presumes an FAA code if the string is 3 characters long. 
+In this case, the query searches for a document with a matching FAA code, returning the corresponding airport name.
+ * Otherwise, it presumes the string is a partial airport name. The query uses the xref:{version-server}@server:n1ql:n1ql-language-reference/stringfun.adoc#fn-str-position[POSITION] function to match the partial airport name to the start of the `airportname` field.
+
+[source, python]
+----
+include::example$sample-app.py[tags=airport-class-def;airports-endpoint, indent=0]
+----
+
+=== Booking Flights
+
+The frontend handles the cart, so adding flights doesn't affect the database. 
+Only when the user clicks btn:[Buy] are flights booked.
+
+The `updateflights` endpoint adds a flight booking to the database. 
+The frontend provides the flight details in the request body, and the user and tenant in the URL.
+The endpoint first creates a booking document in the bookings collection of the corresponding tenant.
+This document contains the flight details provided to the frontend by the `flightPaths` endpoint:
+
+[source, json]
+----
+{
+  "destinationairport": "JFK",
+  "equipment": "76W 764",
+  "flight": "AF453",
+  "name": "Air France",
+  "price": 371,
+  "sourceairport": "LHR",
+  "utc": "08:00:00",
+  "date": "05/17/2023"
+}
+----
+
+The document key for this booking is a random 36 character string.
+
+[source, python]
+----
+include::example$sample-app.py[tag=booking-doc, indent=0]
+----
+
+However, this booking document isn't associated with the user who booked it.
+Therefore the endpoint performs a xref:howtos:subdocument-operations.adoc[Sub-Document] operation on the `bookings` field in the given user's document to add the booking document's key:
+
+[source, python]
+----
+include::example$sample-app.py[tag=update-user, indent=0]
+----
+
+NOTE: If the booking document insert succeeds, but the update to the user document fails, the endpoint returns an internal server error to the frontend. 
+However, the stray booking document remains the database. 
+In a production environment it is good practice to add handling code to remove this stray document.
+
+=== Viewing Booked Flights
+
+The user can also view their flights after they have booked them.
+The `getflights` endpoint takes a user, and returns details on each flight they have booked.
+
+First, the endpoint performs a xref:howtos:subdocument-operations.adoc[Sub-Document] operation to retrieve the `bookings` field. 
+
+If the user hasn't booked any flights, there is no `bookings` field. 
+However, if the application tries a lookup on this non-existent field, the operation still succeeds, but reading these results causes a `PathNotFoundException`.
+To avoid handling this exception, the lookup contains both a `get` and an `exists` operation.
+The endpoint can then verify the path exists before attempting to read the results:
+
+[source, python]
+----
+include::example$sample-app.py[tag=view-flight-get-keys, indent=0]
+----
+
+The endpoint can now iterate over the booking keys, performing `GET` requests for the flight details:
+
+[source, python]
+----
+include::example$sample-app.py[tag=view-flight-get-details, indent=0]
+----
+
+=== Searching for Hotels
+
+The user can also search for hotels. 
+The `hotels` endpoint uses the xref:howtos:full-text-searching-with-sdk.adoc[Search queries] to find the details of hotels that match given search terms. 
+The frontend provides two search terms:
+
+* Location-this could refer to a country, city, or even an exact address.
+* Description-this could be anything from a name to a keyword.
+
+Since multiple fields could match these terms, the endpoint uses a conjunction query containing multiple match queries:
+
+[source, python]
+----
+include::example$sample-app.py[tag=search-query, indent=0]
+----
+
+The result of a search query is an iterable containing `SearchRow` objects. 
+Each row represents a match in one document.
+It doesn't contain the document data, instead just the matching string and metadata. 
+This metadata includes the document key, so a sub-document operation retrieves the fields needed by the frontend.
+
+[source, python]
+----
+include::example$sample-app.py[tag=search-subdoc, indent=0]
+----
+
+
+== Next Steps
+
+* Sign up for your free xref:cloud:ROOT:index.adoc[Capella trial acocunt], to get started with Couchbase the easy way.
+* Read more about interacting with the Couchbase services used in this example -- xref:howtos:kv-operations.adoc[Data (K/V)], xref:howtos:subdocument-operations.adoc[Sub-Document], xref:howtos:n1ql-queries-with-sdk.adoc[Query], and xref:howtos:full-text-searching-with-sdk.adoc[Search].
+* Discover xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[Distributed ACID Transactions] from the Python SDK, for cases where several documentations (such as combined flight and hotel bookings) must succeed together.
