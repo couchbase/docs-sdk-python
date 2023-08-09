@@ -701,7 +701,9 @@ Use a `collection` instance for key-value operations.
 *** Datastructure methods provided by the `collection` instance have been deprecated and replaced with their respective APIs (i.e. `CouchbaseList`, `CouchbaseMap`, `CouchbaseQueue` and `CouchbaseSet`)
 *** `OperationResult` (deprecated, still available from `couchbase.result`)
 *** `ValueResult` (deprecated, still available from `couchbase.result`)
-* The 4.x version of the Python SDK significantly improves how the SDK handles the https://docs.python.org/3/glossary.html#term-global-interpreter-lock[Global Interpreter Lock (GIL)]. As part of the improvements, the `lockmode` cluster option has been deprecated as it is a no-op (i.e. has no functionality) and will be removed in a future version of the SDK. Also, the `unlock_gil` option is no longer available.
+* The 4.x version of the Python SDK significantly improves how the SDK handles the https://docs.python.org/3/glossary.html#term-global-interpreter-lock[Global Interpreter Lock (GIL)]. 
+As part of the improvements, the `lockmode` cluster option has been deprecated as it is a no-op (i.e. has no functionality) and will be removed in a future version of the SDK. 
+Also, the `unlock_gil` option is no longer available.
 ** For details on how to use the 4.x SDK within the parallelism paradigms provided by the Python language see the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/parallelism.html[parallelism] page in the API documentation.
 * Import paths have been reorganized to follow consistent patterns.  While the import paths that existed in 3.x SDK are mostly available (see previous points on removal of `couchbase_core` package), some paths are deprecated and will be removed in a future release.
 ** All authenticators should be imported from `couchbase.auth`
