@@ -64,11 +64,13 @@ It is always important to log errors, but even more so in the case of reactive a
 
 Transient errors -- such as those caused by resource starvation -- are best tackled with one of the following retry strategies:
 
-Retry immediately.
-Retry with a fixed delay.
-Retry with a linearly increasing delay.
-Retry with an exponentially increasing delay.
-Retry with a random delay.
+* Retry with an exponentially increasing delay and a delay ceiling.
+* Retry with a linearly increasing delay and a delay ceiling.
+* Retry with a fixed delay.
+* Retry with a random delay.
+* Retry immediately (not preferred) with a limit of retries.
+
+Retrying immediately may be appropriate in some situations, but is not as preferred as it can lead to pathological failure type situations where an exhausted resource is put under further load and never has a chance to recover.
 
 Consider a decorator that provides flexibility to determine which Exceptions to retry and how to retry (fixed, linear or exponential delay).
 
