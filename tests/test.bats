@@ -104,7 +104,7 @@ load 'test_helper'
 
 @test "[howtos] - threshold_logging.py" {
   runExample $HOWTOS_DIR threshold_logging.py
-  assert_failure 134
+  assert_success
 }
 
 @test "[howtos] - transactions_example.py" {
