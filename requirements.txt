@@ -1,5 +1,4 @@
-couchbase==4.1.3
-flask
+couchbase
 fastapi
 twisted
 orjson

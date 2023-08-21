@@ -1,4 +1,4 @@
-FROM python:3.9-slim-bullseye
+FROM python:slim-bullseye
 
 COPY . /python-docs-repo
 WORKDIR /python-docs-repo/tests
@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     libssl-dev \
-    jq curl \
+    jq \
+    curl \
     npm
 
 RUN pip install -r ../requirements.txt

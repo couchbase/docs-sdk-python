@@ -46,6 +46,7 @@ load 'test_helper'
 }
 
 @test "[howtos] - logging_example.py" {
+  skip "Example currently broken (C++ core)"
   runExample $HOWTOS_DIR logging_example.py
   # Raises an error on purpose to log it
   assert_failure 134
@@ -104,7 +105,7 @@ load 'test_helper'
 
 @test "[howtos] - threshold_logging.py" {
   runExample $HOWTOS_DIR threshold_logging.py
-  assert_failure 134
+  assert_success
 }
 
 @test "[howtos] - transactions_example.py" {
