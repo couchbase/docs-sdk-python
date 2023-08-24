@@ -94,7 +94,7 @@ include::howtos:example$n1ql_ops.py[tag=iterating]
 ----
 
 NOTE: The SDK executes queries lazily, meaning the query is only run against the cluster when you try to use the `QueryResult` object.
-Therefore you cannot iterate over it multiple times, and attempting to do so raises an `AlreadyQueriedException`.
+You therefore cannot iterate over the `QueryResult` multiple times, and attempting to do so raises an `AlreadyQueriedException`.
 
 The `QueryMetaData` provides insight into some basic profiling/timing information as well as information like the `ClientContextID`.
 
