@@ -93,6 +93,9 @@ If no error is returned then the request succeeded and the result provides acces
 include::howtos:example$n1ql_ops.py[tag=iterating]
 ----
 
+NOTE: The SDK executes queries lazily, meaning the query is only run against the cluster when you try to use the `QueryResult` object.
+Therefore you cannot iterate over it multiple times, and attempting to do so raises an `AlreadyQueriedException`.
+
 The `QueryMetaData` provides insight into some basic profiling/timing information as well as information like the `ClientContextID`.
 
 .QueryMetaData
