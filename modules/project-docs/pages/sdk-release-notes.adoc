@@ -37,6 +37,42 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 == Release Notes
 
 
+== Version 4.1.8 (25 August 2023)
+
+Version 4.1.8 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.8
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.8/
+
+=== Behavioral Change
+
+The Couchbase Python SDK no longer provides Python 3.7 wheels as Python 3.7 has reached https://peps.python.org/pep-0537/#lifespan[end-of-life]. See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details.
+
+=== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1514[PYCBC-1514]:
+Fixed parsing of `LookupIn` options if provided for lookup-in operations.
+
+=== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1497[PYCBC-1497]:
+Added support for Subdocument Read from Replica.
+
+=== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-362[CXXCBC-362]:
+Removed node hostname port stripping logic from config parsing (https://github.com/couchbaselabs/couchbase-cxx-client/pull/438[#438]).
+* https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
+Added support for query read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/435[#435]).
+* https://issues.couchbase.com/browse/CXXCBC-341[CXXCBC-341];
+https://issues.couchbase.com/browse/CXXCBC-365[CXXCBC-365]:
+Added support for Subdocument Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/436[#436], https://github.com/couchbaselabs/couchbase-cxx-client/pull/441[#441], 
+https://github.com/couchbaselabs/couchbase-cxx-client/pull/443[#443]).
+
 
 == Version 4.1.7 (8 August 2023)
 
