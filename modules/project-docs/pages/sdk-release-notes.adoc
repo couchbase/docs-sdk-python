@@ -60,17 +60,17 @@ Fixed parsing of `LookupIn` options if provided for lookup-in operations.
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1497[PYCBC-1497]:
-Added support for Subdocument Read from Replica.
+Added support for Sub-Document Read from Replica.
 
 === Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-362[CXXCBC-362]:
 Removed node hostname port stripping logic from config parsing (https://github.com/couchbaselabs/couchbase-cxx-client/pull/438[#438]).
 * https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
-Added support for query read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/435[#435]).
-* https://issues.couchbase.com/browse/CXXCBC-341[CXXCBC-341];
+Added support for Query Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/435[#435]).
+* https://issues.couchbase.com/browse/CXXCBC-341[CXXCBC-341],
 https://issues.couchbase.com/browse/CXXCBC-365[CXXCBC-365]:
-Added support for Subdocument Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/436[#436], https://github.com/couchbaselabs/couchbase-cxx-client/pull/441[#441], 
+Added support for Sub-Document Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/436[#436], https://github.com/couchbaselabs/couchbase-cxx-client/pull/441[#441], 
 https://github.com/couchbaselabs/couchbase-cxx-client/pull/443[#443]).
 
 
@@ -97,7 +97,7 @@ Added `PasswordAuthenticator` validation.
 === Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1496[PYCBC-1496]:
-Added support for query with read from replica.
+Added support for Query with Read from Replica.
 
 * https://issues.couchbase.com/browse/PYCBC-1419[PYCBC-1419]:
 Added support for Native KV Range Scans.
@@ -120,7 +120,7 @@ Allow to pass trust certificate by value (https://github.com/couchbaselabs/couch
 * https://issues.couchbase.com/browse/CXXCBC-343[CXXCBC-343]:
 Continue bootsrap if DNS-SRV resolution fails (https://github.com/couchbaselabs/couchbase-cxx-client/pull/422[#422]).
 * https://issues.couchbase.com/browse/CXXCBC-340[CXXCBC-340]:
-Support query with read from replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/429[#429]).
+Support Query with Read from Replica (https://github.com/couchbaselabs/couchbase-cxx-client/pull/429[#429]).
 * https://issues.couchbase.com/browse/CXXCBC-339[CXXCBC-339]:
 Disabled older TLS protocols (https://github.com/couchbaselabs/couchbase-cxx-client/pull/418[#418]).
 * https://issues.couchbase.com/browse/CXXCBC-333[CXXCBC-333]:
