@@ -89,6 +89,11 @@ Ensure that the Python installation can be called from the shell:
 $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
 ----
 
+[source,console]
+----
+$ source ~/.zshrc
+----
+
 Now, install the Python SDK:
 [source,console]
 ----
