@@ -34,10 +34,17 @@ $ python3 -m pip install git+https://github.com/couchbase/couchbase-python-clien
 For more detailed installation instructions, see the xref:project-docs:sdk-full-installation.adoc[full installation guide].
 
 
-== Release Notes
+
+[#latest-release]
+== Python SDK 4.1 Releases
+
+We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
+All patch releases for each dot minor release should be API compatible, and safe to upgrade;
+any changes to expected behavior are noted in the release notes that follow.
 
 
-== Version 4.1.8 (25 August 2023)
+
+=== Version 4.1.8 (25 August 2023)
 
 Version 4.1.8 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -48,21 +55,21 @@ $ python3 -m pip install couchbase==4.1.8
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.8/
 
-=== Behavioral Change
+==== Behavioral Change
 
 The Couchbase Python SDK no longer provides Python 3.7 wheels as Python 3.7 has reached https://peps.python.org/pep-0537/#lifespan[end-of-life]. See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details.
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1514[PYCBC-1514]:
 Fixed parsing of `LookupIn` options if provided for lookup-in operations.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1497[PYCBC-1497]:
 Added support for Sub-Document Read from Replica.
 
-=== Underlying C++ SDK Core Changes
+==== Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-362[CXXCBC-362]:
 Removed node hostname port stripping logic from config parsing (https://github.com/couchbaselabs/couchbase-cxx-client/pull/438[#438]).
@@ -74,7 +81,7 @@ Added support for Sub-Document Read from Replica (https://github.com/couchbasela
 https://github.com/couchbaselabs/couchbase-cxx-client/pull/443[#443]).
 
 
-== Version 4.1.7 (8 August 2023)
+=== Version 4.1.7 (8 August 2023)
 
 Version 4.1.7 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -85,16 +92,16 @@ $ python3 -m pip install couchbase==4.1.7
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.7/
 
-=== Behavioral Change
+==== Behavioral Change
 
 Since Python 3.7 has reached https://peps.python.org/pep-0537/#lifespan[end-of-life], the Couchbase Python SDK will no longer provide Python 3.7 wheels in future releases (>4.1.7). See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details.
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1502[PYCBC-1502]:
 Added `PasswordAuthenticator` validation.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1496[PYCBC-1496]:
 Added support for Query with Read from Replica.
@@ -112,7 +119,7 @@ Updated CONTRIBUTING.md to improve contributing guidelines.
 * https://issues.couchbase.com/browse/PYCBC-1095[PYCBC-1095]:
 Added Subdoc mutate-in deletions with a blank path.
 
-=== Underlying C++ SDK Core Changes
+==== Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-349[CXXCBC-349]:
 Allow to pass trust certificate by value (https://github.com/couchbaselabs/couchbase-cxx-client/pull/430[#430]).
@@ -138,7 +145,7 @@ https://github.com/couchbaselabs/couchbase-cxx-client/pull/433[#433],
 https://github.com/couchbaselabs/couchbase-cxx-client/pull/434[#434]).
 
 
-== Version 4.1.6 (13 July 2023)
+=== Version 4.1.6 (13 July 2023)
 
 Version 4.1.6 is the sixth patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the 4.1.6 release adds support for Python 3.11 and significantly reduces the size of published _manylinux_ wheels.
 
@@ -149,12 +156,12 @@ $ python3 -m pip install couchbase==4.1.6
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.6/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1500[PYCBC-1500]:
 Added `max_expiry` to `CollectionSpec` for collections returned in `get_all_scopes()` result.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1473[PYCBC-1473]:
 Added Support for Python 3.11.
@@ -169,7 +176,7 @@ Updated API docs to include binary `multiOptions`.
 Updated connection tests to only use valid mixed environment format.
 
 
-== Version 4.1.5 (8 June 2023)
+=== Version 4.1.5 (8 June 2023)
 
 Version `4.1.5` is the fifth patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -180,14 +187,14 @@ $ python3 -m pip install couchbase==4.1.5
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.5/
 
-=== Behavioral Change
+==== Behavioral Change
 
 Accessing content from an Exist operation with the `LookupInResult`'s `content_as` method now returns a boolean.
 This boolean is `True` if the path exists, `False` otherwise. 
 Prior to this change the SDK raised a `DocumentNotFoundException` if the path existed or `PathNotFoundException` if the path didn't exist.
 The behavioral change aligns the Python SDK with Couchbase's https://github.com/couchbaselabs/sdk-rfcs/blob/master/rfc/0053-sdk3-crud.md[CRUD RFC].
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1480[PYCBC-1480]:
 Fixed subdocument read operations to allow for null values.
@@ -204,7 +211,7 @@ Fixed `InternalServerFailureException` when executing a `Regex` Search query.
 * https://issues.couchbase.com/browse/PYCBC-1493[PYCBC-1493]:
 Updated search operations to correctly pass MutationState to {cpp} core.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1488[PYCBC-1488]:
 Added `dump_configuration` to `ClusterOptions`.
@@ -216,7 +223,7 @@ Use the `disable_mozilla_ca_certificates` connection string option to disable th
 See https://docs.couchbase.com/python-sdk/current/howtos/managing-connections.html#ssl[Secure Connections] for more details.
 
 
-=== Underlying C++ SDK Core Changes
+==== Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-328[CXXCBC-328]:
 Fix socket reconnection during rebalance process
@@ -229,7 +236,7 @@ this way the library ensures that no duplicate connections will be left, or live
 *** Improved logging of critical events during rebalance: restarting, preservation, and removing connections.
 
 
-== Version 4.1.4 (9 May 2023)
+=== Version 4.1.4 (9 May 2023)
 
 Version `4.1.4` is the fourth patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -240,7 +247,7 @@ $ python3 -m pip install couchbase==4.1.4
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.4/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1469[PYCBC-1469]:
 Added check to determine if Python interpreter is finalizing prior to logging.
@@ -257,7 +264,7 @@ Updated exception classes to allow first positional arg to be a string message.
 * https://issues.couchbase.com/browse/PYCBC-1477[PYCBC-1477]:
 Fixed potential crash in certain scenarios that use `MutationState`.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1468[PYCBC-1468]:
 Added replica read operations to API docs.
@@ -268,7 +275,7 @@ Updated API Docs to indicate expiry option should be a timedelta.
 * https://issues.couchbase.com/browse/PYCBC-1478[PYCBC-1478]:
 Added missing bootstrap timeouts to WAN Config Profile.
 
-=== Underlying C++ SDK Core Changes
+==== Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-31[CXXCBC-31]:
 Allow the use of schemaless connection strings (e.g. `"cb1.example.com,cb2.example.com"`)
@@ -291,7 +298,7 @@ Search query on collections now no longer requires `scope_name`, as it can be in
 (https://github.com/couchbaselabs/couchbase-cxx-client/pull/379[#379]).
 
 
-== Version 4.1.3 (9 March 2023)
+=== Version 4.1.3 (9 March 2023)
 
 Version `4.1.3` is the third patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -302,7 +309,7 @@ $ python3 -m pip install couchbase==4.1.3
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.3/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1443[PYCBC-1443]:
 Fixed ssl import error.
@@ -313,7 +320,7 @@ Updated API Documentation.
 * https://issues.couchbase.com/browse/PYCBC-1455[PYCBC-1455]:
 Fixed build issue for Fedora 37 (gcc 12).
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1431[PYCBC-1431]:
 Updated the SDK to handle new `query_context` changes.
@@ -325,7 +332,7 @@ Improved CertificateAuthenticator parameter validation.
 Updated the SDK to only populate `allowed_sasl_mechanisms` if user explicitly chooses.
 
 
-== Version 4.1.2 (9 February 2023)
+=== Version 4.1.2 (9 February 2023)
 
 Version `4.1.2` is the second patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the `4.1.2` release provides improved performance for key-value operations.
 
@@ -336,7 +343,7 @@ $ python3 -m pip install couchbase==4.1.2
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.2/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1433[PYCBC-1433]:
 Fixed initialization of legacy durability options in {cpp} bindings.
@@ -347,7 +354,7 @@ Added Python SDK and Python version to {cpp} `user_agent` option.
 * https://issues.couchbase.com/browse/PYCBC-1441[PYCBC-1441]:
 Fixed inconsistencies when handling of `MutationState` in streaming APIs.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1371[PYCBC-1371]:
 Implemented `ChangePassword` feature in user management API.
@@ -362,7 +369,7 @@ Updated logging to get latest from {cpp} client.
 Updated Test Suite/Framework.
 
 
-== Version 4.1.1 (14 December 2022)
+=== Version 4.1.1 (14 December 2022)
 
 Version `4.1.1` is the first patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -373,7 +380,7 @@ $ python3 -m pip install couchbase==4.1.1
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.1/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1428[PYCBC-1428]:
 Fixed view query `ViewOrdering` to allow user specified ordering to be applied.
@@ -382,7 +389,7 @@ Fixed view query `ViewOrdering` to allow user specified ordering to be applied.
 Fixed defaults for boolean options in N1QL query `QueryOptions`.
 
 
-== Version 4.1.0 (3 November 2022)
+=== Version 4.1.0 (3 November 2022)
 
 Version `4.1.0` is the first minor release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -393,12 +400,12 @@ $ python3 -m pip install couchbase==4.1.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.0/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1420[PYCBC-1420]:
 Fixed potential `InternalSDKException` for replica read operations.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1402[PYCBC-1402]:
 Added support for using PYCBC_LOG_LEVEL to create console logger.
@@ -416,7 +423,10 @@ Added support for Serverless Execution Environments.
 Added durability improvements.
 
 
-== Version 4.0.5 (7 October 2022)
+
+== Python SDK 4.0 Releases
+
+=== Version 4.0.5 (7 October 2022)
 
 Version `4.0.5` is the fifth patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -427,7 +437,7 @@ $ python3 -m pip install couchbase==4.0.5
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.5/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1312[PYCBC-1312];
 https://issues.couchbase.com/browse/PYCBC-1407[PYCBC-1407]:
@@ -445,7 +455,7 @@ Updated async APIs to use correct future chaining method for read KV operations.
 * https://issues.couchbase.com/browse/PYCBC-1416[PYCBC-1416]:
 Fixed `txcouchbase` search API.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1405[PYCBC-1405]:
 Updated legacy durability to use the internal {cbpp} client API.
@@ -456,7 +466,7 @@ Updated replica reads to use the internal {cbpp} client API.
 * https://issues.couchbase.com/browse/PYCBC-1411[PYCBC-1411]:
 Added support for LDAP authentication.
 
-== Version 4.0.4 (8 September 2022)
+=== Version 4.0.4 (8 September 2022)
 
 Version `4.0.4` is the fourth patch release of the fourth generation Python SDK, bringing a number of improvements.
 Most notably the `4.0.4` release added legacy durability to mutation operations, tracing, and metrics.
@@ -468,12 +478,12 @@ $ python3 -m pip install couchbase==4.0.4
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.4/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1398[PYCBC-1398]:
 Fixed potential crash when accessing `error_context` from a `base_exception` object.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1261[PYCBC-1261]:
 Added Tracing API, including the ability to use an external tracer such as OpenTelemetry.
@@ -496,7 +506,7 @@ Users will no longer see an error if a document doesn't exist, instead the `resp
 Updated build deferred index logic to align with recent change in {cbpp} client.
 
 
-== Version 4.0.3 (2 August 2022)
+=== Version 4.0.3 (2 August 2022)
 
 Version `4.0.3` is the third patch release of the fourth generation Python SDK, bringing a number of improvements.
 Most notably the `4.0.3` release added key-value replica read operations and improved memory performance.
@@ -508,7 +518,7 @@ $ python3 -m pip install couchbase==4.0.3
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.3/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1201[PYCBC-1201];
 https://issues.couchbase.com/browse/PYCBC-1282[PYCBC-1282];
@@ -527,7 +537,7 @@ Removed typing-extensions dependency.
 * https://issues.couchbase.com/browse/PYCBC-1390[PYCBC-1390]:
 Fixed Search query results to forward metrics for user access.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1257[PYCBC-1257]:
 Added replica reads.
@@ -538,7 +548,7 @@ Updated {cbpp} version.
 * https://issues.couchbase.com/browse/PYCBC-1137[PYCBC-1137]:
 Deprecated the `CounterResult` CAS property.
 
-=== Known Issues
+==== Known Issues
 
 * https://issues.couchbase.com/browse/PYCBC-1261[PYCBC-1261]:
 Distributed tracing is not yet supported.
@@ -553,7 +563,7 @@ Transactions for `txcouchbase` are not yet supported.
 API docs for `txcouchbase` API are not yet available.
 
 
-== Version 4.0.2 (29 June 2022)
+=== Version 4.0.2 (29 June 2022)
 
 Version `4.0.2` is the second patch release of the fourth generation Python SDK, bringing a number of improvements.
 Most notably the `4.0.2` release provides manylinux wheels which significantly improves the installation process on Linux platforms.
@@ -565,7 +575,7 @@ $ python3 -m pip install couchbase==4.0.2
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.2/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1370[PYCBC-1370]:
 Added environment variables to direct CMake to use specified Python3 version.
@@ -573,7 +583,7 @@ Added environment variables to direct CMake to use specified Python3 version.
 * https://issues.couchbase.com/browse/PYCBC-1374[PYCBC-1374]:
 Added option to dynamically link stdc++ libs.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-628[PYCBC-628];
 https://issues.couchbase.com/browse/PYCBC-1330[PYCBC-1330];
@@ -590,7 +600,7 @@ Provided example Linux build system Dockerfiles.
 * https://issues.couchbase.com/browse/PYCBC-1332[PYCBC-1332]:
 Added formatting and linting to CI pipeline.
 
-=== Known Issues
+==== Known Issues
 
 * https://issues.couchbase.com/browse/PYCBC-1257[PYCBC-1257]:
 Replica reads are not yet supported.
@@ -608,7 +618,7 @@ Transactions for txcouchbase are not yet supported.
 API docs for txcouchbase API are not yet available.
 
 
-== Version 4.0.1 (9 June 2022)
+=== Version 4.0.1 (9 June 2022)
 
 Version 4.0.1 is the first patch release of the fourth generation Python SDK, bringing a number of improvements.
 
@@ -619,7 +629,7 @@ $ python3 -m pip install couchbase==4.0.1
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.1/
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-1324[PYCBC-1324]:
 Fixed N1QL Query options `scan_wait/scan_cap` misspelling.
@@ -636,7 +646,7 @@ Fixed the txcouchbase API Bucket Management API.
 * https://issues.couchbase.com/browse/PYCBC-1343[PYCBC-1343]:
 Fixed the txcouchbase Collection Management API.
 
-=== Enhancements
+==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1328[PYCBC-1328]
 Implemented txcouchbase test suite.
@@ -659,7 +669,7 @@ Cleaned up couchbase API test suite.
 * https://issues.couchbase.com/browse/PYCBC-1358[PYCBC-1358]:
 Updated Windows wheel to dynamically link against OpenSSL.
 
-=== Known Issues
+==== Known Issues
 
 * https://issues.couchbase.com/browse/PYCBC-1232[PYCBC-1232]:
 Core IO logging is not forwarded through to Python.
@@ -680,7 +690,7 @@ Transactions for txcouchbase are not yet supported.
 API docs for txcouchbase API are not yet available.
 
 
-== Version 4.0.0 (6 May 2022)
+=== Version 4.0.0 (6 May 2022)
 
 Version 4.0.0 is the first major release of the next generation Python SDK, built on the Couchbase++ library -- featuring multi-document distributed ACID transactions, and bringing a number of improvements to the SDK.
 
@@ -691,7 +701,7 @@ $ python3 -m pip install couchbase==4.0.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.0.0/
 
-=== New Features
+==== New Features
 
 * Support for distributed transactions has now been implemented.
 * Reimplemented the library using couchbase++.
@@ -699,7 +709,7 @@ $ python3 -m pip install couchbase==4.0.0
 * Support for Python versions 3.7 - 3.10.
 * Improved API documentation.
 
-=== Fixes
+==== Fixes
 
 * https://issues.couchbase.com/browse/PYCBC-849[PYCBC-849]:
 Implemented wait until ready.
@@ -713,7 +723,7 @@ Fixed implementation of the `CertificateAuthenticator`.
 * https://issues.couchbase.com/browse/PYCBC-1296[PYCBC-1296]:
 Updated `SearchRow` to not print locations when not included.
 
-=== Known Issues
+==== Known Issues
 
 * https://issues.couchbase.com/browse/PYCBC-1232[PYCBC-1232]:
 Core IO logging is not forwarded through to Python.
