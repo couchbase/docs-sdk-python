@@ -90,19 +90,19 @@ print("Path exists: {}.".format(result.exists(1)))
 # end::lookup_in_multi[]
 
 # tag::mutate_in_upsert[]
-collection.mutate_in("customer123", [SD.upsert("fax", "311-555-0151")])
+collection.mutate_in("customer123", [SD.upsert("fax", "311-555-0151"),])
 # end::mutate_in_upsert[]
 
 # tag::mutate_in_insert[]
 collection.mutate_in(
-    "customer123", [SD.insert("purchases.pending", [42, True, "None"])])
+    "customer123", [SD.insert("purchases.pending", [42, True, "None"]),])
 
 try:
     collection.mutate_in(
         "customer123", [
             SD.insert(
                 "purchases.complete",
-                [42, True, "None"])])
+                [42, True, "None"]),])
 except PathExistsException:
     print("Path exists, cannot use insert.")
 # end::mutate_in_insert[]
@@ -113,7 +113,7 @@ collection.mutate_in(
     (SD.remove("addresses.billing"),
      SD.replace(
         "email",
-        "dougr96@hotmail.com")))
+        "dougr96@hotmail.com"),))
 # end::combine_dict[]
 
 # NOTE:  the mutate_in() operation expects a tuple or list

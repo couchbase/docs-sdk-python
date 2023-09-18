@@ -121,6 +121,8 @@ include::howtos:example$subdocument_ops.py[tag=combine_dict]
 NOTE: `mutateIn` is an _atomic_ operation.
 If any single `ops` fails, then the entire document is left unchanged.
 
+Fuller examples can be found in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html?highlight=collection%20mutate_in#couchbase.collection.Collection.mutate_in[API reference doc].
+
 == Array append and prepend
 
 The _array_prepend_ and _array_append_ operations are true array prepend and append operations.
