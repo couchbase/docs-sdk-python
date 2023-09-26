@@ -58,7 +58,7 @@ The https://cloud.couchbase.com/sign-up[Couchbase Capella free trial] version co
 
 == Quick Installation
 
-The SDK will run on Python 3.7 - 3.10.
+The SDK will run on xref:compatibility.adoc#python-version-compat[supported versions Python].
 A more detailed guide in our xref:project-docs:sdk-full-installation.adoc[Installation page] covers every supported platform, 
 but this section should be enough to get up and running for _most_ xref:compatibility.adoc#platform-compatibility[supported Operating Systems].
 
@@ -70,7 +70,7 @@ macOS 12 & 13::
 If you are running Catalina (macOS 10.15) -- or have other detailed requirements -- take a look at our xref:project-pages:sdk-full-installation.adoc[full installation guide].
 Otherwise, read on for a quick install on macOS _Big Sur_ or _Monterey_.
 
-As of the 4.0.1 release of the Python SDK, wheels are available for Python 3.7 - 3.10.
+The Python SDK has wheels are available on macOS for xref:compatibility.adoc#python-version-compat[supported versions of Python].
 
 First, make sure that your _brew_ package index is up-to-date:
 [source,console]
@@ -100,16 +100,19 @@ Now, install the Python SDK:
 ----
 $ sudo -H python3 -m pip install couchbase
 ----
+
+NOTE: Starting with Python 3.11.5, macOS installers from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl.1.1.dylib ` and `libcrypto.1.1.dylib`) can be found.
+
 --
 
 Red Hat & CentOS::
 +
 --
-Note, check that you have a supported version of Python (3.7 - 3.10).
+Note, check that you have a xref:compatibility.adoc#python-version-compat[supported version of Python].
 Suggestions for platforms with an outdated build chain, such as CentOS 7, can be found in our xref:project-docs:sdk-full-installation.adoc[Installation Guide].
 Assuming you have an updated build environment, follow these steps.
 
-As of the 4.0.2 release of the Python SDK, manylinux wheels are available for Python 3.7 - 3.10.
+The Python SDK has manylinux wheels available for xref:compatibility.adoc#python-version-compat[supported versions of Python].
 
 During first-time setup, install the prerequisites:
 
@@ -130,11 +133,11 @@ $ python3 -m pip install couchbase
 Debian & Ubuntu::
 +
 --
-Note, check that you have a supported version of Python (3.7 - 3.10).
+Note, check that you have a xref:compatibility.adoc#python-version-compat[supported version of Python].
 Suggestions for platforms with an outdated build chain, such as Debian 9, can be found in our xref:project-docs:sdk-full-installation.adoc[Installation Guide].
 Assuming you have an updated build environment, follow these steps.
 
-As of the 4.0.2 release of the Python SDK, manylinux wheels are available for Python 3.7 - 3.10.
+The Python SDK has manylinux wheels available for xref:compatibility.adoc#python-version-compat[supported versions of Python].
 
 During first-time setup, install the prerequisites:
 
@@ -160,17 +163,19 @@ Best practice is to use a Python virtual environment such as _venv_ or _pyenv_.
 
 TIP: Checkout the https://github.com/pyenv-win/pyenv-win[pyenv-win^] project to manage multiple versions of Python.
 
-Wheels are available on Windows for Python 3.7 - 3.10.
+The Python SDK has wheels available on Windows for xref:compatibility.adoc#python-version-compat[supported versions of Python].
 
 [source,console]
 ----
 python -m pip install couchbase
 ----
 
-The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
-The binary wheels for Windows are packaged as a binary wheel built against OpenSSL.
+NOTE: Starting with Python 3.11.5, Windows builds from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl-1_1.dll` and `libcrypto-1_1.dll`) can be found.
 
-NOTE: If you require a version that doesn't have a suitable binary wheel on PyPi, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
+The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
+Prior to version 4.1.9 of the Python SDK, the binary wheels for Windows are built against OpenSSL 1.1.  Version 4.1.9 and beyond statically link against BoringSSL thus removing the OpenSSL requirement.
+
+NOTE: If you require a version that doesn't have a suitable binary wheel on PyPI, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
 --
 ====
 
