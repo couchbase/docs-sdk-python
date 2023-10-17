@@ -31,6 +31,9 @@ or replace _travel-sample_ with a different Bucket name to build an index on a d
 
 NOTE: The default installation places cbq in `/opt/couchbase/bin/` on Linux, `/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin/cbq` on OS X, and `C:\Program Files\Couchbase\Server\bin\cbq.exe` on Microsoft Windows.
 
+Note that building indexes is covered in more detail on the xref:concept-docs:n1ql-query.adoc#index-building[Query concept page] --
+and in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_management.html#module-couchbase.management.queries[API Reference].
+
 == Getting Started
 
 After familiarizing yourself with the basics on how the {sqlpp} query language works and how to query it from the UI you can use it from the Python SDK. Here's a complete example of doing a query and handling the results:
