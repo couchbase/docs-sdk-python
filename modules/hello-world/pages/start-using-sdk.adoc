@@ -59,11 +59,12 @@ The https://cloud.couchbase.com/sign-up[Couchbase Capella free trial] version co
 == Quick Installation
 
 The SDK will run on Python 3.7 - 3.10.
-A more detailed guide in our xref:project-docs:sdk-full-installation.adoc[Installation page] covers every supported platform, but this section should be enough to get up and running in most cases.
+A more detailed guide in our xref:project-docs:sdk-full-installation.adoc[Installation page] covers every supported platform, 
+but this section should be enough to get up and running for _most_ xref:compatibility.adoc#platform-compatibility[supported Operating Systems].
 
 [{tabs}] 
 ====
-macOS 11 & 12::
+macOS 12 & 13::
 +
 --
 If you are running Catalina (macOS 10.15) -- or have other detailed requirements -- take a look at our xref:project-pages:sdk-full-installation.adoc[full installation guide].
