@@ -34,7 +34,8 @@ The Couchbase SDK 3.x API (used in the Python SDK 3.0 - 4.0) is a complete rewri
 Couchbase Python SDK bundles Couchbase++ automatically, so no need to install it separately.
 You may need CMake (a version >= 3.18) to install, although the installer will attempt to download it from PyPI automatically.
 
-The Python SDK 4.x requires Python 3. See the xref:project-docs:compatibility.adoc#python-version-compat[Python Version Compatibility] section for details on supported versions of Python.
+The Python SDK 4.x requires Python 3. 
+See the xref:project-docs:compatibility.adoc#python-version-compat[Python Version Compatibility] section for details on supported versions of Python.
 
 [NOTE]
 ====
@@ -62,7 +63,7 @@ macOS::
 --
 Best practice is to use a Python virtual environment such as _venv_ or _pyenv_ to manage multible versions of Python, but in cases where this is not practicable follow the `brew` steps below, and also modify your `$PATH` as shown.
 
-The Python SDK has wheels are available on macOS for xref:compatibility.adoc#python-version-compat[supported versions of Python].
+The Python SDK has wheels available on macOS for xref:compatibility.adoc#python-version-compat[supported versions of Python].
 
 NOTE: There can be a problem when using the Python (3.8.2) that ships with Xcode on Catalina. 
 It is advised to install Python via https://github.com/pyenv/pyenv#homebrew-on-macos[pyenv^]
@@ -112,7 +113,10 @@ Install the latest Python SDK:
 $ sudo -H python3 -m pip install couchbase
 ----
 
-NOTE: Starting with Python 3.11.5, macOS installers from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl.1.1.dylib ` and `libcrypto.1.1.dylib`) can be found.
+NOTE: Starting with Python 3.11.5, macOS installers from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. 
+If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. 
+Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. 
+If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl.1.1.dylib ` and `libcrypto.1.1.dylib`) can be found.
 
 --
 
@@ -229,10 +233,14 @@ Install the latest Python SDK:
 python -m pip install couchbase
 ----
 
-NOTE: Starting with Python 3.11.5, Windows builds from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl-1_1.dll` and `libcrypto-1_1.dll`) can be found.
+NOTE: Starting with Python 3.11.5, Windows builds from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. 
+If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. 
+Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. 
+If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl-1_1.dll` and `libcrypto-1_1.dll`) can be found.
 
 The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
-Prior to version 4.1.9 of the Python SDK, the binary wheels for Windows are built against OpenSSL 1.1.  Version 4.1.9 and beyond statically link against BoringSSL thus removing the OpenSSL requirement.
+Prior to version 4.1.9 of the Python SDK, the binary wheels for Windows are built against OpenSSL 1.1. 
+Version 4.1.9 and beyond statically link against BoringSSL thus removing the OpenSSL requirement.
 
 NOTE: If you require a version that doesn't have a suitable binary wheel on PyPI, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
 --
