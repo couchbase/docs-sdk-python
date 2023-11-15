@@ -67,6 +67,8 @@ The paths `name`, `addresses.billing.country` and `purchases.complete[0]` are al
 
 == Retrieving
 
+IMPORTANT: The `lookup_in` method expects an `Iterable` of Sub-Document `Spec` (see https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html?highlight=collection%20lookup_in#couchbase.collection.Collection.lookup_in[API reference doc]).  The examples below show how either a list or a tuple might be used.  If using a tuple with only a single Sub-Document `Spec` **be sure** to include the trailing comma.
+
 The _lookup_in_ operations query the document for certain path(s); these path(s) are then returned.
 You have a choice of actually retrieving the document path using the _get_ Sub-Document operation, or simply querying the existence of the path using the _exists_ Sub-Document operation.
 The latter saves even more bandwidth by not retrieving the contents of the path if it is not needed.
@@ -92,6 +94,8 @@ include::howtos:example$subdocument_ops.py[tag=lookup_in_multi]
 ----
 
 == Mutating
+
+IMPORTANT: The `mutate_in` method expects an `Iterable` of Sub-Document `Spec` (see https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html?highlight=collection%20mutate_in#couchbase.collection.Collection.mutate_in[API reference doc]).  The examples below show how either a list or a tuple might be used.  If using a tuple with only a single Sub-Document `Spec` **be sure** to include the trailing comma.
 
 Mutation operations modify one or more paths in the document.
 The simplest of these operations is _upsert_, which, similar to the fulldoc-level _upsert_, will either modify the value of an existing path or create it if it does not exist:

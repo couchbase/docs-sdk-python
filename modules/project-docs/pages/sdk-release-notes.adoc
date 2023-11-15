@@ -44,6 +44,84 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.1.9 (14 November 2023)
+
+Version 4.1.9 is the next patch release of the fourth generation Python SDK, bringing a number of improvements. 
+Most notably the 4.1.9 release removes the `OpenSSL` dependency for published wheels and added _musllinux_ wheels for supported alpine environments.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.9
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.9/
+
+==== Behavioral Change
+
+The Couchbase Python SDK now publishes wheels that statically link against BoringSSL.  
+The change removes the `OpenSSL` requirement from the SDK when using a published wheel. 
+If building the SDK from source, the build will default to dynamically linking with the system provided `OpenSSL`.  
+Build options are availalbe if wanting to build from source and statically link against BoringSSL.  
+Also, published wheels dynamically link against stdlibs where previously the default was to statically link against stdlibs.  
+Build options are available if wanting to build from source and statically link against stdlibs.
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1538[PYCBC-1538]:
+Fixed `get` with projections to not fail with `InvalidArgumentException` when projecting on more than 16 fields.
+
+* https://issues.couchbase.com/browse/PYCBC-1534[PYCBC-1534]:
+Fixed `MutateIn` replace operation to not fail if path is empty.
+
+* https://issues.couchbase.com/browse/PYCBC-1531[PYCBC-1531]:
+Fixed `CollectionQueryIndexManager` to raise `InvalidArgumentException` when `scope_name` or `collection_name` options are set.
+
+* https://issues.couchbase.com/browse/PYCBC-1521[PYCBC-1521]:
+Fixed streaming APIs to use cluster timeout values from `ClusterTimeoutOptions` if provided.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1536[PYCBC-1536]:
+Updated MANIFEST.in to only include necessary files for source install.
+
+* https://issues.couchbase.com/browse/PYCBC-1518[PYCBC-1520],
+https://issues.couchbase.com/browse/PYCBC-1520[PYCBC-1518]:
+Updated published wheels to statically link against BoringSSL.
+
+* https://issues.couchbase.com/browse/PYCBC-1515[PYCBC-1515]:
+Added support for bucket settings for 'no dedup' feature.
+
+* https://issues.couchbase.com/browse/PYCBC-1512[PYCBC-1512]:
+Reduced default HTTP Idle Timeout.
+
+* https://issues.couchbase.com/browse/PYCBC-1495[PYCBC-1495]:
+Updated wheels and build to dynamically link against stdlibs by default.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-387[CXXCBC-387]:
+Optimising tags for `noop_tracer` and cache formatted `mbcp_session` endpoints (https://github.com/couchbaselabs/couchbase-cxx-client/pull/461[#461], https://github.com/couchbaselabs/couchbase-cxx-client/pull/462[#462], https://github.com/couchbaselabs/couchbase-cxx-client/pull/464[#464]).
+* https://issues.couchbase.com/browse/CXXCBC-383[CXXCBC-383]:
+Map `subdoc_doc_too_deep` KV status to `path_too_deep` error code (https://github.com/couchbaselabs/couchbase-cxx-client/pull/455[#455]).
+* https://issues.couchbase.com/browse/CXXCBC-377[CXXCBC-377]:
+Implement `ExtParallelUnstaging` in transactions (https://github.com/couchbaselabs/couchbase-cxx-client/pull/457[#457]).
+* https://issues.couchbase.com/browse/CXXCBC-386[CXXCBC-386]:
+Allow option to statically link against BoringSSL (https://github.com/couchbaselabs/couchbase-cxx-client/pull/458[#458], https://github.com/couchbaselabs/couchbase-cxx-client/pull/465[#465], https://github.com/couchbaselabs/couchbase-cxx-client/pull/471[#471], https://github.com/couchbaselabs/couchbase-cxx-client/pull/474[#474], https://github.com/couchbaselabs/couchbase-cxx-client/pull/478[#478]).
+* https://issues.couchbase.com/browse/CXXCBC-376[CXXCBC-376]:
+Revisit what 'create' and 'update' bucket operations send to the server. 
+Make optional bucket settings fields optional, and do not send anything unless the settings explicitly specified (https://github.com/couchbaselabs/couchbase-cxx-client/pull/451[#451]).
+* https://issues.couchbase.com/browse/CXXCBC-374[CXXCBC-374]:
+Return 'bucket_exists' error when the bucket already exists during 'create' operation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/449[#449]).
+* https://issues.couchbase.com/browse/CXXCBC-359[CXXCBC-359]:
+Reduced the default timeout for idle HTTP connections to 1 second. 
+The previous default (4.5 seconds) was too close to the 5-second server-side timeout, and could lead to spurious request failures (https://github.com/couchbaselabs/couchbase-cxx-client/pull/448[#448]).
+* https://issues.couchbase.com/browse/CXXCBC-367[CXXCBC-367];
+https://issues.couchbase.com/browse/CXXCBC-370[CXXCBC-370]:
+Added history retention settings to buckets/collection management (https://github.com/couchbaselabs/couchbase-cxx-client/pull/446[#446]).
+* https://issues.couchbase.com/browse/CXXCBC-119[CXXCBC-119]:
+Return booleans for subdocument 'exists' operation instead of error code (https://github.com/couchbaselabs/couchbase-cxx-client/pull/444[#444], https://github.com/couchbaselabs/couchbase-cxx-client/pull/452[#452]).
+* Add more information to diagnose timeouts on NMVB responses (https://github.com/couchbaselabs/couchbase-cxx-client/pull/475[#475]).
+
 
 === Version 4.1.8 (25 August 2023)
 
