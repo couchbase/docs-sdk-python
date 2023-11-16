@@ -82,7 +82,7 @@ The server may change compression settings for the bucket at any time, but it is
 
 While the tiniest of documents will not be reduced in size by compressing, there is another category of slightly larger documents in whose case the time overhead of compressing and decompressing outweighs the slight advantage of marginally reduced transmission time from client to server or back.
 
-To safeguard against the case of several thousand documents stealing CPU time to barely discernable advantage, a threshold for minimum doument size to compress is set in the SDK, with a sensible default value -- that value can be changed, see the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html[API documentation].
+To safeguard against the case of several thousand documents stealing CPU time to barely discernable advantage, a threshold for minimum doument size to compress is set in the SDK, with a sensible default value of 32 bytes.
 
 
 == User Settings
