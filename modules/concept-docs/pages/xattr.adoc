@@ -14,10 +14,11 @@ include::{version-common}@sdk:shared:partial$sdk-xattr-overview.adoc[tag=using_e
 
 include::{version-common}@sdk:shared:partial$sdk-xattr-overview.adoc[tag=virtual_extended_attributes]
 
-// TODO: Python example
-[source,java]
+[source,python]
 ----
-bucket.lookupIn(key).get("$document.exptime", new SubdocOptionsBuilder().xattr(true)).execute()
+result = collection.lookup_in("customer123",
+                              [SD.get("$document.exptime", xattr=True)])
+expiry_time = result.content_as[int](0)
 ----
 
 // See the xref:howtos:sdk-xattr-example.adoc#virtual-extended-attributes-example[example page] for a complete code sample.
