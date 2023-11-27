@@ -1,5 +1,6 @@
-= Release Notes
+= SDK Release Notes
 :description: Release notes, installation instructions, and download archive for the Couchbase Python Client.
+:navtitle: Release Notes
 :page-partial:
 :page-toclevels: 2
 :page-topic-type: reference
