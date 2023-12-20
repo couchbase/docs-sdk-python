@@ -1,5 +1,6 @@
 = Distributed Transactions from the Python SDK
 :description: A practical guide to using Couchbase distributed ACID transactions with the Python SDK.
+:page-aliases: transactions-single-query.adoc
 :navtitle: ACID Transactions
 :page-topic-type: howto
 :page-toclevels: 2
