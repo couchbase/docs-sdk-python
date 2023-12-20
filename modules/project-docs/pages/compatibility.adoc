@@ -103,7 +103,7 @@ The Python SDK is built on top of the C++ SDK (not currently available separatel
 * Amazon Linux 2.
 * Red Hat Enterprise Linux 7 & 8 -- but see note below;
 * CentOS 7 & 8 -- but see note below.
-* Ubuntu (LTS) 16.04 (_Xenial_), 18.04 (_Bionic_), & 20.04 (_Focal_).
+* Ubuntu (LTS): 16.04 (_Xenial_), 18.04 (_Bionic_), 20.04 (_Focal_), & 22.04 (_Jammy_).
 * Debian 9 (_Stretch_) & 10 (_Buster_).
 * Alpine Linux (since Python SDK 3.2.7).
 
