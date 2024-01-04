@@ -45,6 +45,43 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.1.10 (3 January 2024)
+
+Version 4.1.10 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.10
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.10/
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1499[PYCBC-1499]:
+Added improvements for Faster Failover and Config Push.
+
+* https://issues.couchbase.com/browse/PYCBC-1545[PYCBC-1545]:
+Added support for new KV error code to raise `DocumentNotLockedException`.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-100[CXXCBC-100]:
+Added support for using a timeout with `ping` operation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/486[#486]).
+* https://issues.couchbase.com/browse/CXXCBC-368[CXXCBC-368]:
+Added support for subscribing to clustermap notifications to speedup failover (https://github.com/couchbaselabs/couchbase-cxx-client/pull/490[#490]).
+* https://issues.couchbase.com/browse/CXXCBC-391[CXXCBC-391]:
+Fixed transactions API inconsistencies (https://github.com/couchbaselabs/couchbase-cxx-client/pull/482[#482]).
+* https://issues.couchbase.com/browse/CXXCBC-403[CXXCBC-403]:
+Updated `not_my_vbucket` KV response to allow retries (https://github.com/couchbaselabs/couchbase-cxx-client/pull/480[#480]).
+* https://issues.couchbase.com/browse/CXXCBC-404[CXXCBC-404]:
+Fixed `unlock` operations to expose `KV_LOCKED` status as `cas_mismatch` (https://github.com/couchbaselabs/couchbase-cxx-client/pull/479[#479]).
+* https://issues.couchbase.com/browse/CXXCBC-409[CXXCBC-409]:
+Added handling for `index does not exist` query error (https://github.com/couchbaselabs/couchbase-cxx-client/pull/492[#492]).
+* https://issues.couchbase.com/browse/CXXCBC-419[CXXCBC-419]:
+Updated MCBP protocol parser to start with clean state (https://github.com/couchbaselabs/couchbase-cxx-client/pull/496[#496]).
+
+
 === Version 4.1.9 (14 November 2023)
 
 Version 4.1.9 is the next patch release of the fourth generation Python SDK, bringing a number of improvements. 
