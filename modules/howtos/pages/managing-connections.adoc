@@ -224,7 +224,7 @@ If you are running on `localhost` and just want to enable TLS for a development 
 This is because the certificate will not match the name _localhost_.
 Setting `TLSSkipVerify` is a workaround if you need to use ` couchbases://localhost`.
 
-Navigate in the admin UI to menu:Settings[Cluster] and copy the input box of the TLS certificate into a file on your machine (which we will refer to as `cluster.crt`).
+Navigate in the admin UI to menu:Security[Client Certificate] and copy the input box of the TLS certificate into a file on your machine (which we will refer to as `cluster.crt`).
 It looks similar to this:
 
 ----
