@@ -1,7 +1,19 @@
 name: python-sdk
-version: '4.1'
+version: '4.2'
 title: Python SDK
 start_page: hello-world:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
-server_version: '7.1'
+asciidoc:
+  attributes:
+    server_version: '7.2'
+    sdk_current_version: '4.2.0'
+    sdk_dot_minor: '4.2'
+    sdk_dot_major: 4.x'
+    version-server: '7.2'
+    version-common: '7.5'
+    name_platform: 'Python'
+    name-sdk: 'Python SDK'
+    sdk_api: '3.5'
+    sdk-api-link: https://docs.couchbase.com/sdk-api/couchbase-python-client/
+    sdk-gh-link: https://github.com/couchbase/couchbase-python-client
