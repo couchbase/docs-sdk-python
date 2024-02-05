@@ -59,7 +59,7 @@ $ python3 -m pip install couchbase==4.1.11
 ==== Enhancements
 
 * https://issues.couchbase.com/browse/PYCBC-1549[PYCBC-1549]:
-Added support for maxTTL value of -1 for collection "no expiry"
+Added support for `maxTTL` value of -1 for collection "no expiry".
 
 ==== Underlying C++ SDK Core Changes
 
