@@ -45,6 +45,36 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.1.11 (1 February 2024)
+
+Version 4.1.11 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.11
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.11/
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1549[PYCBC-1549]:
+Added support for `maxTTL` value of -1 for collection "no expiry".
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-284[CXXCBC-284]:
+Reduced network traffic when polling for cluster configuration (https://github.com/couchbaselabs/couchbase-cxx-client/pull/504[#504]).
+* https://issues.couchbase.com/browse/CXXCBC-421[CXXCBC-421]:
+Updated query response to return `feature_not_available` when query preserve expiry is not supported (https://github.com/couchbaselabs/couchbase-cxx-client/pull/510[#510]).
+* https://issues.couchbase.com/browse/CXXCBC-422[CXXCBC-422]:
+Added insufficient credentials error code to common query error code conversion (https://github.com/couchbaselabs/couchbase-cxx-client/pull/511[#511]).
+* https://issues.couchbase.com/browse/CXXCBC-431[CXXCBC-431]:
+Added check for history retention bucket capability for collection create/update (https://github.com/couchbaselabs/couchbase-cxx-client/pull/502[#502], https://github.com/couchbaselabs/couchbase-cxx-client/pull/505[#505]).
+* https://issues.couchbase.com/browse/CXXCBC-446[CXXCBC-446]:
+Improved log formatting (https://github.com/couchbaselabs/couchbase-cxx-client/pull/506[#506], https://github.com/couchbaselabs/couchbase-cxx-client/pull/508[#508], https://github.com/couchbaselabs/couchbase-cxx-client/pull/509[#509]).
+
+
 === Version 4.1.10 (3 January 2024)
 
 Version 4.1.10 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
