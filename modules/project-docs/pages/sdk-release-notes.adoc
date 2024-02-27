@@ -2,6 +2,7 @@
 :description: Release notes, installation instructions, and download archive for the Couchbase Python Client.
 :navtitle: Release Notes
 :page-partial:
+:page-toclevels: 2
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-python-sdk,ROOT:download-links,ROOT:release-notes,ROOT:sdk-release-notes
 
