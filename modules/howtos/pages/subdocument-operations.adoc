@@ -286,6 +286,29 @@ In this case, the _create_path_ option may be used.
 include::howtos:example$subdocument_ops.py[tag=create_parents]
 ----
 
+
+== Reading Sub-Documents From Replicas
+
+Couchbase Server 7.6 and later support Sub-Doc lookup from replicas.
+
+The `collection.lookup_in_any_replica()` method returns the first response -- from active or replica:
+
+[source,python]
+----
+include::howtos:example$subdocument_ops.py[tag=lookup_in_any_replica]
+----
+
+The `collection.lookup_in_all_replicas()` fetches all available replicas (and the active copy), and returns all responses.
+
+[source,python]
+----
+include::howtos:example$subdocument_ops.py[tag=lookup_in_all_replicas]
+----
+
+You may want to use `lookup_in_all_replicas` to build a consensus,
+but it's more likely that you'll make use of `lookup_in_any_replica` as a fallback to a `lookupIn`, when the active node times out.
+
+
 == Concurrent Modifications
 
 Concurrent Sub-Document operations on different parts of a document will not conflict.
