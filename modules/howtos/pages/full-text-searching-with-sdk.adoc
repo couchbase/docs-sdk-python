@@ -38,7 +38,7 @@ We will perform an FTS query here - see the <<vector search>> section for exampl
 include::howtos:example$search_ops.py[tag=search_basic_example]
 ----
 
-NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use Analytics.
+NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use Search.
 
 Let's break it down. 
 The `search_query` API takes the name of the index and the type of query  as required arguments and then allows to provide additional options if needed
@@ -125,12 +125,10 @@ As of Couchbase Server 7.6, the FTS service supports vector search in additional
 === Examples
 ==== Single vector query
 In this first example we are performing a single vector query:
-[source,java]
-----
-SearchRequest request = SearchRequest
-        .create(VectorSearch.create(VectorQuery.create("vector_field", vectorQuery)));
 
-SearchResult result = scope.search("vector-index", request);
+[source,python]
+----
+include::howtos:example$search_ops.py[tag=vector_search_single]
 ----
 
 Let's break this down.
@@ -143,7 +141,7 @@ The `VectorQuery` itself takes the name of the document field that contains embe
 
 (Note that Couchbase itself is not involved in generating the vectors, and these will come from an external source such as an embeddings API.)
 
-Finally we execute the `SearchRequest` against the FTS index "travel-sample-index", which has previously been setup to vector index the "vector_field" field.
+Finally we execute the `SearchRequest` against the FTS index "vector-index", which has previously been setup to vector index the "vector_field" field.
 
 This happens to be a scoped index so we are using `scope.search()`.
 If it was a global index we would use `cluster.search()` instead - see <<Scoped vs Global Indexes>>.
@@ -153,39 +151,29 @@ It returns the same `SearchResult` detailed earlier.
 ==== Multiple vector queries
 You can run multiple vector queries together:
 
-[source,java]
+[source,python]
 ----
-SearchRequest request = SearchRequest
-        .create(VectorSearch.create(List.of(
-                        VectorQuery.create("vector_field", vectorQuery).numCandidates(2).boost(0.3),
-                        VectorQuery.create("vector_field", anotherVectorQuery).numCandidates(5).boost(0.7)));
-
-SearchResult result = scope.search("vector-index", request);
+include::howtos:example$search_ops.py[tag=vector_search_multi]
 ----
 
-How the results are combined (ANDed or ORed) can be controlled with `vectorSearchOptions().vectorQueryCombination()`.
+How the results are combined (ANDed or ORed) can be controlled with `vector_query_combination` in `VectorSearchOptions`.
 
 ==== Combining FTS and vector queries
 You can combine a traditional FTS query with vector queries:
 
-[source,java]
+[source,python]
 ----
-SearchRequest request = SearchRequest.create(SearchQuery.matchAll())
-        .vectorSearch(VectorSearch.create(VectorQuery.create("vector_field", vectorQuery)));
-
-SearchResult result = scope.search("vector-and-fts-index", request);
+include::howtos:example$search_ops.py[tag=vector_search_combo]
 ----
 
-How the results are combined (ANDed or ORed) can be controlled with `vectorSearchOptions().vectorQueryCombination()`.
+How the results are combined (ANDed or ORed) can be controlled with `vector_query_combination` in `VectorSearchOptions`.
 
 ==== FTS queries
 And note that traditional FTS queries, without vector search, are also supported with the new `cluster.search()` / `scope.search()` APIs:
 
-[source,java]
+[source,python]
 ----
-SearchRequest request = SearchRequest.create(SearchQuery.matchAll());
-
-SearchResult result = scope.search("travel-sample-index", request);
+include::howtos:example$search_ops.py[tag=search_query_search]
 ----
 
 The `SearchQuery` is created in the same way as detailed earlier.

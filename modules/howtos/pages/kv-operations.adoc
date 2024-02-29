@@ -211,6 +211,69 @@ TIP: Setting the document expiry time only works when a document is created, and
 include::{version-common}@sdk:shared:partial$atomic.adoc[tag=xdcr]
 
 
+== KV Range Scan
+
+A range scan gives you documents from a collection, even if you don't know the document IDs.
+This feature requires Couchbase Server 7.6 or newer.
+
+TIP: KV range scan is suitable for use cases that require relatively low concurrency and tolerate relatively high latency.
+If your application does many scans at once, or requires low latency results, we recommend using {sqlpp} (with a primary index on the collection) instead of KV range scan.
+
+[#kv-range-scan-range]
+=== Range scan
+
+Here's an example of a KV range scan that gets all documents in a collection:
+
+.KV Range Scan for all documents in a collection
+[source,python]
+----
+include::howtos:example$kv_range_scan.py[tag=range_scan_all_documents]
+----
+
+<1> The `RangeScan` class has two optional parameters: `start` and `end`.
+If you omit them like in this example, you'll get all documents in the collection.
+These parameters are for advanced use cases; you probably won't need to specify them.
+Instead, it's more common to use the "prefix" scan type shown in the next example.
+
+
+[#kv-range-scan-prefix]
+=== Prefix scan
+
+KV range scan can also give you all documents whose IDs start with the same prefix.
+Imagine you have a collection where documents are named like this: `<username>::<uuid>`.
+In other words, the document ID starts with the name of the user associated with the document, followed by a delimiter, and then a UUID.
+If you use this document naming scheme, you can use a prefix range scan to get all documents associated with a user.
+For example, to get all documents associated with user "alice", you would write:
+
+.KV Range Scan for all documents in a collection whose IDs start with `alice::`
+[source,python]
+----
+include::howtos:example$kv_range_scan.py[tag=range_scan_prefix]
+----
+
+[#kv-range-scan-sample]
+=== Sample scan
+
+If you want to get random documents from a collection, use a sample scan.
+
+.KV Range Scan for 100 random documents
+[source,python]
+----
+include::howtos:example$kv_range_scan.py[tag=range_scan_sample]
+----
+
+[#kv-range-scan-only-ids]
+=== Get IDs instead of full documents
+
+If you only want the document IDs, set the `ids_only` field of `ScanOptions` to `true`, like this:
+
+.KV Range Scan for all document IDs in a collection
+[source,python]
+----
+include::howtos:example$kv_range_scan.py[tag=range_scan_all_document_ids]
+----
+
+
 == Scoped KV Operations
 
 It is possible to perform scoped key-value operations on named

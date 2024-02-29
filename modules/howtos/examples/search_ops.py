@@ -1,7 +1,8 @@
-
 from couchbase.mutation_state import MutationState
-from couchbase.search import (
-    SearchScanConsistency, HighlightStyle, TermFacet, TermQuery)
+from couchbase.search import (SearchScanConsistency,
+                              HighlightStyle,
+                              TermFacet,
+                              TermQuery)
 # tag::search_basic_example[]
 from couchbase.cluster import Cluster
 from couchbase.options import ClusterOptions, SearchOptions
@@ -9,22 +10,20 @@ from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 import couchbase.search as search
 
-
-cluster = Cluster.connect(
-    "couchbase://your-ip",
-    ClusterOptions(PasswordAuthenticator("Administrator", "password")))
-bucket = cluster.bucket("travel-sample")
-collection = bucket.default_collection()
+auth = PasswordAuthenticator('Administrator', 'password')
+cluster = Cluster.connect('couchbase://your-ip', ClusterOptions(auth))
+bucket = cluster.bucket('travel-sample')
+scope = bucket.scope('inventory')
+collection = scope.collection('hotel')
 
 try:
-    result = cluster.search_query(
-        "travel-sample-index", search.QueryStringQuery("Paris"))
+    result = cluster.search_query('travel-sample-index',
+                                  search.QueryStringQuery('Paris'))
 
     for row in result.rows():
-        print("Found row: {}".format(row))
+        print(f'Found row: {row}')
 
-    print("Reported total rows: {}".format(
-        result.metadata().metrics().total_rows()))
+    print(f'Reported total rows: {result.metadata().metrics().total_rows()}')
 
 except CouchbaseException as ex:
     import traceback
@@ -33,58 +32,52 @@ except CouchbaseException as ex:
 # end::search_basic_example[]
 
 # tag::search_result[]
-result = cluster.search_query(
-    "travel-sample-index", search.PrefixQuery("swim"), SearchOptions(fields=["description"]))
+result = cluster.search_query('travel-sample-index',
+                              search.PrefixQuery('swim'),
+                              SearchOptions(fields=['description']))
 
 for row in result.rows():
-    print("Score: {}".format(row.score))
-    print("Document Id: {}".format(row.id))
+    print(f'Score: {row.score}')
+    print(f'Document Id: {row.id}')
 
     # print fields included in query:
     print(row.fields)
 # end::search_result[]
 
 # tag::limit_and_skip[]
-result = cluster.search_query(
-    "travel-sample-index", search.TermQuery("downtown"), SearchOptions(limit=4, skip=3))
+result = cluster.search_query('travel-sample-index',
+                              search.TermQuery('swanky'),
+                              SearchOptions(limit=4, skip=3))
 # end::limit_and_skip[]
 
 # tag::scan_consistency[]
-result = cluster.search_query(
-    "travel-sample-index", search.TermQuery("downtown"), SearchOptions(scan_consistency=SearchScanConsistency.NOT_BOUNDED))
+result = cluster.search_query('travel-sample-index',
+                              search.TermQuery('swanky'),
+                              SearchOptions(scan_consistency=SearchScanConsistency.NOT_BOUNDED))
 # end::scan_consistency[]
 
 # tag::ryow[]
-new_airline = {
-    "callsign": None,
-    "country": "United States",
-    "iata": "TX",
-    "icao": "TX99",
-    "id": 123456789,
-    "name": "Howdy Airlines",
-    "type": "airline"
-}
-
-res = collection.upsert(
-    "airline_{}".format(new_airline["id"]), new_airline)
-
+res = collection.upsert(f'hotel_example-123456', {'description': 'swanky'})
 ms = MutationState(res)
-
-result = cluster.search_query(
-    "travel-sample-index", search.PrefixQuery("howdy"), SearchOptions(consistent_with=ms))
+result = cluster.search_query('travel-sample-index',
+                              search.QueryStringQuery('swanky'),
+                              SearchOptions(consistent_with=ms))
 # end::ryow[]
 
 # tag::highlight[]
-result = cluster.search_query(
-    "travel-sample-index", search.TermQuery("downtown"), SearchOptions(highlight_style=HighlightStyle.Html, highlight_fields=["description", "name"]))
+result = cluster.search_query('travel-sample-index',
+                              search.TermQuery('downtown'),
+                              SearchOptions(highlight_style=HighlightStyle.Html,
+                                            highlight_fields=['description', 'name']))
 # end::highlight[]
 
 for row in result.rows():
-    print(f"Fragments: {row.fragments}")
+    print(f'Fragments: {row.fragments}')
 
 # tag::sort[]
-result = cluster.search_query(
-    "travel-sample-index", search.TermQuery("downtown"), SearchOptions(sort=["_score", "description"]))
+result = cluster.search_query('travel-sample-index',
+                              search.TermQuery('downtown'),
+                              SearchOptions(sort=['_score', 'description']))
 # end::sort[]
 
 # tag::facets[]
@@ -102,11 +95,53 @@ print(f'facets: {q_res.facets()}')
 # end::facets[]
 
 # tag::fields[]
-result = cluster.search_query(
-    "travel-sample-index", search.TermQuery("swanky"), SearchOptions(fields=["name", "description"]))
+result = cluster.search_query('travel-sample-index',
+                              search.TermQuery('swanky'),
+                              SearchOptions(fields=['name', 'description']))
 # end::fields[]
 
 # tag::collections[]
-result = cluster.search_query(
-    "travel-sample-index", search.TermQuery("downtown"), SearchOptions(collections=["hotel", "airport"]))
+result = cluster.search_query('travel-sample-index',
+                              search.QueryStringQuery('San Francisco'),
+                              SearchOptions(collections=['landmark', 'airport']))
 # end::collections[]
+
+# this should come from an external source, such as an embeddings API
+query_vector = []
+another_query_vector = []
+
+# tag::vector_search_single[]
+# NOTE: new imports needed for vector search
+from couchbase.vector_search import VectorQuery, VectorSearch
+
+vector_search = VectorSearch.from_vector_query(VectorQuery('vector_field',
+                                                           query_vector))
+request = search.SearchRequest.create(vector_search)
+result = scope.search('vector-index', request)
+# end::vector_search_single[]
+
+# tag::vector_search_multi[]
+request = search.SearchRequest.create(VectorSearch([
+    VectorQuery.create('vector_field',
+                       query_vector,
+                       num_candidates=2,
+                       boost=0.3),
+    VectorQuery.create('vector_field',
+                       another_query_vector,
+                       num_candidates=5,
+                       boost=0.7)
+]))
+result = scope.search('vector-index', request)
+# end::vector_search_multi[]
+
+# tag::vector_search_combo[]
+request = (search.SearchRequest.create(search.MatchAllQuery())
+           .with_vector_search(VectorSearch.from_vector_query(VectorQuery('vector_field',
+                                                                          query_vector))))
+result = scope.search('vector-and-fts-index', request)
+# end::vector_search_combo[]
+
+# tag::search_query_search[]
+request = search.SearchRequest.create(search.MatchAllQuery())
+result = scope.search('travel-sample-index', request)
+# end::search_query_search[]
