@@ -103,7 +103,7 @@ Updated bootstrap logic to reset bootstrap handler before re-bootstrap (https://
 Updated capabilities and fail fast when selected feature is not available. (https://github.com/couchbaselabs/couchbase-cxx-client/pull/522[#522], https://github.com/couchbaselabs/couchbase-cxx-client/pull/513[#513]).
 
 * https://issues.couchbase.com/browse/CXXCBC-456[CXXCBC-456]:
-Updated configuration logic when 0x0d (EConfigOnly) status code is received to have the SDK request new configuration and send current operation to retry orchestrator (https://github.com/couchbaselabs/couchbase-cxx-client/pull/523[#523]).
+Updated configuration logic when 0x0d (`EConfigOnly`) status code is received to have the SDK request new configuration and send current operation to retry orchestrator (https://github.com/couchbaselabs/couchbase-cxx-client/pull/523[#523]).
 
 
 === Version 4.1.11 (1 February 2024)
