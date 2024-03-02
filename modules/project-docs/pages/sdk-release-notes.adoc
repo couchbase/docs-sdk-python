@@ -45,6 +45,67 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.1.12 (1 March 2024)
+
+Version 4.1.12 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.1.12
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.12/
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1555[PYCBC-1555]:
+Fixed bootstrap `select_bucket` logic to handle non-KV node.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1375[PYCBC-1375]:
+Updated Query Index Management Create Index Key Encoding.
+
+* https://issues.couchbase.com/browse/PYCBC-1550[PYCBC-1550]:
+Added support for Scoped Search Indexes.
+
+* https://issues.couchbase.com/browse/PYCBC-1523[PYCBC-1523]:
+Updated configuration logic when 0xd response is received.
+
+* https://issues.couchbase.com/browse/PYCBC-1525[PYCBC-1525]:
+Added support for `LookupIn` and `MutateIn` macros.
+
+* https://issues.couchbase.com/browse/PYCBC-1560[PYCBC-1560]:
+Updated `ViewQueryOptions` to include `full_set` and `raw` options.
+
+==== Underlying C++ SDK Core Changes
+
+* https://issues.couchbase.com/browse/CXXCBC-284[CXXCBC-284]:
+Updated config polling to not use session that is not bootstrapped (https://github.com/couchbaselabs/couchbase-cxx-client/pull/528[#528]).
+
+* https://issues.couchbase.com/browse/CXXCBC-345[CXXCBC-345]:
+Added range scan improvements and resolved concurrency issues (https://github.com/couchbaselabs/couchbase-cxx-client/pull/525[#525]).
+
+* https://issues.couchbase.com/browse/CXXCBC-421[CXXCBC-421]:
+Updated query operation to return `feature_not_available` if query preserve expiry is specified but is not supported on the server(https://github.com/couchbaselabs/couchbase-cxx-client/pull/510[#510]).
+
+* https://issues.couchbase.com/browse/CXXCBC-431[CXXCBC-431]:
+Added check for history retention bucket capability in collection create/update (https://github.com/couchbaselabs/couchbase-cxx-client/pull/502[#502], https://github.com/couchbaselabs/couchbase-cxx-client/pull/505[#505]).
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+Updated bootstrap logic to use addresses from the config to bootstrap bucket (https://github.com/couchbaselabs/couchbase-cxx-client/pull/516[#516]).
+
+* https://issues.couchbase.com/browse/CXXCBC-450[CXXCBC-450]:
+Updated bootstrap logic to reset bootstrap handler before re-bootstrap (https://github.com/couchbaselabs/couchbase-cxx-client/pull/524[#524]).
+** We do not want any actions from old bootstrap handler once the session decided to re-bootstrap. For example, bucket could not be selected, but we might still get configuration responses before socket reset.
+
+* https://issues.couchbase.com/browse/CXXCBC-452[CXXCBC-452]:
+Updated capabilities and fail fast when selected feature is not available. (https://github.com/couchbaselabs/couchbase-cxx-client/pull/522[#522], https://github.com/couchbaselabs/couchbase-cxx-client/pull/513[#513]).
+
+* https://issues.couchbase.com/browse/CXXCBC-456[CXXCBC-456]:
+Updated configuration logic when 0x0d (`EConfigOnly`) status code is received to have the SDK request new configuration and send current operation to retry orchestrator (https://github.com/couchbaselabs/couchbase-cxx-client/pull/523[#523]).
+
+
 === Version 4.1.11 (1 February 2024)
 
 Version 4.1.11 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
