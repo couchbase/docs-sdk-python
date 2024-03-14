@@ -1,59 +1,20 @@
 = Compatibility
-:description: Features available in different SDK versions, and compatibility between Server and SDK. \
+:description: Platform compatibility, and features available in different SDK versions, and compatibility between Server and SDK. \
 Plus notes on Cloud, networks, and AWS Lambda.
 :page-aliases: ROOT:overview,ROOT:compatibility-versions-features,compatibility-versions-features
-:page-toclevels: 2
-:page-topic-type: reference
-
-include::project-docs:partial$attributes.adoc[]
+:page-toclevels: 3
+:table-caption!:
 
 [abstract]
 {description}
 
 The Couchbase Python SDK aims to run on any https://devguide.python.org/versions/#supported-versions[supported Python version] in security or maintenance status -- see the table below for <<python-version-compat,supported versions>>.
 
-== Couchbase Version/SDK Version Matrix
 
-Couchbase SDKs are tested against a variety of different environments to ensure both backward and forward compatibility with different versions of Couchbase Server.
-The matrix below denotes the version of Couchbase Server, the version of the Python SDK and whether the SDK is:
-
-* ✖ *Unsupported*: This combination is not tested, and is not within the scope of technical support if you have purchased a support agreement.
-* ◎ *Compatible*: This combination has been tested previously, and should be compatible.
-This combination is not recommended by our technical support organization.
-It is best to upgrade either the SDK or the Couchbase version you are using.
-* ✔ *Supported*: This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization.
-
-.Recommended SDK per Server Version Matrix
-[#table_sdk_versions]
-[cols="30,20,25,20"]
-|===
-| | SDK 3.0, 3.1 | 3.2 | 4.0, 4.1
-
-| *Server 6.6*
-| *✔*
-| *✔*
-| *✔*
-
-| *Server 7.0-7.2*
-| ◎
-| *✔*
-| *✔*
-|===
-
-Note the https://www.couchbase.com/support-policy[End of Life dates^] for Couchbase Server and SDK versions.
-See the notes there for Support details.
-
-=== Capella Compatibility
-
-The Python SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service.
-To make development easier, the Python SDK includes the Capella client certificate ready installed.
-
-include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
+== Platform Compatibility
 
 
-
-[#python-version-compat]
-== Python Version Compatibility
+=== Python Version Compatibility
 
 The Couchbase Python SDK aims to support https://devguide.python.org/versions/#supported-versions[Python versions] in security or bug-fix (a.k.a. maintenance) status.
 The table below indicates the Python SDK version where support of a version of Python was added.
@@ -68,10 +29,6 @@ Please make sure you run on one of the latest patch releases, since they provide
 [cols="5,8,8"]
 |===
 | Python Version | Support EOL | Couchbase SDK Versions Supported
-
-| https://www.python.org/dev/peps/pep-0537/#lifespan[3.7]
-| until 2023-06-27
-| from 3.0.0
 
 | https://www.python.org/dev/peps/pep-0569/#lifespan[3.8]
 | until 2024-10
@@ -88,11 +45,16 @@ Please make sure you run on one of the latest patch releases, since they provide
 | https://peps.python.org/pep-0664/#lifespan[3.11]
 | until 2027-10
 | from 4.1.6
-
+////
+| https://peps.python.org/pep-0693/#lifespan[3.12]
+| until 2029-10
+| from 4.2.?
+////
 |===
 
 
-== Platform Compatibility
+=== OS Compatibility
+
 
 The Python SDK is built on top of the C++ SDK (not currently available separately), which is tested and supported on the following platforms:
 
@@ -100,70 +62,35 @@ The Python SDK is built on top of the C++ SDK (not currently available separatel
 [discrete]
 === GNU/Linux
 
-* Amazon Linux 2.
-* Red Hat Enterprise Linux 7 & 8 -- but see note below;
-* CentOS 7 & 8 -- but see note below.
-* Ubuntu (LTS): 16.04 (_Xenial_), 18.04 (_Bionic_), 20.04 (_Focal_), & 22.04 (_Jammy_).
-* Debian 9 (_Stretch_) & 10 (_Buster_).
-* Alpine Linux (since Python SDK 3.2.7).
-
-Note, for stability reasons, CentOS and Red Hat ship with far older versions of Python and GCC than the ones needed to run the latest Python SDK.
-See the xref:project-docs:sdk-full-installation.adoc[full installation page] for details of using the EPEL repo, and other workarounds.
+* Amazon Linux 2 & AL2023.
+* Red Hat Enterprise Linux 8 & 9;
+* Oracle Linux 8 & 9.
+* Ubuntu (LTS) 20.04 (_Focal_) & 22.04 (_Jammy_).
+* Debian 10 (_Buster_), 11 (_Bullseye_), and Debian 12 (_Bookworm_).
+* SUSE Enterprise Linux 12 & 15.
+* Alpine Linux 3.18.
 
 [discrete]
 === Microsoft Windows
 
-Microsoft Windows 10 / All LTS releases from Windows Server 2016.
+* Microsoft Windows 10 & 11;
+* Windows Server 2019 & 2022.
 
 [discrete]
 === Mac OS X
 
 The current and previous two releases of OS X.
-At time of writing (October 2022): 13 (Ventura), 12 (Monterey), and 11 (Big Sur).
-M1 ARM  architecture is fully supported in the Python SDK.
-****
+At time of writing (March 2024): 14 (Sonoma), 13 (Ventura), and 12 (Monterey).
+M1 ARM  architecture is fully supported in the .Node.js SDK.
 
-Wheels are available for macOS, Linux and Windows -- see the xref:sdk-release-notes.adoc[releases page] for details.
-
-Although installable or compilable on many other platforms, we cannot provide support for untested combinations.
-
+[discrete]
 === ARM Processor Support
 
-AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04 (from SDK 4.1).
+AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04+ (from SDK 1.4).
+****
 
 
-== Couchbase New Feature Availability Matrix
-
-.Couchbase Server and SDK Supported Version Matrix
-[.table-merge-cells]
-[cols="7,5,6,5"]
-|===
-| | Server 6.6 | Server 7.0 | Server 7.1
-
-| Enhanced Durability
-3+| All SDK versions
-
-| Durable Writes
-3+| Since 3.0
-
-| Collections
-| Developer Preview in 6.6, SDK 3.0
-2+| Since 3.0.10
-
-| Scope-Level {sqlpp} (formerly N1QL) Queries & all Collections features
-| Not Supported
-2+| Since SDK 3.2.0
-
-| Field Level Encryption v2
-3+| Since SDK 3.2.0footnote:[Field Level Encryption distributed as separate library.]
-
-| Request Tracing
-3+| Since SDK 3.2.0
-
-| Distributed ACID Transactions
-3+| Since Couchbase Server 6.6.1 and SDK 4.0
-|===
-
+// Network Requirements
 include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 
 [NOTE]
@@ -179,8 +106,106 @@ strip --strip-debug
 See the `strip` manpage for further details.
 ====
 
-include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
+
+== Couchbase Server Compatibility
+
+
+Couchbase SDKs are tested against a variety of different environments to ensure both backward and forward compatibility with different versions of Couchbase Server.
+
+=== Couchbase Version/SDK Version Matrix
+
+The matrix below denotes the version of Couchbase Server, the version of the Python SDK and whether the SDK is:
+
+* ✖ *Unsupported*: This combination is not tested, and is not within the scope of technical support if you have purchased a support agreement.
+* ◎ *Compatible*: This combination has been tested previously, and should be compatible.
+This combination is not recommended by our technical support organization.
+It is best to upgrade either the SDK or the Couchbase version you are using.
+* ✔ *Supported*: This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization.
+
+.Recommended SDK per Server Version Matrix
+[#table_sdk_versions]
+|===
+| | 3.2, 4.0, 4.1 | 4.2
+
+| *Server 7.0 - 7.2*
+| *✔*
+| *✔*
+
+| *Server 7.6*
+| *✔*
+| *✔*
+|===
+
+Note the https://www.couchbase.com/support-policy[End of Life dates^] for Couchbase Server and SDK versions.
+See the notes there for Support details.
+
+=== Capella Compatibility
+
+The Python SDK is fully compatible with Couchbase Capella, our fully-hosted database-as-a-service.
+To make development easier, the Python SDK includes the Capella client certificate ready installed.
+
+include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
+
+
+=== Couchbase New Feature Availability Matrix
+
+
+
+.Couchbase Server and SDK Supported Version Matrix
+[.table-merge-cells]
+[cols="7,5,6,5"]
+|===
+| | Server 7.0, 7.1 | Server 7.2 | Server 7.6
+
+| Enhanced Durability
+3+| All SDK versions
+
+| Durable Writes
+3+| Since 3.0
+
+| Analytics
+3+| Since 2.6
+
+| Collections
+3+| Since 3.0.10
+
+| Scope-Level {sqlpp} (formerly N1QL) Queries & all Collections features
+3+| Since SDK 3.2.0
+
+| Request Tracing
+3+| Since SDK 3.2.0
+
+| Distributed ACID Transactions
+3+| Since SDK 4.0
+
+| Cloud Native Gateway
+3+| Not Yet Supported
+
+| Vector Search
+2+| N/A
+| From SDK 4.2.0
+|===
+
+
+
+
+
+
+=== API Version
 
 include::{version-common}@sdk:shared:partial$api-version.adoc[tag=api-version]
+
+
+
+
+== SDK API Stability
+
+
+// === Interface Stability
+
+include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=interface-stability-section]
+
+
+=== Older SDK Versions
 
 include::{version-common}@sdk:shared:partial$archive.adoc[tag=link]
