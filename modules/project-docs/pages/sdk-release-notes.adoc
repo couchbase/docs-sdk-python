@@ -48,7 +48,7 @@ any changes to expected behavior are noted in the release notes that follow.
 === Version 4.2.0 (14 March 2024)
 
 Version 4.2.0 is second minor release of the fourth generation Python SDK, bringing a number of improvements.
-Most notably the 4.2.0 release adds support for Vector Search, KV Range Scans and faster failover when using the SDK with Couchbase Server 7.6.0.
+Most notably the 4.2.0 release adds support for Vector Search, KV Range Scans, and faster failover when using the SDK with Couchbase Server 7.6.0.
 
 [source,bash]
 ----
@@ -59,7 +59,9 @@ $ python3 -m pip install couchbase==4.2.0
 
 ==== Behavioral Change
 
-It's important to use `Cluster.searchQuery()` / `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes. Method `Scope.search_query()` is now deprecated and will be removed in a future release.  Method `Scope.search_query()` will _not_ work with scoped indexes.
+It's important to use `Cluster.searchQuery()` / `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes.
+Method `Scope.search_query()` is now deprecated and will be removed in a future release.
+Method `Scope.search_query()` will _not_ work with scoped indexes.
 
 ==== Enhancements
 
@@ -67,10 +69,11 @@ It's important to use `Cluster.searchQuery()` / `Cluster.search()` for global in
 Added support for Vector Search.
 
 * https://issues.couchbase.com/browse/PYCBC-1565[PYCBC-1565]:
-Updated C++ core for transactions metadata bucket improvements.
+Updated {cpp} core for transactions metadata bucket improvements.
 
 * https://issues.couchbase.com/browse/PYCBC-1572[PYCBC-1572]:
-Updated search API for SDK API 3.5 support.  Included deprecation of `scope.search_query()`.
+Updated search API for SDK API 3.5 support.
+Included deprecation of `scope.search_query()`.
 
 ==== Underlying C++ SDK Core Changes
 
@@ -84,7 +87,7 @@ Updated ping operation to not send to nodes that have not completed bootstrap (h
 Fixed hanging when specifying a custom metadata collection via the public API & expose errors (https://github.com/couchbaselabs/couchbase-cxx-client/pull/532[#532]).
 
 * https://issues.couchbase.com/browse/CXXCBC-479[CXXCBC-479]:
-Fixed capabilities check for replica LookupIn operations (https://github.com/couchbaselabs/couchbase-cxx-client/pull/537[#537]).
+Fixed capabilities check for replica `LookupIn` operations (https://github.com/couchbaselabs/couchbase-cxx-client/pull/537[#537]).
 
 * https://issues.couchbase.com/browse/CXXCBC-480[CXXCBC-480]:
 Fixed capabilities check for replica LookupIn operations (https://github.com/couchbaselabs/couchbase-cxx-client/pull/539[#539]).
