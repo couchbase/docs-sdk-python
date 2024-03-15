@@ -55,7 +55,6 @@ Please make sure you run on one of the latest patch releases, since they provide
 
 === OS Compatibility
 
-
 The Python SDK is built on top of the C++ SDK (not currently available separately), which is tested and supported on the following platforms:
 
 ****
@@ -81,7 +80,7 @@ The Python SDK is built on top of the C++ SDK (not currently available separatel
 
 The current and previous two releases of OS X.
 At time of writing (March 2024): 14 (Sonoma), 13 (Ventura), and 12 (Monterey).
-M1 ARM  architecture is fully supported in the .Node.js SDK.
+M1 ARM  architecture is fully supported in the Python SDK.
 
 [discrete]
 === ARM Processor Support
@@ -93,6 +92,7 @@ AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04+ (from 
 // Network Requirements
 include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 
+////
 [NOTE]
 .Binary Size
 ====
@@ -105,10 +105,10 @@ strip --strip-debug
 ----
 See the `strip` manpage for further details.
 ====
+////
 
 
 == Couchbase Server Compatibility
-
 
 Couchbase SDKs are tested against a variety of different environments to ensure both backward and forward compatibility with different versions of Couchbase Server.
 
@@ -149,8 +149,6 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 
 === Couchbase New Feature Availability Matrix
 
-
-
 .Couchbase Server and SDK Supported Version Matrix
 [.table-merge-cells]
 [cols="7,5,6,5"]
@@ -188,18 +186,13 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 
 
 
-
-
-
 === API Version
 
 include::{version-common}@sdk:shared:partial$api-version.adoc[tag=api-version]
 
 
 
-
 == SDK API Stability
-
 
 // === Interface Stability
 
