@@ -57,6 +57,12 @@ $ python3 -m pip install couchbase==4.2.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.2.0/
 
+==== Known Issues
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+This version of the SDK will not be able to connect to a cluster utilizing alternate addressing.
+The recommendation is to wait to upgrade to a version of the {name-sdk} that contains {cpp} SDK 1.0.0-dp.15 (or later).
+
 ==== Behavioral Change
 
 It's important to use `Cluster.searchQuery()` / `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes.
@@ -112,6 +118,12 @@ $ python3 -m pip install couchbase==4.1.12
 ----
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.1.12/
+
+==== Known Issues
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+This version of the SDK will not be able to connect to a cluster utilizing alternate addressing.
+The recommendation is to wait to upgrade to a version of the {name-sdk} that contains {cpp} SDK 1.0.0-dp.15 (or later).
 
 ==== Fixes
 
