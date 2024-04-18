@@ -45,6 +45,64 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.2.1 (18 April 2024)
+
+Version 4.2.1 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.2.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.2.1/
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1575[PYCBC-1575]:
+Added missing logic to handle alternate addresses when bootstrapping.
+
+* https://issues.couchbase.com/browse/PYCBC-1532[PYCBC-1532],
+https://issues.couchbase.com/browse/PYCBC-1566[PYCBC-1566],
+https://issues.couchbase.com/browse/PYCBC-1589[PYCBC-1589]:
+Fixed floating point exception if recieved config with empty vBucket map.
+
+* https://issues.couchbase.com/browse/PYCBC-1590[PYCBC-1590]:
+Fixed Python logger shutdown process.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1584[PYCBC-1584]:
+Added support for scoped eventing functions.
+
+
+==== Underlying C++ SDK Core Changes
+
+===== Enhancements
+
+* https://issues.couchbase.com/browse/CXXCBC-470[CXXCBC-470]:
+Distinguish between 'unset' and 'off' query_profile (https://github.com/couchbaselabs/couchbase-cxx-client/pull/551[#551]).
+
+* https://issues.couchbase.com/browse/CXXCBC-489[CXXCBC-489]:
+Added support for scoped eventing functions (https://github.com/couchbaselabs/couchbase-cxx-client/pull/548[#548], (https://github.com/couchbaselabs/couchbase-cxx-client/pull/554[#554])).
+
+===== Fixes
+
+* https://issues.couchbase.com/browse/CXXCBC-30[CXXCBC-30]:
+Fixed inconsistent behavior when using subdoc opcodes (https://github.com/couchbaselabs/couchbase-cxx-client/pull/559[#559]).
+
+* https://issues.couchbase.com/browse/CXXCBC-487[CXXCBC-487]:
+Added logic during bootstrap to check if alternate addressing is being used (https://github.com/couchbaselabs/couchbase-cxx-client/pull/545[#545]).
+
+* https://issues.couchbase.com/browse/CXXCBC-492[CXXCBC-492]:
+Updated collection_component get_collection_id to use retry strategy (https://github.com/couchbaselabs/couchbase-cxx-client/pull/552[#552]).
+
+* https://issues.couchbase.com/browse/CXXCBC-494[CXXCBC-494]:
+Fixed memory issue in range scan implementation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/549[#549]).
+
+* https://issues.couchbase.com/browse/CXXCBC-503[CXXCBC-503]:
+Added logic to ignore configuration if it contains an empty vBucket map (https://github.com/couchbaselabs/couchbase-cxx-client/pull/556[#556], https://github.com/couchbaselabs/couchbase-cxx-client/pull/558[#558]).
+
+
 === Version 4.2.0 (14 March 2024)
 
 Version 4.2.0 is second minor release of the fourth generation Python SDK, bringing a number of improvements.
