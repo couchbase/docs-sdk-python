@@ -45,16 +45,11 @@ Please make sure you run on one of the latest patch releases, since they provide
 | https://peps.python.org/pep-0664/#lifespan[3.11]
 | until 2027-10
 | from 4.1.6
-|===
 
-
-
-
-////
 | https://peps.python.org/pep-0693/#lifespan[3.12]
-| until 2029-10
-| from 4.2.?
-////
+| until 2028-10
+| from 4.3.0
+|===
 
 
 === OS Compatibility
@@ -89,7 +84,7 @@ M1 ARM  architecture is fully supported in the Python SDK.
 [discrete]
 === ARM Processor Support
 
-AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04+ (from SDK 1.4).
+AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04+.
 ****
 
 
@@ -129,7 +124,7 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 .Recommended SDK per Server Version Matrix
 [#table_sdk_versions]
 |===
-| | 3.2, 4.0, 4.1 | 4.2
+| | 3.2, 4.0, 4.1 | 4.2 - 4.3
 
 | *Server 7.0 - 7.2*
 | *✔*
