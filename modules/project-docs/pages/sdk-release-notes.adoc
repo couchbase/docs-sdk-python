@@ -26,11 +26,11 @@ $ python3 -m pip install git+https://github.com/couchbase/couchbase-python-clien
 ----
 
 where VERSION is the version you wish to install. 
-For example, to install version 4.1.0:
+For example, to install version 4.2.1:
 
 [source,console]
 ----
-$ python3 -m pip install git+https://github.com/couchbase/couchbase-python-client@4.1.0
+$ python3 -m pip install git+https://github.com/couchbase/couchbase-python-client@4.2.1
 ----
 
 For more detailed installation instructions, see the xref:project-docs:sdk-full-installation.adoc[full installation guide].
@@ -38,12 +38,33 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 
 [#latest-release]
-== Python SDK 4.2 Releases
+== Python SDK 4.3 Releases
 
 We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
 All patch releases for each dot minor release should be API compatible, and safe to upgrade;
 any changes to expected behavior are noted in the release notes that follow.
 
+
+=== Version 4.3.0 (??? June 2024)
+
+Version 4.3.0 is second minor release of the fourth generation Python SDK, bringing a number of improvements.
+// Most notably the 4.3.0 release adds support ...... when using the SDK with Couchbase Server 7.6.2.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.3.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.3.0/
+
+==== Known Issues
+
+// ???
+
+
+
+
+== Python SDK 4.2 Releases
 
 === Version 4.2.1 (18 April 2024)
 
