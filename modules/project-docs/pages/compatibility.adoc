@@ -46,10 +46,17 @@ Please make sure you run on one of the latest patch releases, since they provide
 | until 2027-10
 | from 4.1.6
 
+|===
+
+
+
+////
 | https://peps.python.org/pep-0693/#lifespan[3.12]
 | until 2028-10
 | from 4.3.0
 |===
+////
+
 
 
 === OS Compatibility
