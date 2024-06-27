@@ -45,10 +45,10 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
-=== Version 4.3.0 (??? June 2024)
+=== Version 4.3.0 (27 June 2024)
 
-Version 4.3.0 is second minor release of the fourth generation Python SDK, bringing a number of improvements.
-// Most notably the 4.3.0 release adds support ...... when using the SDK with Couchbase Server 7.6.2.
+Version 4.3.0 is next minor release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably the 4.3.0 release adds support for base64 encoded vector types when using the SDK with Couchbase Server 7.6.2.
 
 [source,bash]
 ----
@@ -57,11 +57,51 @@ $ python3 -m pip install couchbase==4.3.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.3.0/
 
-==== Known Issues
 
-// ???
+==== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1596[PYCBC-1596]:
+Fixed `AnalyticsStatus` Enum values.
+
+* https://issues.couchbase.com/browse/PYCBC-1603[PYCBC-1603]:
+Fixed `VectorQuery` validation to prevent empty `field_name`.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/PYCBC-1597[PYCBC-1597]:
+Added Support for base64 encoded vector types.
+
+* https://issues.couchbase.com/browse/PYCBC-1588[PYCBC-1588]:
+Added support for importing FTS index from JSON.
 
 
+==== Underlying C++ SDK Core Changes
+
+===== Enhancements
+
+* https://issues.couchbase.com/browse/CXXCBC-381[CXXCBC-381]:
+Updated `transactions_context` and `attempt_context` to use `std::shared_ptr` (https://github.com/couchbaselabs/couchbase-cxx-client/pull/590[#590]).
+
+===== Fixes
+
+* https://issues.couchbase.com/browse/CXXCBC-445[CXXCBC-445]:
+Updated HTTP session logic to return `request_canceled` on IO error (https://github.com/couchbaselabs/couchbase-cxx-client/pull/568[#568]).
+
+* https://issues.couchbase.com/browse/CXXCBC-511[CXXCBC-511]:
+Updated HTTP session logic to prevent use of session if idle timer has expired (https://github.com/couchbaselabs/couchbase-cxx-client/pull/565[#565]).
+
+* https://issues.couchbase.com/browse/CXXCBC-517[CXXCBC-517]:
+Added HTTP session retries when client fails to resolve hostnames (https://github.com/couchbaselabs/couchbase-cxx-client/pull/589[#589]).
+
+* https://issues.couchbase.com/browse/CXXCBC-518[CXXCBC-518]:
+Fixed preferred node logic to handle alternate addresses (https://github.com/couchbaselabs/couchbase-cxx-client/pull/574[#574]).
+
+* https://issues.couchbase.com/browse/CXXCBC-523[CXXCBC-523]:
+Cleaned up config log output when `dump_configuration` is enabled (https://github.com/couchbaselabs/couchbase-cxx-client/pull/577[#577]).
+
+* Fixed config poll to skip config fetch if bucket does not have any sessions (https://github.com/couchbaselabs/couchbase-cxx-client/pull/573[#573]).
+
+* Cleaned up `attempt_context_impl` implementation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/586[#586]).
 
 
 == Python SDK 4.2 Releases
