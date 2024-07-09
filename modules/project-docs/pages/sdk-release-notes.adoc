@@ -6,4 +6,4 @@
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-python-sdk,ROOT:download-links,ROOT:release-notes,ROOT:sdk-release-notes
 
-include::4.2@python-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
+include::4.3@python-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
