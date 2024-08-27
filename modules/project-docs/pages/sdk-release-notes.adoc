@@ -45,6 +45,57 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.3.1 (26 August 2024)
+
+Version 4.3.1 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.3.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.3.1/
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1612[PYCBC-1612]:
+Fixed multi-mutation operations to honor durability when passed in options.
+
+
+==== Underlying C++ SDK Core Changes
+
+===== Enhancements
+
+* Improve logging of DNS client
+(https://github.com/couchbase/couchbase-cxx-client/pull/634[#634]).
+
+* https://issues.couchbase.com/browse/CXXCBC-568/[CXXCBC-568]:
+Cancel deferred operations when closing HTTP session manager
+(https://github.com/couchbase/couchbase-cxx-client/pull/643[#643]).
+
+===== Fixes
+
+* https://issues.couchbase.com/browse/CXXCBC-531/[CXXCBC-531]:
+Fixed memory leak in range scan implementation
+(https://github.com/couchbase/couchbase-cxx-client/pull/645[#645],
+https://github.com/couchbase/couchbase-cxx-client/pull/610[#610]).
+
+* https://issues.couchbase.com/browse/CXXCBC-572/[CXXCBC-572]:
+Always initialize service_type
+(https://github.com/couchbase/couchbase-cxx-client/pull/610[#610]).
+
+* https://issues.couchbase.com/browse/CXXCBC-569/[CXXCBC-569]:
+Resolved cycle in shared pointers for `transaction_context`
+(https://github.com/couchbase/couchbase-cxx-client/pull/641[#641]).
+
+* https://issues.couchbase.com/browse/CXXCBC-550/[CXXCBC-550]:
+Fixed use-after-move issue in command handler
+(https://github.com/couchbase/couchbase-cxx-client/pull/628[#628]).
+
+* Fixed behaviour when reading is complete before returning HTTP streaming resp
+(https://github.com/couchbase/couchbase-cxx-client/pull/624[#624]).
+
+
 === Version 4.3.0 (27 June 2024)
 
 Version 4.3.0 is next minor release of the fourth generation Python SDK, bringing a number of improvements.
