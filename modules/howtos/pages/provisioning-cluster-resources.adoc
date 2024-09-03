@@ -216,7 +216,7 @@ include::howtos:example$query_index_manager.py[tag=defer-indexes,indent=0]
 ----
 
 To delete a query index you can use the `drop_index()` or `drop_primary_index()` methods. 
-Which one you use depends on the type of query index you wish to drop from the database.
+Which one you use depends on the type of query index you wish to drop from the cluster.
 
 .Deleting an index
 

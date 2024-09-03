@@ -71,7 +71,7 @@ For more information regarding the web app and API definition, see the https://f
 
 The backend expects several parameters when invoked:
 
-* The database connection string -- this is either a Capella endpoint, or a node IP address.
+* The cluster connection string -- this is either a Capella endpoint, or a node IP address.
 * The URI scheme -- `couchbases` for Capella, and `couchbase` for a local server.
 * The username -- `cbdemo` for Capella, and `Administrator` for a local server.
 * The password -- `Password123!` for Capella, and `password` for a local server.
