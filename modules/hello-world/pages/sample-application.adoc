@@ -310,6 +310,6 @@ include::example$sample-app.py[tag=search-subdoc, indent=0]
 
 == Next Steps
 
-* Sign up for your free xref:cloud:ROOT:index.adoc[Capella trial acocunt], to get started with Couchbase the easy way.
+* Sign up for a xref:cloud:ROOT:index.adoc[Capella account] and deploy a free operational cluster to get started with Couchbase the easy way.
 * Read more about interacting with the Couchbase services used in this example -- xref:howtos:kv-operations.adoc[Data (K/V)], xref:howtos:subdocument-operations.adoc[Sub-Document], xref:howtos:n1ql-queries-with-sdk.adoc[Query], and xref:howtos:full-text-searching-with-sdk.adoc[Search].
 * Discover xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[Distributed ACID Transactions] from the Python SDK, for cases where several documentations (such as combined flight and hotel bookings) must succeed together.
