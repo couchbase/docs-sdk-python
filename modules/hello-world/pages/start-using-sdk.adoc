@@ -48,7 +48,7 @@ or the xref:{version-server}@server:manage:manage-settings/install-sample-bucket
 --
 ====
 
-The https://cloud.couchbase.com/sign-up[Couchbase Capella free trial] version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
+The https://cloud.couchbase.com/sign-up[Couchbase Capella free tier] version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
 
 
 == Quick Installation
