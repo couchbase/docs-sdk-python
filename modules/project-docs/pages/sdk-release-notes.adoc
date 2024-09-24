@@ -47,7 +47,9 @@ any changes to expected behavior are noted in the release notes that follow.
 
 === Version 4.3.2 (24 September 2024)
 
-Version 4.3.2 is the next patch release of the fourth generation Python SDK, bringing a number of improvements. Most notably the 4.3.2 release adds support for Python 3.12.  See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details on supported Python versions.
+Version 4.3.2 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably the 4.3.2 release adds support for Python 3.12 --
+see xref:compatibility.adoc#python-version-compat[Python Version Compatibility] for details of supported Python versions.
 
 [source,bash]
 ----
@@ -58,7 +60,8 @@ $ python3 -m pip install couchbase==4.3.2
 
 ==== Behavioral Change
 
-The Couchbase Python SDK will soon stop providing Python 3.8 wheels as Python 3.8 reaches https://peps.python.org/pep-0569/#lifespann[end-of-life] in October 2024. See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details on supported Python versions.
+The Couchbase Python SDK will soon stop providing Python 3.8 wheels as Python 3.8 reaches https://peps.python.org/pep-0569/#lifespann[end-of-life] in October 2024.
+See xref:compatibility.adoc#python-version-compat[Python Version Compatibility] for details of supported Python versions.
 
 ==== Enhancements
 
@@ -69,9 +72,10 @@ Added Python 3.12 Support.
 
 ===== Fixes
 
-* http://jira.issues.couchbase.com/browse/CXXCBC-577[CXXCBC-577]: Reduce duplicated code in http_component (https://github.com/couchbase/couchbase-cxx-client/pull/657[#657]).
-* http://jira.issues.couchbase.com/browse/CXXCBC-552[CXXCBC-552]: Cleanup network selection options (https://github.com/couchbase/couchbase-cxx-client/pull/651[#651]). Deprecates `behavior_options#network()` in favor to `network_options#preferred_network()`
-* http://jira.issues.couchbase.com/browse/CXXCBC-576[CXXCBC-576]: Ensure all HTTP sessions are stopped when closing the core cluster (https://github.com/couchbase/couchbase-cxx-client/pull/648[#648]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-577[CXXCBC-577],
+http://jira.issues.couchbase.com/browse/CXXCBC-552[CXXCBC-552], &
+http://jira.issues.couchbase.com/browse/CXXCBC-576[CXXCBC-576]:
+See xref:cxx-sdk:project-docs:sdk-release-notes.adoc#version-102-23-september-2024[{cpp} 1.0.2 release notes].
 
 
 === Version 4.3.1 (26 August 2024)
