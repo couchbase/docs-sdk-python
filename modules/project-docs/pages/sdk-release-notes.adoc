@@ -75,7 +75,7 @@ Added Python 3.12 Support.
 * http://jira.issues.couchbase.com/browse/CXXCBC-577[CXXCBC-577],
 http://jira.issues.couchbase.com/browse/CXXCBC-552[CXXCBC-552], &
 http://jira.issues.couchbase.com/browse/CXXCBC-576[CXXCBC-576]:
-See xref:cxx-sdk:project-docs:sdk-release-notes.adoc#version-102-23-september-2024[{cpp} 1.0.2 release notes].
+See xref:cxx-sdk:project-docs:sdk-release-notes.adoc#version-1-0-2-23-september-2024[{cpp} 1.0.2 release notes].
 
 
 === Version 4.3.1 (26 August 2024)
