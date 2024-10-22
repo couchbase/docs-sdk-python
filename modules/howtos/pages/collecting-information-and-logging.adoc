@@ -24,7 +24,7 @@ include::example$logging_example.py[tag=logging,indent=0]
 
 IMPORTANT: Only one logger can be created.  Either use `PYCBC_LOG_LEVEL` to create a console logger or `configure_logging` as mentioned above.
 
-In the command line environment, the PYCBC_LOG_LEVEL variable is set as follows:
+In the command line environment, the `PYCBC_LOG_LEVEL` variable is set as follows:
 
 .GNU/Linux and Mac
 [source,console]
@@ -38,8 +38,22 @@ export PYCBC_LOG_LEVEL=<log-level>
 set PYCBC_LOG_LEVEL=<log-level>
 ----
 
-Where `<log-level>` is either `error`, `warn`, `info`, or `debug`.
+Version 4.3.3 of the SDK introduces the `PYCBC_LOG_FILE` variable that can be used in conjunction with `PYCBC_LOG_LEVEL`.
+Set `PYCBC_LOG_FILE` to a filename in order to have the log output to a file (instead of stdout).
 
+In the command line environment, the `PYCBC_LOG_FILE` variable is set as follows:
+
+.GNU/Linux and Mac
+[source,console]
+----
+export PYCBC_LOG_FILE=<filename>
+----
+
+.Windows
+[source,console]
+----
+set PYCBC_LOG_FILE=<filename>
+----
 
 == Log Levels
 
@@ -50,7 +64,8 @@ You can increase the log level for greater verbosity (more information) in the l
 * error -- error messages.
 * warn -- error notifications.
 * info -- useful notices, not often.
-* debug -- diagnostic information, required to investigate problems.
+* debug -- diagnostic information, minimum level required to investigate problems.
+* trace -- detailed diagnostic information, often required to investigate problems.
 
 
 == Log Redaction

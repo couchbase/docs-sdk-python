@@ -45,6 +45,54 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.3.3 (22 October 2024)
+
+Version 4.3.3 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.3.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.3.3/
+
+==== Behavioral Change
+
+The Couchbase Python SDK will stop providing Python 3.8 wheels with the next release (4.3.4) as Python 3.8 has reached https://peps.python.org/pep-0569/#lifespann[end-of-life]. See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details on supported Python versions.
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1456[PYCBC-1456]:
+Ensure SDK encodes URIs
+* https://jira.issues.couchbase.com/browse/PYCBC-1619[PYCBC-1619]:
+Added ability to use C++ core file logger
+* https://jira.issues.couchbase.com/browse/PYCBC-1625[PYCBC-1625]:
+Updated multi methods to `COMMITTED`
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/PYCBC-1569[PYCBC-1569]:
+Added mechanism to do binary increment/decrement without initial value
+* https://issues.couchbase.com/browse/PYCBC-1628[PYCBC-1628]:
+Fixed typo in `InvalidArgumentException` message when invalid authentication kwargs are provided
+* https://issues.couchbase.com/browse/PYCBC-1629[PYCBC-1629]:
+Fixed subdocument `array_addunique` to follow the https://github.com/couchbaselabs/sdk-rfcs/blob/master/rfc/0053-sdk3-crud.md#mutatein[RFC]
+
+
+==== Underlying C++ SDK Core Changes
+
+==== Enhancements
+
+* http://jira.issues.couchbase.com/browse/CXXCBC-582[CXXCBC-552]: Cleanup network selection options (https://github.com/couchbase/couchbase-cxx-client/pull/677[#677], https://github.com/couchbase/couchbase-cxx-client/pull/682[#682]). Add cluster labels and system tag to spans.  Add cluster labels, keyspace and outcome to metrics.
+
+===== Fixes
+
+* http://jira.issues.couchbase.com/browse/CXXCBC-311[CXXCBC-311]: Ensure SDK encodes URIs (https://github.com/couchbase/couchbase-cxx-client/pull/674[#674]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-599[CXXCBC-599]: Update allowed connection string options (https://github.com/couchbase/couchbase-cxx-client/pull/668[#668]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-606[CXXCBC-606]: Fix detection of dysfunctional node (https://github.com/couchbase/couchbase-cxx-client/pull/673[#673]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-614[CXXCBC-614]: Fix memory leak in observe_poll (https://github.com/couchbase/couchbase-cxx-client/pull/679[#679]).
+
+
 === Version 4.3.2 (24 September 2024)
 
 Version 4.3.2 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
