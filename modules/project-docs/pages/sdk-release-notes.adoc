@@ -58,39 +58,48 @@ $ python3 -m pip install couchbase==4.3.3
 
 ==== Behavioral Change
 
-The Couchbase Python SDK will stop providing Python 3.8 wheels with the next release (4.3.4) as Python 3.8 has reached https://peps.python.org/pep-0569/#lifespann[end-of-life]. See https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat[Python Version Compatibility] for details on supported Python versions.
+The Couchbase Python SDK will stop providing Python 3.8 wheels with the next release (4.3.4) as Python 3.8 has reached https://peps.python.org/pep-0569/#lifespann[end-of-life].
+See xref:project-docs:compatibility.adoc#python-version-compat[Python Version Compatibility] for details on supported Python versions.
 
 ==== Enhancements
 
 * https://jira.issues.couchbase.com/browse/PYCBC-1456[PYCBC-1456]:
-Ensure SDK encodes URIs
+Ensure SDK encodes URIs.
 * https://jira.issues.couchbase.com/browse/PYCBC-1619[PYCBC-1619]:
-Added ability to use C++ core file logger
+Added ability to use C++ core file logger.
 * https://jira.issues.couchbase.com/browse/PYCBC-1625[PYCBC-1625]:
-Updated multi methods to `COMMITTED`
+Updated multi methods to `COMMITTED`.
 
 ==== Fixes
 
-* https://issues.couchbase.com/browse/PYCBC-1569[PYCBC-1569]:
-Added mechanism to do binary increment/decrement without initial value
-* https://issues.couchbase.com/browse/PYCBC-1628[PYCBC-1628]:
-Fixed typo in `InvalidArgumentException` message when invalid authentication kwargs are provided
-* https://issues.couchbase.com/browse/PYCBC-1629[PYCBC-1629]:
-Fixed subdocument `array_addunique` to follow the https://github.com/couchbaselabs/sdk-rfcs/blob/master/rfc/0053-sdk3-crud.md#mutatein[RFC]
+* https://jira.issues.couchbase.com/browse/PYCBC-1569[PYCBC-1569]:
+Added mechanism to do binary increment/decrement without initial value.
+* https://jira.issues.couchbase.com/browse/PYCBC-1628[PYCBC-1628]:
+Fixed typo in `InvalidArgumentException` message when invalid authentication `kwargs` are provided.
+* https://jira.issues.couchbase.com/browse/PYCBC-1629[PYCBC-1629]:
+Fixed subdocument `array_addunique` to follow the https://github.com/couchbaselabs/sdk-rfcs/blob/master/rfc/0053-sdk3-crud.md#mutatein[RFC].
 
 
 ==== Underlying C++ SDK Core Changes
 
-==== Enhancements
+===== Enhancements
 
-* http://jira.issues.couchbase.com/browse/CXXCBC-582[CXXCBC-552]: Cleanup network selection options (https://github.com/couchbase/couchbase-cxx-client/pull/677[#677], https://github.com/couchbase/couchbase-cxx-client/pull/682[#682]). Add cluster labels and system tag to spans.  Add cluster labels, keyspace and outcome to metrics.
+* http://jira.issues.couchbase.com/browse/CXXCBC-582[CXXCBC-552]:
+Cleaned up network selection options (https://github.com/couchbase/couchbase-cxx-client/pull/677[#677], https://github.com/couchbase/couchbase-cxx-client/pull/682[#682]).
+Added cluster labels and system tag to spans.
+Added cluster labels, keyspace, and outcome to metrics.
 
 ===== Fixes
 
-* http://jira.issues.couchbase.com/browse/CXXCBC-311[CXXCBC-311]: Ensure SDK encodes URIs (https://github.com/couchbase/couchbase-cxx-client/pull/674[#674]).
-* http://jira.issues.couchbase.com/browse/CXXCBC-599[CXXCBC-599]: Update allowed connection string options (https://github.com/couchbase/couchbase-cxx-client/pull/668[#668]).
-* http://jira.issues.couchbase.com/browse/CXXCBC-606[CXXCBC-606]: Fix detection of dysfunctional node (https://github.com/couchbase/couchbase-cxx-client/pull/673[#673]).
-* http://jira.issues.couchbase.com/browse/CXXCBC-614[CXXCBC-614]: Fix memory leak in observe_poll (https://github.com/couchbase/couchbase-cxx-client/pull/679[#679]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-311[CXXCBC-311]:
+Ensure SDK encodes URIs (https://github.com/couchbase/couchbase-cxx-client/pull/674[#674]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-599[CXXCBC-599]:
+Updated allowed connection string options (https://github.com/couchbase/couchbase-cxx-client/pull/668[#668]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-606[CXXCBC-606]:
+Fixed detection of dysfunctional node (https://github.com/couchbase/couchbase-cxx-client/pull/673[#673]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-614[CXXCBC-614]:
+Fixed memory leak in `observe_poll` (https://github.com/couchbase/couchbase-cxx-client/pull/679[#679]).
+
 
 
 === Version 4.3.2 (24 September 2024)
@@ -124,6 +133,7 @@ Added Python 3.12 Support.
 http://jira.issues.couchbase.com/browse/CXXCBC-552[CXXCBC-552], &
 http://jira.issues.couchbase.com/browse/CXXCBC-576[CXXCBC-576]:
 See xref:cxx-sdk:project-docs:sdk-release-notes.adoc#version-1-0-2-23-september-2024[{cpp} 1.0.2 release notes].
+
 
 
 === Version 4.3.1 (26 August 2024)
@@ -175,6 +185,7 @@ Fixed use-after-move issue in command handler
 
 * Fixed behaviour when reading is complete before returning HTTP streaming resp
 (https://github.com/couchbase/couchbase-cxx-client/pull/624[#624]).
+
 
 
 === Version 4.3.0 (27 June 2024)
