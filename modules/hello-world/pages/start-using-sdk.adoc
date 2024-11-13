@@ -78,11 +78,13 @@ First, make sure that your _brew_ package index is up-to-date:
 $ brew update
 ----
 
-Install a compatible Python 3:
+Install a compatible Python 3 -- OpenSSL not needed from SDK version 4.1.9:
 [source,console]
 ----
 $ brew install openssl@1.1 python3
 ----
+
+NOTE: Starting with Python 3.11.5, macOS installers from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl.1.1.dylib ` and `libcrypto.1.1.dylib`) can be found.
 
 Ensure that the Python installation can be called from the shell:
 [source,console]
@@ -100,9 +102,6 @@ Now, install the Python SDK:
 ----
 $ sudo -H python3 -m pip install couchbase
 ----
-
-NOTE: Starting with Python 3.11.5, macOS installers from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl.1.1.dylib ` and `libcrypto.1.1.dylib`) can be found.
-
 --
 
 Red Hat & CentOS::
