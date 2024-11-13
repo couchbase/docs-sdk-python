@@ -81,7 +81,7 @@ $ brew update
 Install a compatible Python 3:
 [source,console]
 ----
-$ brew install openssl@1.1 python3
+$ brew install python3
 ----
 
 Ensure that the Python installation can be called from the shell:
