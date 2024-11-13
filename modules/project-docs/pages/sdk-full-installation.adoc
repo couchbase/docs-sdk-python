@@ -141,7 +141,7 @@ During first-time setup:
 $ sudo apt-get install git-all python3-dev python3-pip python3-setuptools build-essential
 ----
 
-For TLS/SSL support (required for Python SDK 4.x):
+For TLS/SSL support (required for Python prior to SDK 4.1.9):
 
 [source,console]
 ----
@@ -182,7 +182,7 @@ $ sudo yum install gcc gcc-c++ python3-devel python3-pip
 TIP: You may need to update your installed version of CMake.
 For example, by following the steps https://idroot.us/install-cmake-centos-8[here^].
 
-For TLS/SSL support (required for Python SDK 4.x):
+For TLS/SSL support (required for Python SDK prior to 4.1.9):
 
 [source,console]
 ----
