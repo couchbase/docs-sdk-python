@@ -94,13 +94,6 @@ $ brew install python3
 $ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
 ----
 
-.For TLS/SSL support - required for Python SDK 4.x
-
-[source,console]
-----
-$ brew install openssl@1.1
-----
-
 [source,console]
 ----
 $ source ~/.zshrc
