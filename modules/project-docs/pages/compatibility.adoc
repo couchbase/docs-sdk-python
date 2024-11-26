@@ -55,7 +55,7 @@ Please make sure you run on one of the latest patch releases, since they provide
 
 === OS Compatibility
 
-The Python SDK is built on top of the C++ SDK (not currently available separately), which is tested and supported on the following platforms:
+The Python SDK is built on top of the {cpp} SDK, which is tested and supported on the following platforms:
 
 ****
 [discrete]
