@@ -66,44 +66,51 @@ See xref:project-docs:compatibility.adoc#python-version-compat[Python Version Co
 ==== Enhancements
 
 https://jira.issues.couchbase.com/browse/PYCBC-1595[PYCBC-1595]:
-Added support for Binary Objects in Transactions
+Added support for Binary Objects in Transactions.
 
 https://jira.issues.couchbase.com/browse/PYCBC-1613[PYCBC-1613]:
-Added Python 3.13 Support
+Added Python 3.13 Support.
 
 https://jira.issues.couchbase.com/browse/PYCBC-1635[PYCBC-1635]:
-Removed support for publishing Python 3.8 wheels
+Removed support for publishing Python 3.8 wheels.
 
 https://jira.issues.couchbase.com/browse/PYCBC-1639[PYCBC-1639]:
-Updated user agent extra passed to C++ core
+Updated user agent extra passed to {cpp} core.
 
 https://jira.issues.couchbase.com/browse/PYCBC-1640[PYCBC-1640]:
-Added acouchbase utility tests
+Added acouchbase utility tests.
 
 ==== Fixes
 
 https://jira.issues.couchbase.com/browse/PYCBC-1631[PYCBC-1631]:
-Fix transaction hangs if logging set to debug
+Fixed transaction hangs when logging is set to `DEBUG`.
 
 https://jira.issues.couchbase.com/browse/PYCBC-1636[PYCBC-1636]:
-Fixed acouchbase API to properly handle BaseException
+Fixed acouchbase API to properly handle `BaseException`.
 
 
-==== Underlying C++ SDK Core Changes
+==== Underlying {cpp} SDK Core Changes
 
 ===== Fixes
 
-https://jira.issues.couchbase.com/browse/CXXCBC-611[CXXCBC-611], https://jira.issues.couchbase.com/browse/CXXCBC-612[CXXCBC-612]: Follow RFC naming for metric operation names (https://github.com/couchbase/couchbase-cxx-client/pull/695[#695])
+https://jira.issues.couchbase.com/browse/CXXCBC-611[CXXCBC-611], https://jira.issues.couchbase.com/browse/CXXCBC-612[CXXCBC-612]:
+The {cpp} SDK now follows RFC naming for metric operation names (https://github.com/couchbase/couchbase-cxx-client/pull/695[#695]).
 
-https://jira.issues.couchbase.com/browse/CXXCBC-615[CXXCBC-615]: Expose `insert_raw` and `replace_raw` in core transactions attempt context (https://github.com/couchbase/couchbase-cxx-client/pull/686[#686])
+https://jira.issues.couchbase.com/browse/CXXCBC-615[CXXCBC-615]:
+The {cpp} SDK now  exposes `insert_raw` and `replace_raw` in the core transactions attempt context (https://github.com/couchbase/couchbase-cxx-client/pull/686[#686]).
 
-https://jira.issues.couchbase.com/browse/CXXCBC-620[CXXCBC-620]: Update core `analytics_link_get_all` to follow RFC (https://github.com/couchbase/couchbase-cxx-client/pull/687[#687])
+https://jira.issues.couchbase.com/browse/CXXCBC-620[CXXCBC-620]:
+Updated core `analytics_link_get_all` to follow the RFC (https://github.com/couchbase/couchbase-cxx-client/pull/687[#687]).
 
-https://jira.issues.couchbase.com/browse/CXXCBC-622[CXXCBC-622]: Update OpenTelemetry metrics integration to use GA Metrics API (https://github.com/couchbase/couchbase-cxx-client/pull/688[#688])
+https://jira.issues.couchbase.com/browse/CXXCBC-622[CXXCBC-622]:
+Updated `OpenTelemetry` metrics integration to use tme GA Metrics API (https://github.com/couchbase/couchbase-cxx-client/pull/688[#688]).
 
-https://jira.issues.couchbase.com/browse/CXXCBC-624[CXXCBC-624]: Fix user agent ID generation (https://github.com/couchbase/couchbase-cxx-client/pull/692[#692])
+https://jira.issues.couchbase.com/browse/CXXCBC-624[CXXCBC-624]:
+Fixed user agent ID generation (https://github.com/couchbase/couchbase-cxx-client/pull/692[#692]).
 
-https://jira.issues.couchbase.com/browse/CXXCBC-632[CXXCBC-632]: Do not assume Analytics will always send meta fields in response (https://github.com/couchbase/couchbase-cxx-client/pull/699[#699])
+https://jira.issues.couchbase.com/browse/CXXCBC-632[CXXCBC-632]:
+A crash on testing against Analytics nodes under rebalance was caused by the assumption that Analytics would always send meta fields in its response.
+This has now been fixed, and the behoavior should not recur (https://github.com/couchbase/couchbase-cxx-client/pull/699[#699]).
 
 
 
