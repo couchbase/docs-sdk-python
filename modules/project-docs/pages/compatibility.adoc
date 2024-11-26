@@ -30,10 +30,6 @@ Please make sure you run on one of the latest patch releases, since they provide
 |===
 | Python Version | Support EOL | Couchbase SDK Versions Supported
 
-| https://www.python.org/dev/peps/pep-0569/#lifespan[3.8]
-| until 2024-10
-| from 3.0.0
-
 | https://www.python.org/dev/peps/pep-0596/#lifespan[3.9]
 | until 2025-10
 | from 3.0.0
@@ -50,12 +46,16 @@ Please make sure you run on one of the latest patch releases, since they provide
 | until 2028-10
 | from 4.3.2
 
+| https://peps.python.org/pep-0719/#lifespan[3.13]
+| until 2029-10
+| from 4.3.4
+
 |===
 
 
 === OS Compatibility
 
-The Python SDK is built on top of the C++ SDK (not currently available separately), which is tested and supported on the following platforms:
+The Python SDK is built on top of the {cpp} SDK, which is tested and supported on the following platforms:
 
 ****
 [discrete]
