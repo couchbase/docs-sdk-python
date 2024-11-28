@@ -107,6 +107,11 @@ See the `strip` manpage for further details.
 ====
 ////
 
+=== SSL Library
+
+The Python SDK binaries are statically link against `BoringSSL`,
+and there is no need to separately install any SSL library.
+
 
 == Couchbase Server Compatibility
 
