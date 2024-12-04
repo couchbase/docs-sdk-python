@@ -102,9 +102,6 @@ The {cpp} SDK now  exposes `insert_raw` and `replace_raw` in the core transactio
 * https://jira.issues.couchbase.com/browse/CXXCBC-620[CXXCBC-620]:
 Updated core `analytics_link_get_all` to follow the RFC (https://github.com/couchbase/couchbase-cxx-client/pull/687[#687]).
 
-* https://jira.issues.couchbase.com/browse/CXXCBC-622[CXXCBC-622]:
-Updated `OpenTelemetry` metrics integration to use tme GA Metrics API (https://github.com/couchbase/couchbase-cxx-client/pull/688[#688]).
-
 * https://jira.issues.couchbase.com/browse/CXXCBC-624[CXXCBC-624]:
 Fixed user agent ID generation (https://github.com/couchbase/couchbase-cxx-client/pull/692[#692]).
 
