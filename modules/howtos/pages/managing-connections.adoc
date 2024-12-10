@@ -202,6 +202,16 @@ NOTE: Any TLS certificates must be set up at the point where the connections are
 // todo what does that mean in practice? Also, should this be in the TLS docs section instead?
 
 
+
+// DNS-SRV
+// == Using DNS SRV records
+
+include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv-rev]
+
+DNS SRV bootstrapping is enabled by default in the {name-sdk}.
+In order to make the SDK use the SRV records, you need to pass in the hostname from your records (here `example.com`):
+
+
 [#ssl]
 == Secure Connections
 
