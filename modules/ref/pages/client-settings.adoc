@@ -660,7 +660,72 @@ CAUTION: The Configuration Profiles feature is currently a xref:python-sdk:proje
 *Cluster Option:* apply_profile("wan_development")
 
 A `wan_development` configuration profile can be used to modify client settings for development or high-latency environments.
-This profile changes the default timeouts.
+This profile changes the default timeouts -- which are themselves all inherited from the underlying core {cpp} SDK.
 
 // table - WAN profile timeouts
-include::{version-common}@sdk:shared:partial$client-settings-wan-profile.adoc[tag=profile-values]
+// include::{version-common}@sdk:shared:partial$client-settings-wan-profile.adoc[tag=profile-values]
+
+
+.Profile Settings
+[cols="4,3,3"]
+|===
+| Setting | Default Value | WAN Profile Value
+
+| `connect_timeout`
+| 2s
+| 20s
+
+| `kv_timeout`
+| 2.5s
+| 20s
+
+| `kv_durable_timeout`
+| 10s
+| 20s
+
+| `views_timeout`
+| 75s
+| 120s
+
+| `query_timeout`
+| 75s
+| 120s
+
+| `analytics_timeout`
+| 75s
+| 120s
+
+| `search_timeout`
+| 75s
+| 120s
+
+| `management_timeout`
+| 75s
+| 120s
+
+| `dns_srv_timeout`
+| 500ms
+| 20s
+
+| `resolve_timeout`
+| 2s
+| 20s
+
+| `bootstrap_timeout` 
+| 10s
+| 120s
+|===
+
+
+NOTE
+.Bootstrap Timeout
+====
+For the SDKs built upon the core {cpp} SDK, the bootstrap timeouts are picked up from the {cpp} SDK, and include the following:
+
+* The `bootstrap_timeout` is the overall timeout for the bootstrap process.
+* The `resolve_timeout` and `connect_timeout` are connected to steps within the bootstrap process.
+* The DNS SRV lookup occurs before we start the bootstrap process -- while technically a part of bootstrapping (and `dns_srv_timeout`'s default value is inherited from the {cpp} SDK), the timeout is actually outside the `bootstrap_timeout`.
+====
+
+
+*Do not* set `key_value_durable_timeout` above 65s, which is the maximum possible `SyncWrite` timeout on the Server side.
