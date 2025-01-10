@@ -660,7 +660,7 @@ CAUTION: The Configuration Profiles feature is currently a xref:python-sdk:proje
 *Cluster Option:* apply_profile("wan_development")
 
 A `wan_development` configuration profile can be used to modify client settings for development or high-latency environments.
-This profile changes the default timeouts.
+This profile changes the default timeouts -- which are themselves all inherited from the underlying core {cpp} SDK.
 
 // table - WAN profile timeouts
 // include::{version-common}@sdk:shared:partial$client-settings-wan-profile.adoc[tag=profile-values]
