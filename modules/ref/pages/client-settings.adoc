@@ -663,4 +663,57 @@ A `wan_development` configuration profile can be used to modify client settings 
 This profile changes the default timeouts.
 
 // table - WAN profile timeouts
-include::{version-common}@sdk:shared:partial$client-settings-wan-profile.adoc[tag=profile-values]
+// include::{version-common}@sdk:shared:partial$client-settings-wan-profile.adoc[tag=profile-values]
+
+
+.Profile Settings
+[cols="4,3,3"]
+|===
+| Setting | Default Value | WAN Profile Value
+
+| `connect_timeout`
+| 10s
+| 20s
+
+| `kv_timeout`
+| 2.5s
+| 20s
+
+| `kv_durable_timeout`
+| 10s
+| 20s
+
+| `views_timeout`
+| 75s
+| 120s
+
+| `query_timeout`
+| 75s
+| 120s
+
+| `analytics_timeout`
+| 75s
+| 120s
+
+| `search_timeout`
+| 75s
+| 120s
+
+| `management_timeout`
+| 75s
+| 120s
+
+| `dns_srv_timeout`
+| None
+| 20s
+
+| `resolve_timeout`
+| None
+| 20s
+
+| `bootstrap_timeout` 
+| None
+| 120s
+|===
+
+*Do not* set `key_value_durable_timeout` above 65s, which is the maximum possible `SyncWrite` timeout on the Server side.
