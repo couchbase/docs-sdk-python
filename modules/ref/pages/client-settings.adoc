@@ -717,7 +717,7 @@ This profile changes the default timeouts -- which are themselves all inherited 
 |===
 
 
-NOTE
+[NOTE]
 .Bootstrap Timeout
 ====
 For the SDKs built upon the core {cpp} SDK, the bootstrap timeouts are picked up from the {cpp} SDK, and include the following:
