@@ -49,7 +49,7 @@ any changes to expected behavior are noted in the release notes that follow.
 
 Version 4.3.5 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.3.5
 ----
@@ -59,34 +59,37 @@ $ python3 -m pip install couchbase==4.3.5
 
 ==== Enhancements
 
-https://jira.issues.couchbase.com/browse/PYCBC-1643[PYCBC-1643]:
-Updated build system logic when finding Python 3 version
+* https://jira.issues.couchbase.com/browse/PYCBC-1643[PYCBC-1643]:
+Updated build system logic when finding Python 3 version.
 
-https://jira.issues.couchbase.com/browse/PYCBC-1644[PYCBC-1644]:
-CI: Updateed GoCAVES download url to use arm64 version when appropriate
+* https://jira.issues.couchbase.com/browse/PYCBC-1644[PYCBC-1644]:
+Updateed GoCAVES download URL to use arm64 version when appropriate (CI improvement).
 
-https://jira.issues.couchbase.com/browse/PYCBC-1646[PYCBC-1646]:
-Migrated transactions to us transaction_context
+* https://jira.issues.couchbase.com/browse/PYCBC-1646[PYCBC-1646]:
+Migrated transactions to use `transaction_context`.
 
-https://jira.issues.couchbase.com/browse/PYCBC-1648[PYCBC-1648]:
-Added update_collection & settings classes to Collection Management API reference
+* https://jira.issues.couchbase.com/browse/PYCBC-1648[PYCBC-1648]:
+Added `update_collection` & settings classes to Collection Management API reference.
 
 ==== Fixes
 
-https://jira.issues.couchbase.com/browse/PYCBC-1649[PYCBC-1649]:
-Transactions - Fix memory leak when creating TransactionGetResult
+* https://jira.issues.couchbase.com/browse/PYCBC-1649[PYCBC-1649]:
+Fixed a memory leak when creating `TransactionGetResult`.
 
 
-==== Underlying C++ SDK Core Changes
+==== Underlying {cpp} SDK Core Changes
 
 ===== Enhancements
 
-https://jira.issues.couchbase.com/browse/CXXCBC-638[CXXCBC-638]: switch to bundled fmtlib for spdlog (https://github.com/couchbase/couchbase-cxx-client/pull/710)[#710)], https://github.com/couchbase/couchbase-cxx-client/pull/705)[#705)])
-https://jira.issues.couchbase.com/browse/CXXCBC-640[CXXCBC-640]: do not force debug symbols for release builds ( (https://github.com/couchbase/couchbase-cxx-client/pull/708)[#708)])
+* https://jira.issues.couchbase.com/browse/CXXCBC-638[CXXCBC-638]:
+Switched SDK to use bundled `fmtlib` for `spdlog` (https://github.com/couchbase/couchbase-cxx-client/pull/705[#705]).
+* https://jira.issues.couchbase.com/browse/CXXCBC-640[CXXCBC-640]:
+Debug symbols are no longer forced for release builds (https://github.com/couchbase/couchbase-cxx-client/pull/708[#708]).
 
 ===== Fixes
 
-https://jira.issues.couchbase.com/browse/CXXCBC-633[CXXCBC-633]: ensure DNS-SRV resolver reports timeouts ( (https://github.com/couchbase/couchbase-cxx-client/pull/703)[#703)])
+https://jira.issues.couchbase.com/browse/CXXCBC-633[CXXCBC-633]:
+In a case of timeout, when the total deadline of the DNS-SRV request has been reached, the library will now report a timeout error code, and not the latest abort as it was doing.
 
 
 
@@ -96,7 +99,7 @@ Version 4.3.4 is the next patch release of the fourth generation Python SDK, bri
 Most notably the 4.3.4 release adds support for Python 3.13 --
 see xref:compatibility.adoc#python-version-compat[Python Version Compatibility] for details of supported Python versions.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.3.4
 ----
@@ -160,7 +163,7 @@ This has now been fixed, and the behoavior should not recur (https://github.com/
 
 Version 4.3.3 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.3.3
 ----
@@ -219,7 +222,7 @@ Version 4.3.2 is the next patch release of the fourth generation Python SDK, bri
 Most notably the 4.3.2 release adds support for Python 3.12 --
 see xref:compatibility.adoc#python-version-compat[Python Version Compatibility] for details of supported Python versions.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.3.2
 ----
@@ -251,7 +254,7 @@ See xref:cxx-sdk:project-docs:sdk-release-notes.adoc#version-1-0-2-23-september-
 
 Version 4.3.1 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.3.1
 ----
@@ -304,7 +307,7 @@ Fixed use-after-move issue in command handler
 Version 4.3.0 is next minor release of the fourth generation Python SDK, bringing a number of improvements.
 Most notably the 4.3.0 release adds support for base64 encoded vector types when using the SDK with Couchbase Server 7.6.2.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.3.0
 ----
@@ -364,7 +367,7 @@ Cleaned up config log output when `dump_configuration` is enabled (https://githu
 
 Version 4.2.1 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.2.1
 ----
@@ -423,7 +426,7 @@ Added logic to ignore configuration if it contains an empty vBucket map (https:/
 Version 4.2.0 is second minor release of the fourth generation Python SDK, bringing a number of improvements.
 Most notably the 4.2.0 release adds support for Vector Search, KV Range Scans, and faster failover when using the SDK with Couchbase Server 7.6.0.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.2.0
 ----
@@ -485,7 +488,7 @@ Update range scan orchestrator to use best effort retry strategy by default (htt
 
 Version 4.1.12 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
 
-[source,bash]
+[source,console]
 ----
 $ python3 -m pip install couchbase==4.1.12
 ----
@@ -1231,7 +1234,7 @@ $ python3 -m pip install couchbase==4.0.2
 Added environment variables to direct CMake to use specified Python3 version.
 
 * https://issues.couchbase.com/browse/PYCBC-1374[PYCBC-1374]:
-Added option to dynamically link stdc++ libs.
+Added option to dynamically link `stdc++` libs.
 
 ==== Enhancements
 
