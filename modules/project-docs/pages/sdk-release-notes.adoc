@@ -88,7 +88,7 @@ Debug symbols are no longer forced for release builds (https://github.com/couchb
 
 ===== Fixes
 
-https://jira.issues.couchbase.com/browse/CXXCBC-633[CXXCBC-633]:
+* https://jira.issues.couchbase.com/browse/CXXCBC-633[CXXCBC-633]:
 In a case of timeout, when the total deadline of the DNS-SRV request has been reached, the library will now report a timeout error code, and not the latest abort as it was doing.
 
 
