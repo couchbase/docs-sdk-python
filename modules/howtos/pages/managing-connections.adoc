@@ -233,7 +233,7 @@ More information can be found in the relevant https://www.openssl.org/docs/man1.
 
 Loading the Mozilla certificates can be disabled by setting the `disable_mozilla_ca_certificates` property of `ClusterOptions`.
 
-The {cbpp} core's metadata provide information about where OpenSSL's default certificate store is located,  which version of the Mozilla CA certificate store was bundled, and other useful details. 
+Metadata from the Python SDK's {cpp} core provides information about where OpenSSL's default certificate store is located,  which version of the Mozilla CA certificate store was bundled, and other useful details. 
 You can get the metadata using the following command:
 
 ====
