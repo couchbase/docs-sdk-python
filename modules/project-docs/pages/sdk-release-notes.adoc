@@ -45,6 +45,63 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+
+=== Version 4.3.6 (15 May 2025)
+
+Version 4.3.6 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,console]
+----
+$ python3 -m pip install couchbase==4.3.6
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.3.6/
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1676[PYCBC-1676]:
+Fixed async query examples to use async (`acouchbase`) API instead of blocking API.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1678[PYCBC-1678]:
+Pinned `setup_requires` cmake version.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1681[PYCBC-1681]:
+Updated `VectorQuery` validation to raise `InvalidArgumentException` when base64 vector string is empty.
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1674[PYCBC-1674]:
+Fixed transactional `get_replica_from_preferred_server_group` from raising `AttributeError`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1675[PYCBC-1675]:
+CAS is no longer ignored for append/prepend operations.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1679[PYCBC-1679]:
+Console logger is now disabled when the file logger is specified.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1683[PYCBC-1683]:
+Fixed search range queries to follow RFC.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1685[PYCBC-1685]:
+Removed timeout logic when waiting for {cpp} core HTTP response.
+
+
+==== Underlying C++ SDK Core Changes
+
+===== Fixes
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-666[CXXCBC-666]:
+The `pkg-config` file now returns the full path for the lib dir, instead of the relative path (https://github.com/couchbase/couchbase-cxx-client/pull/736[#736]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-667[CXXCBC-667]:
+Core implementation of prepend/append now encodes the CAS value (https://github.com/couchbase/couchbase-cxx-client/pull/738[#738]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-671[CXXCBC-671]:
+Updated snappy to support `CMake` `4.0` (https://github.com/couchbase/couchbase-cxx-client/pull/745[#745]).
+
+
+
 === Version 4.3.5 (28 January 2025)
 
 Version 4.3.5 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
