@@ -202,7 +202,7 @@ Fixed encryption import order and exceptions.
 ===== New Features
 
 * https://jira.issues.couchbase.com/browse/CXXCBC-699[CXXCBC-699]:
-Allow to randomize list of bootstrap nodes (https://github.com/couchbase/couchbase-cxx-client/pull/778[#778]).
+Added support of randomization of bootstrap nodes (https://github.com/couchbase/couchbase-cxx-client/pull/778[#778]).
 
 ===== Fixes and Enhancements
 
@@ -210,13 +210,14 @@ Allow to randomize list of bootstrap nodes (https://github.com/couchbase/couchba
 Preserve cached node labels after generating report in app telemetry meter (https://github.com/couchbase/couchbase-cxx-client/pull/804[#804]).
 
 * https://jira.issues.couchbase.com/browse/CXXCBC-693[CXXCBC-693]:
-Do not return an error if/when `indexDefs` are empty/null. Instead return w/ an empty list of index definitions (https://github.com/couchbase/couchbase-cxx-client/pull/801[#801]).
+Do not return an error if/when `indexDefs` are empty/null.
+Instead return w/ an empty list of index definitions (https://github.com/couchbase/couchbase-cxx-client/pull/801[#801]).
 
 * https://jira.issues.couchbase.com/browse/CXXCBC-709[CXXCBC-709]:
 Fix `exists()` in transactions `get_multi` result (https://github.com/couchbase/couchbase-cxx-client/pull/787[#787]).
 
 * https://jira.issues.couchbase.com/browse/CXXCBC-715[CXXCBC-715]:
-Fix intermittent crash during hard failover in HTTP connection manager (https://github.com/couchbase/couchbase-cxx-client/pull/817[[#817]).
+Fixed intermittent crash during hard failover in HTTP connection manager (https://github.com/couchbase/couchbase-cxx-client/pull/817[[#817]).
 
 
 === Version 4.4.0 (02 June 2025)
