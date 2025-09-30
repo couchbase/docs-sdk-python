@@ -46,10 +46,9 @@ any changes to expected behavior are noted in the release notes that follow.
 
 
 
-=== Version 4.5.0 (?? August 2025)
+=== Version 4.5.0 (29 September 2025)
 
 Version 4.5.0 is a minor release of the fourth generation Python SDK, bringing a number of improvements.
-// Most notably the 4.5.0 release adds support for 
 
 [source,bash]
 ----
@@ -58,16 +57,168 @@ $ python3 -m pip install couchbase==4.5.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.5.0/
 
+==== Behavioral Changes
+
+The Couchbase Python SDK will stop providing Python 3.9 wheels in a future release as Python 3.9 will reach https://peps.python.org/pep-0596/#lifespan[end-of-life] in October 2025.
+See xref:project-docs:compatibility.adoc#python-version-compat[Python Version Compatibility] for details on supported Python versions.
+
+The "auto" network selection heuristic in the underyling {cpp} core has been changed to fall back to the "external" network if the "external" network is present.
+Previously, if there was no exact match between an address in the connection string and an address in the cluster topology reported by the server, the SDK would select the "default" network.
+Now, if there is no match and an "external" network is present, the SDK selects the "external" network.
 
 ==== Enhancements
 
+* https://jira.issues.couchbase.com/browse/PYCBC-1641[PYCBC-1641]:
+Updated development dependencies.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1666[PYCBC-1666]:
+Added support "access_deleted" for replica reads.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1667[PYCBC-1667]:
+Updated supported bucket & storage types.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1668[PYCBC-1668]:
+Improved error messages for account lock/unlock feature.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1689[PYCBC-1689]:
+Updated operational SDK prevent connection to Analytics 2.0 Cluster
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1690[PYCBC-1690]:
+Added `__repr__()` and `__str__()` methods for search queries.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1691[PYCBC-1691]:
+Updated `ConjunctionQuery` and `DisjunctionQuery` to allow list of queries as input.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1693[PYCBC-1693]:
+Added `CollectionQueryIndexManager` to API reference.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1699[PYCBC-1699]:
+Updated SDK build setup to include {cpp} core changes.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1703[PYCBC-1703]:
+Added Graviton 3 and 4 executors to test pipeline matrices.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1698[PYCBC-1698],
+https://jira.issues.couchbase.com/browse/PYCBC-1704[PYCBC-1704]:
+Improved Jenkins Integration Tests.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1711[PYCBC-1711]:
+Updated bucket creation to not set `bucketType`, `replicaIndex`, `flushEnabled` unless set by the user.
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1694[PYCBC-1694]:
+Fixed boolean search queries to allow `should.min=0`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1705[PYCBC-1705]:
+Fixed encryption import order and exceptions.
 
 
+==== Underlying {cpp} SDK Core Changes
 
+===== New Features
 
+* https://jira.issues.couchbase.com/browse/CXXCBC-653[CXXCBC-653]:
+Added support "access_deleted" for Replica Reads (https://github.com/couchbase/couchbase-cxx-client/pull/821[#821]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-639[CXXCBC-639]:
+Added support of building both static and shared libraries (https://github.com/couchbase/couchbase-cxx-client/pull/707[#707], https://github.com/couchbase/couchbase-cxx-client/pull/825[#825]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-692[CXXCBC-692]:
+The SDK now prevents connection to Enterprise Analytics cluster (https://github.com/couchbase/couchbase-cxx-client/pull/792[#792], https://github.com/couchbase/couchbase-cxx-client/pull/807[#807], https://github.com/couchbase/couchbase-cxx-client/pull/810[#810]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-693[CXXCBC-693]:
+Do not return an error if/when `indexDefs` are empty/null. Instead return w/ an empty list of index definitions (https://github.com/couchbase/couchbase-cxx-client/pull/800[#800]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-698[CXXCBC-698]:
+Added `flex_index` to `transaction_query_options` (https://github.com/couchbase/couchbase-cxx-client/pull/773[#773]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-699[CXXCBC-699]:
+Added support of randomization of bootstrap nodes (https://github.com/couchbase/couchbase-cxx-client/pull/777[#777]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-707[CXXCBC-707]:
+Updated network selection heuristic. The logic is improved in certain cloud-specific cases (https://github.com/couchbase/couchbase-cxx-client/pull/809[#809]).
+
+===== Fixes and Enhancements
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-651[CXXCBC-651]:
+Added preserving cached node labels after generating report in app telemetry meter (https://github.com/couchbase/couchbase-cxx-client/pull/802[#802]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-695[CXXCBC-695]:
+Always return unwrapped `doc_exists` from transactions insert (https://github.com/couchbase/couchbase-cxx-client/pull/771.[#771.]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-704[CXXCBC-704]:
+Added handling `document_unretrievable` from `get_multi` individual fetch (https://github.com/couchbase/couchbase-cxx-client/pull/782[#782], https://github.com/couchbase/couchbase-cxx-client/pull/785[#785]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-706[CXXCBC-706]:
+Added closing of half-baked cluster object if connection fails (https://github.com/couchbase/couchbase-cxx-client/pull/783[#783]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-709[CXXCBC-709]:
+Fix `exists()` in transactions `get_multi` result (https://github.com/couchbase/couchbase-cxx-client/pull/786[#786]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-715[CXXCBC-715]:
+Fixed Hard Failover Intermittent Crash in HTTP connection manager (https://github.com/couchbase/couchbase-cxx-client/pull/818[#818]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-721[CXXCBC-721]:
+Added caching of `FeatureNotAvailable` transactions operation failure for `get_replica*` operations (https://github.com/couchbase/couchbase-cxx-client/pull/823[#823]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-726[CXXCBC-726]:
+Added KV scan timeout to cluster options (https://github.com/couchbase/couchbase-cxx-client/pull/830[#830]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-733[CXXCBC-733]:
+Fixed build with BoringSSL (https://github.com/couchbase/couchbase-cxx-client/pull/839[#839]).
 
 
 == Python SDK 4.4 Releases
+
+=== Version 4.4.1 (29 September 2025)
+
+Version 4.4.1 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.4.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.4.1/
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1699[PYCBC-1699]:
+Updated SDK build setup to include {cpp} core changes.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1703[PYCBC-1703]:
+Added Graviton 3 and 4 executors to test pipeline matrices.
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1705[PYCBC-1705]:
+Fixed encryption import order and exceptions.
+
+
+==== Underlying {cpp} SDK Core Changes
+
+===== New Features
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-699[CXXCBC-699]:
+Added support of randomization of bootstrap nodes (https://github.com/couchbase/couchbase-cxx-client/pull/778[#778]).
+
+===== Fixes and Enhancements
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-651[CXXCBC-651]:
+Preserve cached node labels after generating report in app telemetry meter (https://github.com/couchbase/couchbase-cxx-client/pull/804[#804]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-693[CXXCBC-693]:
+Do not return an error if/when `indexDefs` are empty/null.
+Instead return w/ an empty list of index definitions (https://github.com/couchbase/couchbase-cxx-client/pull/801[#801]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-709[CXXCBC-709]:
+Fix `exists()` in transactions `get_multi` result (https://github.com/couchbase/couchbase-cxx-client/pull/787[#787]).
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-715[CXXCBC-715]:
+Fixed intermittent crash during hard failover in HTTP connection manager (https://github.com/couchbase/couchbase-cxx-client/pull/817[[#817]).
+
 
 === Version 4.4.0 (02 June 2025)
 
