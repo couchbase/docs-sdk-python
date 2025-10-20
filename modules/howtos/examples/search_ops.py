@@ -120,6 +120,27 @@ request = search.SearchRequest.create(vector_search)
 result = scope.search('vector-index', request)
 # end::vector_search_single[]
 
+# tag::vector_search_prefilter[]
+prefilter = search.MatchQuery('primary', field='color_wheel_pos')
+vector_query = VectorQuery.create('vector_field',
+                                  query_vector,
+                                  prefilter=prefilter)
+vector_search = VectorSearch.from_vector_query(vector_query)
+request = search.SearchRequest.create(vector_search)
+result = scope.search('vector-index', request)
+# end::vector_search_prefilter[]
+
+# tag::vector_search_prefilter_query_str[]
+prefilter = search.QueryStringQuery('+description:sea -color_hex:fff5ee')
+vector_query = VectorQuery.create('vector_field',
+                                  query_vector,
+                                  num_candidates=3,
+                                  prefilter=prefilter)
+vector_search = VectorSearch.from_vector_query(vector_query)
+request = search.SearchRequest.create(vector_search)
+result = scope.search('vector-index', request)
+# end::vector_search_prefilter[]
+
 # tag::vector_search_multi[]
 request = search.SearchRequest.create(VectorSearch([
     VectorQuery.create('vector_field',
