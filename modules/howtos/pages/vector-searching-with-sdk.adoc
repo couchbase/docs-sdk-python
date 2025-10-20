@@ -60,7 +60,7 @@ wrapped inside the {name-sdk} Query API.
   ") AS vector " +
   "FROM `vector-sample`.`color`.`rgb-questions` AS d " +
   "WHERE d.id = '#87CEEB';",
-  queryOptions().metrics(true))
+  QueryOptions(metrics=True)
 
     for row in result.rows():
         print(f"Found match: {row}")
@@ -80,8 +80,7 @@ This can be more efficient, unless you are doing a lot of optimization to your q
          ") AS vector " +
       "FROM `vector-sample`.`color`.`rgb-questions` AS d " +
   	"WHERE d.id = $id;",
-  queryOptions()
-  	.parameters = {"id": "#87CEEB"}
+  QueryOptions(named_parameters={'id': '#87CEEB'})
 
     for row in result.rows():
         print(f"Found match: {row}")
@@ -136,22 +135,37 @@ Then it executes the vector query on the intermediate result to get the final re
 
 [source,python]
 ----
-VectorQuery(field_name, vector, num_candidates=None, boost=None, prefilter=SearchQuery)
+include::howtos:example$search_ops.py[tag=vector_search_prefilter]
+----
+
+Here's the signature of the method:
+
+[source,python]
+----
+    def __init__(self,
+                        field_name: str,
+                        vector: Union[List[float], str],
+                        num_candidates: Optional[int] = None,
+                        boost: Optional[float] = None,
+                        prefilter: Optional[SearchQuery] = None
+                        ) -> None:
 ----
 
 If no prefilter is specified, the server executes the vector query on all indexed documents.
 
+.Simple Match
 [source,python]
 ----
-VectorQuery("color_wheel_pos", vector, num_candidates=numCandidates, prefilter={MatchQuery: "primary"})
+VectorQuery.create(field_name, vector, num_candidates=num_candidates, prefilter=MatchQuery('primary', field='color_wheel_pos'))
 ----
 
 The prefilter can be any Search Query --
 from a simple match, as above, to a string query:
 
+.String Query
 [source,python]
 ----
-VectorQuery("+description:sea -color_hex:fff5ee", vector, num_candidates=numCandidates, prefilter={MatchQuery: "primary"})
+include::howtos:example$search_ops.py[tag=vector_search_prefilter_query_str]
 ----
 
 See the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_search.html#couchbase.vector_search.VectorQuery.prefilter[API reference].
