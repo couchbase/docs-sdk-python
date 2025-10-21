@@ -9,6 +9,14 @@ include::project-docs:partial$attributes.adoc[]
 [abstract]
 {description}
 
+////
+[TIP] 
+====
+In addition to Tracing and other metrics, and client logging, SDK is telemetry is also sent to the Server -- available from 8.0, and in new Capella Operational clusters -- for ingestion with other Prometheus metrics.
+Capella Operatioal exposes these metrics through the UI.
+====
+////
+
 // include::{version-common}@sdk:shared:partial$rto.adoc[tag=rto]
 WARNING: Response Time Observability is not supported in Python SDK 4.0.
 View xref:3.2@response-time-observability[the Python SDK 3.2 docs]

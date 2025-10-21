@@ -11,7 +11,7 @@ include::project-docs:partial$attributes.adoc[]
 {description}
 Here we cover CRUD operations, document expiration, and optimistic locking with CAS.
 
-The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.2/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
 
 == Documents
 
