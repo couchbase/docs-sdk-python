@@ -163,6 +163,8 @@ TIP: If you create a `Cluster` without specifying a custom environment, the clie
 This default `ClusterEnvironment` is managed completely by the Python SDK, and is automatically shut down when the associated `Cluster` is disconnected.
 ////
 
+
+
 [#alternate-addresses]
 == Alternate Addresses and Custom Ports
 
@@ -170,15 +172,16 @@ If your Couchbase Server cluster is running in a containerized, port mapped, or 
 Both the client and server require special configuration in this case.
 
 On the server side, each server node must be configured to advertise its external address as well as any custom port mapping.
-This is done with the `setting-alternate-address` CLI command introduced in Couchbase Server 6.5.
+This is done with the `setting-alternate-address` CLI command --
+see the xref:cli:cbcli/couchbase-cli-setting-alternate-address.adoc[command line docs].
 A node configured in this way will advertise two addresses: one for connecting from the same network, and another for connecting from an external network.
-// todo link to https://docs.couchbase.com/server/6.5/cli/cbcli/couchbase-cli-setting-alternate-address.html
-////
+
 
 On the client side, the externally visible ports must be used when connecting.
 If the external ports are not the default, you can specify custom ports using the overloaded `Cluster.connect()` method that takes a set of `SeedNode` objects instead of a connection string.
 
 // todo use the include (and uncomment in ManageingConnections.python) after next client snapshot is published
+// https://github.com/couchbase/docs-sdk-python/blob/temp/4.5/modules/howtos/examples/managing_connections.py#L86
 // include::example$managing_connections.py[tag=seednodes,indent=0]
 [source,python]
 ----
@@ -191,12 +194,23 @@ Set<SeedNode> seedNodes = new HashSet<>(Arrays.asList(
 
 Cluster cluster = Cluster.connect(seedNodes, "username", "password");
 ----
+
+////
+For nodes that do not have the KV service, you can connect using a custom manager port instead.
+Notice how `=manager` appears after the port number, identifying it as a manager port:
+
+[source,java]
+----
+include::devguide:example$java/managing_connections.java[tag=managing_connections_6,indent=0]
+----
+////
+
+
 TIP: In a deployment that uses multi-dimensional scaling, a custom KV port is only applicable for nodes running the KV service.
 A custom manager port may be specified regardless of which services are running on the node.
 
 In many cases the client is able to automatically select the correct set of addresses to use when connecting to a cluster that advertises multiple addresses.
 If the detection heuristic fails in your environment, you can override it by setting the `io.networkResolution` client setting to `default` if the client and server are on the same network, or `external` if they're on different networks.
-////
 
 NOTE: Any TLS certificates must be set up at the point where the connections are being made.
 // todo what does that mean in practice? Also, should this be in the TLS docs section instead?
