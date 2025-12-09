@@ -178,7 +178,8 @@ A node configured in this way will advertise two addresses: one for connecting f
 
 
 On the client side, the externally visible ports must be used when connecting.
-If the external ports are not the default, you can specify custom ports using the overloaded `Cluster.connect()` method that takes a set of `SeedNode` objects instead of a connection string.
+If the external ports are not the default, you can specify custom ports through the connection string.
+// using the overloaded `Cluster.connect()` method that takes a set of `SeedNode` objects instead of a connection string.
 
 // todo use the include (and uncomment in ManageingConnections.python) after next client snapshot is published
 // https://github.com/couchbase/docs-sdk-python/blob/temp/4.5/modules/howtos/examples/managing_connections.py#L86
