@@ -1,4 +1,5 @@
 = Query
+:page-toclevels: 2
 :description: Parallel data management for complex queries over many records, using a familiar SQL-like syntax.
 :page-topic-type: concept
 :page-aliases: ROOT:n1ql-query,
@@ -27,9 +28,6 @@ result = cluster.query(
     'London', QueryOptions(adhoc=false))
 ----
 
-// NB: xref:6.5@server as document does not exist in 7.0 branch.
-CAUTION: *When running an application using Prepared Statements through the Python SDK* -- if you plan to upgrade Couchbase Server from 6.0.x or earlier to 6.5.0 or later, and are running a version of the Python SDK with an underlying LCB prior to 2.10.6, you will need to xref:6.5@server:install:upgrade-strategy-for-features.adoc#prepared-statements[restart the app or otherwise work around] a change in the Server's behaviour.
-
 
 == Indexes
 
@@ -38,8 +36,22 @@ Indexes replicate subsets of documents from data nodes over to index nodes,
 allowing specific data (for example, specific document properties) to be retrieved quickly,
 and to distribute load away from data nodes in xref:{version-server}@server:learn:services-and-indexes/services/services.adoc[MDS] topologies.
 
-[IMPORTANT]
-In order to make a bucket queryable, it must have at least one index defined.
+
+=== Query without Index
+
+From Couchbase Server 7.6 onwards,
+CRUD operations (such as `CREATE`, `INSERT`, and `SELECT`) and `JOIN` can be performed against the Query Service without an index (primary or secondary).
+This uses a xref:server:learn:services-and-indexes/indexes/query-without-index.adoc#sequential-scans[sequential scan], relying on a KV range scan to deliver the keys.
+
+Sequential scans are best suited to small collections where key order is unimportant, or where the overhead of maintaining an index can't be justified.
+For larger collections and greater performance, define the appropriate indexes to speed up your queries.
+For ordered document key operations, a primary index provides the same functionality, and will outperform a sequential scan.
+
+Creating the right index, with the right keys, right order, and right expression is critical to query performance in any database system.
+A Primary Index on the document keys will give you better search performance than trying to query without index,
+but well-chosen secondary indexes will make all the difference to query performance.
+
+=== Defining an Index
 
 You can define a _primary index_ on a bucket.
 When a _primary_ index is defined you can issue non-covered (see below) queries on the bucket as well.
