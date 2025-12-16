@@ -38,6 +38,15 @@ class ManagingConnections(object):
       cluster = Cluster.connect("couchbase://node1.example.com,node2.example.com", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       #end::multinodeconnect[]
 
+    def alt_addresses(self):
+      #tag::alt_addr[]
+      opts = ClusterOptions(PasswordAuthenticator("Administrator", "password"))
+      cluster = Cluster.connect("couchbase://192.168.56.101:1234,192.168.56.102:5678", opts)
+      # Override the network setting to external: 
+      # opts = ClusterOptions(PasswordAuthenticator("Administrator", "password"), network="external")
+      # cluster = Cluster.connect("couchbase://your-ip", opts)
+      #end::alt_addr[]
+
     #
     # def test_customenv(self):
     #   #tag::customenv[]
