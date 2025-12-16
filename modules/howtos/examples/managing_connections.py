@@ -45,7 +45,7 @@ class ManagingConnections(object):
       # Override the network setting to external: 
       # opts = ClusterOptions(PasswordAuthenticator("Administrator", "password"), network="external")
       # cluster = Cluster.connect("couchbase://your-ip", opts)
-      #tag::alt_addr[]
+      #end::alt_addr[]
 
     #
     # def test_customenv(self):
