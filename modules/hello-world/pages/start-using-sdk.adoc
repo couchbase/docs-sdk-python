@@ -281,6 +281,13 @@ Following successful authentication, add this code snippet to access your `Bucke
 include::example$cloud.py[tag=bucket,indent=0]
 ----
 
+
+
+// No waituntilready() in wrappers
+include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=bootstrap-completion]
+
+
+
 === Add and Retrieve Documents
 
 The Python SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
