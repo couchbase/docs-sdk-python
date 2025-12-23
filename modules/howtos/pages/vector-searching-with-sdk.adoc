@@ -159,6 +159,10 @@ If no prefilter is specified, the server executes the vector query on all indexe
 VectorQuery.create(field_name, vector, num_candidates=num_candidates, prefilter=MatchQuery('primary', field='color_wheel_pos'))
 ----
 
+Note that `num_candidates` sets how many similar vectors are returned. 
+If it is not set, then the Cluster's default of `3` will be used --
+this corresponds with `k` on the Server side, for K-Nearest Neighbors.
+
 The prefilter can be any Search Query --
 from a simple match, as above, to a string query:
 
@@ -189,6 +193,17 @@ include::howtos:example$search_ops.py[tag=vector_search_combo]
 ----
 
 How the results are combined (ANDed or ORed) can be controlled with `vector_query_combination` in `VectorSearchOptions`.
+
+.Scoring for these hybrid search queries combines the boost multipliers to get to the final score.
+----
+hit_score = (query_1_boost * query_1_hit_score) + (query_2_boost * query_2_hit_score)
+----
+
+
+=== Query Methods
+
+As part of the Search service, you can use the same xref:full-text-searching-with-sdk.adoc#search-queries[Search query methods] as regular Searches.
+See a fuller list, with Vector properties, in the xref:cloud:search:search-request-params.adoc[Capella docs].
 
 
 
