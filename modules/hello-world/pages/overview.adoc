@@ -1,9 +1,9 @@
-= Couchbase Python SDK 4.5
+= Couchbase Python SDK {sdk_dot_minor}
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
 :!sectids:
 
-= Couchbase Python SDK 4.5
+= Couchbase Python SDK {sdk_dot_minor}
 
 [source,python]
 ----
