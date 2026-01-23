@@ -1,123 +1,135 @@
 = Couchbase Python SDK Documentation
-// Settings:
-ifdef::env-github[]
-:warning-caption: :warning:
-endif::[]
-// URLs:
-:url-org: https://github.com/couchbase
-:url-contribute: https://docs.couchbase.com/home/contribute/index.html
-:url-ui: {url-org}/docs-ui
-:url-playbook: {url-org}/docs-site
 
-This repository hosts the documentation source for the Couchbase Python SDK.
+This repository hosts the documentation source for the https://docs.couchbase.com/python-sdk/4.6/hello-world/overview.html[Couchbase Python SDK].
+
+This branch documents the 4.6 release of the SDK.
+It follows the https://docs.couchbase.com/python-sdk/4.6/project-docs/compatibility.html#api-version[SDK 3.9 API].
+
+This branch reflects the new Information Architecture for the SDK docs.
+
 
 == Contributing
 
-Check out the {url-contribute}[contributing guide] to learn how to:
+Contributions are welcome!
+Please test them locally, and then submit a pull request.
+A guide to using asciidoc, building Antora locally, and working with our repos can be found at https://docs.couchbase.com/home/contribute/index.html[https://docs.couchbase.com/home/contribute/index.html] (this may still be in the middle of being updated).
 
-* submit a bug or feedback issue
-* set up your documentation workspace
-* build the documentation
-* submit a pull request
+At a minimum, to build the docs locally, you will need this repo,
+https://github.com/couchbase/docs-sdk-common[docs-sdk-common],
+and the https://github.com/couchbase/docs-server[Server Docs repo]
+in your Antora playbook.
 
-Thank you for helping to make the documentation better.
+If you are not sure the best way to update the docs, please raise a JIRA ticket with your suggestion, putting in as much information as possible.
 
-== Docs Component Configuration
 
-This repository contains an Antora docs component.
-Keep in mind these key repository features:
+== Notes for Docs Maintainers
 
-* Each branch's _antora.yml_ file configures the component name, version, and start page.
-* The ROOT module's _nav.adoc_ file stores the navigation for all of the modules.
-* Production branches use the *release/X.Y* naming pattern (for example, release/5.5, release/6.0).
- ** The {url-playbook}[docs site playbook] instructs Antora to automatically aggregate any branch names that start with *release/*.
+The philosophy behind the Information Architecture can be found in the https://docs.couchbase.com/python-sdk/4.6/project-docs/metadoc-about-these-sdk-docs.html[meta doc].
 
-== Documentation Site Toolchain
+=== Directory Structure
 
-The documentation source files written with AsciiDoc markup.
-Once merged into a version branch Antora aggregates the source files and their assets, converts to HTML, and publishes them to the staging and production sites.
-The {url-playbook}[docs site playbook] orchestrates the docs components and {url-ui}[site UI].
-See the contributing guide to learn more.
+Antora modules used are as follows:
 
-== Automated Testing
+* concept-docs -- discussion docs explaining SDK-relevant aspects of Couchbase; in the published docs these are now interleaved with the howtos, rather than in a separate section.
+This module also contains the mini landing pages which introduce each section.
+* devguide/examples -- the home of all code examples.
+* hello-world -- overview (landing page) and the introductory tutorials.
+* howtos -- practical explanations, with plenty of code snippets.
+These are the docs used by the majority of developers.
+* project-docs -- deployment section.
+Docs that you need to use the software (compatibility tables, release notes, etc.), but which are not about the software API.
+* ref -- reference material, such as error codes and client settings.
+* ROOT -- contains `nav.adoc`, the navigation file for this component.
 
-This repository performs a check on the sample code upon opening a Pull Request. 
-These tests need to succeed to perform the merge.
+Within each module, docs content is mostly found in the `pages` directories, as `.adoc` files.
+Occasionally, a partial fragment in a `partials` directory contains content reused over more than one page.
+Most re-use is from single-sourced content in the https://github.com/couchbase/docs-sdk-common[sdk-common] repo.
 
-=== Test Framework Structure
+=== Single-sourced Content
 
-image::TestInfra.png[]
+To make maintenance easier for docs of around a dozen SDKs, content that is common across SDK docsets is -- wherever possible -- single-sourced from the https://github.com/couchbase/docs-sdk-common[sdk-common] repo.
 
-The following steps conduct the check:
+We recognise that this adds a slight cognitive burden for the new maintainer, but one layer of abstraction seems a reasonable compromise for maintainability.
+To make content re-use workable, certain replaceable attributes are used.
+These are found in the antora.yml file.
 
-1. The user opens a PR, triggering the GitHub Action
-2. The action creates a GitHub runner VM, and copies the repository over
-3. The runner starts the Docker test framework with `docker compose --profile prod up --abort-on-container-exit`. The flag is to verify the database container is also killed when the tests finish.
-4. The database and SDK containers start. The following two steps occur concurrently.
-** Database Container: Uses the `server/sandbox` image from Docker Hub. This image configures and starts Couchbase, setting up a one node cluster with the travel-sample bucket installed.
-** SDK Container: Builds the SDK image from a debian python base image, copying the repository over, and installing dependencies. It then uses `wait-for-couchbase` to ping the Couchbase container, until it confirms the database is fully configured and running.
-5. Once the SDK confirms the database is ready for tests, it runs the bats test file. Bats retries each test up to three times upon failure.
-6. When the tests have completed, both the SDK and Couchbase containers should die. If they persist, such as in a case where the test framework crashes, the GitHub Action instead destroys them.
+.Attributes for Single-sourced Content
+|===
+| Attribute | Use
 
-=== Testing Code Samples Locally
+| `server_version:`
+| SDK dotminor releases contain new APIs to match new Server releases.
+This is the release version of Couchbase Server that this SDK release accompanied.
+Not often needed within the SDK documentation -- the server version in `xref` links is set with  `version-server:` (see below).
 
-You may want to run tests locally if you are adding/updating a code sample.
-The only prerequisites are a local copy of this repository, and https://www.docker.com/[Docker].
-You can start the local test environment by running the following command:
+| `sdk_current_version:` | Sets the current patch version.
 
-[source, console]
+| `sdk_dot_minor:` | The current dotminor.
+
+| `sdk_dot_major:` | The current major release -- not often needed within the documentation.
+
+| `version-server:` | This is substituted into `xref` links to the Server, to ensure they land on the correct release version.
+
+| `version-common:`
+| The version (branch) of the single-sourced `sdk-common` repo.
+This is substituted into Antora `include::` directives, to pull in content from the correct branch.
+
+| `name_platform:` | Allows us to name the SDK within shared content (*Python*).
+
+| `name-sdk:` | Allows us to name the SDK within shared content (*Python SDK*).
+
+| `sdk_api:` | The API version of this release.
+
+| `sdk-api-link:` | Link to the latest API Reference for the SDK.
+
+| `sdk-gh-link:` | Link to the source code of the SDK.
+
+|===
+
+
+An additional attribute, `page-nav-header-levels: 1`, ensures that the left-hand navigation of the site opens with each topic unfurled by one level.
+
+=== Page Headers
+
+Each `.adoc` page contains information in the headers:
+
+[source,asciidoc]
 ----
-docker compose --profile local up
-----
-
-This creates two Docker containers with the same structure as described in <<Test Framework Structure>>, with the following changes:
-
-* The bats tests aren't automatically performed once Couchbase has finished configuring
-* The repository files in the container mount onto the SDK repository in your local machine. 
-This means any changes you make to the files on your local machine are instantly reflected in the container.
-
-To run tests, you either need to use the 
-https://docs.docker.com/desktop/use-desktop/container/#integrated-terminal[Integrated Terminal] 
-feature on Docker Desktop, or SSH into the container from the command line. 
-You can use the following command to use the SDK container shell:
-
-[source, console]
-----
-docker exec -it python-sdk-local /bin/bash
-----
-
-Once within the container, run the following command to run a single test:
-
-[source, console]
-----
-bats -f "<test_name>" test.bats
-----
-
-The `-f` flag only runs tests that match the given regular expression.
-As test names are in a standard format, you can also run the following to test all the files in a given module:
-
-[source, console]
-----
-bats -f "<module name>" test.bats
-----
-
-=== Creating a New Test
-
-To add a new test, append the following to the `test.bats` file.
-
-[source, bats]
-----
-@test "[<module>] - <code_file>" {
-  runExample $<module_dir_var> <code_file>
-  assert_success
-}
+= Compatibility
+:description: Platform compatibility, and features available in different SDK versions, and compatibility between Server and SDK. \
+Plus notes on Cloud, networks, and AWS Lambda.
+:page-aliases: ROOT:overview,ROOT:compatibility-versions-features,compatibility-versions-features
+:page-toclevels: 3
+:table-caption!:
 ----
 
-You can find the module directory variables in `test_helper.bash`.
-The test name is `"[<module>] - <code_file>"`. 
-The name can be anything, but this standard format allows you to carry out single tests, as described in the preceding section.
-For more information about creating tests, see the https://bats-core.readthedocs.io/en/stable/writing-tests.html[bats documentation].
+The `:page-aliases:` directive enables Antora to build 502 redirects -- meaning that inbound links from, for example, old blog posts will still work with the current docset.
+
+`:page-toclevels:` should be set to `2` to include h3 headers along with h2s in the in-page navigation (right-hand nav).
+Leaving out this directive means that the page will default to `1`, showing only h2 headers in the in-page nav.
+A value of `3` should not be used, save in exceptionally complicated pages like that shown (the https://docs.couchbase.com/scala-sdk/1.6/project-docs/compatibility.html[compatibility page]).
+
+=== Patch Releases
+
+Update the following files:
+
+* antora.yml
+* build.gradle
+* modules/devguide/examples/scala/pom.xml
+* modules/project-docs/pages/sdk-release-notes.adoc
+
+=== New Branches
+
+Production branches use the *release/x.y* naming pattern (e.g. `release/3.10`, `release/3.9`).
+Antora uses the branch names in the playbook, but also uses the `version` given in the antor.yml file, to create the version navigation -- so this version number must be unique within the repo for any branches included in the playbook.
+When creating a new branch for a new release, remember to update the antora.yml file before trying to build.
+
+=== Code Sample Testing
+
+This is in the process of being changed -- documentation will appear here once this is completed.
+
 
 == Docs License
 
-©2025 Couchbase, Inc. This work is licensed under CC BY-NC-SA 4.0.
+©2026 Couchbase, Inc.
+This work is licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/[CC BY-NC-SA 4.0].
