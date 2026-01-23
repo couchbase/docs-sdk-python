@@ -1,4 +1,0 @@
-include::project-docs:partial$attributes.adoc[]
-
-include::{version-common}@sdk:pages:partial$rbac.adoc[]
-
