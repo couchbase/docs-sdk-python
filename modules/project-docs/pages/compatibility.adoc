@@ -30,10 +30,6 @@ Please make sure you run on one of the latest patch releases, since they provide
 |===
 | Python Version | Support EOL | Couchbase SDK Versions Supported
 
-| https://www.python.org/dev/peps/pep-0596/#lifespan[3.9]
-| until 2025-10
-| from 3.0.0
-
 | https://peps.python.org/pep-0619/#lifespan[3.10]
 | until 2026-10
 | from 4.0.0
@@ -50,62 +46,70 @@ Please make sure you run on one of the latest patch releases, since they provide
 | until 2029-10
 | from 4.3.4
 
+| https://peps.python.org/pep-0745/#lifespan[3.14]
+| until 2030-10
+| from 4.6.0
 |===
+
+
+
+////
+| https://peps.python.org/pep-0745/#lifespan[3.15]
+| until 2031-10
+| from 4.
+////
+
 
 
 === OS Compatibility
 
-The Python SDK is built on top of the {cpp} SDK, which is tested and supported on the following platforms:
+The {name-sdk} will run on, and is supported on, the following OSs and platforms.
+The SDK has been tested on a representative subset of the platforms listed below.
 
 ****
 [discrete]
 === GNU/Linux
 
-* Amazon Linux 2 & AL2023.
-* Red Hat Enterprise Linux 8 & 9;
-* Oracle Linux 8 & 9.
+* Amazon Linux 2 & AL2023.* Red Hat Enterprise Linux 8, 9, & 10.
+* Oracle Linux 8, 9, & 10.
+
 * Ubuntu (LTS) 22.04 (_Jammy_) & 24.04 (_Noble_).
-* Debian 11 (_Bullseye_) & Debian 12 (_Bookworm_).
+* Debian 11 (_Bullseye_), Debian 12 (_Bookworm_), & Debian 13 (_Trixie_).
 * SUSE Enterprise Linux 12 & 15.
-* Alpine Linux 3.18.
+* Alpine Linux 3.21 - 3.23.
+
 
 [discrete]
 === Microsoft Windows
 
 * Microsoft Windows 10 & 11;
-* Windows Server 2019 & 2022.
+* Windows Server 2019, 2022, & 2025.
 
 [discrete]
 === Mac OS X
 
-The current and previous two releases of OS X.
-At time of writing (April 2025): 15 (Sequoia), 14 (Sonoma), and 13 (Ventura).
-M1 ARM  architecture is fully supported in the {name-sdk}.
-
-[discrete]
-=== ARM Processor Support
-
-AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu.
+* The current and previous two releases of OS X.
+At time of writing (January 2026): 26 (Tahoe), 15 (Sequoia), and 14 (Sonoma).
 ****
+
+
+
+
+// Platforms, Chipsets, and Virtual Environments.
+include::{version-common}@sdk:shared:partial$platform.adoc[tag=virtual]
+
+
+
+
+
 
 
 // Network Requirements
 include::{version-common}@sdk:shared:partial$network-requirements.adoc[]
 
-////
-[NOTE]
-.Binary Size
-====
-You may find the binary of the SDK from version 4.0.2 to 4.1.5 too large to run in some environments.
-If you cannot upgrade to 4.1.6 onwards for your app, 
-the size can be drastically reduced, prior to zipping up the application, by running `strip` against it to remove the debug symbols:
-[source,console]
-----
-strip --strip-debug
-----
-See the `strip` manpage for further details.
-====
-////
+
+
+
 
 === SSL Library
 
@@ -119,21 +123,21 @@ Couchbase SDKs are tested against a variety of different environments to ensure 
 
 === Couchbase Version/SDK Version Matrix
 
-The matrix below denotes the version of Couchbase Server, the version of the Python SDK and whether the SDK is:
+The matrix below denotes the version of Couchbase Server, the version of the {name-sdk} and whether the SDK is:
 
 * ✖ *Unsupported*: This combination is not tested, and is not within the scope of technical support if you have purchased a support agreement.
 * ◎ *Compatible*: This combination has been tested previously, and should be compatible.
-This combination is not recommended by our technical support organization.
+Nevertheless, this combination is not recommended by our technical support organization, as not all of the latest features are supported by it.
 It is best to upgrade either the SDK or the Couchbase version you are using.
 * ✔ *Supported*: This combination is subject to ongoing quality assurance, and is fully supported by our technical support organization.
 
 .Recommended SDK per Server Version Matrix
 [#table_sdk_versions]
 |===
-| | 4.2 - 4.3 | 4.4 | 4.5
+| | 4.2 - 4.3 | 4.4 | 4.5-4.6
 
-| *Server 7.0 - 7.2*
-| *✔*
+| *Server 8.0*
+| *◎*
 | *✔*
 | *✔*
 
@@ -142,8 +146,8 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 | *✔*
 | *✔*
 
-| *Server 8.0*
-| *◎*
+| *Server 7.2*
+| *✔*
 | *✔*
 | *✔*
 |===
@@ -163,38 +167,32 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 
 .Couchbase Server and SDK Supported Version Matrix
 [.table-merge-cells]
-[cols="7,5,6,5"]
+[cols="7,6,6,6"]
 |===
-| | Server 7.0, 7.1 | Server 7.2 | Server 7.6
+| | Server 7.2 | Server 7.6.x  | Server 8.0
 
-| Enhanced Durability
-3+| All SDK versions
-
-| Durable Writes
-3+| Since 3.0
-
-| Analytics
-3+| Since 2.6
-
-| Collections
-3+| Since 3.0.10
-
-| Scope-Level {sqlpp} (formerly N1QL) Queries & all Collections features
-3+| Since SDK 3.2.0
-
-| Request Tracing
-3+| Since SDK 3.2.0
-
-| Distributed ACID Transactions
-3+| Since SDK 4.0
-
-| Cloud Native Gateway
-3+| Not Yet Supported
+| KV Range Scan
+| N/A
+2+| From SDK 4.2.0
 
 | Vector Search
+| N/A
+2+| From SDK 4.2.0 (base64 encoded vectors from 4.3.0)
+
+| Zone aware replica reads
+| N/A
+2+| From SDK 4.3.0
+
+| Vector Query using GSI
 2+| N/A
-| From SDK 4.2.0
+| From SDK 4.5.0 ①
 |===
+
+① As part of the standard SDK {sqlpp} API, it should be compatible with all earlier versions of the SDK -- but it has not been tested.
+
+This table is not an exhaustive list -- just a few highlights -- provided to help assess compatibility of older versions in particular.
+For alignment of SDKs and new Server features, scroll down to the information below the <<api-version,API Version table>>.
+
 
 
 
