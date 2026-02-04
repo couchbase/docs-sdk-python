@@ -1,5 +1,5 @@
 = Orphaned Requests Logging
-:page-topic-type: howto
+
 
 == Orphaned Response Reporting
 

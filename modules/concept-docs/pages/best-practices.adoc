@@ -16,6 +16,9 @@
 [abstract]
 {description}
 
+**TODO: Scala --> Python**
+
+
 
 // see .NET doc on this
 
@@ -126,7 +129,6 @@ which covers specific errors, along with a broader look at error handling strate
 == Testing
 
 Integrate developing with the {name-sdk} into your accustomed test framework.
-
 
 
 

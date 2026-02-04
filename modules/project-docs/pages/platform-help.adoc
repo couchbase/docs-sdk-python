@@ -1,0 +1,37 @@
+= Platform Introduction
+:description: pass:q[A simple Scala orientation intro for _non-Scala_ folk who are evaluating the Couchbase Scala SDK.]
+:page-toclevels: 2
+
+// https://couchbasecloud.atlassian.net/wiki/spaces/SWD/pages/2137194599/Scala
+
+
+[abstract]
+{description}
+
+
+[IMPORTANT]
+.Is This Page for You?
+====
+This page is to help evaluate the Couchbase Python SDK, if Python is not where you spend the majority of your working day. 
+It is aimed at Software Architects, QE folk, managers, and anyone else who needs to run through using the Python SDK without necessarily being comfortable with the Python environment.
+If this is not you, head back to the xref:overview.adoc[rest of the Couchbase Python SDK documentation].
+====
+
+
+== Python Installation
+
+We strongly recommend using a Python version manager during development.
+
+
+
+
+
+== Further Reading
+
+
+
+
+
+
+
+

@@ -1,0 +1,273 @@
+= Query
+:description: You can query for documents in Couchbase using the {sqlpp_url}[{sqlpp}] (formerly N1QL) query language, a language based on SQL, but designed for structured and flexible JSON documents.
+:page-aliases: n1ql-query.adoc,ROOT:querying-n1ql.adoc,n1ql-queries-with-sdk.adoc 
+:page-toclevels: 2
+
+[abstract]
+{description}
+Querying can solve typical programming tasks such as finding a user profile by email address, facebook login, or user ID.
+
+
+**TODO: Scala --> Python**
+
+
+
+== Getting Started
+
+After familiarizing yourself with the basics on how the {sqlpp} query language works and how to query it from the UI you can use it from the Java SDK.
+
+Before starting, here are all of the imports used in the following examples:
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=imports,indent=0]
+----
+
+Here's a complete example of doing a query and handling the results:
+
+[{tabs}]
+====
+Couchbase Capella Sample::
++
+--
+These examples requires the Travel Sample Bucket.
+The Couchbase Capella free tier version comes with this bucket, and its Query indexes, loaded and ready.
+
+[source,java]
+----
+include::devguide:example$java/SimpleQueryCloud.java[tag=class,indent=0]
+----
+--
+
+Local Couchbase Server::
++
+--
+To run these examples, you will need to install the Travel Sample Bucket
+using either the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
+or the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+
+[source,java]
+----
+include::devguide:example$java/SimpleQuery.java[tag=class,indent=0]
+----
+--
+====
+
+Note that building indexes is covered in some detail on the xref:concept-docs:n1ql-query.adoc#index-building[Query concept page], which you should take a quick look at --
+and in the https://docs.couchbase.com/sdk-api/couchbase-java-client/com/couchbase/client/java/manager/query/package-summary.html[API Reference].
+
+Let's break down the above code snippet. 
+A query is always performed at the `Cluster` level, using the `query` method. It takes the statement as a required argument and then allows to provide additional options if needed (in the example above, no options are specified).
+
+Once a result returns you can iterate the returned rows and/or accessing the `QueryMetaData` associated with the query. If something goes wrong during the execution of the query, a derivate of the `CouchbaseException` will be thrown that also provides additional context on the operation:
+
+[source,console]
+----
+Exception in thread "main" com.couchbase.client.core.error.ParsingFailureException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,"message":"syntax error - at end of input"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:56279","lastDispatchedTo":"127.0.0.1:8093","requestId":3,"requestType":"QueryRequest","service":{"operationId":"eee9b796-bfff-42dc-941d-1a985e019ff8","statement":"select 1=","type":"query"},"timeoutMs":75000,"timings":{"dispatchMicros":14381,"totalMicros":1365348}}
+----
+
+[NOTE]
+.Open Buckets and Cluster-Level Queries
+====
+If you are using a cluster older than Couchbase Server 6.5, it is required that there is at least one bucket open before performing a cluster-level query. If you fail to do so, the SDK will return a `FeatureNotAvailableException` with a descriptive error message asking you to open one.
+====
+
+
+== Parameterized Queries
+
+Supplying parameters as individual arguments to the query allows the query engine to optimize the parsing and planning of the query.
+You can either supply these parameters by name or by position.
+
+The first example shows how to provide them by name:
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=named,indent=0]
+----
+
+The second example by position:
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=positional,indent=0]
+----
+
+What style you choose is up to you, for readability in more complex queries we generally recommend using the named parameters.
+
+Note that you cannot use parameters in all positions. If you put it in an unsupported place the server will respond with a `PlanningFailureException` or similar.
+
+== The Query Result
+
+When performing a query, the response you receive is a `QueryResult`.
+If no exception gets raised the request succeeded and provides access to both the rows returned and also associated `QueryMetaData`.
+
+Rows can be consumed either through a `JsonObject` directly, turned into a java collection instance (like a `Map`) or into your POJO of choice mapping directly to your domain logic.
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=rowsasobject,indent=0]
+----
+
+The `QueryMetaData` provides insight into some basic profiling/timing information as well as information like the `clientContextId`.
+
+.QueryMetaData
+[options="header"]
+|====
+| Name       | Description
+| `String requestId()` | Returns the request identifer of this request.
+| `String clientContextId()` | Returns the context ID either generated by the SDK or supplied by the user.
+| `QueryStatus status()` | An enum simply representing the state of the result.
+| `Optional<QueryMetrics> metrics()` | Returns metrics provided by the query for the request if enabled.
+| `Optional<JsonObject> signature()` | If a signature is present, it will be available to consume in a generic fashion.
+| `List<QueryWarning> warnings()` | Non-fatal errors are available to consume as warnings on this method.
+| `Optional<JsonObject> profile()` | If enabled returns additional profiling information of the query.
+|====
+
+For example, here is how you can print the `executionTime` of a query:
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=printmetrics,indent=0]
+----
+
+== Query Options
+The query service provides an array of options to customize your query. The following table lists them all:
+
+.Available Query Options
+[options="header"]
+|====
+| Name       | Description
+| `clientContextId(String)` | Sets a context ID returned by the service for debugging purposes.
+| `parameters(JsonArray)` | Allows to set positional arguments for a parameterized query.
+| `parameters(JsonObject)` | Allows to set named arguments for a parameterized query.
+| `priority(boolean)` | Assigns a different server-side priority to the query.
+| `raw(String, Object)` | Escape hatch to add arguments that are not covered by these options.
+| `readonly(boolean)` | Tells the client and server that this query is readonly.
+| `adhoc(boolean)` | If set to false will prepare the query and later execute the prepared statement.
+| `consistentWith(MutationState)` | Allows to be consistent with previously written mutations ("read your own writes").
+| `maxParallelism(int)` | Tunes the maximum parallelism on the server.
+| `metrics(boolean)` | Enables the server to send metrics back to the client as part of the response.
+| `pipelineBatch(int)` | Sets the batch size for the query pipeline.
+| `pipelineCap(int)` | Sets the cap for the query pipeline.
+| `profile(QueryProfile)` | Allows to enable additional query profiling as part of the response.
+| `scanWait(Duration)` | Allows to specify a maximum scan wait time.
+| `scanCap(int)` | Specifies a maximum cap on the query scan size.
+| `scanConsistency(QueryScanConsistency)` | Sets a different scan consistency for this query.
+| `serializer(JsonSerializer)` | Allows to use a different serializer for the decoding of the rows.
+|====
+
+== Scan Consistency
+
+By default, the query engine will return whatever is currently in the index at the time of query (this mode is also called `QueryScanConsistency.NOT_BOUNDED`).
+If you need to include everything that has just been written, a different scan consistency must be chosen.
+If `QueryScanConsistency.REQUEST_PLUS` is chosen, it will likely take a bit longer to return the results but the query engine will make sure that it is as up-to-date as possible.
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=scanconsistency,indent=0]
+----
+
+// Due to https://issues.couchbase.com/browse/MB-46876 this section won’t work with named scopes and collections,
+// we need to omit this information until Couchbase Server 7.0.1 is available, which will contain the fix for this bug.
+// We should avoid showing the user this information until then.
+//You can also use `consistentWith(MutationState)` for a more narrowed-down scan consistency.
+//Construct the `MutationState` from individual `MutationToken`s that are returned from KV `MutationResult`s to make sure at least those mutations are visible.
+//Depending on the index update rate this might provide a speedier response.
+//
+//[source,java]
+//----
+//include::devguide:example$java/Queries.java[tag=connect-bucket-and-scope,indent=0]
+//include::devguide:example$java/Queries.java[tag=scanconsistency_with,indent=0]
+//----
+//
+//Note that you cannot use this method and `scanConsistency(QueryScanConsistency)` at the same time, since they are mutually exclusive.
+//As a rule of thumb, if you only care about being consistent with the mutation you just wrote on the same thread or app, use this method.
+//If you need "global" scan consistency, use `QueryScanConsistency.REQUEST_PLUS` on `scanConsistency(QueryScanConsistency)`.
+
+
+=== Client Context ID
+
+The SDK will always send a client context ID with each query, even if none is provided by the user.
+By default a UUID will be generated that is mirrored back from the query engine and can be used for debugging purposes.
+A custom string can always be provided if you want to introduce application-specific semantics into it (so that for example in a network dump it shows up with a certain identifier).
+Whatever is chosen, we recommend making sure it is unique so different queries can be distinguished during debugging or monitoring.
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=clientcontextid,indent=0]
+----
+
+=== Readonly
+
+If the query is marked as readonly, both the server and the SDK can improve processing of the operation.
+On the client side, the SDK can be more liberal with retries because it can be sure that there are no state-mutating side-effects happening.
+The query engine will ensure that actually no data is mutated when parsing and planning the query.
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=readonly,indent=0]
+----
+
+=== Custom JSON Serializer
+
+Like with all JSON apis, it is possible to customize the JSON serializer.
+It allows to plug in your own library (like GSON) or custom configured mappings on your own Jackson serializer.
+This in turn makes it possible to serialize rows into POJOs or other structures that your application defines and the SDK has no idea about.
+
+Please see the xref:transcoders-nonjson.adoc[documentation on transcoding and serialization] for more information.
+
+
+== Reactive And Async APIs
+
+In addition to the blocking API on `Cluster`, the SDK provides reactive and async APIs on `ReactiveCluster` or `AsyncCluster` respectively.
+If you are in doubt of which API to use, we recommend looking at the reactive first.
+It builds on top of reactor, a powerful library that allows you to compose reactive computations and deal with error handling and other related concerns (like retry) in an elegant manner.
+The async API on the other hand exposes a `CompletableFuture` and is more meant for lower level integration into other libraries or if you need the last drop of performance.
+
+Also, there is another reason you want to use the reactive API: streaming large results with backpressure from the application side.
+Both the blocking and async APIs have no means of signalling backpressure in a good way, so if you need it the reactive API is your best option.
+
+[TIP]
+.Advanced Reactive Concepts Ahead
+====
+Please see the guides on reactive programming for more information on the basics, this guide is diving straight into their impact on querying.
+====
+
+A simple reactive query is similar to the blocking one:
+
+
+[source,java]
+----
+include::devguide:example$java/Queries.java[tag=simplereactive,indent=0]
+----
+
+This query will stream all rows as they become available from the server, automatically applying backpressure as necessary.
+
+
+== Querying at Scope Level
+
+It is possible to query off the xref:concept-docs:n1ql-query.adoc#collections-and-scopes-and-the-query-context[`Scope` level],
+_with Couchbase Server release 7.x_, using the `scope.query()` method.
+It takes the statement as a required argument, and then allows additional options if needed.
+
+A complete list of `QueryOptions` can be found in the https://docs.couchbase.com/sdk-api/couchbase-java-client/com/couchbase/client/java/AsyncScope.html#query-java.lang.String-[API docs].
+
+[source,java]
+----
+
+include::devguide:example$java/Queries.java[tag=connect-bucket-and-scope,indent=0]
+
+include::devguide:example$java/Queries.java[tag=scope-level-query,indent=0]
+
+----
+
+== Additional Resources
+
+NOTE: {sqlpp} is not the only query option in Couchbase.
+Be sure to check that xref:concept-docs:data-services.adoc[your use case fits your selection of query service].
+
+* For a deeper dive into {sqlpp} from the SDK, refer to our xref:concept-docs:n1ql-query.adoc[{sqlpp} SDK concept doc].
+* The xref:{version-server}@server:n1ql:n1ql-language-reference/index.adoc[Server doc {sqlpp} intro] introduces a complete guide to the {sqlpp} language, including all of the latest additions.
+* The http://query.pub.couchbase.com/tutorial/#1[{sqlpp} interactive tutorial] is a good introduction to the basics of {sqlpp} use.
+* For scaling up queries, be sure to xref:{version-server}@server:learn:services-and-indexes/indexes/index-replication.adoc[read up on Indexes].
+* Read more on xref:concept-docs:http-services.adoc#long-running-queries-big-data[when to choose the Analytics service].
