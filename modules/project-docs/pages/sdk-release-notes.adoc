@@ -38,12 +38,32 @@ For more detailed installation instructions, see the xref:project-docs:sdk-full-
 
 
 [#latest-release]
-== Python SDK 4.5 Releases
+== Python SDK 4.6 Releases
 
 We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
 All patch releases for each dot minor release should be API compatible, and safe to upgrade;
 any changes to expected behavior are noted in the release notes that follow.
 
+
+
+
+=== Version 4.6.0 (???? March 2026)
+
+Version 4.6.0 is a minor release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.6.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.6.0/
+
+
+
+
+
+
+== Python SDK 4.5 Releases
 
 
 === Version 4.5.0 (29 September 2025)
