@@ -8,7 +8,7 @@
 *** xref:howtos:troubleshooting-cloud-connections.adoc[Troubleshooting Cloud Connections]
 * xref:concept-docs:data-durability-acid-transactions.adoc[Data Modelling, Durability, and Consistency]
 ** xref:howtos:kv-operations.adoc[]
-*** xref:howtos:caching-example.adoc
+*** xref:howtos:caching-example.adoc[]
 ** xref:howtos:concurrent-document-mutations.adoc[]
 ** xref:howtos:subdocument-operations.adoc[]
 ** xref:concept-docs:data-model.adoc[]
