@@ -1,6 +1,6 @@
 = Managing Connections
 :description: This section describes how to connect the Python SDK to a Couchbase cluster.
-:page-topic-type: concept
+:page-toclevels: 2
 :page-aliases: ROOT:managing-connections,howtos:multi-network,ROOT:connecting,ROOT:connection-advanced
 
 include::project-docs:partial$attributes.adoc[]
