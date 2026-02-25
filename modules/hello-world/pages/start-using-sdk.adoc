@@ -36,7 +36,7 @@ The certificate for connecting to Capella is included in the 4.1 Python SDK.
 
 [source,python]
 ----
-include::hello-world:example$cloud.py[tags=**]
+include::devguide:example$python/cloud.py[tags=**]
 ----
 --
 
@@ -45,7 +45,7 @@ Local Couchbase Server::
 --
 [source,python]
 ----
-include::hello-world:example$hello_world_t.py[tags=**]
+include::devguide:example$python/hello_world_t.py[tags=**]
 ----
 
 As well as the Python SDK (see below), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
@@ -233,7 +233,7 @@ Here are all the import statements that you will need to run the sample code:
 
 [source,python,indent=0]
 ----
-include::example$cloud.py[tag=imports]
+include::devguide:example$python/cloud.py[tag=imports]
 ----
 
 === Connect
@@ -251,7 +251,7 @@ You do need to enable TLS, which can be done by simply using `couchbases://` in 
 
 [source,python]
 ----
-include::example$cloud.py[tag=connect,indent=0]
+include::devguide:example$python/cloud.py[tag=connect,indent=0]
 ----
 
 When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
@@ -266,7 +266,7 @@ Local Couchbase Server::
 --
 [source,python]
 ----
-include::example$hello_world_t.py[tag=connect,indent=0]
+include::devguide:example$python/hello_world_t.py[tag=connect,indent=0]
 ----
 
 For developing locally on the same machine as Couchbase Server, your URI can be `couchbase://localhost`.
@@ -278,7 +278,7 @@ Following successful authentication, add this code snippet to access your `Bucke
 
 [source,python]
 ----
-include::example$cloud.py[tag=bucket,indent=0]
+include::devguide:example$python/cloud.py[tag=bucket,indent=0]
 ----
 
 
@@ -297,7 +297,7 @@ Here we refer to the `users` collection within the `tenant_agent_00` scope from 
 
 [source,python]
 ----
-include::example$cloud.py[tag=collection,indent=0]
+include::devguide:example$python/cloud.py[tag=collection,indent=0]
 ----
 
 The code shows how you would use a named collection and scope.
@@ -309,7 +309,7 @@ The `default_collection` must be used when connecting to a 6.6 cluster or earlie
 
 [source,python]
 ----
-include::example$hello_world_t.py[tag=default-collection,indent=0]
+include::devguide:example$python/hello_world_t.py[tag=default-collection,indent=0]
 ----
 ====
 
@@ -317,7 +317,7 @@ Let's create a dictionary object in our application that we can add to our `trav
 
 [source,python]
 ----
-include::example$cloud.py[tag=test-doc,indent=0]
+include::devguide:example$python/cloud.py[tag=test-doc,indent=0]
 ----
 
 xref:howtos:kv-operations.adoc[Data operations], such as storing and retrieving documents, can be done using simple methods on the `Collection` class such as `Collection.get` and `Collection.upsert`.
@@ -327,14 +327,14 @@ The following function will _upsert_ a document and print the returned xref:howt
 
 [source,python]
 ----
-include::example$cloud.py[tag=upsert-func,indent=0]
+include::devguide:example$python/cloud.py[tag=upsert-func,indent=0]
 ----
 
 Call the `upsert_document()` function passing in our `airline` document:
 
 [source,python]
 ----
-include::example$cloud.py[tag=upsert-invoke,indent=0]
+include::devguide:example$python/cloud.py[tag=upsert-invoke,indent=0]
 ----
 
 Now let's retrieve that document using a key-value operation.
@@ -342,14 +342,14 @@ The following function runs a `get()` for a document key and either logs out the
 
 [source,python]
 ----
-include::example$cloud.py[tag=get-func,indent=0]
+include::devguide:example$python/cloud.py[tag=get-func,indent=0]
 ----
 
 Call the `get_airline_by_key` function passing in our valid document key `airline_8091`:
 
 [source,python]
 ----
-include::example$cloud.py[tag=get-invoke,indent=0]
+include::devguide:example$python/cloud.py[tag=get-invoke,indent=0]
 ----
 
 === SQL++ Lookup
@@ -361,14 +361,14 @@ However, with a Scope level query you only need to specify the Collection name -
 
 [source,python]
 ----
-include::example$cloud.py[tag=lookup-func,indent=0]
+include::devguide:example$python/cloud.py[tag=lookup-func,indent=0]
 ----
 
 We call the `lookup_by_callsign` function passing in our callsign `CBS`:
 
 [source,python]
 ----
-include::example$cloud.py[tag=lookup-invoke,indent=0]
+include::devguide:example$python/cloud.py[tag=lookup-invoke,indent=0]
 ----
 
 === Execute!

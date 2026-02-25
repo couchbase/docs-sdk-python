@@ -19,7 +19,7 @@ The simplest way to create a `Cluster` object is to call `Cluster.connect()` wit
 
 [source,python]
 ----
-include::example$managing_connections.py[tag=simpleconnect,indent=0]
+include::devguide:example$python/managing_connections.py[tag=simpleconnect,indent=0]
 ----
 
 NOTE: If you are connecting to a version of Couchbase Server older than 6.5, it will be more efficient if the addresses are those of data (KV) nodes.
@@ -30,7 +30,7 @@ Multiple addresses may be specified in a connection string by delimiting them wi
 
 [source,python]
 ----
-include::example$managing_connections.py[tag=multinodeconnect,indent=0]
+include::devguide:example$python/managing_connections.py[tag=multinodeconnect,indent=0]
 ----
 
 TIP: You don't need to include the address of every node in the cluster.
@@ -47,7 +47,7 @@ One way to customize the client's behavior is to build your own `ClusterEnvironm
 
 [source,python]
 ----
-include::example$managing_connections.py[tag=customenv,indent=0]
+include::devguide:example$python/managing_connections.py[tag=customenv,indent=0]
 ----
 ////
 
@@ -153,7 +153,7 @@ If you created any `ClusterEnvironment` instances, call their `shutdown()` metho
 If a single application needs to connect to multiple Couchbase Server clusters, we recommend creating a single `ClusterEnvironment` and sharing it between the `Clusters`:
 [source,python]
 ----
-include::example$managing_connections.py[tag=shareclusterenvironment,indent=0]
+include::devguide:example$python/managing_connections.py[tag=shareclusterenvironment,indent=0]
 ----
 
 When you manually create a `ClusterEnvironment` like this, the SDK will not shut it down when you call `Cluster.disconnect()`.
@@ -183,7 +183,7 @@ If the external ports are not the default, you can specify custom ports through 
 
 // todo use the include (and uncomment in ManageingConnections.python) after next client snapshot is published
 // https://github.com/couchbase/docs-sdk-python/blob/temp/4.5/modules/howtos/examples/managing_connections.py#L86
-// include::example$managing_connections.py[tag=seednodes,indent=0]
+// include::devguide:example$python/managing_connections.py[tag=seednodes,indent=0]
 [source,python]
 ----
 int customKvPort = 1234;
@@ -335,7 +335,7 @@ The next step is to enable encryption by connecting to a cluster with the 'couch
 
 [source,python]
 ----
-include::example$managing_connections.py[tag=tls,indent=0]
+include::devguide:example$python/managing_connections.py[tag=tls,indent=0]
 ----
 
 Then use this custom `Cluster` when opening the connection to the cluster.
@@ -367,7 +367,7 @@ In order to make the SDK actually use the SRV records, you need to enable DNS SR
 
 [source,python]
 ----
-include::example$managing_connections.py[tag=dnssrv,indent=0]
+include::devguide:example$python/managing_connections.py[tag=dnssrv,indent=0]
 ----
 
 If the DNS SRV records could not be loaded properly you'll get the exception logged and the given host name will be used as a A record lookup.
@@ -410,20 +410,20 @@ So if you are connecting to the bucket synchronously but then want to switch ove
 
 [source,python]
 ----
-include::example$managing_connections.py[tag=blockingtoasync,indent=0]
+include::devguide:example$python/managing_connections.py[tag=blockingtoasync,indent=0]
 ----
 
 On the other hand, you can use the Async API right from the beginning:
 // todo use tabs here?
 [source,python]
 ----
-include::example$managing_connections.py[tag=asynccluster,indent=0]
+include::devguide:example$python/managing_connections.py[tag=asynccluster,indent=0]
 ----
 
 Here's the same example, but using the Reactive API instead of the Async API:
 
 [source,python]
 ----
-include::example$managing_connections.py[tag=reactivecluster,indent=0]
+include::devguide:example$python/managing_connections.py[tag=reactivecluster,indent=0]
 ----
 ////

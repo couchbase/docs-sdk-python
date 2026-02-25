@@ -105,7 +105,7 @@ In this first example we are performing a single vector query:
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=vector_search_single]
+include::devguide:example$python/$search_ops.py[tag=vector_search_single]
 ----
 
 Let's break this down.
@@ -135,7 +135,7 @@ Then it executes the vector query on the intermediate result to get the final re
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=vector_search_prefilter]
+include::devguide:example$python/$search_ops.py[tag=vector_search_prefilter]
 ----
 
 Here's the signature of the method:
@@ -169,7 +169,7 @@ from a simple match, as above, to a string query:
 .String Query
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=vector_search_prefilter_query_str]
+include::devguide:example$python/$search_ops.py[tag=vector_search_prefilter_query_str]
 ----
 
 See the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_search.html#couchbase.vector_search.VectorQuery.prefilter[API reference].
@@ -180,7 +180,7 @@ You can run multiple vector queries together:
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=vector_search_multi]
+include::devguide:example$python/$search_ops.py[tag=vector_search_multi]
 ----
 
 How the results are combined (ANDed or ORed) can be controlled with `vector_query_combination` in `VectorSearchOptions`.
@@ -189,7 +189,7 @@ How the results are combined (ANDed or ORed) can be controlled with `vector_quer
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=vector_search_combo]
+include::devguide:example$python/$search_ops.py[tag=vector_search_combo]
 ----
 
 How the results are combined (ANDed or ORed) can be controlled with `vector_query_combination` in `VectorSearchOptions`.

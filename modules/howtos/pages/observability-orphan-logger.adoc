@@ -22,7 +22,7 @@ The report interval and sample size can be adjusted (defaults are 10s and 10 sam
 
 [source,python]
 ----
-include::howtos:example$orphan_logging.py[tag=orphan_logging_config]
+include::devguide:example$python/$orphan_logging.py[tag=orphan_logging_config]
 ----
 
 ==== JSON Output Format & Logging

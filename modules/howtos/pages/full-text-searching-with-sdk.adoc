@@ -2,11 +2,6 @@
 :description: You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
 :page-toclevels: 3
 :page-aliases: search-query
-:lang: Python
-:version: 3.2.0
-:example-source: 3.2@python-sdk:howtos:example$search_ops.py
-:example-source-lang: Python
-:page-pagination: full
 
 
 [abstract]
@@ -35,7 +30,7 @@ We will perform an FTS query here - see the <<vector-search>> section for exampl
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=search_basic_example]
+include::devguide:example$python/$search_ops.py[tag=search_basic_example]
 ----
 
 NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use Search.
@@ -86,7 +81,7 @@ Once the Search query is executed successfully, the server starts sending back t
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=search_result]
+include::devguide:example$python/$search_ops.py[tag=search_result]
 ----
 
 The `SearchRow` contains the following methods:
@@ -120,7 +115,7 @@ It's important to use the `Cluster.searchQuery()` / `Cluster.search()` for globa
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=search_query_search]
+include::devguide:example$python/$search_ops.py[tag=search_query_search]
 ----
 
 The `SearchQuery` is created in the same way as detailed earlier.
@@ -155,7 +150,7 @@ If you want to skip the first N records it can be done with the `skip` option.
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=limit_and_skip]
+include::devguide:example$python/$search_ops.py[tag=limit_and_skip]
 ----
 
 === ScanConsistency and ConsistentWith
@@ -170,13 +165,13 @@ The way to make sure that recently written documents show up in the rfc works as
 .Scan consistency example:
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=scan_consistency]
+include::devguide:example$python/$search_ops.py[tag=scan_consistency]
 ----
 
 .ConsistentWith consistency example:
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=ryow]
+include::devguide:example$python/$search_ops.py[tag=ryow]
 ----
 
 === Highlight
@@ -187,7 +182,7 @@ The following snippet uses HTML formatting for two fields:
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=highlight]
+include::devguide:example$python/$search_ops.py[tag=highlight]
 ----
 
 === Sort
@@ -199,7 +194,7 @@ This behavior can be modified by providing a different sorting order which can a
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=sort]
+include::devguide:example$python/$search_ops.py[tag=sort]
 ----
 
 === Facets
@@ -210,7 +205,7 @@ Other possible facets include numeric and date ranges.
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=facets]
+include::devguide:example$python/$search_ops.py[tag=facets]
 ----
 
 === Fields
@@ -219,7 +214,7 @@ You can tell the Search Engine to include the full content of a certain number o
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=fields]
+include::devguide:example$python/$search_ops.py[tag=fields]
 ----
 
 === Collections
@@ -230,7 +225,7 @@ Note that this feature is only supported with Couchbase Server 7.0 or later.
 
 [source,python]
 ----
-include::howtos:example$search_ops.py[tag=collections]
+include::devguide:example$python/$search_ops.py[tag=collections]
 ----
 
 ////
@@ -255,13 +250,13 @@ Simple queries with both asyncio and Twisted APIs look similar to the blocking o
 .ACouchbase
 [source,python]
 ----
-include::howtos:example$acouchbase_search_ops.py[tag=simple_query]
+include::devguide:example$python/$acouchbase_search_ops.py[tag=simple_query]
 ----
 
 .TxCouchbase
 [source,python]
 ----
-include::howtos:example$txcouchbase_search_ops.py[tag=simple_query]
+include::devguide:example$python/$txcouchbase_search_ops.py[tag=simple_query]
 ----
 
 

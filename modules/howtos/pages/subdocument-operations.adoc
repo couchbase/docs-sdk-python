@@ -76,13 +76,13 @@ The latter saves even more bandwidth by not retrieving the contents of the path 
 .Retrieve sub-document value
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=lookup_in]
+include::devguide:example$python/$subdocument_ops.py[tag=lookup_in]
 ----
 
 .Check existence of sub-document path
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=lookup_in_exists]
+include::devguide:example$python/$subdocument_ops.py[tag=lookup_in_exists]
 ----
 
 Multiple operations can be combined:
@@ -90,7 +90,7 @@ Multiple operations can be combined:
 .Combine multiple lookup operations
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=lookup_in_multi]
+include::devguide:example$python/$subdocument_ops.py[tag=lookup_in_multi]
 ----
 
 == Mutating
@@ -103,7 +103,7 @@ The simplest of these operations is _upsert_, which, similar to the fulldoc-leve
 .Upserting a new sub-document
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=mutate_in_upsert]
+include::devguide:example$python/$subdocument_ops.py[tag=mutate_in_upsert]
 ----
 
 Likewise, the _insert_ operation will only add the new value to the path if it does not exist:
@@ -111,7 +111,7 @@ Likewise, the _insert_ operation will only add the new value to the path if it d
 .Inserting a sub-document
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=mutate_in_insert]
+include::devguide:example$python/$subdocument_ops.py[tag=mutate_in_insert]
 ----
 
 Dictionary values can also be replaced or removed, and you may combine any number of mutation operations within the same general _mutate_in_ API.
@@ -119,7 +119,7 @@ Here's an example of one which replaces one path and removes another.
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=combine_dict]
+include::devguide:example$python/$subdocument_ops.py[tag=combine_dict]
 ----
 
 NOTE: `mutateIn` is an _atomic_ operation.
@@ -132,12 +132,12 @@ Unlike fulldoc _append_/_prepend_ operations (which simply concatenate bytes to 
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=array_append]
+include::devguide:example$python/$subdocument_ops.py[tag=array_append]
 ----
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=array_prepend]
+include::devguide:example$python/$subdocument_ops.py[tag=array_prepend]
 ----
 
 If your document only needs to contain an array, you do not have to create a top-level object wrapper to contain it.
@@ -146,7 +146,7 @@ Simply initialize the document with an empty array and then use the empty path f
 .Creating and populating an array document
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=create_array]
+include::devguide:example$python/$subdocument_ops.py[tag=create_array]
 ----
 
 If you wish to add multiple values to an array, you may do so by passing multiple values to the _array_append_, _array_prepend_, or _array_insert_ operations.
@@ -155,13 +155,13 @@ Be sure to know the difference between passing a collection of multiple elements
 .Add multiple elements to an array
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=add_multi]
+include::devguide:example$python/$subdocument_ops.py[tag=add_multi]
 ----
 
 .Add single array as element to existing array
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=add_nested_array]
+include::devguide:example$python/$subdocument_ops.py[tag=add_nested_array]
 ----
 
 Note that passing multiple values to a single _array_append_ operation results in greater performance increase and bandwidth savings than simply specifying a single _array_append_ for each element.
@@ -169,14 +169,14 @@ Note that passing multiple values to a single _array_append_ operation results i
 .Adding multiple elements to array (slow)
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=add_multi_slow]
+include::devguide:example$python/$subdocument_ops.py[tag=add_multi_slow]
 ----
 
 If you wish to create an array if it does not exist and also push elements to it within the same operation you may use the _create_parents_ option:
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=create_parents_array]
+include::devguide:example$python/$subdocument_ops.py[tag=create_parents_array]
 ----
 
 == Arrays as Unique Sets
@@ -186,7 +186,7 @@ This will do a check to determine if the given value exists or not before actual
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=array_addunique]
+include::devguide:example$python/$subdocument_ops.py[tag=array_addunique]
 ----
 
 Note that currently the _array_addunique_ will fail with a _SubdocPathMismatchException_ if the array contains JSON _floats_, _objects_, or _arrays_.
@@ -203,7 +203,7 @@ For example, to insert `"cruel"` as the second element in the array `["Hello", "
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=array_insert]
+include::devguide:example$python/$subdocument_ops.py[tag=array_insert]
 ----
 
 Note that the array must already exist and that the index must be valid (i.e.
@@ -216,7 +216,7 @@ These operations are logically similar to the _counter_ operation on an entire d
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=counter1]
+include::devguide:example$python/$subdocument_ops.py[tag=counter1]
 ----
 
 The _increment_ and _decrement_ operations perform simple arithmetic against a numeric value.
@@ -224,7 +224,7 @@ The updated value is returned.
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=counter2]
+include::devguide:example$python/$subdocument_ops.py[tag=counter2]
 ----
 
 The existing value for counter operations must be within range of a 64 bit signed integer.
@@ -283,7 +283,7 @@ In this case, the _create_path_ option may be used.
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=create_parents]
+include::devguide:example$python/$subdocument_ops.py[tag=create_parents]
 ----
 
 
@@ -295,14 +295,14 @@ The `collection.lookup_in_any_replica()` method returns the first response -- fr
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=lookup_in_any_replica]
+include::devguide:example$python/$subdocument_ops.py[tag=lookup_in_any_replica]
 ----
 
 The `collection.lookup_in_all_replicas()` fetches all available replicas (and the active copy), and returns all responses.
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=lookup_in_all_replicas]
+include::devguide:example$python/$subdocument_ops.py[tag=lookup_in_all_replicas]
 ----
 
 You may want to use `lookup_in_all_replicas` to build a consensus,
@@ -316,12 +316,12 @@ For example the following two blocks can execute concurrently without any risk o
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=cas1]
+include::devguide:example$python/$subdocument_ops.py[tag=cas1]
 ----
 
 [source,python]
 ----
-include::howtos:example$subdocument_ops.py[tag=cas2]
+include::devguide:example$python/$subdocument_ops.py[tag=cas2]
 ----
 
 Even when modifying the _same_ part of the document, operations will not necessarily conflict.
@@ -335,7 +335,7 @@ If CAS is required then it can be provided like this:
 
 [source,python,indent=0]
 ----
-include::howtos:example$subdocument_ops.py[tag=cas3]
+include::devguide:example$python/$subdocument_ops.py[tag=cas3]
 ----
 
 
@@ -346,7 +346,7 @@ Refer to the {link-with-underscores}[API docs] for the legacy API.
 
 [source,python,indent=0]
 ----
-include::howtos:example$subdocument_ops.py[tag=obs_durability]
+include::devguide:example$python/$subdocument_ops.py[tag=obs_durability]
 ----
 
 In Couchbase Server 6.5 and up, this is built upon with xref:concept-docs:durability-replication-failure-considerations.adoc#durable-writes[Durable Writes],
@@ -354,7 +354,7 @@ which uses the concept of xref:{version-server}@server:learn:data/durability.ado
 
 [source,python,indent=0]
 ----
-include::howtos:example$subdocument_ops.py[tag=durability]
+include::devguide:example$python/$subdocument_ops.py[tag=durability]
 ----
 
 
