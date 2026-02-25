@@ -49,7 +49,7 @@ It is instantiated through the `Cluster.buckets()` method.
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_buckets.py[tag=create_bucket_mgr]
+include::devguide:example$python/provisioning_resources_buckets.py[tag=create_bucket_mgr]
 ----
 
 The `CreateBucketSettings` and `BucketSettings` classes are used for creating and updating buckets, `BucketSettings` is also used for exposing information about existing buckets.
@@ -77,21 +77,21 @@ The following example creates a "hello" bucket:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_buckets.py[tag=create_bucket]
+include::devguide:example$python/provisioning_resources_buckets.py[tag=create_bucket]
 ----
 
 We can now get this bucket and update it to enable Flush:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_buckets.py[tag=get_and_update_bucket]
+include::devguide:example$python/provisioning_resources_buckets.py[tag=get_and_update_bucket]
 ----
 
 Once you no longer need to use the bucket, you can remove it:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_buckets.py[tag=drop_bucket]
+include::devguide:example$python/provisioning_resources_buckets.py[tag=drop_bucket]
 ----
 
 === Flushing Buckets
@@ -102,7 +102,7 @@ You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-ap
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_buckets.py[tag=flush_bucket]
+include::devguide:example$python/provisioning_resources_buckets.py[tag=flush_bucket]
 ----
 
 The `flush_bucket()` operation may fail if the bucket does not have flush enabled, in that case it will return an `BucketNotFlushableException`.
@@ -117,30 +117,30 @@ for further details.
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_collections.py[tag=create_collections_mgr]
+include::devguide:example$python/provisioning_resources_collections.py[tag=create_collections_mgr]
 ----
 
 You can create a scope:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_collections.py[tag=create_scope]
+include::devguide:example$python/provisioning_resources_collections.py[tag=create_scope]
 ----
 
 You can then create a collection within that scope:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_collections.py[tag=create_collection]
+include::devguide:example$python/provisioning_resources_collections.py[tag=create_collection]
 ----
 
 Finally, you can drop unneeded collections and scopes:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_collections.py[tag=drop_collection]
+include::devguide:example$python/provisioning_resources_collections.py[tag=drop_collection]
 
-include::devguide:example$python/$provisioning_resources_collections.py[tag=drop_scope]
+include::devguide:example$python/provisioning_resources_collections.py[tag=drop_scope]
 ----
 
 Note that the most minimal permissions to create and drop a Scope or Collection is
@@ -151,7 +151,7 @@ You can create users with the appropriate RBAC programmatically:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_collections.py[tag=scopeAdmin]
+include::devguide:example$python/provisioning_resources_collections.py[tag=scopeAdmin]
 ----
 
 You can enumerate Scopes and Collections using
@@ -160,7 +160,7 @@ the `Scope.collections` property.
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_collections.py[tag=listing-scope-collection]
+include::devguide:example$python/provisioning_resources_collections.py[tag=listing-scope-collection]
 ----
 
 == Index Management
@@ -174,7 +174,7 @@ It can be instantiated through the `Cluster.query_indexes()` method.
 
 [source,python]
 ----
-include::devguide:example$python/$query_index_manager.py[tag=creating-index-mgr,indent=0]
+include::devguide:example$python/query_index_manager.py[tag=creating-index-mgr,indent=0]
 ----
 
 include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=query-index-manager-intro]
@@ -186,7 +186,7 @@ Note that you cannot provide a named scope or collection separately, both must b
 
 [source,python]
 ----
-include::devguide:example$python/$query_index_manager.py[tag=primary,indent=0]
+include::devguide:example$python/query_index_manager.py[tag=primary,indent=0]
 ----
 
 When a primary index name is not specified, the SDK will create the index as `#primary` by default.
@@ -201,7 +201,7 @@ Creating a _secondary_ index follows a similar approach, with some minor differe
 
 [source,python]
 ----
-include::devguide:example$python/$query_index_manager.py[tag=secondary,indent=0]
+include::devguide:example$python/query_index_manager.py[tag=secondary,indent=0]
 ----
 
 The `create_index()` method requires an index name to be provided, along with the fields to create the index on.
@@ -215,7 +215,7 @@ To achieve this we can use the `deferred` boolean option, and set it to `True`.
 
 [source,python]
 ----
-include::devguide:example$python/$query_index_manager.py[tag=defer-indexes,indent=0]
+include::devguide:example$python/query_index_manager.py[tag=defer-indexes,indent=0]
 ----
 
 To delete a query index you can use the `drop_index()` or `drop_primary_index()` methods. 
@@ -225,7 +225,7 @@ Which one you use depends on the type of query index you wish to drop from the c
 
 [source,python]
 ----
-include::devguide:example$python/$query_index_manager.py[tag=drop-primary-or-secondary-index,indent=0]
+include::devguide:example$python/query_index_manager.py[tag=drop-primary-or-secondary-index,indent=0]
 ----
 
 // * Search - note & link to FTS page & API?
@@ -240,14 +240,14 @@ All operations on design documents are performed on the `ViewIndexManager` insta
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_views.py[tag=create_view_mgr]
+include::devguide:example$python/provisioning_resources_views.py[tag=create_view_mgr]
 ----
 
 The following example upserts a design document with two views:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_views.py[tag=create_view]
+include::devguide:example$python/provisioning_resources_views.py[tag=create_view]
 ----
 
 include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=one-view-update-warning]
@@ -259,19 +259,19 @@ Now that we've created a design document we can fetch it:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_views.py[tag=get_view]
+include::devguide:example$python/provisioning_resources_views.py[tag=get_view]
 ----
 
 We've created the design document using `DesignDocumentNamespace.DEVELOPMENT` and now want to push it to production, we can do this with:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_views.py[tag=publish_view]
+include::devguide:example$python/provisioning_resources_views.py[tag=publish_view]
 ----
 
 To remove this design document:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_views.py[tag=drop_view]
+include::devguide:example$python/provisioning_resources_views.py[tag=drop_view]
 ----

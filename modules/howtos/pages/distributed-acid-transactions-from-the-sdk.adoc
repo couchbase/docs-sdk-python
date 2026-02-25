@@ -266,7 +266,7 @@ To ensure key-value performance is not compromised, and to avoid conflicting wri
 
 //[source,java]
 //----
-//include::devguide:example$python/$TransactionsExample.java[tag=concurrency,indent=0]
+//include::devguide:example$python/TransactionsExample.java[tag=concurrency,indent=0]
 //----
 
 //The event contains the key of the document involved, to aid the application with debugging.

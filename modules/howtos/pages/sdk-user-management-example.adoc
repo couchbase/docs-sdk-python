@@ -19,20 +19,20 @@ The most common uses of the `UserManager` API are creating and listing users:
 .Creating Users
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_users.py[tag=create_user]
+include::devguide:example$python/provisioning_resources_users.py[tag=create_user]
 ----
 
 .Listing Users
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_users.py[tag=get_all_users]
+include::devguide:example$python/provisioning_resources_users.py[tag=get_all_users]
 ----
 
 Using a user created in the SDK to access data:
 
 [source,python]
 ----
-include::devguide:example$python/$provisioning_resources_users.py[tag=user_operations]
+include::devguide:example$python/provisioning_resources_users.py[tag=user_operations]
 ----
 
 

@@ -18,7 +18,7 @@ If a `Future` is awaited, the method awaiting the task must have the `async` key
 .Create an _acouchbase_ Cluster
 [source,python]
 ----
-include::devguide:example$python/$acouchbase_operations.py[tag=create]
+include::devguide:example$python/acouchbase_operations.py[tag=create]
 ----
 
 === Asyncio Document (KV) Operations
@@ -29,13 +29,13 @@ The `Future`’s result will always be the relevant `Result` object for the oper
 .KV - Operations
 [source,python]
 ----
-include::devguide:example$python/$acouchbase_operations.py[tag=kv]
+include::devguide:example$python/acouchbase_operations.py[tag=kv]
 ----
 
 .Sub-document Operations
 [source,python]
 ----
-include::devguide:example$python/$acouchbase_operations.py[tag=sub_doc]
+include::devguide:example$python/acouchbase_operations.py[tag=sub_doc]
 ----
 
 === Asyncio {sqlpp} Operations
@@ -46,7 +46,7 @@ The notable difference is the use of `async for` rather than `for` when iteratin
 .{sqlpp} Query
 [source,python]
 ----
-include::devguide:example$python/$acouchbase_operations.py[tag=n1ql]
+include::devguide:example$python/acouchbase_operations.py[tag=n1ql]
 ----
 
 === Asyncio Search Operations
@@ -57,7 +57,7 @@ The notable difference is the use of `async for` rather than `for` when iteratin
 .Search Query
 [source,python]
 ----
-include::devguide:example$python/$acouchbase_operations.py[tag=search]
+include::devguide:example$python/acouchbase_operations.py[tag=search]
 ----
 
 === Asyncio Analytics Operations
@@ -68,7 +68,7 @@ The notable difference is the use of `async for` rather than `for` when iteratin
 .Analytics Query
 [source,python]
 ----
-include::devguide:example$python/$acouchbase_operations.py[tag=analytics]
+include::devguide:example$python/acouchbase_operations.py[tag=analytics]
 ----
 
 
@@ -84,13 +84,13 @@ IMPORTANT: The txcouchbase package _must_ be imported prior to importing the Twi
 ._txcouchbase_ imports
 [source,python]
 ----
-include::devguide:example$python/$txcouchbase_operations.py[tag=txcouchbase_imports]
+include::devguide:example$python/txcouchbase_operations.py[tag=txcouchbase_imports]
 ----
 
 .Create a _txcouchbase_ Cluster
 [source,python]
 ----
-include::devguide:example$python/$txcouchbase_operations.py[tag=create]
+include::devguide:example$python/txcouchbase_operations.py[tag=create]
 ----
 
 === Twisted Document (KV) Operations
@@ -101,13 +101,13 @@ The `Deferred`’s result will always be the relevant `Result` object for the op
 .KV - Operations
 [source,python]
 ----
-include::devguide:example$python/$txcouchbase_operations.py[tag=kv]
+include::devguide:example$python/txcouchbase_operations.py[tag=kv]
 ----
 
 .Sub-document Operations
 [source,python]
 ----
-include::devguide:example$python/$txcouchbase_operations.py[tag=sub_doc]
+include::devguide:example$python/txcouchbase_operations.py[tag=sub_doc]
 ----
 
 === Twisted {sqlpp} Operations
@@ -118,7 +118,7 @@ The notable difference is the use of a callback in order to handle iterating ove
 .{sqlpp} Query
 [source,python]
 ----
-include::devguide:example$python/$txcouchbase_operations.py[tag=n1ql]
+include::devguide:example$python/txcouchbase_operations.py[tag=n1ql]
 ----
 
 === Twisted Search Operations
@@ -129,7 +129,7 @@ The notable difference is the use of a callback in order to handle iterating ove
 .Search Query
 [source,python]
 ----
-include::devguide:example$python/$txcouchbase_operations.py[tag=search]
+include::devguide:example$python/txcouchbase_operations.py[tag=search]
 ----
 
 === Twisted Analytics Operations
@@ -140,5 +140,5 @@ The notable difference is the use of a callback in order to handle iterating ove
 .Analytics Query
 [source,python]
 ----
-include::devguide:example$python/$txcouchbase_operations.py[tag=analytics]
+include::devguide:example$python/txcouchbase_operations.py[tag=analytics]
 ----

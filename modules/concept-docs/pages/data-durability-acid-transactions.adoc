@@ -29,7 +29,7 @@ The CRUD API of the {sqlpp} Query service is mirrored by the Data Service's API,
 
 [source,python]
 ----
-include::devguide:example$python/$kv_operations.py[tag=durability]
+include::devguide:example$python/kv_operations.py[tag=durability]
 ----
 
 At its heart, a database is in the business of storing data and letting you query and retrieve it.
