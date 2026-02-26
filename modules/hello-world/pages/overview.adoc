@@ -7,9 +7,9 @@
 // Note to editors
 // 
 // This page pulls in content from -sdk-common-
-// and code samples from -example-dir-
+// and code samples from https://github.com/couchbase/docs-sdk-python/tree/release/4.6/modules/devguide/examples/python/
 // 
-// It can be seen built at wwww.
+// It can be seen built at https://docs.couchbase.com/python-sdk/4.6/hello-world/overview.html
 // 
 // See the antora.yml file for the {attributes}
 
