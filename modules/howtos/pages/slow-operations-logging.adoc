@@ -24,7 +24,7 @@ For example setting the `tracing_threshold_kv` and `tracing_threshold_queue_size
 
 [source,python]
 ----
-include::howtos:example$threshold_logging.py[tag=threshold_logging_config]
+include::devguide:example$python/threshold_logging.py[tag=threshold_logging_config]
 ----
 
 Note that the Threshold Logger is set as the cluster level `Tracer` implementation.

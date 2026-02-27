@@ -21,7 +21,7 @@ include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=txnfaile
 // TODO: Need an equivalent python snippet for the below
 //[source,java]
 //----
-//include::example$TransactionsExample.java[tag=config-expiration,indent=0]
+//include::devguide:example$python/TransactionsExample.java[tag=config-expiration,indent=0]
 //----
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=txnfailed1]
@@ -32,5 +32,5 @@ Pulling all of the above together, this is the suggested best practice for error
 
 [source,python]
 ----
-include::howtos:example$transactions_example.py[tag=complete_error_handling,indent=0]
+include::devguide:example$python/transactions_example.py[tag=complete_error_handling,indent=0]
 ----

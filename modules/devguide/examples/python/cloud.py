@@ -1,38 +1,112 @@
-# tag::cloud_connect[]
-from couchbase.cluster import Cluster, ClusterOptions
-from couchbase.cluster import PasswordAuthenticator
-from couchbase.cluster import QueryOptions
+# tag::imports[]
+from datetime import timedelta
 
+# needed for any cluster connection
+from couchbase.auth import PasswordAuthenticator
+from couchbase.cluster import Cluster
+# needed for options -- cluster, timeout, SQL++ (N1QL) query, etc.
+from couchbase.options import (ClusterOptions, ClusterTimeoutOptions,
+                               QueryOptions)
+
+# end::imports[]
+
+# tag::connect[]
 # Update this to your cluster
 endpoint = "--your-instance--.dp.cloud.couchbase.com"
 username = "username"
-password = "password"
-bucket_name = "bucketname"
-cert_path = "path/to/certificate"
+password = "Password!123"
+bucket_name = "travel-sample"
 # User Input ends here.
 
-# Initialize the Connection
-cluster = Cluster("couchbases://{}".format(endpoint), ClusterOptions(
-    PasswordAuthenticator(username, password, cert_path=cert_path)))
+# Connect options - authentication
+auth = PasswordAuthenticator(username, password)
+
+# get a reference to our cluster
+options = ClusterOptions(auth)
+# Sets a pre-configured profile called "wan_development" to help avoid latency issues
+# when accessing Capella from a different Wide Area Network
+# or Availability Zone(e.g. your laptop).
+options.apply_profile('wan_development')
+cluster = Cluster.connect('couchbases://{}'.format(endpoint), options)
+
+# Wait until the cluster is ready for use.
+cluster.wait_until_ready(timedelta(seconds=5))
+# end::connect[]
+
+# tag::bucket[]
+# get a reference to our bucket
 cb = cluster.bucket(bucket_name)
-cb_coll = cb.default_collection()
+# end::bucket[]
 
-# Create a Query Primary Index (but ignore if it exists)
-cluster.query_indexes().create_primary_index(
-    bucket_name, ignore_if_exists=True)
+# tag::collection[]
+cb_coll = cb.scope("inventory").collection("airline")
+# end::collection[]
 
-# Store a Document
-cb_coll.upsert("u:king_arthur", {
-               "name": "Arthur", "email": "kingarthur@couchbase.com", "interests": ["Holy Grail", "African Swallows"]})
+# tag::upsert-func[]
 
-# Load the Document and print it
-print(cb_coll.get("u:king_arthur").content_as[str])
 
-# Perform a SQL++ (formerly N1QL) Query
-row_iter = cluster.query("SELECT cbc.* FROM {} cbc WHERE $1 IN cbc.interests".format(
-    bucket_name), QueryOptions(positional_parameters=["African Swallows"]))
+def upsert_document(doc):
+    print("\nUpsert CAS: ")
+    try:
+        # key will equal: "airline_8091"
+        key = doc["type"] + "_" + str(doc["id"])
+        result = cb_coll.upsert(key, doc)
+        print(result.cas)
+    except Exception as e:
+        print(e)
+# end::upsert-func[]
 
-# Print each found Row
-for row in row_iter.rows():
-    print("Found row: {}".format(row))
-# end::cloud_connect[]
+# tag::get-func[]
+# get document function
+
+
+def get_airline_by_key(key):
+    print("\nGet Result: ")
+    try:
+        result = cb_coll.get(key)
+        print(result.content_as[str])
+    except Exception as e:
+        print(e)
+# end::get-func[]
+
+# tag::lookup-func[]
+# query for new document by callsign
+
+
+def lookup_by_callsign(cs):
+    print("\nLookup Result: ")
+    try:
+        inventory_scope = cb.scope('inventory')
+        sql_query = 'SELECT VALUE name FROM airline WHERE callsign = $1'
+        row_iter = inventory_scope.query(
+            sql_query,
+            QueryOptions(positional_parameters=[cs]))
+        for row in row_iter:
+            print(row)
+    except Exception as e:
+        print(e)
+# end::lookup-func[]
+
+
+# tag::test-doc[]
+airline = {
+    "type": "airline",
+    "id": 8091,
+    "callsign": "CBS",
+    "iata": None,
+    "icao": None,
+    "name": "Couchbase Airways",
+}
+# end::test-doc[]
+
+# tag::upsert-invoke[]
+upsert_document(airline)
+# end::upsert-invoke[]
+
+# tag::get-invoke[]
+get_airline_by_key("airline_8091")
+# end::get-invoke[]
+
+# tag::lookup-invoke[]
+lookup_by_callsign("CBS")
+# end::lookup-invoke[]

@@ -33,7 +33,7 @@ For synchronous programs, every error is converted into an Exception and thrown 
 
 [source,python]
 ----
-include::howtos:example$error_handling.py[tag=generic_try_catch]
+include::devguide:example$python/error_handling.py[tag=generic_try_catch]
 ----
 
 If you do not catch the Exception, it will bubble up:
@@ -76,7 +76,7 @@ Consider a decorator that provides flexibility to determine which Exceptions to 
 
 [source,python]
 ----
-include::howtos:example$error_handling.py[tag=retries]
+include::devguide:example$python/error_handling.py[tag=retries]
 ----
 
 == Key-Value Exceptions
@@ -88,14 +88,14 @@ If a particular key cannot be found a `DocumentNotFoundException` is raised:
 
 [source,python]
 ----
-include::howtos:example$error_handling.py[tag=DocumentNotFoundException]
+include::devguide:example$python/error_handling.py[tag=DocumentNotFoundException]
 ----
 
 On the other hand if the key already exists and should not (e.g. on an insert) then a `DocumentExistsException` is raised:
 
 [source,python]
 ----
-include::howtos:example$error_handling.py[tag=DocumentExistsException]
+include::devguide:example$python/error_handling.py[tag=DocumentExistsException]
 ----
 
 === CAS Mismatch
@@ -107,7 +107,7 @@ If it has, it returns `CASMismatchException`. See the xref:#retry[Retry] section
 
 [source,python]
 ----
-include::howtos:example$error_handling.py[tag=CASMismatchException]
+include::devguide:example$python/error_handling.py[tag=CASMismatchException]
 ----
 
 === Ambiguity
@@ -130,7 +130,7 @@ If it now fails with a `DocumentExistsException`, we know that the previous oper
 
 [source,python]
 ----
-include::howtos:example$error_handling.py[tag=DurabilitySyncWriteAmbiguousException]
+include::devguide:example$python/error_handling.py[tag=DurabilitySyncWriteAmbiguousException]
 ----
 
 === Non-Idempotent Operations
@@ -155,7 +155,7 @@ A {sqlpp} (formerly N1QL) query either returns results or will throw an error wi
 
 [source,python]
 ----
-include::howtos:example$error_handling.py[tag=QueryErrorContext]
+include::devguide:example$python/error_handling.py[tag=QueryErrorContext]
 ----
 
 Analytics works in an identical fashion, potentially raising an analytics specific error and having an `AnalyticsErrorContext`.

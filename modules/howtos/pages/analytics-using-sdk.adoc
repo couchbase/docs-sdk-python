@@ -3,12 +3,7 @@
 :page-topic-type: howto
 :page-aliases: analytics-query
 :page-edition: Enterprise Edition
-:lang: Python
-:version: 3.2.0
-:example-source: 3.2@python-sdk:howtos:example$analytics_ops.py
-:example-source-lang: Python
 
-include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
@@ -34,7 +29,7 @@ Here's a complete example of doing a analytics and handling the results:
 
 [source,py]
 ----
-include::howtos:example$analytics_ops.py[tag=analytics_basic_example]
+include::devguide:example$python/analytics_ops.py[tag=analytics_basic_example]
 ----
 
 NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use Analytics.
@@ -51,26 +46,26 @@ The first example shows how to provide them by name:
 .Positional parameter example:
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=positional]
+include::devguide:example$python/analytics_ops.py[tag=positional]
 ----
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=positional_options]
+include::devguide:example$python/analytics_ops.py[tag=positional_options]
 ----
 
 .Named parameter example:
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=named_kwargs]
+include::devguide:example$python/analytics_ops.py[tag=named_kwargs]
 ----
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=named_options]
+include::devguide:example$python/analytics_ops.py[tag=named_options]
 ----
 
-The complete code for this page's example can be found at https://github.com/couchbase/docs-sdk-python/blob/release/3.2/modules/howtos/examples/analytics_ops.py[analytics_ops.py].
+The complete code for this page's example can be found at https://github.com/couchbase/docs-sdk-python/blob/release/4.6/modules/devguide/examples/python/analytics_ops.py[analytics_ops.py].
 What style you choose is up to you, for readability in more complex queries we generally recommend using the named parameters.
 Note that you cannot use parameters in all positions.
 If you put it in an unsupported place the server will respond with a `CompilationFailedException` or similar.
@@ -82,7 +77,7 @@ When performing an analytics query, the response you receive is an `AnalyticsRes
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=iterating]
+include::devguide:example$python/analytics_ops.py[tag=iterating]
 ----
 
 The `AnalyticsMetaData` provides insight into some basic profiling/timing information as well as information like the `clientContextId`.
@@ -103,7 +98,7 @@ For example, here is how you can print the `executionTime` of a query:
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=print_metrics]
+include::devguide:example$python/analytics_ops.py[tag=print_metrics]
 ----
 
 == Analytics Options
@@ -128,7 +123,7 @@ By default, the analytics engine will return whatever is currently in the index 
 
 [source,py]
 ----
-include::howtos:example$analytics_ops.py[tag=scan_consistency]
+include::devguide:example$python/analytics_ops.py[tag=scan_consistency]
 ----
 
 === Client Context Id
@@ -137,7 +132,7 @@ The SDK will always send a client context ID with each query, even if none is pr
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=client_context_id]
+include::devguide:example$python/analytics_ops.py[tag=client_context_id]
 ----
 
 
@@ -147,7 +142,7 @@ By default, every analytics query has the same priority on the server. By settin
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=priority]
+include::devguide:example$python/analytics_ops.py[tag=priority]
 ----
 
 
@@ -157,7 +152,7 @@ If the query is marked as readonly, both the server and the SDK can improve proc
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=read_only]
+include::devguide:example$python/analytics_ops.py[tag=read_only]
 ----
 
 ////
@@ -180,13 +175,13 @@ Simple queries with both asyncio and Twisted APIs look similar to the blocking o
 .ACouchbase
 [source,python]
 ----
-include::howtos:example$acouchbase_analytics_ops.py[tag=simple_query]
+include::devguide:example$python/acouchbase_analytics_ops.py[tag=simple_query]
 ----
 
 .TxCouchbase
 [source,python]
 ----
-include::howtos:example$txcouchbase_analytics_ops.py[tag=simple_query]
+include::devguide:example$python/txcouchbase_analytics_ops.py[tag=simple_query]
 ----
 
 == Scoped Queries on Named Collections
@@ -206,7 +201,7 @@ We can then query the Dataset as normal, using the fully qualified keyspace:
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=handle_collection]
+include::devguide:example$python/analytics_ops.py[tag=handle_collection]
 ----
 
 Note that using the `CREATE DATASET` syntax we could choose any Dataset name in any Dataverse, including the default.
@@ -214,5 +209,5 @@ However the SDK supports this standard convention, allowing us to query from the
 
 [source,python]
 ----
-include::howtos:example$analytics_ops.py[tag=handle_scope]
+include::devguide:example$python/analytics_ops.py[tag=handle_scope]
 ----

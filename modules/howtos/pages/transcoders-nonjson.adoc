@@ -86,7 +86,7 @@ Here we want to use https://pypi.org/project/orjson[orjson] for serialization, i
 
 [source,python]
 ----
-include::howtos:example$transcoders.py[tag=raw_json_encode]
+include::devguide:example$python/transcoders.py[tag=raw_json_encode]
 ----
 
 Since orjson has already done the serialization work, we don't want to use the default `JSONTranscoder`, as this will run the provided string needlessly through `json.loads`.
@@ -97,7 +97,7 @@ orjson can then be used for the deserialization.
 
 [source,python]
 ----
-include::howtos:example$transcoders.py[tag=raw_json_decode]
+include::devguide:example$python/transcoders.py[tag=raw_json_decode]
 ----
 
 == Non-JSON Transcoders
@@ -138,7 +138,7 @@ Here’s an example of using the `RawStringTranscoder`:
 
 [source,python]
 ----
-include::howtos:example$transcoders.py[tag=raw_string_transcoder]
+include::devguide:example$python/transcoders.py[tag=raw_string_transcoder]
 ----
 
 === RawBinaryTranscoder
@@ -168,7 +168,7 @@ Here’s an example of using the `RawBinaryTranscoder`:
 
 [source,python]
 ----
-include::howtos:example$transcoders.py[tag=raw_binary_transcoder]
+include::devguide:example$python/transcoders.py[tag=raw_binary_transcoder]
 ----
 
 == Custom Transcoders
@@ -184,7 +184,7 @@ We create a transcoder that uses the `msgpack.packb`/`msgpack.unpackb` methods, 
 
 [source,python]
 ----
-include::howtos:example$transcoders.py[tag=create_custom_transcoder]
+include::devguide:example$python/transcoders.py[tag=create_custom_transcoder]
 ----
 
 Note the use of a private property `_CUSTOM_FLAGS`.
@@ -196,7 +196,7 @@ Now we can use the new transcoder to seamlessly store MessagePack data in Couchb
 
 [source,python]
 ----
-include::howtos:example$transcoders.py[tag=use_custom_transcoder]
+include::devguide:example$python/transcoders.py[tag=use_custom_transcoder]
 ----
 
 See the https://github.com/msgpack/msgpack-python[msgpack-python docs] for further details on what the package can do.

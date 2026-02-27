@@ -17,7 +17,7 @@ The Python SDK allows logging via the standard `logging` module.
 .Python Logging Module
 [source,python]
 ----
-include::example$logging_example.py[tag=logging,indent=0]
+include::devguide:example$python/logging_example.py[tag=logging,indent=0]
 ----
 
 === Environmental Settings

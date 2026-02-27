@@ -42,7 +42,7 @@ The `CertAuthenticator` expects to be given the path to the client certificate a
 
 [source,python]
 ----
-include::example$cert-auth.py[tag=auth,indent=0]
+include::devguide:example$python/cert-auth.py[tag=auth,indent=0]
 ----
 
 
