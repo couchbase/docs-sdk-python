@@ -37,8 +37,7 @@ include::devguide:example$python/kv_operations.py[indent=0,tag=durability]
 ----
 
 `upsert` inserts (creates) the document if it does not exist, or replaces it if it does.
-We'll explore creating and retrieving data records in more detail <<create-read-update-delete,below>>
-(and touch lightly upon a little of Java's functional programming approach as we go), 
+We'll explore creating and retrieving data records in more detail <<create-read-update-delete,below>>,
 after walking through a quick installation.
 
 TIP: This page walks you through a quick installation, and CRUD examples against the Data Service.
@@ -164,7 +163,7 @@ If you're all set up and in a real hurry, just grab this code sample and add in 
 [%collapsible]
 ====
 ....
-include::devguide:example$python/cloud.py
+include::devguide:example$python/cloud.py[]
 ....
 ====
 
@@ -195,11 +194,7 @@ Self-Managed Couchbase Server::
 
 [source,python]
 ----
-include::devguide:example$python/$hello_world_t.py[tags="connect-info",indent=0]
-----
-[source,python]
-----
-include::devguide:example$python/$hello_world_t.py[tags="connect-env",indent=0]
+include::devguide:example$python/$hello_world_t.py[tags="connect",indent=0]
 ----
 --
 ====
@@ -229,10 +224,18 @@ Read more on the xref:howtos:managing-connections.adoc#cloud-native-gateway[Conn
 
 
 
+`wait_until_ready` is an optional call,
+but it is good practice to use it.
+Making connections, and opening resources such as buckets, is asynchronous --
+that is, the `cluster.bucket` call (below) returns immediately and proceeds in the background.
+`waitUntilReady` ensures that the bucket resource is fully loaded before proceeding.
+// If not present, then the first key-value (KV) operation on the bucket will wait for it to be ready.
+// As with the earlier `Cluster.connect`, we use `.get` on the result here for simplicity.
+
 
 For a deeper look at connection options, read xref:howtos:managing-connections.adoc[].
 
-TIP: The connection code for getting started uses the Administrator password that you were given during set up.
+IMPORTANT: The connection code for getting started uses the Administrator password that you were given during set up.
 In any production app you should create a role restricted to the permissions needed for your app -- 
 more on this in xref:concept-docs:best-practices.adoc#roles-and-rbac[the Security documentation].
 
@@ -247,10 +250,9 @@ There's also a simpler version of `Cluster.connect()` for when you don't need to
 ----
 include::devguide:example$java/SimpleConnect.java[tags=connect-string,indent=0]
 ----
-////
 
 ====
-
+////
 
 === Opening a Bucket
 
@@ -267,15 +269,6 @@ include::devguide:example$python/cloud.py[tag=bucket,indent=0]
 client has not yet completed bootstrapping (connecting to the cluster, getting the configuration, connecting to the nodes).
 ////
 
-////
-`waitUntilReady` is an optional call,
-but it is good practice to use it.
-Opening resources such as buckets is asynchronous --
-that is, the `cluster.bucket` call returns immediately and proceeds in the background.
-`waitUntilReady` ensures that the bucket resource is fully loaded before proceeding.
-If not present, then the first key-value (KV) operation on the bucket will wait for it to be ready.
-As with the earlier `Cluster.connect`, we use `.get` on the result here for simplicity.
-////
 
 
 *Collections* allow documents to be grouped by purpose or theme, according to a specified *scope* -- see data modeling, <<data-modeling,below>>.
@@ -334,7 +327,7 @@ We'll create a new document...
 include::devguide:example$python/cloud.py[tag=test-doc,indent=0]
 ----
 
-... And call our wrapper function
+… And call our wrapper function
 
 .Upserting the document
 [source,python]
