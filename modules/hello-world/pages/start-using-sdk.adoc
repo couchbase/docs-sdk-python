@@ -202,7 +202,11 @@ include::devguide:example$python/$hello_world_t.py[tags="connect-info",indent=0]
 include::devguide:example$python/$hello_world_t.py[tags="connect-env",indent=0]
 ----
 --
+====
 
+
+
+////
 Cloud Native Gateway (CNG)::
 +
 --
@@ -221,7 +225,9 @@ Cluster cluster = Cluster.connect(
 
 Read more on the xref:howtos:managing-connections.adoc#cloud-native-gateway[Connections] page.
 --
-====
+////
+
+
 
 
 For a deeper look at connection options, read xref:howtos:managing-connections.adoc[].
