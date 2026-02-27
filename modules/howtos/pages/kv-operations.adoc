@@ -31,7 +31,7 @@ Here is the _Insert_ operation at its simplest:
 .Insert
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=insert]
+include::devguide:example$python/kv_operations.py[tag=insert]
 ----
 
 Options may be added to operations.  It is best practice to use the *Options() class that matches name of the operation (e.g. GetOptions(), InsertOptions(), etc.).  However, keyword arguments can be used as an override to a corresponding value within the options.
@@ -41,7 +41,7 @@ Options like _timeout_ and _expiry_ are timedelta objects.
 .Insert (with options)
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=insert_w_opts]
+include::devguide:example$python/kv_operations.py[tag=insert_w_opts]
 ----
 
 Expiration sets an explicit time to live (TTL) for a document.
@@ -58,7 +58,7 @@ Without explicitly setting it, a newly-created document would have a CAS value o
 
 [source,python,indent=0]
 ----
-include::howtos:example$kv_operations.py[tag=replace_cas]
+include::devguide:example$python/kv_operations.py[tag=replace_cas]
 ----
 
 Typically we would want to use CAS for something more meaningful like performing a Get, modifying the result and updating the document.
@@ -66,7 +66,7 @@ By using the CAS value we know that if anyone else modified this document and up
 
 [source,python,indent=0]
 ----
-include::howtos:example$kv_operations.py[tag=get_cas_replace]
+include::devguide:example$python/kv_operations.py[tag=get_cas_replace]
 ----
 
 == Durability
@@ -97,7 +97,7 @@ The following example demonstrates using the newer durability features available
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=durability]
+include::devguide:example$python/kv_operations.py[tag=durability]
 ----
 
 If a version of Couchbase Server lower than 6.5 is being used then the application can fall-back to xref:concept-docs:durability-replication-failure-considerations.adoc#older-server-versions['client verified' durability].
@@ -106,7 +106,7 @@ Here we can see how that is set:
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=obs_durability]
+include::devguide:example$python/kv_operations.py[tag=obs_durability]
 ----
 
 To stress, durability is a useful feature but should not be the default for most applications, as there is a performance consideration,
@@ -164,14 +164,14 @@ Using the `get()` method with the document key can be done in a similar fashion 
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=get]
+include::devguide:example$python/kv_operations.py[tag=get]
 ----
 
 _Timeout_ can also be set, as in the earlier `Insert` operation example:
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=get_timeout]
+include::devguide:example$python/kv_operations.py[tag=get_timeout]
 ----
 
 == Removing
@@ -181,7 +181,7 @@ When removing a document, you will have the same concern for durability as with 
 .Remove (with options)
 [source,python,indent=0]
 ----
-include::howtos:example$kv_operations.py[tag=remove_durability]
+include::devguide:example$python/kv_operations.py[tag=remove_durability]
 ----
 
 
@@ -194,21 +194,21 @@ To prevent a document that already has expiry from expiring you can use `Touch` 
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=touch]
+include::devguide:example$python/kv_operations.py[tag=touch]
 ----
 
 When getting a document, the expiry is not provided automatically by Couchbase Server but it can be requested:
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=get_expiry]
+include::devguide:example$python/kv_operations.py[tag=get_expiry]
 ----
 
 Some applications may find `get_and_touch` useful, which fetches a document while updating its expiry field. It can be used like this:
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=get_and_touch]
+include::devguide:example$python/kv_operations.py[tag=get_and_touch]
 ----
 
 == Atomic Counters
@@ -220,25 +220,25 @@ NOTE: Increment & Decrement are considered part of the ‘binary’ API, and as 
 .Increment
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=increment]
+include::devguide:example$python/kv_operations.py[tag=increment]
 ----
 
 .Increment (with seed)
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=increment_w_seed]
+include::devguide:example$python/kv_operations.py[tag=increment_w_seed]
 ----
 
 .Decrement
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=decrement]
+include::devguide:example$python/kv_operations.py[tag=decrement]
 ----
 
 .Decrement (with seed)
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=decrement_w_seed]
+include::devguide:example$python/kv_operations.py[tag=decrement_w_seed]
 ----
 
 TIP: Setting the document expiry time only works when a document is created, and it is not possible to update the expiry time of an existing counter document with the Increment method -- to do this during an increment, use with the `Touch()` method.
@@ -266,7 +266,7 @@ Here's an example of a KV range scan that gets all documents in a collection:
 .KV Range Scan for all documents in a collection
 [source,python]
 ----
-include::howtos:example$kv_range_scan.py[tag=range_scan_all_documents]
+include::devguide:example$python/kv_range_scan.py[tag=range_scan_all_documents]
 ----
 
 <1> The `RangeScan` class has two optional parameters: `start` and `end`.
@@ -287,7 +287,7 @@ For example, to get all documents associated with user "alice", you would write:
 .KV Range Scan for all documents in a collection whose IDs start with `alice::`
 [source,python]
 ----
-include::howtos:example$kv_range_scan.py[tag=range_scan_prefix]
+include::devguide:example$python/kv_range_scan.py[tag=range_scan_prefix]
 ----
 
 [#kv-range-scan-sample]
@@ -298,7 +298,7 @@ If you want to get random documents from a collection, use a sample scan.
 .KV Range Scan for 100 random documents
 [source,python]
 ----
-include::howtos:example$kv_range_scan.py[tag=range_scan_sample]
+include::devguide:example$python/kv_range_scan.py[tag=range_scan_sample]
 ----
 
 [#kv-range-scan-only-ids]
@@ -309,7 +309,7 @@ If you only want the document IDs, set the `ids_only` field of `ScanOptions` to 
 .KV Range Scan for all document IDs in a collection
 [source,python]
 ----
-include::howtos:example$kv_range_scan.py[tag=range_scan_all_document_ids]
+include::devguide:example$python/kv_range_scan.py[tag=range_scan_all_document_ids]
 ----
 
 
@@ -323,7 +323,7 @@ Here is an example showing an upsert in the `users` collection, which lives in t
 
 [source,python]
 ----
-include::howtos:example$kv_operations.py[tag=named-collection-upsert,indent=0]
+include::devguide:example$python/kv_operations.py[tag=named-collection-upsert,indent=0]
 ----
 
 

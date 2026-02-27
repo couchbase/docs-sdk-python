@@ -20,7 +20,7 @@ include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=intro]
 
 [source,python]
 ----
-include::howtos:example$transactions_example.py[tag=create-simple,indent=0]
+include::devguide:example$python/transactions_example.py[tag=create-simple,indent=0]
 ----
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=mechanics;!library-cleanup-process]
@@ -36,7 +36,7 @@ The application can use this to signal why it triggered a rollback, as so:
 
 [source,python]
 ----
-include::howtos:example$transactions_example.py[tag=rollback_cause,indent=0]
+include::devguide:example$python/transactions_example.py[tag=rollback_cause,indent=0]
 ----
 
 After a transaction is rolled back, it cannot be committed, no further operations are allowed on it, and the system will not try to automatically commit it at the end of the code block.
@@ -56,14 +56,14 @@ include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=concurre
 //
 //[source,python]
 //----
-//include::howtos:example$transactions_example.py[tag=custom_metadata,indent=0]
+//include::devguide:example$python/transactions_example.py[tag=custom_metadata,indent=0]
 //----
 //
 //or at an individual transaction level with:
 //
 //[source,java]
 //----
-//include::howtos:example$transactions_example.py[tag=custom_metadata_per,indent=0]
+//include::devguide:example$python/transactions_example.py[tag=custom_metadata_per,indent=0]
 //----
 //
 //include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=integrated-sdk-custom-metadata-2]

@@ -1,91 +1,165 @@
-= Couchbase Python SDK {sdk_dot_minor}
+= Couchbase {name-sdk} {sdk_dot_minor}
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
 :!sectids:
 
-= Couchbase Python SDK {sdk_dot_minor}
+
+// Note to editors
+// 
+// This page pulls in content from -sdk-common-
+// and code samples from https://github.com/couchbase/docs-sdk-python/tree/release/4.6/modules/devguide/examples/python/
+// 
+// It can be seen built at https://docs.couchbase.com/python-sdk/4.6/hello-world/overview.html
+// 
+// See the antora.yml file for the {attributes}
+
+
+
+= Couchbase {name-sdk} {sdk_dot_minor}
+
+The Couchbase {name-sdk} allows {name_platform} applications to access a Couchbase cluster --
+Capella or self-managed.
+// -- other SDKs are available for Couchbase Lite (edge or mobile devices) and Capella Columnar (real-time analytics)
+
+xref:hello-world:start-using-sdk.adoc[Quickstart Guide] |
+xref:project-docs:sdk-release-notes.adoc[] |
+{sdk-api-link}[{name-sdk} API Reference] |
+{sdk-gh-link}[{name-sdk} source code]
+
+
+What's the point of a fast and scalable database if it's not easy to develop for?
+Couchbase gives you the {name_platform} APIs to work with Capella, our managed solution, or self-managed options in your private Cloud or datacenter.
+
+
+[{tabs}] 
+==== 
+Data Ops (CRUD)::
++
+--
 
 [source,python]
 ----
-from couchbase.cluster import Cluster
-from couchbase.auth import PasswordAuthenticator
+include::devguide:example$python/kv_operations.py[indent=0,tag=durability]
+----
+--
 
-cluster = Cluster('couchbase://your-ip', authenticator=PasswordAuthenticator('username', 'password'))
-bucket = cluster.bucket('default')
-coll = bucket.default_collection()
+{sqlpp} Query (OLTP)::
++
+--
+
+[source,python]
+----
+include::devguide:example$python/n1ql_ops.py[tag=named_options,indent=0]
+----
+--
+
+Vector Search::
++
+--
+
+[source,python]
+----
+  result = cluster.query(
+         "SELECT d.id, d.question, d.wanted_similar_color_from_search, " +
+         "  ARRAY_CONCAT( " +
+           "d.couchbase_search_query.knn[0].vector[0:4], " +
+           "['...'] " +
+         ") AS vector " +
+      "FROM `vector-sample`.`color`.`rgb-questions` AS d " +
+  	"WHERE d.id = $id;",
+  QueryOptions(named_parameters={'id': '#87CEEB'})
+
+    for row in result.rows():
+        print(f"Found match: {row}")
+----
+--
+====
 
 
-coll.upsert('key', 'value')
-get_res = coll.get("key")
-print('Get result - value: {}; CAS: {}'.format(get_res.content, get_res.cas))
+Couchbase is a large platform -- covering many services -- and Couchbase SDKs are not thin wrappers generated around a REST API, but well thought out interfaces to the platform that make it easier to design and maintain your client code,
+and work with Couchbase in more natural ways for your platform.
+Install the SDK, and explore in the way that works best for you.
 
-# Output:
-# Get result - value: value; CAS: 1617046112012992512
+.Installing the SDK via pip
+[source,console]
+----
+$ python3 -m pip install couchbase
 ----
 
-The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
-The Python SDK uses the high-performance {cpp} library {cbpp} to handle communicating to the cluster over Couchbase’s binary protocols.
+The Couchbase Python SDK integrates into the Python ecosystem through a number of extensions and connectors, including:
+
+* https://developer.couchbase.com/tutorial-quickstart-flask-python/[Python with Flask tutorial]
+* xref:3.5@spark-connector:ROOT:pyspark.adoc[Apache Spark Connector]
+* https://github.com/couchbase-examples/couchbase-jupyter-labs/[Couchbase Jupyter Labs]
+
+
+== Exploring the Python SDK
+
+The links in the sections below will take you where you want to go -- as will the navigation on the left-hand side of this page.
+But if you don't know exactly where you need to go, try one of the following:
+
+* Our xref:hello-world:start-using-sdk.adoc[Quickstart Guide] introduces the SDK with a quick install, and CRUD examples against the Data Service.
+* Couchbase's familiar SQL-family query language and fuzzy search options (including vector search) are introduced on the xref:concept-docs:querying-your-data.adoc[] page.
+* The {name-sdk} docs are, necessarily, just a sub-set {sdk-api-link}[{name-sdk} API Reference] -- and a complete listing of all APIs can be found in the reference.
+* For a fuller orientation, there is a xref:project-docs:metadoc-about-these-sdk-docs.adoc[guide to the {name-sdk} docs]
+
 
 {empty} +
 
 == icon:database[] Using Your Database
 
-How-to guides to help you start your development journey with Couchbase and the Python SDK.
+How-to guides to help you start your development journey with Couchbase and the {name-sdk}.
 
 ++++
-<div class="card-row three-column-row">
+<div class="card-row two-column-row">
 ++++
 
 [.column]
-.Getting Started
-* xref:hello-world:start-using-sdk.adoc[]
-* xref:howtos:kv-operations.adoc[]
-* xref:howtos:n1ql-queries-with-sdk.adoc[]
-* xref:howtos:full-text-searching-with-sdk.adoc[]
+.Easy to Connect & Get Started
+* xref:hello-world:start-using-sdk.adoc[Getting Started]
 * xref:hello-world:sample-application.adoc[]
-
-[.column]
-.Transactions
-* xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[]
-* xref:concept-docs:transactions.adoc[]
-
-[.column]
-.Working with Data
-* xref:howtos:subdocument-operations.adoc[]
-* xref:howtos:analytics-using-sdk.adoc[]
-//* xref:howtos:encrypting-using-sdk.adoc[]
-* xref:howtos:working-with-collections.adoc[Working with Collections]
-
-[.column]
-.Managing Couchbase
+// * xref:hello-world:student-record-developer-tutorial.adoc[Beginners' Couchbase Tutorial]
 * xref:howtos:managing-connections.adoc[]
-* xref:howtos:sdk-authentication.adoc[]
-* xref:howtos:provisioning-cluster-resources.adoc[]
-* xref:howtos:sdk-user-management-example.adoc[]
 
 [.column]
-.Errors & Diagnostics
+.Search, Query, Analyze
+* xref:howtos:sqlpp-queries-with-sdk.adoc[Query with a familiar, SQL-like language]
+* xref:howtos:vector-searching-with-sdk.adoc[Vector Search for your AI app]
+* xref:howtos:full-text-searching-with-sdk.adoc[Fuzzy Search with text and Geo data]
+* For real-time analytics, see our xref:python-analytics-sdk:hello-world:overview.adoc[Enterprise Analytics Python SDK]
+
+[.column]
+.Lightning Fast Data Service
+* xref:howtos:kv-operations.adoc[]
+* xref:howtos:subdocument-operations.adoc[]
+* xref:howtos:encrypting-using-sdk.adoc[]
+* xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[Multi-Document Distributed ACID Transactions]
+
+[.column]
+.Observability & Error Handling
 * xref:howtos:error-handling.adoc[]
 * xref:howtos:collecting-information-and-logging.adoc[]
 * xref:howtos:slow-operations-logging.adoc[]
+* xref:howtos:health-check.adoc[]
 
 ++++
 </div>
 ++++
 
+////
 == icon:graduation-cap[] Learn
 
 Take a deep-dive into the SDK concept material and learn more about Couchbase.
 
 ++++
-<div class="card-row three-column-row">
+<div class="card-row two-column-row">
 ++++
 
 [.column]
 .Data Concepts
 * xref:concept-docs:data-model.adoc[]
 * xref:concept-docs:data-services.adoc[Service Selection]
-//* xref:concept-docs:encryption.adoc[Field Level Encryption]
+* xref:concept-docs:encryption.adoc[Field Level Encryption]
 
 [.column]
 .Errors & Diagnostics Concepts
@@ -96,33 +170,38 @@ Take a deep-dive into the SDK concept material and learn more about Couchbase.
 ++++
 </div>
 ++++
+////
+
+{empty} +
 
 == icon:book[] Resources
 
-Useful resources to help support your development experience with Couchbase and the Python SDK.
+Useful resources to help support your development experience with Couchbase and the {name_platform} SDK.
 
 ++++
-<div class="card-row three-column-row">
+<div class="card-row two-column-row">
 ++++
 
 [.column]
 .Reference
-* https://docs.couchbase.com/sdk-api/couchbase-python-client/[API Reference]
+* {sdk-api-link}[API Reference^]
 * xref:ref:client-settings.adoc[]
 * xref:ref:error-codes.adoc[]
-* xref:ref:glossary.adoc[Glossary]
-* xref:ref:travel-app-data-model.adoc[]
+* {sdk-gh-link}[SDK source code]
+// * xref:ref:glossary.adoc[Glossary]
+// * xref:ref:travel-app-data-model.adoc[]
 
 [.column]
-.Project Docs
+.Deployment
 * xref:project-docs:sdk-release-notes.adoc[]
 * xref:project-docs:compatibility.adoc[Compatibility]
-* https://docs-archive.couchbase.com/home/index.html[Older Versions Archive]
-* xref:project-docs:migrating-sdk-code-to-3.n.adoc[]
+// * https://docs-archive.couchbase.com/home/index.html[Older Versions Archive]
+// ** xref:project-docs:migrating-sdk-code-to-3.n.adoc[]
+* xref:project-docs:third-party-integrations.adoc[]
 * xref:project-docs:sdk-full-installation.adoc[]
 
 ++++
 </div>
 ++++
 
-include::{version-common}@sdk:shared:partial$columnar-available.adoc[tag=initial-availability-o]
+include::{version-common}@sdk:shared:partial$columnar-available.adoc[tag=initial-availability]

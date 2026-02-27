@@ -77,7 +77,7 @@ result = collection.insert("document-key-opts",
 
 try:
     # tag::durability[]
-    # Upsert with Durability (Couchbase Server >= 6.5) level Majority
+    # Upsert with Durability level Majority
     document = dict(foo="bar", bar="foo")
     opts = UpsertOptions(durability=ServerDurability(Durability.MAJORITY))
     result = collection.upsert("document-key", document, opts)

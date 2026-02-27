@@ -18,14 +18,14 @@ At its simplest, `ping` provides information about the current state of the conn
 
 [source,python]
 ----
-include::howtos:example$health_check.py[tag=cluster_ping_latency]
+include::devguide:example$python/health_check.py[tag=cluster_ping_latency]
 ----
 
 This will print latency for each socket (endpoint) connected per service.  More information is available on the classess.  Usually though, you want to regularly perform the ping and then print the results into the log.  This is made easy by the `as_json` method:
 
 [source,python]
 ----
-include::howtos:example$health_check.py[tag=cluster_ping_as_json]
+include::devguide:example$python/health_check.py[tag=cluster_ping_as_json]
 ----
 
 Which returns a `PingResult` object, encapsulating a payload similar to this:
@@ -91,14 +91,14 @@ If you only wish to know if there's a connection that's up, filter out the rest 
 
 [source,python]
 ----
-include::howtos:example$health_check.py[tag=check_connection]
+include::devguide:example$python/health_check.py[tag=check_connection]
 ----
 
 By default the SDK will ping all services available on the target cluster.  You can customize the type of services to ping through the `PingOptions`:
 
 [source,python]
 ----
-include::howtos:example$health_check.py[tag=cluster_ping_n1ql]
+include::devguide:example$python/health_check.py[tag=cluster_ping_n1ql]
 ----
 
 In this example, on the Query service is included in the ping report.
@@ -111,7 +111,7 @@ Note the ping is available both on the cluster and bucket level.  The difference
 
 [source,python]
 ----
-include::howtos:example$health_check.py[tag=cluster_diagnostics]
+include::devguide:example$python/health_check.py[tag=cluster_diagnostics]
 ----
 
 Which will print the diagnostics result as a json string.  For instance, on a single node cluster that has had {sqlpp} (formerly N1QL) queries and kv operations

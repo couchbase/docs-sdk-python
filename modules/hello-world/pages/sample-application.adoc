@@ -42,7 +42,7 @@ Flask and Swagger implement the API endpoints. When starting the backend, the fo
 
 [source, python]
 ----
-include::example$sample-app.py[tag=api, indent=0]
+include::devguide:example$python/sample-app.py[tag=api, indent=0]
 ----
 
 A function defines each endpoint. 
@@ -51,7 +51,7 @@ For instance, the URL `localhost:8080/` triggers the following function:
 
 [source, python]
 ----
-include::example$sample-app.py[tag=route, indent=0]
+include::devguide:example$python/sample-app.py[tag=route, indent=0]
 ----
 
 Besides the default endpoint, each of the endpoint functions are inside a `SwaggerView` class. 
@@ -59,7 +59,7 @@ This class is purely to group related endpoints together inside the Swagger API 
 
 [source, python]
 ----
-include::example$sample-app.py[tag=airport-class-def, indent=0]
+include::devguide:example$python/sample-app.py[tag=airport-class-def, indent=0]
 ----
 
 Each endpoint begins with a docstring that Swagger uses to generate the documentation for that endpoint. 
@@ -78,7 +78,7 @@ The backend expects several parameters when invoked:
 
 [source, python]
 ----
-include::example$sample-app.py[tags=args;connect;start-app, indent=0]
+include::devguide:example$python/sample-app.py[tags=args;connect;start-app, indent=0]
 ----
 
 See xref:howtos:managing-connections.adoc#connection-strings[Managing Connections] for more information about connecting the Python SDK to Couchbase.
@@ -90,7 +90,7 @@ Multiple endpoints implement this capability, so a SwaggerView class organizes t
 
 [source, python]
 ----
-include::example$sample-app.py[tag=user-class-def, indent=0]
+include::devguide:example$python/sample-app.py[tag=user-class-def, indent=0]
 ----
 
 The application has two different tenants that store data in two different tenant scopes:
@@ -103,7 +103,7 @@ The signup code for both tenants is therefore defined at the single endpoint `/t
 
 [source, python]
 ----
-include::example$sample-app.py[tag=signup-def, indent=0]
+include::devguide:example$python/sample-app.py[tag=signup-def, indent=0]
 ----
 
 The request body consists of a JSON object with two fields: `username` and `password`.
@@ -124,7 +124,7 @@ See xref:howtos:kv-operations.adoc[Data Operations] for more information about K
 
 [source, python]
 ----
-include::example$sample-app.py[tag=signup-code, indent=0]
+include::devguide:example$python/sample-app.py[tag=signup-code, indent=0]
 ----
 
 To perform a login, the frontend provides the username and password given by the user in the same JSON format as the `signup` endpoint. 
@@ -134,7 +134,7 @@ This password is then compared against the given username.
 
 [source, python]
 ----
-include::example$sample-app.py[tags=login-def;login-code, indent=0]
+include::devguide:example$python/sample-app.py[tags=login-def;login-code, indent=0]
 ----
 
 === Querying Flight Information
@@ -144,7 +144,7 @@ It returns a list of matching flight routes:
 
 [source, python]
 ----
-include::example$sample-app.py[tag=flights-class, indent=0]
+include::devguide:example$python/sample-app.py[tag=flights-class, indent=0]
 ----
 
 Key/value operations aren't sufficient to service a complex request like searching for flight information. 
@@ -185,7 +185,7 @@ Therefore an initial query fetches the `faa` field from the corresponding docume
 
 [source, python]
 ----
-include::example$sample-app.py[tag=flights-first-query, indent=0]
+include::devguide:example$python/sample-app.py[tag=flights-first-query, indent=0]
 ----
 
 The routes are now queried. 
@@ -193,7 +193,7 @@ xref:{version-server}@server:n1ql:n1ql-language-reference/unnest.adoc[UNNEST] fl
 
 [source, python]
 ----
-include::example$sample-app.py[tag=flights-second-query, indent=0]
+include::devguide:example$python/sample-app.py[tag=flights-second-query, indent=0]
 ----
 
 === Auto-Completing Airport Names
@@ -211,7 +211,7 @@ In this case, the query searches for a document with a matching FAA code, return
 
 [source, python]
 ----
-include::example$sample-app.py[tags=airport-class-def;airports-endpoint, indent=0]
+include::devguide:example$python/sample-app.py[tags=airport-class-def;airports-endpoint, indent=0]
 ----
 
 === Booking Flights
@@ -242,7 +242,7 @@ The document key for this booking is a random 36 character string.
 
 [source, python]
 ----
-include::example$sample-app.py[tag=booking-doc, indent=0]
+include::devguide:example$python/sample-app.py[tag=booking-doc, indent=0]
 ----
 
 However, this booking document isn't associated with the user who booked it.
@@ -250,7 +250,7 @@ Therefore the endpoint performs a xref:howtos:subdocument-operations.adoc[Sub-Do
 
 [source, python]
 ----
-include::example$sample-app.py[tag=update-user, indent=0]
+include::devguide:example$python/sample-app.py[tag=update-user, indent=0]
 ----
 
 NOTE: If the booking document insert succeeds, but the update to the user document fails, the endpoint returns an internal server error to the frontend. 
@@ -271,14 +271,14 @@ The endpoint can then verify the path exists before attempting to read the resul
 
 [source, python]
 ----
-include::example$sample-app.py[tag=view-flight-get-keys, indent=0]
+include::devguide:example$python/sample-app.py[tag=view-flight-get-keys, indent=0]
 ----
 
 The endpoint can now iterate over the booking keys, performing `GET` requests for the flight details:
 
 [source, python]
 ----
-include::example$sample-app.py[tag=view-flight-get-details, indent=0]
+include::devguide:example$python/sample-app.py[tag=view-flight-get-details, indent=0]
 ----
 
 === Searching for Hotels
@@ -294,7 +294,7 @@ Since multiple fields could match these terms, the endpoint uses a conjunction q
 
 [source, python]
 ----
-include::example$sample-app.py[tag=search-query, indent=0]
+include::devguide:example$python/sample-app.py[tag=search-query, indent=0]
 ----
 
 The result of a search query is an iterable containing `SearchRow` objects. 
@@ -304,7 +304,7 @@ This metadata includes the document key, so a sub-document operation retrieves t
 
 [source, python]
 ----
-include::example$sample-app.py[tag=search-subdoc, indent=0]
+include::devguide:example$python/sample-app.py[tag=search-subdoc, indent=0]
 ----
 
 
