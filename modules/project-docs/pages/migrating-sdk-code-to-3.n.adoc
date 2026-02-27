@@ -120,7 +120,7 @@ bucket.timeout=5
 [source,python]
 
 ----
-include::example$migrating.py[tag=timeoutbuilder,indent=0]
+include::devguide:example$python/migrating.py[tag=timeoutbuilder,indent=0]
 ----
 
 The default settings can still be customized through either the connection string or xref:ref:client-settings.adoc[system properties].
@@ -130,13 +130,13 @@ Note that the property paths have changed.
 ////
 // [source,python]
 // ----
-// include::example$migrating.py[tag=sysprops,indent=0]
+// include::devguide:example$python/migrating.py[tag=sysprops,indent=0]
 // ----
 ////
 
 [source,python]
 ----
-include::example$migrating.py[tag=connstr,indent=0]
+include::devguide:example$python/migrating.py[tag=connstr,indent=0]
 ----
 See the xref:ref:client-settings.adoc[configuration section] for full specifics.
 
@@ -151,14 +151,14 @@ This is why you can set the username and password when directly connecting:
 
 [source,python]
 ----
-include::example$migrating.py[tag=rbac,indent=0]
+include::devguide:example$python/migrating.py[tag=rbac,indent=0]
 ----
 
 This is just a shorthand for:
 
 [source,python]
 ----
-include::example$migrating.py[tag=rbac-full,indent=0]
+include::devguide:example$python/migrating.py[tag=rbac-full,indent=0]
 ----
 
 The reason why you can pass in a specific authenticator is that you can also use the same approach to configure certificate-based authentication:
@@ -166,7 +166,7 @@ The reason why you can pass in a specific authenticator is that you can also use
 
 [source,python]
 ----
-include::example$migrating.py[tag=certauth,indent=0]
+include::devguide:example$python/migrating.py[tag=certauth,indent=0]
 ----
 
 // Please see the xref:howtos:authentication.adoc[documentation on certificate-based authentication] for detailed information on how to configure this properly.
@@ -210,7 +210,7 @@ From a high-level perspective, bootstrapping and shutdown is very similar to SDK
 
 // [source,python]
 // ----
-// include::example$migrating.py[tag=simpleget,indent=0]
+// include::devguide:example$python/migrating.py[tag=simpleget,indent=0]
 // ----
 ////
 
@@ -245,17 +245,17 @@ If you are using an earlier version of the cluster you must open at least one bu
 
 // [source,python]
 // ----
-// include::example$migrating.py[tag=upsertandget_sdk2,indent=0]
+// include::devguide:example$python/migrating.py[tag=upsertandget_sdk2,indent=0]
 // ----
 
 // [source,python]
 // ----
-// include::example$migrating.py[tag=upsertandget,indent=0]
+// include::devguide:example$python/migrating.py[tag=upsertandget,indent=0]
 // ----
 
 // //[source,python]
 // //----
-// //include::example$migrating.py[tag=rawjson,indent=0]
+// //include::devguide:example$python/migrating.py[tag=rawjson,indent=0]
 // //----
 
 
@@ -438,7 +438,7 @@ The timeout can be overridden on every operation and now takes a `datetime.timed
 
 [source,python]
 ----
-include::example$migrating.py[tag=customtimeout,indent=0]
+include::devguide:example$python/migrating.py[tag=customtimeout,indent=0]
 ----
 
 In SDK API 2, the `get_from_replica` method had a `ReplicaMode` argument which allowed to customize its behavior on how many replicas should be reached.
@@ -463,24 +463,24 @@ Unless you want to build some kind of consensus bet(ween the different replica r
 
 [source,python]
 ----
-include::example$migrating.py[tag=querysimple_sdk2,indent=0]
+include::devguide:example$python/migrating.py[tag=querysimple_sdk2,indent=0]
 ----
 
 [source,python]
 ----
-include::example$migrating.py[tag=querysimple,indent=0]
+include::devguide:example$python/migrating.py[tag=querysimple,indent=0]
 ----
 
 The following shows how to do named and positional parameters in SDK API 2, and their SDK API 3 counterparts:
 
 [source,python]
 ----
-include::example$migrating.py[tag=queryparameterized_sdk2,indent=0]
+include::devguide:example$python/migrating.py[tag=queryparameterized_sdk2,indent=0]
 ----
 
 [source,python]
 ----
-include::example$migrating.py[tag=queryparameterized,indent=0]
+include::devguide:example$python/migrating.py[tag=queryparameterized,indent=0]
 ----
 
 ////
@@ -505,12 +505,12 @@ As with the Query service, parameters for the Analytics queries have moved into 
 
 [source,python]
 ----
-include::example$migrating.py[tag=analyticssimple,indent=0]
+include::devguide:example$python/migrating.py[tag=analyticssimple,indent=0]
 ----
 
 [source,python]
 ----
-include::example$migrating.py[tag=analyticsparameterized,indent=0]
+include::devguide:example$python/migrating.py[tag=analyticsparameterized,indent=0]
 ----
 
 ////
@@ -518,12 +518,12 @@ include::example$migrating.py[tag=analyticsparameterized,indent=0]
 
 // [source,python]
 // ----
-// include::example$migrating.py[tag=errorcheck_sdk2,indent=0]
+// include::devguide:example$python/migrating.py[tag=errorcheck_sdk2,indent=0]
 // ----
 
 // [source]
 // ----
-// include::example$migrating.py[tag=errorcheck,indent=0]
+// include::devguide:example$python/migrating.py[tag=errorcheck,indent=0]
 // // SDK 3 top level exception
 // com.couchbase.client.core.error.DatasetNotFoundException: The analytics dataset is not found {"completed":true,"coreId":1,"errors":[{"code":24045,"message":"Cannot find dataset foo in dataverse Default nor an alias with name foo! (in line 1, at column 15)"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:51942","lastDispatchedTo":"127.0.0.1:8095","requestId":5,"requestType":"AnalyticsRequest","retried":0,"service":{"operationId":"80265061-62e0-4c35-860f-a07a97e1a5ee","priority":0,"statement":"select * from foo","type":"analytics"},"timeoutMs":75000,"timings":{"dispatchMicros":27005,"totalMicros":89888}}
 // 	at com.couchbase.client.java.AsyncUtils.block(AsyncUtils.java:51)
@@ -560,7 +560,7 @@ include::example$migrating.py[tag=analyticsparameterized,indent=0]
 
 // [source,python]
 // ----
-// include::example$migrating.py[tag=searchsimple,indent=0]
+// include::devguide:example$python/migrating.py[tag=searchsimple,indent=0]
 // ----
 
 // Error handling for streaming is handled differently.
@@ -580,7 +580,7 @@ include::example$migrating.py[tag=analyticsparameterized,indent=0]
 
 // [source,python]
 // ----
-// include::example$migrating.py[tag=searchcheck,indent=0]
+// include::devguide:example$python/migrating.py[tag=searchcheck,indent=0]
 // ----
 ////
 
@@ -616,7 +616,7 @@ include::example$migrating.py[tag=analyticsparameterized,indent=0]
 
 // [source,python]
 // ----
-// include::example$migrating.py[tag=viewquery,indent=0]
+// include::devguide:example$python/migrating.py[tag=viewquery,indent=0]
 // ----
 
 // Exceptions are exclusively raised at the top level: for example, if the design document is not found:

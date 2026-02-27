@@ -53,7 +53,7 @@ include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=creating
 
 [source,python]
 ----
-include::example$transactions_example.py[tags=examples;!scope-example,indent=0]
+include::devguide:example$python/transactions_example.py[tags=examples;!scope-example,indent=0]
 ----
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=lambda-ctx]
@@ -68,7 +68,7 @@ To aid troubleshooting, raise the log level on the SDK.
 
 //[source,java]
 //----
-//include::example$TransactionsExample.java[tag=logging,indent=0]
+//include::devguide:example$python/TransactionsExample.java[tag=logging,indent=0]
 //----
 //
 //A failed transaction can involve dozens, even hundreds, of lines of logging, so the application may prefer to write failed transactions into a separate file.
@@ -77,7 +77,7 @@ To aid troubleshooting, raise the log level on the SDK.
 //This will log all lines of any failed transactions, to `WARN` level:
 //[source,java]
 //----
-//include::example$TransactionsExample.java[tag=config_warn,indent=0]
+//include::devguide:example$python/TransactionsExample.java[tag=config_warn,indent=0]
 //----
 //
 
@@ -106,7 +106,7 @@ To insert a document within a transaction {lambda}, simply call `ctx.insert()`.
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=insert,indent=0]
+include::devguide:example$python/transactions_example.py[tag=insert,indent=0]
 ----
 
 === Get
@@ -115,7 +115,7 @@ To retrieve a document from the database you can call `ctx.get()`.
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=get,indent=0]
+include::devguide:example$python/transactions_example.py[tag=get,indent=0]
 ----
 
 `ctx.get()` will return a `TransactionGetResult` object, which is very similar to the `GetResult` you are used to.
@@ -124,7 +124,7 @@ Gets will "Read Your Own Writes", e.g. this will succeed:
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=get_read_own_writes,indent=0]
+include::devguide:example$python/transactions_example.py[tag=get_read_own_writes,indent=0]
 ----
 
 Of course, no other transaction will be able to read that inserted document, until this transaction reaches the commit point.
@@ -136,7 +136,7 @@ This is necessary so the SDK can check that the document is not involved in anot
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=replace,indent=0]
+include::devguide:example$python/transactions_example.py[tag=replace,indent=0]
 ----
 
 === Remove
@@ -145,7 +145,7 @@ As with replaces, removing a document requires a `ctx.get()` call first.
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=remove,indent=0]
+include::devguide:example$python/transactions_example.py[tag=remove,indent=0]
 ----
 
 == {sqlpp} Queries
@@ -162,7 +162,7 @@ Here is an example of selecting some rows from the `travel-sample` bucket:
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=query_examples_select,indent=0]
+include::devguide:example$python/transactions_example.py[tag=query_examples_select,indent=0]
 ----
 
 // TODO: Examples throwing the below error, it seems there is an issue when referencing Scope via the TransactionQueryOptions?
@@ -172,21 +172,21 @@ include::example$transactions_example.py[tag=query_examples_select,indent=0]
 
 // [source,python]
 // ----
-// include::example$transactions_example.py[tag=query_examples_select_scope,indent=0]
+// include::devguide:example$python/transactions_example.py[tag=query_examples_select_scope,indent=0]
 // ----
 
 // An example using a `Scope` for an UPDATE:
 
 // [source,python]
 // ----
-// include::example$transactions_example.py[tag=query_examples_update,indent=0]
+// include::devguide:example$python/transactions_example.py[tag=query_examples_update,indent=0]
 // ----
 
 And an example combining `SELECT` and an `UPDATE`.
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=query_examples_complex,indent=0]
+include::devguide:example$python/transactions_example.py[tag=query_examples_complex,indent=0]
 ----
 
 As you can see from the snippet above, it is possible to call regular Python methods from the {lambda}, permitting complex logic to be performed.
@@ -197,7 +197,7 @@ This example shows inserting a document and then selecting it again:
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=query_insert,indent=0]
+include::devguide:example$python/transactions_example.py[tag=query_insert,indent=0]
 ----
 
 <1> The inserted document is only staged at this point, as the transaction has not yet committed. +
@@ -210,7 +210,7 @@ Query options can be provided via `TransactionQueryOptions`, which provides a su
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=query_options,indent=0]
+include::devguide:example$python/transactions_example.py[tag=query_options,indent=0]
 ----
 
 .Supported Transaction Query Options
@@ -238,7 +238,7 @@ In this example we insert a document with a key-value operation, and read it wit
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=query_ryow,indent=0]
+include::devguide:example$python/transactions_example.py[tag=query_ryow,indent=0]
 ----
 
 <1> The key-value insert operation is only staged, and so it is not visible to other transactions or non-transactional actors.
@@ -266,7 +266,7 @@ To ensure key-value performance is not compromised, and to avoid conflicting wri
 
 //[source,java]
 //----
-//include::howtos:example$TransactionsExample.java[tag=concurrency,indent=0]
+//include::devguide:example$python/TransactionsExample.java[tag=concurrency,indent=0]
 //----
 
 //The event contains the key of the document involved, to aid the application with debugging.
@@ -281,7 +281,7 @@ For example, if you want to change the level of durability which must be attaine
 
 [source,python]
 ----
-include::example$transactions_example.py[tag=config,indent=0]
+include::devguide:example$python/transactions_example.py[tag=config,indent=0]
 ----
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tag=config]

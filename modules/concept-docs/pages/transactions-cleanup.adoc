@@ -32,7 +32,7 @@ To monitor cleanup, increase the verbosity on the logging.
 //TODO: once events are available, re-add the below with relevant examples
 //[source,java]
 //----
-//include::example$TransactionsExample.java[tag=cleanup-events,indent=0]
+//include::devguide:example$python/TransactionsExample.java[tag=cleanup-events,indent=0]
 //----
 //
 //`TransactionCleanupEndRunEvent` is raised whenever a current 'run' is finished, and contains statistics from the run.

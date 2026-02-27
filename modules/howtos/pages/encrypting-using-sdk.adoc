@@ -54,7 +54,7 @@ To begin we need to create a couple of keys, you should *not* use the `InsecureK
 
 [source,python]
 ----
-include::howtos:example$encrypting_using_sdk.py[tag=keys]
+include::devguide:example$python/encrypting_using_sdk.py[tag=keys]
 ----
 
 Now that we have keys we can create a `Provider` (here we use the `AeadAes256CbcHmacSha512` algorithm which is the default supplied by the library).
@@ -63,7 +63,7 @@ At this point we also create `CryptoManager` and register our encrypters and dec
 
 [source,python]
 ----
-include::howtos:example$encrypting_using_sdk.py[tag=provider]
+include::devguide:example$python/encrypting_using_sdk.py[tag=provider]
 ----
 
 == Usage
@@ -72,21 +72,21 @@ Once an `CryptoManager` has registered encrypters and decrypters, encryption/dec
 
 [source,python]
 ----
-include::howtos:example$encrypting_using_sdk.py[tag=helper_methods]
+include::devguide:example$python/encrypting_using_sdk.py[tag=helper_methods]
 ----
 
 Next, create a document and a list of field specs specifying which fields in the document should be encrypted.  Then, save the encrypted document returned by the encryption helper method to Couchbase.
 
 [source,python]
 ----
-include::howtos:example$encrypting_using_sdk.py[tag=save_to_couchbase]
+include::devguide:example$python/encrypting_using_sdk.py[tag=save_to_couchbase]
 ----
 
 Retrieving the document from couchbase and displaying the document, as seen below, should output something like the following.
 
 [source,python]
 ----
-include::howtos:example$encrypting_using_sdk.py[tag=output_encrypted_doc]
+include::devguide:example$python/encrypting_using_sdk.py[tag=output_encrypted_doc]
 ----
 
 [source, json]
@@ -119,7 +119,7 @@ Passing the document with encrypted fields to the decryption helper, as in the e
 
 [source,python]
 ----
-include::howtos:example$encrypting_using_sdk.py[tag=decrypt_doc]
+include::devguide:example$python/encrypting_using_sdk.py[tag=decrypt_doc]
 ----
 
 [source,json]

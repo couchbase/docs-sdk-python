@@ -20,13 +20,13 @@ Our first basic endpoints will be a get and set call, using HTTP methods `GET` a
 .GET
 [source,python]
 ----
-include::howtos:example$caching_flask.py[tag=get]
+include::devguide:example$python/caching_flask.py[tag=get]
 ----
 
 .POST
 [source,python]
 ----
-include::howtos:example$caching_flask.py[tag=post]
+include::devguide:example$python/caching_flask.py[tag=post]
 ----
 
 This is the simplest API we can make -- allowing us to set and get arbitrary JSON from any key we specify.
@@ -41,7 +41,7 @@ With this code, we handle the `DocumentNotFoundException` and respond with a HTT
 
 [source,python]
 ----
-include::howtos:example$caching_flask.py[tag=get]
+include::devguide:example$python/caching_flask.py[tag=get]
 ----
 
 == Error Handling
@@ -51,7 +51,7 @@ Even if something unexpected happens, we can still be helpful by including the e
 
 [source,python]
 ----
-include::howtos:example$caching_flask.py[tag=post]
+include::devguide:example$python/caching_flask.py[tag=post]
 ----
 
 The last thing we'll do is add `PUT` and `DELETE` endpoints, matching up to the Couchbase operations `upsert` and `remove`, and apply the same error handling once more:
@@ -59,13 +59,13 @@ The last thing we'll do is add `PUT` and `DELETE` endpoints, matching up to the 
 .PUT
 [source,python]
 ----
-include::howtos:example$caching_flask.py[tag=put]
+include::devguide:example$python/caching_flask.py[tag=put]
 ----
 
 .DELETE
 [source,python]
 ----
-include::howtos:example$caching_flask.py[tag=delete]
+include::devguide:example$python/caching_flask.py[tag=delete]
 ----
 
 == Additional Resources
