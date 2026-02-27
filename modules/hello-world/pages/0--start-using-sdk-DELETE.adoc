@@ -1,0 +1,430 @@
+= Start Using the Python SDK
+:page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
+:description: Get up and running quickly, installing the Couchbase Python SDK, and running our Hello World example.
+:page-toclevels: 2
+:page-partial:
+:page-pagination: next
+:page-topic-type: tutorial
+
+include::project-docs:partial$attributes.adoc[]
+
+[abstract]
+{description}
+
+The Couchbase Python SDK allows Python applications to access a Couchbase cluster.
+It offers a traditional synchronous API as well as integration with _twisted_ and _asyncio_.
+
+In this guide, you will learn:
+
+* How to xref:connect[connect to Couchbase Capella or Couchbase Server].
+
+* How to xref:add-and-retrieve-documents[add and retrieve Documents].
+
+* How to xref:sql-lookup[lookup documents] with the {sqlpp_url}[{sqlpp} (formerly N1QL)] query language.
+
+== Hello Couchbase
+
+We will go through the code sample step by step, but for those in a hurry to see it, here it is:
+
+[{tabs}] 
+==== 
+Couchbase Capella Sample::
++
+--
+To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password, and bucket name.
+The certificate for connecting to Capella is included in the 4.1 Python SDK.
+
+[source,python]
+----
+include::hello-world:example$cloud.py[tags=**]
+----
+--
+
+Local Couchbase Server::
++ 
+--
+[source,python]
+----
+include::hello-world:example$hello_world_t.py[tags=**]
+----
+
+As well as the Python SDK (see below), and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
+using either the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
+or the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+--
+====
+
+The https://cloud.couchbase.com/sign-up[Couchbase Capella free tier] version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
+
+== Quick Installation
+
+The SDK will run on xref:compatibility.adoc#python-version-compat[supported versions Python].
+A more detailed guide in our xref:project-docs:sdk-full-installation.adoc[Installation page] covers every supported platform, 
+but this section should be enough to get up and running for _most_ xref:compatibility.adoc#platform-compatibility[supported Operating Systems].
+
+[{tabs}] 
+====
+macOS 12 & 13::
++
+--
+If you are running Catalina (macOS 10.15) -- or have other detailed requirements -- take a look at our xref:project-pages:sdk-full-installation.adoc[full installation guide].
+Otherwise, read on for a quick install on macOS _Big Sur_ or _Monterey_.
+
+The Python SDK has wheels are available on macOS for xref:compatibility.adoc#python-version-compat[supported versions of Python].
+
+First, make sure that your _brew_ package index is up-to-date:
+[source,console]
+----
+$ brew update
+----
+
+Install a compatible Python 3:
+[source,console]
+----
+$ brew install python3
+----
+
+Ensure that the Python installation can be called from the shell:
+[source,console]
+----
+$ echo 'export PATH="/usr/local/bin:"$PATH' >> ~/.zshrc
+----
+
+[source,console]
+----
+$ source ~/.zshrc
+----
+
+Now, install the Python SDK:
+[source,console]
+----
+$ sudo -H python3 -m pip install couchbase
+----
+
+NOTE: Starting with Python 3.11.5, macOS installers from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl.1.1.dylib ` and `libcrypto.1.1.dylib`) can be found.
+
+--
+
+Red Hat & CentOS::
++
+--
+Note, check that you have a xref:compatibility.adoc#python-version-compat[supported version of Python].
+Suggestions for platforms with an outdated build chain, such as CentOS 7, can be found in our xref:project-docs:sdk-full-installation.adoc[Installation Guide].
+Assuming you have an updated build environment, follow these steps.
+
+The Python SDK has manylinux wheels available for xref:compatibility.adoc#python-version-compat[supported versions of Python].
+
+During first-time setup, install the prerequisites:
+
+[source,console]
+----
+$ sudo yum install gcc gcc-c++ git python3-devel python3-pip
+----
+Full details of prerequisites can be found xref:project-docs:sdk-full-installation.adoc#requirements[here].
+
+Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
+
+[source,console]
+----
+$ python3 -m pip install couchbase
+----
+--
+
+Debian & Ubuntu::
++
+--
+Note, check that you have a xref:compatibility.adoc#python-version-compat[supported version of Python].
+Suggestions for platforms with an outdated build chain, such as Debian 9, can be found in our xref:project-docs:sdk-full-installation.adoc[Installation Guide].
+Assuming you have an updated build environment, follow these steps.
+
+The Python SDK has manylinux wheels available for xref:compatibility.adoc#python-version-compat[supported versions of Python].
+
+During first-time setup, install the prerequisites:
+
+[source,console]
+----
+$ sudo apt-get install git python3-dev python3-pip python3-setuptools build-essential
+----
+Full details of prerequisites can be found xref:project-docs:sdk-full-installation.adoc#requirements[here].
+
+Now you can install the latest Python SDK (for older versions, see the xref:project-docs:sdk-release-notes.adoc[Release Notes page]):
+
+[source,console]
+----
+$ python3 -m pip install couchbase
+----
+--
+
+Windows::
++
+--
+Download and install Python from https://www.python.org/downloads[python.org^].  
+Best practice is to use a Python virtual environment such as _venv_ or _pyenv_.
+
+TIP: Checkout the https://github.com/pyenv-win/pyenv-win[pyenv-win^] project to manage multiple versions of Python.
+
+The Python SDK has wheels available on Windows for xref:compatibility.adoc#python-version-compat[supported versions of Python].
+
+[source,console]
+----
+python -m pip install couchbase
+----
+
+NOTE: Starting with Python 3.11.5, Windows builds from python.org now use https://docs.python.org/3/whatsnew/3.11.html#notable-changes-in-3-11-5[OpenSSL 3.0]. If using a version prior to 4.1.9 of the Python SDK, a potential side-effect of this change is an `ImportError: DLL load failed while importing pycbc_core` error. Upgrade the SDK to a version >= 4.1.9 to avoid this side-effect. If unable to upgrade, a work-around is to set the `PYCBC_OPENSSL_DIR` environment variable to the path where the OpenSSL 1.1 libraries (`libssl-1_1.dll` and `libcrypto-1_1.dll`) can be found.
+
+The standard Python distributions for Windows include OpenSSL DLLs, as PIP and the inbuilt `ssl` module require it for correct operation.
+Prior to version 4.1.9 of the Python SDK, the binary wheels for Windows are built against OpenSSL 1.1.  Version 4.1.9 and beyond statically link against BoringSSL thus removing the OpenSSL requirement.
+
+NOTE: If you require a version that doesn't have a suitable binary wheel on PyPI, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
+--
+====
+
+If there are any problems, refer to the full xref:project-docs:sdk-full-installation.adoc[Installation page].
+
+
+// TODO: There's not much in the Platform Help page, we should avoid pointing users to it for now.
+// TIP: If you are evaluating the Python SDK as a tester, architect, or otherwise not a regular Python developer, our xref:platform-help.adoc[Platform Help] pages may help get you over any humps in the road.
+
+== Prerequisites
+
+The following code samples assume:
+
+[{tabs}]
+====
+Couchbase Capella::
++
+--
+* You have signed up to https://cloud.couchbase.com/sign-up[Couchbase Capella].
+
+* You have created your own bucket, or loaded the Travel Sample dataset.
+Note, the Travel Sample dataset is installed automatically when deploying a Capella free tier cluster.
+
+* A user is created with permissions to access the cluster (at least Application Access permissions).
+See the xref:cloud:get-started:cluster-and-data.adoc#credentials[Capella connection page] for more details.
+
+IMPORTANT: Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to cluster resources.
+For the purposes of this guide, you can use the *Organization Owner* role automatically assigned to your account during installation of the Capella cluster.
+In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice.
+--
+
+Local Couchbase Server::
++
+--
+* xref:{version-server}@server:getting-started/do-a-quick-install.adoc[Couchbase Server] is installed and accessible locally.
+
+* You have created your own bucket, or loaded the Travel Sample dataset using the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface].
+
+* A user is created with permissions to access your cluster (at least Application Access permissions).
+See xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups and Roles] for more details.
+
+IMPORTANT: Couchbase Server uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
+In this guide we suggest using the *Full Admin* role created during setup of your local Couchbase Server cluster.
+For production client code, you will want to use more appropriate, restrictive settings.
+--
+====
+
+== Step-by-Step
+
+At this point we want to transition from the terminal to your code editor of choice.
+
+Let's now create an empty file named `cb-test.py` and walk through adding code step-by-step.
+
+Here are all the import statements that you will need to run the sample code:
+
+[source,python,indent=0]
+----
+include::example$cloud.py[tag=imports]
+----
+
+=== Connect
+
+The basic connection details that you'll need are given below -- for more background information, refer to the xref:howtos:managing-connections.adoc#connection-strings[Managing Connections page].
+
+[tabs]
+====
+Couchbase Capella::
++
+--
+
+From version 4.0, the Python SDK includes Capella’s standard certificates by default, so you don't need any additional configuration.
+You do need to enable TLS, which can be done by simply using `couchbases://` in the connection string as in this example.
+
+[source,python]
+----
+include::example$cloud.py[tag=connect,indent=0]
+----
+
+When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
+SDK 4.1 introduces a `wan_development` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
+Basic usage is shown in the example above, but if you want to learn more see xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
+
+CAUTION: The Configuration Profiles feature is currently a xref:python-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
+--
+
+Local Couchbase Server::
++
+--
+[source,python]
+----
+include::example$hello_world_t.py[tag=connect,indent=0]
+----
+
+For developing locally on the same machine as Couchbase Server, your URI can be `couchbase://localhost`.
+For production deployments, you will want to use a secure server, with `couchbases://`.
+--
+====
+
+Following successful authentication, add this code snippet to access your `Bucket`:
+
+[source,python]
+----
+include::example$cloud.py[tag=bucket,indent=0]
+----
+
+
+
+// No waituntilready() in wrappers
+include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=bootstrap-completion]
+
+
+
+=== Add and Retrieve Documents
+
+The Python SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
+*Collections* allow documents to be grouped by purpose or theme, according to a specified _Scope_.
+
+Here we refer to the `users` collection within the `tenant_agent_00` scope from the Travel Sample bucket as an example, but you may replace this with your own data.
+
+[source,python]
+----
+include::example$cloud.py[tag=collection,indent=0]
+----
+
+The code shows how you would use a named collection and scope.
+
+.For Local Couchbase Server only
+[IMPORTANT]
+====
+The `default_collection` must be used when connecting to a 6.6 cluster or earlier.
+
+[source,python]
+----
+include::example$hello_world_t.py[tag=default-collection,indent=0]
+----
+====
+
+Let's create a dictionary object in our application that we can add to our `travel-sample` bucket that conforms to the structure of a document of type `airline`.
+
+[source,python]
+----
+include::example$cloud.py[tag=test-doc,indent=0]
+----
+
+xref:howtos:kv-operations.adoc[Data operations], such as storing and retrieving documents, can be done using simple methods on the `Collection` class such as `Collection.get` and `Collection.upsert`.
+Simply pass the key (and value, if applicable) to the relevant methods.
+
+The following function will _upsert_ a document and print the returned xref:howtos:concurrent-document-mutations.adoc[CAS] value:
+
+[source,python]
+----
+include::example$cloud.py[tag=upsert-func,indent=0]
+----
+
+Call the `upsert_document()` function passing in our `airline` document:
+
+[source,python]
+----
+include::example$cloud.py[tag=upsert-invoke,indent=0]
+----
+
+Now let's retrieve that document using a key-value operation.
+The following function runs a `get()` for a document key and either logs out the result or error in our console:
+
+[source,python]
+----
+include::example$cloud.py[tag=get-func,indent=0]
+----
+
+Call the `get_airline_by_key` function passing in our valid document key `airline_8091`:
+
+[source,python]
+----
+include::example$cloud.py[tag=get-invoke,indent=0]
+----
+
+=== SQL++ Lookup
+
+Couchbase {sqlpp} queries can be performed at the `Cluster` or `Scope` level by invoking `Cluster.query()` or `Scope.query()`.
+
+Cluster level queries require you to specify the fully qualified keyspace each time (e.g. `travel-sample.inventory.airline`).
+However, with a Scope level query you only need to specify the Collection name -- which in this case is `airline`:
+
+[source,python]
+----
+include::example$cloud.py[tag=lookup-func,indent=0]
+----
+
+We call the `lookup_by_callsign` function passing in our callsign `CBS`:
+
+[source,python]
+----
+include::example$cloud.py[tag=lookup-invoke,indent=0]
+----
+
+=== Execute!
+
+Now we can run our code using the following command:
+
+[source,console]
+----
+$ python3 cb-test.py
+----
+
+The results you should expect are as follows:
+
+[source,console]
+----
+Upsert CAS:
+1598469741559152640
+
+Get Result:
+{'type': 'airline', 'id': 8091, 'callsign': 'CBS', 'iata': None, 'icao': None, 'name': 'Couchbase Airways'}
+
+Lookup Result:
+Couchbase Airways
+----
+
+
+== Next Steps
+
+Now you're up and running, try one of the following:
+
+// Should search and analytics be removed?
+
+* Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
+* Explore xref:howtos:kv-operations.adoc[Key Value Operations] (CRUD) against a document database;
+* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our SQL-based {sqlpp} query language;
+// * Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
+// * A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
+* Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
+
+=== Additional Resources
+
+The API reference is generated for each release and the latest can be found http://docs.couchbase.com/sdk-api/couchbase-python-client/[here].
+
+Older API references are linked from their respective sections in the xref:project-docs:sdk-release-notes.adoc[Individual Release Notes].
+Most of the API documentation can also be accessed via `pydoc`.
+
+xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migration page] highlights the main differences to be aware of when migrating your code.
+
+Couchbase welcomes community contributions to the Python SDK.
+The Python SDK source code is available on https://github.com/couchbase/couchbase-python-client[GitHub].
+
+=== Troubleshooting
+
+* Couchbase Server is designed to work in the same WAN or availability zone as the client application.
+If you're running the SDK on your laptop against a Capella cluster, see further information on:
+** Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
+** xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
+** If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
+* Our https://forums.couchbase.com/c/python-sdk/10[community forum] is a great source of help.
