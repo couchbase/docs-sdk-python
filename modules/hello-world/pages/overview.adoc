@@ -2,6 +2,7 @@
 :page-layout: landing-page-top-level-sdk
 :page-role: tiles
 :!sectids:
+:table-caption!:
 
 
 // Note to editors
@@ -221,4 +222,4 @@ include::project-docs:deployment.adoc[tag=feature-compat]
 {empty} +
 
 
-include::{version-common}@sdk:shared:partial$columnar-available.adoc[tag=initial-availability]
+include::{version-common}@sdk:shared:partial$columnar-available.adoc[tag=initial-availability-o]
