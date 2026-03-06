@@ -162,6 +162,7 @@ If you're all set up and in a real hurry, just grab this code sample and add in 
 .Complete Hello World code sample [*Click to open or collapse the listing*]
 [%collapsible]
 ====
+[source,python]
 ....
 include::devguide:example$python/cloud.py[]
 ....
@@ -186,6 +187,8 @@ Couchbase Capella::
 ----
 include::devguide:example$python/cloud.py[tags=connect,indent=0]
 ----
+
+Note, the client certificate for connecting to a Capella cluster is included in the SDK installation.
 --
 
 Self-Managed Couchbase Server::
@@ -194,7 +197,7 @@ Self-Managed Couchbase Server::
 
 [source,python]
 ----
-include::devguide:example$python/$hello_world_t.py[tags="connect",indent=0]
+include::devguide:example$python/hello_world_t.py[tags="connect",indent=0]
 ----
 --
 ====
