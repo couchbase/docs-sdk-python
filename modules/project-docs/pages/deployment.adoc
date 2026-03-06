@@ -2,6 +2,7 @@
 :page-toclevels: 2
 :description: Transition from dev environment to prod, and keep up with the latest fixes.
 :page-partial:
+:table-caption!:
 
 // Note to editors
 // 
@@ -88,7 +89,7 @@ The following table covers possible exceptions, and gives the version of the {na
 | Response Time Observability 
 3+| N/A
 
-| Field Level Encryption  | 
+| Field Level Encryption 
 3+| All supported SDK versions
 
 | Cloud Native Gateway  
