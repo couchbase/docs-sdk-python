@@ -191,6 +191,7 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 ① As part of the standard SDK {sqlpp} API, it should be compatible with all earlier versions of the SDK -- but it has not been tested.
 
 This table is not an exhaustive list -- just a few highlights -- provided to help assess compatibility of older versions in particular.
+For a slightly fuller table, see the xref:deployment.adoc#couchbase-operational-cluster-feature-compatibility[Deployment page].
 For alignment of SDKs and new Server features, scroll down to the information below the <<api-version,API Version table>>.
 
 
