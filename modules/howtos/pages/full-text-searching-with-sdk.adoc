@@ -42,6 +42,18 @@ The `search_query` API takes the name of the index and the type of query  as req
 Once a result returns you can iterate over the returned rows, and/or access the `search.metadata` associated with the query. 
 
 
+[TIP]
+.Search Results Limit
+====
+By default, the Search Service returns only the first 10 matches (`size: 10`, `from: 0`).
+To retrieve more results, you must explicitly define pagination settings such as `size` or `from` in your query.
+
+For information about formatting your Search query and specifying limits, see xref:server:search:search-request-params.adoc[].
+
+For information about pagination in Search responses, see xref:server:fts:fts-search-response.adoc#pagination[Pagination].
+====
+
+
 == Search Queries
 
 The second mandatory argument in the example above used `QueryStringQuery("query")` to specify the query to run against the search index.
