@@ -69,6 +69,49 @@ The following table covers possible exceptions, and gives the version of the {na
 
 | KV Range Scan
 | N/A
+2+| From 4.2.0
+
+| Vector Search
+| N/A
+2+| From 4.2.0
+
+| Zone aware replica reads
+| N/A
+2+| From 4.4.0
+
+| Vector Query using GSI
+2+| N/A
+| From SDK 4.5.0 ①
+
+| Distributed ACID Transactions  
+3+| From 4.0.0
+
+| OTel 
+3+| Unsupported
+
+| Field Level Encryption 
+3+| From 3.2.0
+
+| Cloud Native Gateway  
+3+| Unsupported
+|===
+
+<1> As part of the standard SDK {sqlpp} API, it should be compatible with all earlier versions of the SDK -- but it has not been tested.
+// end::feature-compat[]
+
+
+
+
+
+////
+.Couchbase Server and SDK Supported Version Matrix
+[.table-merge-cells]
+[cols="7,6,6,6"]
+|===
+| | Server 7.2 | Server 7.6.x  | Server 8.0
+
+| KV Range Scan
+| N/A
 2+| All supported SDK versions
 
 | Vector Search
@@ -98,7 +141,7 @@ The following table covers possible exceptions, and gives the version of the {na
 
 ① As part of the standard SDK {sqlpp} API, it should be compatible with all earlier versions of the SDK -- but it has not been tested.
 // end::feature-compat[]
-
+////
 
 
 
