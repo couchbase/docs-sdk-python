@@ -1,15 +1,14 @@
 = Managing Connections
-:description: This section describes how to connect the Python SDK to a Couchbase cluster.
+:description: This section describes how to connect the {name-sdk} to a Couchbase cluster.
 :page-toclevels: 2
-:page-aliases: ROOT:managing-connections,howtos:multi-network,ROOT:connecting,ROOT:connection-advanced
+:page-aliases: ROOT:managing-connections.adoc,howtos:multi-network.adoc,ROOT:connecting.adoc,ROOT:connection-advanced.adoc
 
-include::project-docs:partial$attributes.adoc[]
-
-Please also refer to the xref:{version-server}@server:learn:security/authorization-overview.adoc[Server docs].
+// Please also refer to the xref:{version-server}@server:learn:security/authorization-overview.adoc[Server docs].
 
 [abstract]
 {description}
-It contains best practices as well as information on TLS/SSL and other advanced connection options.
+It contains best practices as well as information on TLS/SSL and advanced connection options, and a sub-page on troubleshooting Cloud connections.
+
 
 == Connecting to a Cluster
 
@@ -17,13 +16,28 @@ A connection to a Couchbase Server cluster is represented by a `Cluster` object.
 A `Cluster` provides access to Buckets, Scopes, and Collections, as well as various Couchbase services and management interfaces.
 The simplest way to create a `Cluster` object is to call `Cluster.connect()` with a <<connection-strings, connection string>>, username, and password:
 
+[tabs,sync-group-id="Couchbase Capella|Self-Managed Couchbase Server"]
+==== 
+Couchbase Capella::
++
+--
 [source,python]
 ----
-include::devguide:example$python/managing_connections.py[tag=simpleconnect,indent=0]
+include::devguide:example$python/cloud.py[tags=connect,indent=0]
 ----
 
-NOTE: If you are connecting to a version of Couchbase Server older than 6.5, it will be more efficient if the addresses are those of data (KV) nodes.
-You will in any case, with 6.0 and earlier, need to open a ``Bucket` instance before connecting to any other HTTP services (such as _Query_ or _Search_).
+Note, the client certificate for connecting to a Capella cluster is included in the SDK installation.
+--
+
+Self-Managed Couchbase Server::
++ 
+-- 
+[source,python]
+----
+include::devguide:example$python/hello_world_t.py[tags="connect",indent=0]
+----
+--
+====
 
 In a production environment, your connection string should include the addresses of multiple server nodes in case some are currently unavailable.
 Multiple addresses may be specified in a connection string by delimiting them with commas:
@@ -36,23 +50,22 @@ include::devguide:example$python/managing_connections.py[tag=multinodeconnect,in
 TIP: You don't need to include the address of every node in the cluster.
 The client fetches the full address list from the first node it is able to contact.
 
-////
-N/A for Python currently
-[#cluster-settings]
-== Cluster Settings
 
-A `ClusterEnvironment` manages shared resources like thread pools, timers, and schedulers.
-It also holds the client settings.
-One way to customize the client's behavior is to build your own `ClusterEnvironment` with custom settings:
 
-[source,python]
-----
-include::devguide:example$python/managing_connections.py[tag=customenv,indent=0]
-----
-////
+=== Waiting for Bootstrap Completion
 
-[#connection-strings]
-== Connection Strings
+Opening resources is asynchronous.
+That is, the call to `cluster.bucket` or `Cluster.connect` will complete instantly, and opening that resource will continue in the background.
+
+You can force waiting for the resource to be opened with a call to `waitUntilReady`, which is available on both the `Cluster` and `Bucket` -- and used in the connect examples above on the Cluster.
+
+Other timeout issues may occur when using the SDK located geographically separately from the Couchbase Server cluster -- 
+this is xref:project-docs:compatibility.adoc#network-requirements[not recommended in production deployments], but often occurs during development.
+See the <<working-in-the-cloud,Cloud section>> below for some suggestions of settings adjustments.
+
+
+
+=== Connection Strings
 
 A Couchbase connection string is a comma-delimited list of IP addresses and/or hostnames, optionally followed by a list of parameters.
 
@@ -77,73 +90,43 @@ couchbases://127.0.0.1?compression=on&redaction=on
 The full list of recognized parameters is documented in the client settings reference.
 Any client setting with a system property name may also be specified as a connection string parameter.
 
-A connection string may optionally be prefixed by either `"couchbase://"` or `"couchbases://"`.
+A connection string may optionally be prefixed by either `"couchbase://"` or `"couchbases://"`,
+the latter signifying a TLS connection.
+
 
 === Connection Options
 
-The backend implementation of connection strings parameters changed substantially in 4.0.
-See xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[more details on migrating to 4.0].
-
-xref:ref:client-settings.adoc#cluster-options[Configuring client settings with `ClusterOptions()`] is the preferred option.
+xref:ref:client-settings.adoc#cluster-options[Configuring client settings with `ClusterOptions()`] is the preferred option for configuring connection parameters.
 More details can be found in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#cluster[API reference].
 
 
 ////
+N/A for Python currently
+[#cluster-settings]
+== Cluster Settings
 
-== Waiting for Bootstrap Completion
+A `ClusterEnvironment` manages shared resources like thread pools, timers, and schedulers.
+It also holds the client settings.
+One way to customize the client's behavior is to build your own `ClusterEnvironment` with custom settings:
 
-Depending on the environment and network latency, bootstrapping the SDK fully might take a little longer than the default key-value timeout of 2.5 seconds, so you may see timeouts during bootstrap.
-To prevent those early timeouts from happening, you can use the `waitUntilReady` method.
-
-If you are working at the _Cluster_ level, then add to the `cluster()` in the xref:#connecting-to-a-cluster[earlier example]:
-
-[source,java]
+[source,python]
 ----
-Cluster cluster = Cluster.connect("127.0.0.1", "username", "password");
-cluster.waitUntilReady(Duration.ofSeconds(10));
-Bucket bucket = cluster.bucket("travel-sample");
-Collection collection = bucket.defaultCollection();
+include::devguide:example$python/managing_connections.py[tag=customenv,indent=0]
 ----
-
-Or more fully:
-
-[source,java]
-----
-public class ClusterExample {
-  public static void main(String... args) throws Exception {
-    Cluster cluster = Cluster.connect("127.0.0.1", "username", "password");
-    cluster.waitUntilReady(Duration.ofSeconds(10));
-    Bucket bucket = cluster.bucket("travel-sample");
-    Collection collection = bucket.defaultCollection();
-  }
-}
-----
-
-If you are working at the _Bucket_ level, then the https://docs.couchbase.com/sdk-api/couchbase-java-client/com/couchbase/client/java/Bucket.html#waitUntilReady-java.time.Duration-[Bucket-level `waitUntilReady`] does the same as the Cluster-level version,
-_plus_ it waits for the K-V (data) sockets to be ready.
-
-// Other timeout issues may occur when using the SDK located geographically separately from the Couchbase Server cluster -- this is xref:project-docs:compatibility#[not recommended].
-// See the xref:#working-in-the-cloud[Cloud section] below for some suggestions of settings adjustments.
-
-
-
 ////
 
 
-[#connection-lifecycle]
-== Connection Lifecycle
+
+=== Connection Lifecycle
 
 Most of the high-level classes in the Python SDK are designed to be safe for concurrent use by multiple threads.
-For asynchronous modes, you will get the best performance if you share and reuse instances of `Cluster`, `Bucket`, `Scope`, and `Collection`, all of which are thread-safe. For synchronous mode, it is better to use separate instances in different threads.
+For asynchronous modes, you will get the best performance if you share and reuse instances of `Cluster`, `Bucket`, `Scope`, and `Collection`, all of which are thread-safe.
+For synchronous mode, it is better to use separate instances in different threads.
 
 We recommend creating a single `Cluster` instance when your application starts up, and sharing this instance throughout your application.
 If you know at startup time which buckets, scopes, and collections your application will use, we recommend obtaining them from the `Cluster` at startup time and sharing those instances throughout your application as well.
 
-////
-I believe PYCBC does this automatically when the Client object is destroyed, but we are apparently offering this explicitly in future.
-Before your application stops, gracefully shut down the client by calling the `disconnect()` method of each `Cluster` you created.
-If you created any `ClusterEnvironment` instances, call their `shutdown()` method after disconnecting the associated clusters.
-////
+
 
 // not available from PYCBC/LCB yet AFAIK
 ////
@@ -165,82 +148,25 @@ This default `ClusterEnvironment` is managed completely by the Python SDK, and i
 
 
 
-[#alternate-addresses]
-== Alternate Addresses and Custom Ports
-
-If your Couchbase Server cluster is running in a containerized, port mapped, or otherwise NAT'd environment like Docker or Kubernetes, a client running outside that environment may need additional information in order to connect the cluster.
-Both the client and server require special configuration in this case.
-
-On the server side, each server node must be configured to advertise its external address as well as any custom port mapping.
-This is done with the `setting-alternate-address` CLI command --
-see the xref:cli:cbcli/couchbase-cli-setting-alternate-address.adoc[command line docs].
-A node configured in this way will advertise two addresses: one for connecting from the same network, and another for connecting from an external network.
-
-
-On the client side, the externally visible ports must be used when connecting.
-If the external ports are not the default, you can specify custom ports through the connection string.
-// using the overloaded `Cluster.connect()` method that takes a set of `SeedNode` objects instead of a connection string.
-
-// todo use the include (and uncomment in ManageingConnections.python) after next client snapshot is published
-// https://github.com/couchbase/docs-sdk-python/blob/temp/4.5/modules/howtos/examples/managing_connections.py#L86
-// include::devguide:example$python/managing_connections.py[tag=seednodes,indent=0]
-[source,python]
-----
-int customKvPort = 1234;
-int customManagerPort = 2345;
-Set<SeedNode> seedNodes = new HashSet<>(Arrays.asList(
-  SeedNode.create("127.0.0.1",
-      Optional.of(customKvPort),
-      Optional.of(customManagerPort))));
-
-Cluster cluster = Cluster.connect(seedNodes, "username", "password");
-----
-
-////
-For nodes that do not have the KV service, you can connect using a custom manager port instead.
-Notice how `=manager` appears after the port number, identifying it as a manager port:
-
-[source,java]
-----
-include::devguide:example$java/managing_connections.java[tag=managing_connections_6,indent=0]
-----
-////
-
-
-TIP: In a deployment that uses multi-dimensional scaling, a custom KV port is only applicable for nodes running the KV service.
-A custom manager port may be specified regardless of which services are running on the node.
-
-In many cases the client is able to automatically select the correct set of addresses to use when connecting to a cluster that advertises multiple addresses.
-If the detection heuristic fails in your environment, you can override it by setting the `io.networkResolution` client setting to `default` if the client and server are on the same network, or `external` if they're on different networks.
-
-NOTE: Any TLS certificates must be set up at the point where the connections are being made.
-// todo what does that mean in practice? Also, should this be in the TLS docs section instead?
-
-
-
-// DNS-SRV
-// == Using DNS SRV records
-
-include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv-rev]
-
-DNS SRV bootstrapping is enabled by default in the {name-sdk}.
-In order to make the SDK use the SRV records, you need to pass in the hostname from your records (here `example.com`):
-
 
 [#ssl]
 == Secure Connections
 
+Both Couchbase Capella, and the
+xref:{version-server}@server:introduction:editions.adoc#enterprise-edition[Enterprise Edition] of self-managed Couchbase Server,
+ support full encryption of client-side traffic using Transport Layer Security (TLS).
+That includes data (key-value type) operations, queries, and configuration communication.
+Make sure you have the Enterprise Edition of Couchbase Server, or a Couchbase Capella account, before proceeding with configuring encryption on the client side.
+
+
 WARNING: If the client cannot load or was not built with OpenSSL, attempting a TLS connection will result in a 'FEATURE_UNAVAILABLE'.
 
-Couchbase Server Enterprise Edition and Couchbase Capella support full encryption of client-side traffic using Transport Layer Security (TLS).
-This includes key-value type operations, queries, and configuration communication.
-Make sure you have the Enterprise Edition of Couchbase Server, or a Couchbase Capella account, before proceeding with configuring encryption on the client side.
 
 For TLS certificate verification the SDK uses the following CA certificates:
 
 * The certificates in the Mozilla Root CA bundle (bundled with the SDK as of 4.1.5 and obtained from https://curl.se/docs/caextract.html[curl]).
-* The certificates in OpenSSL's default CA certificate store (as of SDK 4.1.0).
-* The self-signed root certificate that is used to sign the Couchbase Capella certificates (bundled with the SDK as of 4.0.0).
+* The certificates in OpenSSL's default CA certificate store.
+* The self-signed root certificate that is used to sign the Couchbase Capella certificates.
 
 The OpenSSL defaults can be overridden using the `SSL_CERT_DIR` and `SSL_CERT_FILE` environment variables. 
 The `SSL_CERT_DIR` variable is used to set a specific directory in which the client should look for individual certificate files, whereas the `SSL_CERT_FILE` environment variable is used to point to a single file containing one or more certificates. 
@@ -248,13 +174,13 @@ More information can be found in the relevant https://www.openssl.org/docs/man1.
 
 Loading the Mozilla certificates can be disabled by setting the `disable_mozilla_ca_certificates` property of `ClusterOptions`.
 
-Metadata from the Python SDK’s C++ core provides information about where OpenSSL’s default certificate store is located, which version of the Mozilla CA certificate store was bundled, and other useful details.
+Metadata from the Python SDK’s {cpp} core provides information about where OpenSSL’s default certificate store is located, which version of the Mozilla CA certificate store was bundled, and other useful details.
 You can get the metadata using the following command:
 
 ====
 [source,console]
 ----
-$ python -c "from couchbase import get_metadata; print(get_metadata(detailed=True))"
+$ python3 -c "from couchbase import get_metadata; print(get_metadata(detailed=True))"
 ----
 [source,console]
 ----
@@ -358,6 +284,74 @@ E.....@.@.............+....Z.'yZ..#........
 --
 ====
 
+
+
+
+
+
+[#alternate-addresses]
+== Alternate Addresses and Custom Ports
+
+If your Couchbase Server cluster is running in a containerized, port mapped, or otherwise NAT'd environment like Docker or Kubernetes, a client running outside that environment may need additional information in order to connect the cluster.
+Both the client and server require special configuration in this case.
+
+On the server side, each server node must be configured to advertise its external address as well as any custom port mapping.
+This is done with the `setting-alternate-address` CLI command --
+see the xref:cli:cbcli/couchbase-cli-setting-alternate-address.adoc[command line docs].
+A node configured in this way will advertise two addresses: one for connecting from the same network, and another for connecting from an external network.
+
+
+On the client side, the externally visible ports must be used when connecting.
+If the external ports are not the default, you can specify custom ports through the connection string.
+// using the overloaded `Cluster.connect()` method that takes a set of `SeedNode` objects instead of a connection string.
+
+// todo use the include (and uncomment in ManageingConnections.python) after next client snapshot is published
+// https://github.com/couchbase/docs-sdk-python/blob/temp/4.5/modules/howtos/examples/managing_connections.py#L86
+// include::devguide:example$python/managing_connections.py[tag=seednodes,indent=0]
+[source,python]
+----
+int customKvPort = 1234;
+int customManagerPort = 2345;
+Set<SeedNode> seedNodes = new HashSet<>(Arrays.asList(
+  SeedNode.create("127.0.0.1",
+      Optional.of(customKvPort),
+      Optional.of(customManagerPort))));
+
+Cluster cluster = Cluster.connect(seedNodes, "username", "password");
+----
+
+////
+For nodes that do not have the KV service, you can connect using a custom manager port instead.
+Notice how `=manager` appears after the port number, identifying it as a manager port:
+
+[source,java]
+----
+include::devguide:example$java/managing_connections.java[tag=managing_connections_6,indent=0]
+----
+////
+
+
+TIP: In a deployment that uses multi-dimensional scaling, a custom KV port is only applicable for nodes running the KV service.
+A custom manager port may be specified regardless of which services are running on the node.
+
+In many cases the client is able to automatically select the correct set of addresses to use when connecting to a cluster that advertises multiple addresses.
+If the detection heuristic fails in your environment, you can override it by setting the `io.networkResolution` client setting to `default` if the client and server are on the same network, or `external` if they're on different networks.
+
+NOTE: Any TLS certificates must be set up at the point where the connections are being made.
+// todo what does that mean in practice? Also, should this be in the TLS docs section instead?
+
+
+
+
+
+// DNS-SRV
+// == Using DNS SRV records
+
+include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv-rev]
+
+DNS SRV bootstrapping is enabled by default in the {name-sdk}.
+In order to make the SDK use the SRV records, you need to pass in the hostname from your records (here `example.com`):
+
 ////
 TODO: verify
 include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
@@ -388,7 +382,60 @@ Proceeding with normal bootstrap.
 ----
 ////
 
+
+
+
+
+
+
+
+////
+
+== Cloud Native Gateway
+
+
+Couchbase's next generation connection protocol, introduced in Scala SDK 1.5 and Couchbase Autonomous Operator 2.6.1, can be enabled simply by changing the connection string to `couchbase2://` but there are a few differences to be aware of, described <<#limitations,below>>.
+// Couchbase's next generation connection protocol, introduced in Scala SDK 1.5 and Couchbase Autonomous Operator 2.6.1, can be enabled simply by changing the connection string to `couchbase2://` but there are a few differences to be aware of, described <<#limitations,below>>.
+
+The protocol implements a gRPC-style interface between the SDK and Couchbase Server.
+(Only available with Couchbase Server running on Kubernetes or OpenShift, with a recent release of xref:operator::overview.adoc[Couchbase Autonomous Operator]: 2.6.1 onwards).
+
+
+=== Limitations
+
+The underlying protocol will not work with certain legacy features: MapReduce Views (a deprecated Service -- 
+use xref:howtos:sqlpp-queries-with-sdk.adoc[Query] instead) and 
+Memcached buckets (superseded by the improved xref:{server_version}@server:learn:buckets-memory-and-storage/buckets.adoc#bucket-types[Ephemeral Buckets]).
+
+The following are not currently implemented over the `couchbase2://` protocol:
+
+* Authentication by client certificate.
+* Multi-document ACID transactions.
+* Analytics service.
+* Health Check.
+
+There are some different behaviors seen with this protocol:
+
+* Some config options are unsupported -- see the xref:ref:client-settings.adoc#cloud-native-gateway[Settings page].
+* The SDK will poll the gRPC channels until they are in a good state, or return an error, or timeout while waiting -- in our standard protocol there is an option of setting `waitUntilReady()` for just certain services to become available.
+* Some error codes are more generic -- in cases where the client would not be expected to need to take specific action -- but should cause no problem, unless you have written code looking at individual strings within the error messages.
+* Although documents continue to be stored compressed by Couchbase Server, they will not be transmitted in compressed form (to and from the client) over the wire, using `couchbase2://`.
+
+
+////
+
+
+
+
+
+// Working in the Cloud
+
 include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=cloud]
+
+
+
+
+
 
 
 == Async APIs
@@ -427,3 +474,11 @@ Here's the same example, but using the Reactive API instead of the Async API:
 include::devguide:example$python/managing_connections.py[tag=reactivecluster,indent=0]
 ----
 ////
+
+
+
+
+
+== Next Steps
+
+* xref:secure-connections.adoc[Certificate Authentication] 
