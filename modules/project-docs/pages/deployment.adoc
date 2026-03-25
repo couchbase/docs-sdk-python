@@ -71,23 +71,33 @@ The following table covers possible exceptions, and gives the version of the {na
 | N/A
 2+| From 4.2.0
 
-| Vector Search
-| N/A
-2+| From 4.2.0
-
 | Zone aware replica reads
 | N/A
 2+| From 4.4.0
 
-| Vector Query using GSI
+| Vector Search with Search Vector Index
+| N/A
+2+| From 4.2.0
+
+| Vector Query using Hyperscale Vector Index
+2+| N/A
+| From SDK 4.5.0 ①
+
+| Vector Query using Composite (GSI & vector) index
 2+| N/A
 | From SDK 4.5.0 ①
 
 | Distributed ACID Transactions  
 3+| From 4.0.0
 
+| DNS SRV refresh for serverless environments (AWS Lambda, Azure Functions, and GCP Functions)
+3+| From 4.1.5
+
+| Circuit Breakers
+3+| From 3.0.0
+
 | OTel 
-3+| Unsupported
+3+| From 4.6.0
 
 | Field Level Encryption 
 3+| From 3.2.0
