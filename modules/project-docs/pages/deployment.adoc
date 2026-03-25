@@ -63,7 +63,7 @@ The following table covers possible exceptions, and gives the version of the {na
 
 .Couchbase Server and SDK Supported Version Matrix
 [.table-merge-cells]
-[cols="7,6,6,6"]
+[cols="8,5,5,5"]
 |===
 | | Server 7.2 | Server 7.6.x  | Server 8.0
 
