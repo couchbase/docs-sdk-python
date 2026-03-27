@@ -4,11 +4,12 @@ import sys
 
 import couchbase
 from couchbase.cluster import Cluster
-from couchbase.options import ClusterOptions, ClusterTracingOptions
-from couchbase.auth import PasswordAuthenticator
+from couchbase.options import (ClusterOptions,
+                               ClusterOrphanReportingOptions,
+                               ClusterTracingOptions)
+from couchbase.auth import PasswordAuthenticator 
 from couchbase.exceptions import UnAmbiguousTimeoutException
 
-# tag::orphan_logging_config[]
 # configure logging
 logging.basicConfig(filename='example.log',
                     filemode='w', 
@@ -19,16 +20,16 @@ logging.basicConfig(filename='example.log',
 logger = logging.getLogger()
 couchbase.configure_logging(logger.name, level=logger.level)
 
-tracing_opts = ClusterTracingOptions(
-    # report interval
-    tracing_orphaned_queue_flush_interval=timedelta(minutes=1),
-    # sample size
-    tracing_orphaned_queue_size=10
+# tag::orphan_logging_config[]
+orphan_opts = ClusterOrphanReportingOptions(
+    emit_interval=timedelta(minutes=1),
+    sample_size=10
 )
 
 authenticator = PasswordAuthenticator("Administrator", "password")
+cluster_opts = ClusterOptions(authenticator, orphan_reporting_options=orphan_opts)
 
-cluster = Cluster("couchbase://your-ip", ClusterOptions(authenticator,tracing_options=tracing_opts))
+cluster = Cluster("couchbase://your-ip", cluster_opts)
 # end::orphan_logging_config[]
 collection = cluster.bucket("beer-sample").default_collection()
 
