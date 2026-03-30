@@ -16,13 +16,21 @@ Or, sent into the OpenTelemetry or Micrometer libraries, where they can be sent 
 
 == The Default LoggingMeter
 
+NOTE: As of v4.6.0 the `LoggingMeter` is native to the Python SDK.
+In previous versions the underlying {cpp} core was responsible for all metrics related behaviour.
+
 The default implementation aggregates and logs request and response metrics.
 
 By default the metrics will be emitted every 10 minutes, but you can customize the emit interval as well:
 
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Metrics.java[tag=metrics-enable-custom,indent=0]
+metrics_opts = ClusterMetricsOptions(emit_interval=timedelta(minutes=5))
+
+authenticator = PasswordAuthenticator("Administrator", "password")
+cluster_opts = ClusterOptions(authenticator=auth, metrics_options=metrics_opts)
+
+cluster = Cluster("couchbase://your-ip", cluster_opts)
 ----
 
 Once enabled, there is no further configuration needed. The `LoggingMeter` will emit the collected request statistics every interval.
@@ -66,15 +74,15 @@ Each report contains one object for each service that got used and is further se
 For each service / host combination, a total amount of recorded requests is reported, as well as percentiles from a histogram in microseconds. 
 The meta section on top contains information such as the emit interval in seconds so tooling can later calculate numbers like requests per second.
 
-The `LoggingMeter` can be configured on the environment as shown above.
+The `LoggingMeter` can be configured via `ClusterMetricsOptions` as shown above.
 The following table shows the currently available properties:
 
-.LoggingMeterConfig Properties
+.ClusterMetricsOptions Properties
 [options="header"]
 |====
 | Property       | Default | Description
-| `enabled`   | false | If the `LoggingMeter` should be enabled.
-| `emitInterval` | 600 seconds | The interval where found orphans are emitted.
+| `enable_metrics`   | true | If the `LoggingMeter` should be enabled.
+| `emit_interval` | 600 seconds | The interval at which metrics are emitted.
 |====
 
 
@@ -82,36 +90,13 @@ The following table shows the currently available properties:
 
 The SDK supports plugging in any `OpenTelemetry` metrics consumer instead of using the default `LoggingMeter`.
 
-To do this, first add this to your Maven, or the equivalent to your build tool of choice:
+To do this, install the required Python libraries for OpenTelemetry:
 
-[source,xml]
+NOTE: The Python SDK allows for the OpenTelemetry API and SDK packages to be installed along with the SDK via `python3 -m pip install couchbase[otel]`.
+
+[source,console]
 ----
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-bom</artifactId>
-            <version>1.17.0</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
-<dependencies>
-    <dependency>
-        <groupId>com.couchbase.client</groupId>
-        <artifactId>metrics-opentelemetry</artifactId>
-        <version>0.4.4</version>
-    </dependency>
-    <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>opentelemetry-api</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>opentelemetry-sdk</artifactId>
-    </dependency>
-</dependencies>
+$ python3 -m pip install opentelemetry-api~=1.22, opentelemetry-sdk~=1.22
 ----
 
 In addition, you'll need to get the metrics data into your metrics backend.
@@ -122,163 +107,101 @@ The `opentelemetry-exporter-prometheus` library makes it possible to open an HTT
 
 As that library is in alpha, here we will instead show how to send OpenTelemetry metrics into `opentelemetry-collector`, where it can be scraped by Prometheus or another metrics backend.
 
+[source,console]
+----
+$ python3 -m pip install opentelemetry-exporter-otlp-proto-grpc~=1.22
+----
+
 This aligns well with tracing, where a recommended approach is also to send OpenTelemetry spans into `opentelemetry-collector`, where they can be processed and forwarded elsewhere.
 See xref:howtos:observability-tracing.adoc[the Request Tracing documentation] for more information.
 
 For metrics, add this logic to the application:
 
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Metrics.java[tag=metrics-otel-prometheus,indent=0]
+include::devguide:example$python/otel_otlp_metrics.py[tag=metrics-otel-prometheus,indent=0]
 ----
-
 
 At this point the SDK is hooked up with the OpenTelemetry metrics and will emit them to the exporter.
 
-A `db.couchbase.operations` histogram is exported, which will appear in Prometheus as `db_couchbase_operations`.
+A `db.client.operation.duration` histogram is exported, which will appear in Prometheus as `db_client_operation_duration_seconds_bucket`.
 
-It has these tags: `db.couchbase.service` ("kv", "query", etc.) and `db.operation` ("upsert", "query", etc.)
+It has these tags (and more): `db_system_name="couchbase"` and `couchbase_service` ("kv", "query", etc.) and `db_operation_name` ("upsert", "query", etc.)
 
 === Testing
 For convenience, here is a simple Docker-based configuration of `opentelemetry-collector` and Prometheus for localhost testing of an OpenTelemetry setup.
 
-Create file `otel.yaml`:
-```
+Create file `otel_collector_config.yaml`:
+[source,yaml]
+----
 receivers:
   otlp:
     protocols:
       grpc:
-        endpoint: '0.0.0.0:4317'
-      http:
-        endpoint: '0.0.0.0:4318'
+        endpoint: 0.0.0.0:4317
 
 exporters:
-  logging:
-    loglevel: debug
   prometheus:
-    endpoint: '0.0.0.0:10000'
+    endpoint: "0.0.0.0:8889"
 
 service:
   pipelines:
     metrics:
       receivers: [otlp]
-      processors: []
-      exporters: [prometheus, logging]
-```
+      exporters: [prometheus]
+----
 
-And file `prometheus.yaml`:
-```
+And file `prometheus.yml`:
+[source,yaml]
+----
+global:
+  scrape_interval: 5s
+
 scrape_configs:
   - job_name: 'otel-collector'
-
-    scrape_interval: 1s
-
     static_configs:
-      - targets: ['otel:10000']
-        labels:
-          group: 'production'
-```
+      - targets: ['otel-collector:8889']
+----
 
-Now run `opentelemetry-collector` and Prometheus:
-```
-docker network create shared
-docker run --rm --name otel -v "${PWD}/otel.yaml:/etc/otel-local-config.yaml" -p 4317:4317 -p 10000:10000 --network shared otel/opentelemetry-collector --config /etc/otel-local-config.yaml
-docker run --rm --name prometheus -p 9090:9090  --mount type=bind,source="${PWD}/prometheus.yaml,destination=/etc/prometheus/prometheus.yml" --network shared prom/prometheus
-```
+And file `docker-compose.yml`:
+[source,yaml]
+----
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    command: ["--config=/etc/otel_collector_config.yml"]
+    volumes:
+      - ./otel_collector_config.yml:/etc/otel_collector_config.yml
+    ports:
+      - "4317:4317" # OTLP gRPC receiver (Python sends here)
+      - "8889:8889" # Prometheus exporter (Prometheus scrapes here)
+
+  prometheus:
+    image: prom/prometheus:latest
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090" # Prometheus UI (You view this in your browser)
+    depends_on:
+      - otel-collector
+----
+
+Now start up the containers:
+[source,console]
+----
+$ docker-compose up -d
+----
 
 Some things to note:
 
 * The containers are put on the same network so they can refer to each other by container name.
 * The app has been told to export metrics over OLTP GRPC to localhost:4317.  `opentelemetry-collector` is listening to this.
-* `opentelemetry-collector` will store the metrics, and exposes port 10000 for Prometheus to periodically scrape.
+* `opentelemetry-collector` will store the metrics, and exposes port 8889 for Prometheus to periodically scrape.
 
 Now run the application.
-All being well, `opentelemetry-collector` should regularly log that it's receiving the `db.couchbase.operations` metric, as it has been configured with a `logging` exporter.
-
-And Prometheus (the UI is available on http://localhost:9090) should allow querying for `db_couchbase_operations`.
+All being well, Prometheus (the UI is available on http://localhost:9090) should allow querying for `db_client_operation_duration_seconds_bucket`.
 (Though a real deployment will generally use another tool, such as Grafana, for visualisation.)
 
 If this fails, check http://localhost:9090/api/v1/targets to see if Prometheus is unable to contact `opentelemetry-collector`.
 
-
-== Micrometer Integration
-
-In addition to OpenTelemetry, we also provide a module allowing SDK metrics to be integrated into Micrometer.
-
-To do this, first add this to your Maven, or the equivalent to your build tool of choice:
-
-[source,xml]
-----
-<dependency>
-    <groupId>com.couchbase.client</groupId>
-    <artifactId>metrics-micrometer</artifactId>
-    <version>0.4.4</version>
-</dependency>
-<dependency>
-    <groupId>io.prometheus</groupId>
-    <artifactId>simpleclient</artifactId>
-    <version>0.16.0</version>
-</dependency>
-<dependency>
-    <groupId>io.prometheus</groupId>
-    <artifactId>simpleclient_httpserver</artifactId>
-    <version>0.16.0</version>
-</dependency>
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-registry-prometheus</artifactId>
-    <version>1.10.5</version>
-</dependency>
-<!-- Gives improved histograms for Micrometer when on classpath -->
-<dependency>
-    <groupId>org.hdrhistogram</groupId>
-    <artifactId>HdrHistogram</artifactId>
-    <version>2.1.12</version>
-</dependency>
-----
-
-You can now create a Micrometer registry and pass it into the SDK.
-Here we're using a Prometheus Micrometer registry, and setting up an HTTP server inside the application that will run on port 10000 and which Prometheus can scrape.
-
-But Micrometer of course, like OpenTelemetry, can support many more metrics backends than Prometheus.
-See the Micrometer documentation for details.
-
-[source,java]
-----
-include::devguide:example$java/MetricsMicrometer.java[tag=metrics-micrometer-prometheus,indent=0]
-----
-
-
-At this point the metrics are hooked up to Micrometer, and ready to be scraped by Prometheus.
-See the OpenTelemetry documentation above for what metrics to expect.
-
-=== Testing
-For convenience, here is a simple Docker-based Prometheus configuration for localhost testing of a Micrometer metrics setup.
-
-Create file `prometheus.yaml`:
-```
-scrape_configs:
-  - job_name: 'otel-collector'
-
-    scrape_interval: 1s
-
-    static_configs:
-      - targets: ['host.docker.internal:10000']
-        labels:
-          group: 'production'
-```
-
-Now run Prometheus:
-```
-docker run --rm --name prometheus -p 9090:9090  --mount type=bind,source="${PWD}/prometheus.yaml,destination=/etc/prometheus/prometheus.yml" prom/prometheus
-```
-
-Note the Prometheus config uses `host.docker.internal` to connect from a Docker container to the application running on localhost.  
-This will not work on all Docker deployments -- see the Docker documentation for more information on connecting to localhost.
-
-Now run the application.
-
-All being well, Prometheus (the UI is available on http://localhost:9090) should allow querying for `db_couchbase_operations_buckets`.
-(Though a real deployment will generally use another tool, such as Grafana, for visualization.)
-
-If this fails, check http://localhost:9090/api/v1/targets to see if Prometheus is unable to contact the application.

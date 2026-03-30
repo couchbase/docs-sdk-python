@@ -12,26 +12,23 @@ from couchbase.exceptions import CouchbaseException
 # NOTE: for simple test to see output, drop the threshold
 #         ex:  tracing_threshold_kv=timedelta(microseconds=1)
 
-# tag::threshold_logging_config[]
+
 # configure logging
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 # setup couchbase logging
 logger = logging.getLogger()
 couchbase.configure_logging(logger.name, level=logger.level)
 
+# tag::threshold_logging_config[]
 tracing_opts = ClusterTracingOptions(
+    tracing_threshold_queue_flush_interval=timedelta(seconds=5),
     tracing_threshold_queue_size=10,
     tracing_threshold_kv=timedelta(milliseconds=500))
 
-cluster_opts = ClusterOptions(authenticator=PasswordAuthenticator(
-    "Administrator",
-    "password"),
-    tracing_options=tracing_opts)
+auth = PasswordAuthenticator("Administrator", "password")
+cluster_opts = ClusterOptions(authenticator=auth, tracing_options=tracing_opts)
 
-cluster = Cluster(
-    "couchbase://your-ip",
-    cluster_opts
-)
+cluster = Cluster("couchbase://your-ip", cluster_opts)
 # end::threshold_logging_config[]
 
 collection = cluster.bucket("beer-sample").default_collection()

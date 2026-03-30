@@ -13,8 +13,9 @@ For example, if a single node is slow but the rest of the cluster is responsive,
 
 === Configuring Orphan Logging
 
+NOTE: The underlying {cpp} core is responsible for orphan logging.
+
 // TODO:  update client-settings
-//To configure orphan logging, adjust the xref:ref:client-settings.adoc#general-options[ThresholdRequestTracer].
 The orphan response logging is very similar in principle to the threshold logging, 
 but instead of tracking responses which are over a specific threshold it tracks those responses which are “orphaned”. 
 
