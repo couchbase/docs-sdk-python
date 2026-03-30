@@ -1,24 +1,20 @@
 = Tracing
 :description: Tracing and Metrics provide fine-grained insight into how an application is performing, and helps to diagnose when it is not.
-:page-topic-type: concept
+// :nav-title: Request Tracing and Metrics
 :page-aliases: ROOT:threshold-logging.adoc
-:page-status: UNDER CONSTRUCTION
+:page-toclevels: 2
 
-include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
 
-////
+
 [TIP] 
 ====
 In addition to Tracing and other metrics, and client logging, SDK is telemetry is also sent to the Server -- available from 8.0, and in new Capella Operational clusters -- for ingestion with other Prometheus metrics.
-Capella Operatioal exposes these metrics through the UI.
+Capella Operational exposes these metrics through the UI.
 ====
-////
 
-// include::{version-common}@sdk:shared:partial$rto.adoc[tag=rto]
-WARNING: Response Time Observability is not supported in Python SDK 4.0.
-View xref:3.2@response-time-observability[the Python SDK 3.2 docs]
-RTO support will be available in a later 4.x release.
-See the xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[SDK 4.0 migration considerations].
+
+
+include::{version-common}@sdk:shared:partial$rto.adoc[tag=rto]
