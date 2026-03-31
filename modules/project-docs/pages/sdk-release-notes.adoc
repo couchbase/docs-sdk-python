@@ -45,11 +45,11 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
-
-
-=== Version 4.6.0 (???? March 2026)
+=== Version 4.6.0 (31 March 2026)
 
 Version 4.6.0 is a minor release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably the 4.6.0 release adds observability support (with the ability to integrate with OpenTelemetry) and adds support for Python 3.14 --
+see xref:compatibility.adoc#python-version-compat[Python Version Compatibility] for details of supported Python versions.
 
 [source,bash]
 ----
@@ -58,8 +58,127 @@ $ python3 -m pip install couchbase==4.6.0
 
 *API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.6.0/
 
+==== Behavioral Changes
+
+The Couchbase Python SDK no longer provides Python 3.9 wheels as Python 3.9 reached https://peps.python.org/pep-0596/#lifespan[end-of-life] in October 2025.
+See xref:project-docs:compatibility.adoc#python-version-compat[Python Version Compatibility] for details on supported Python versions.
+
+Multi operations that allow for durability no longer allow client and server durability to be mixed across operations.
+If durability is specified for a multi operation, any per-key-options must use the same durability type (either client or server durability).
+
+All APIs (`acouchbase`, `couchbase`, and `txcouchbase`) no longer allow a cluster that has been closed to be reconnected.
+Any attempt to use a closed cluster will raise an exception.
+In order to establish a new connection after closing a cluster, a new cluster instance must be created.
+
+The `QueryIndexManagement` `create_index()` API no longer allows `fields` to be used to specify index keys.
+The `keys` field must be used to indicate the keys to use in the index.
 
 
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1700[PYCBC-1700],
+https://jira.issues.couchbase.com/browse/PYCBC-1724[PYCBC-1724]:
+Added support for Python 3.14.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1701[PYCBC-1701]:
+Dropped support for Python 3.9.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1714[PYCBC-1714]:
+Added support mTLS Certs Refresh (without restart).
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1715[PYCBC-1715]:
+Added support for JWT based authentication in Operational SDKs.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1718[PYCBC-1718],
+https://jira.issues.couchbase.com/browse/PYCBC-1722[PYCBC-1723],
+https://jira.issues.couchbase.com/browse/PYCBC-1722[PYCBC-1721],
+https://jira.issues.couchbase.com/browse/PYCBC-1722[PYCBC-1722],
+https://jira.issues.couchbase.com/browse/PYCBC-1722[PYCBC-1728],
+https://jira.issues.couchbase.com/browse/PYCBC-1750[PYCBC-1750]:
+Added Observability Support.
+The SDK now natively supports Tracing, Metrics, and `OTel` Integration.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1727[PYCBC-1727]:
+Deprecated support for MapReduce Views (which is also now deprecated in Couchbase Server).
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1730[PYCBC-1730],
+https://jira.issues.couchbase.com/browse/PYCBC-1731[PYCBC-1731],
+https://jira.issues.couchbase.com/browse/PYCBC-1733[PYCBC-1733],
+https://jira.issues.couchbase.com/browse/PYCBC-1734[PYCBC-1734],
+https://jira.issues.couchbase.com/browse/PYCBC-1735[PYCBC-1735],
+https://jira.issues.couchbase.com/browse/PYCBC-1736[PYCBC-1736],
+https://jira.issues.couchbase.com/browse/PYCBC-1737[PYCBC-1737],
+https://jira.issues.couchbase.com/browse/PYCBC-1738[PYCBC-1738],
+https://jira.issues.couchbase.com/browse/PYCBC-1739[PYCBC-1739],
+https://jira.issues.couchbase.com/browse/PYCBC-1740[PYCBC-1740],
+https://jira.issues.couchbase.com/browse/PYCBC-1742[PYCBC-1742],
+https://jira.issues.couchbase.com/browse/PYCBC-1743[PYCBC-1743],
+https://jira.issues.couchbase.com/browse/PYCBC-1756[PYCBC-1756]:
+Migrated internal SDK APIs away from Wrapper decorators.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1745[PYCBC-1745],
+https://jira.issues.couchbase.com/browse/PYCBC-1747[PYCBC-1747]:
+Use {cpp} Templating System for SDK C-Extension.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1752[PYCBC-1752]:
+Added `ClusterOption` to enable {cpp} core lazy KV connections.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1754[PYCBC-1754]:
+Added Logging Improvements.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1755[PYCBC-1755]:
+Updated `JSONType` type hint to adhere to static typing standards.
+
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1725[PYCBC-1725]:
+Fixed decoding to be deferred until result is accessed by `*Result` object.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1744[PYCBC-1744]:
+Fixed cluster instances across all APIs to not allow reconnect after close.
+
+
+==== Underlying {cpp} SDK Core Changes
+
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-732[CXXCBC-732]:
+Fixed memory leaks in concurrent fixed queue reporting.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-739[CXXCBC-739]:
+**mTLS Certificate Refresh** -- Added support for refreshing TLS certificates without restarting the application.
+Certificates can now be updated via `cluster::update_credentials()` and new TLS sessions will use the updated certificates.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-740[CXXCBC-740]:
+**JWT Authentication** -- Added JWT-based authentication support via `jwt_authenticator`.
+The authenticator can refresh tokens automatically and supports reauthentication when tokens become stale.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-745[CXXCBC-745]:
+**Lazy Connections Mode** -- Added new `enable_lazy_connections` option that delays opening KV connections until the first operation is executed, reducing initial connection overhead.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-750[CXXCBC-750]:
+**Internal Tracer for Wrapper SDKs** -- Added internal tracer interface (`tracer_wrapper::wrapped()`) for use by wrapper SDKs that want to integrate with the SDK's tracing.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-752[CXXCBC-752]:
+MapReduce Views are now deprecated.
+Use Query with {sqlpp} instead.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-763[CXXCBC-763]:
+Fixed `set_authenticator` not applying updated cert/key pairs to new TLS sessions.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-766[CXXCBC-766]:
+Fixed `OpenSSL` headers priority in `BoringSSL` builds.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-767[CXXCBC-767]:
+Implemented `AuthStale` handling and JWT reauthentication support.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-768[CXXCBC-768]:
+**DNS-SRV Refresh Fix** -- Fixed an issue where `bucket_not_found` errors during bootstrap would trigger unnecessary DNS-SRV record refresh loops.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-771[CXXCBC-771]:
+**Credentials Update Restrictions** -- `cluster::update_credentials()` now prevents switching between authenticator types (e.g., password to certificate) to avoid unexpected behavior.
+
+* **Mozilla Certificate Parsing** -- Updated the regex for parsing the header date of Mozilla certificates from curl.se to ensure correct certificate handling and added a warning if the header date is not found.
 
 
 
