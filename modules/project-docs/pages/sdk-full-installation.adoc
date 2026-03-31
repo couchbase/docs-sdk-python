@@ -1,9 +1,8 @@
 = Full Installation
 :description: Installation instructions for the Couchbase Python Client.
+:page-toclevels: 2
 :page-partial:
 :page-topic-type: reference
-
-include::project-docs:partial$attributes.adoc[]
 
 [abstract]
 {description}
@@ -15,20 +14,11 @@ This page covers installation of the SDK.
 A quick start guide in our xref:hello-world:start-using-sdk.adoc#[Getting Started Guide] should work for most users --
 and for anyone in a hurry to try out the SDK and our _Hello World_ program, that page is usually the best place to get started --
 but more detailed installation instructions are provided here on this page for every supported platform.
-This guide assumes you have some familiarity with development using Python -- if you are evaluating the SDK as a software architect, tester, or other non-Python role, you will benefit from our xref:hello-world:platform-help.adoc#[Platform Help page].
 
-
-
-
-
+This guide assumes you have some familiarity with development using Python -- if you are evaluating the SDK as a software architect, tester, or other non-Python role, you may benefit from our xref:hello-world:platform-help.adoc#[Platform Help page].
 
 
 // tag::prep[]
-The Couchbase SDK 3.x API (used in the Python SDK 3.0 - 4.0) is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
-
-3.x Python SDK introduced comprehensive https://www.python.org/dev/peps/pep-0484/[PEP-484] style type annotations.
-
-
 == Requirements
 
 Couchbase Python SDK bundles Couchbase++ automatically, so no need to install it separately.
@@ -49,6 +39,10 @@ $ python3 -m pip install --upgrade pip setuptools wheel
 ====
 
 // end::prep[]
+
+=== PyPy support
+
+Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
 
 
 == Installation
@@ -254,9 +248,3 @@ NOTE: If you require a version that doesn't have a suitable binary wheel on PyPI
 --
 ====
 // end::install[]
-
-
-=== PyPy support
-
-Because the Python SDK is written primarily in C using the CPython API, the official SDK will not work on PyPy.
-
