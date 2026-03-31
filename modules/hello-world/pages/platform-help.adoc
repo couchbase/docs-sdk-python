@@ -1,5 +1,6 @@
 = Setting Up Couchbase Python SDK with pyenv
 :description: pass:q[Discover how to get up and running developing applications with the Couchbase Python SDK 4.0+ using a virtual python installation]
+:page-toclevels: 2
 :navtitle: Setting Up the Python SDK
 
 [abstract]
@@ -21,5 +22,28 @@ If this is not you, head back to the xref:overview.adoc[rest of the Couchbase Py
 
 First thing is to get up and running with a virtual Python environment, to avoid any problems with needing to run programs on a different version of Python from the one your systems utilities depend upon.
 If you have a relatively recent version of GNU/Linux or macOS, then you can skip this step and just work with your operating system's Python 3 environment.
-If you are running WIndos, skip to the Windows section.
+If you are running Windows, skip to the Windows section.
 But if you are developing for an older platform -- such as an old Red Hat installation -- then read on.
+
+You most likely already have python installed on your development machine.
+You can verify this with:
+
+[source,console]
+----
+$ python3 --version
+----
+
+Note that with some operating systems the `3` will not be necessary, but `python3` will work on all systems where it is installed.
+
+You should see output like this:
+
+[source,console]
+----
+Python 3.12.3
+----
+
+
+
+=== Installing on GNU/Linux
+
+Now follow along the steps at xref:project-docs:sdk-full-installation.adoc#installation[].
