@@ -1,5 +1,5 @@
 = Query
-:description: You can query for documents in Couchbase using the {sqlpp_url}[{sqlpp}] (formerly N1QL) query language, a language based on SQL, but designed for structured and flexible JSON documents.
+:description: You can query for documents in Couchbase using the {sqlpp_url}[{sqlpp}] query language, a language based on SQL, but designed for structured and flexible JSON documents.
 :page-aliases: n1ql-query.adoc,ROOT:querying-n1ql.adoc,n1ql-queries-with-sdk.adoc 
 :page-toclevels: 2
 
@@ -8,153 +8,163 @@
 Querying can solve typical programming tasks such as finding a user profile by email address, facebook login, or user ID.
 
 
-**TODO: Scala --> Python**
+Our query service uses {sqlpp}, which will be fairly familiar to anyone who's used any dialect of SQL.
+<<Additional Resources>> for learning about {sqlpp} are listed at the bottom of the page.
+Before you get started you may wish to checkout the xref:6.5@server:n1ql:n1ql-language-reference/index.adoc[{sqlpp} intro page].
+
+[TIP]
+.{sqlpp} Compared to Key-Value
+====
+{sqlpp} is excellent for performing queries against multiple documents, but if you only need to access or mutate a single document and you know its unique ID, it will be
+much more efficient to use the Key-Value API.  We strongly recommend using both APIs to create a flexible, performant application.
+====
 
 
 
 == Getting Started
 
-After familiarizing yourself with the basics on how the {sqlpp} query language works and how to query it from the UI you can use it from the Java SDK.
+After familiarizing yourself with the basics on how the {sqlpp} query language works and how to query it from the UI you can use it from the Python SDK.
 
-Before starting, here are all of the imports used in the following examples:
+The examples below will use the travel-sample example bucket.
+This can be installed through the Couchbase Admin UI in Settings -> Sample Buckets.
+If you're using the Capella Free Tier the travel-sample bucket should already be installed.
 
-[source,java]
+In order to be able to use query on a bucket, it must have at least a primary index created. 
+The easiest way to create this is through the Couchbase Admin UI.
+Visit the Query tab, then write this in the Query Editor and hit Execute:
+
+[source,n1ql]
 ----
-include::devguide:example$java/Queries.java[tag=imports,indent=0]
-----
-
-Here's a complete example of doing a query and handling the results:
-
-[{tabs}]
-====
-Couchbase Capella Sample::
-+
---
-These examples requires the Travel Sample Bucket.
-The Couchbase Capella free tier version comes with this bucket, and its Query indexes, loaded and ready.
-
-[source,java]
-----
-include::devguide:example$java/SimpleQueryCloud.java[tag=class,indent=0]
-----
---
-
-Local Couchbase Server::
-+
---
-To run these examples, you will need to install the Travel Sample Bucket
-using either the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
-or the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
-
-[source,java]
-----
-include::devguide:example$java/SimpleQuery.java[tag=class,indent=0]
-----
---
-====
-
-Note that building indexes is covered in some detail on the xref:concept-docs:n1ql-query.adoc#index-building[Query concept page], which you should take a quick look at --
-and in the https://docs.couchbase.com/sdk-api/couchbase-java-client/com/couchbase/client/java/manager/query/package-summary.html[API Reference].
-
-Let's break down the above code snippet. 
-A query is always performed at the `Cluster` level, using the `query` method. It takes the statement as a required argument and then allows to provide additional options if needed (in the example above, no options are specified).
-
-Once a result returns you can iterate the returned rows and/or accessing the `QueryMetaData` associated with the query. If something goes wrong during the execution of the query, a derivate of the `CouchbaseException` will be thrown that also provides additional context on the operation:
-
-[source,console]
-----
-Exception in thread "main" com.couchbase.client.core.error.ParsingFailureException: Parsing of the input failed {"completed":true,"coreId":1,"errors":[{"code":3000,"message":"syntax error - at end of input"}],"idempotent":false,"lastDispatchedFrom":"127.0.0.1:56279","lastDispatchedTo":"127.0.0.1:8093","requestId":3,"requestType":"QueryRequest","service":{"operationId":"eee9b796-bfff-42dc-941d-1a985e019ff8","statement":"select 1=","type":"query"},"timeoutMs":75000,"timings":{"dispatchMicros":14381,"totalMicros":1365348}}
+CREATE PRIMARY INDEX ON `travel-sample`
 ----
 
-[NOTE]
-.Open Buckets and Cluster-Level Queries
-====
-If you are using a cluster older than Couchbase Server 6.5, it is required that there is at least one bucket open before performing a cluster-level query. If you fail to do so, the SDK will return a `FeatureNotAvailableException` with a descriptive error message asking you to open one.
-====
 
-
-== Parameterized Queries
-
-Supplying parameters as individual arguments to the query allows the query engine to optimize the parsing and planning of the query.
-You can either supply these parameters by name or by position.
-
-The first example shows how to provide them by name:
-
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=named,indent=0]
+include::devguide:example$python/n1ql_ops.py[tag=n1ql_basic_example]
 ----
 
-The second example by position:
+Let's break it down. 
+A query is always performed at the `cluster` or `scope` level, using the `query` method. 
+It takes the statement as a required argument and then allows to provide additional options if needed.
 
-[source,java]
+Once a result returns you can iterate the returned rows and/or access the `QueryMetaData` associated with the query.
+
+
+== Querying at Scope Level
+
+Querying at the xref:concept-docs:n1ql-query.adoc#collections-and-scopes-and-the-query-context[`scope` level], using the `scope.query()` method --
+takes the statement as a required argument, and then allows additional options if needed:
+
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=positional,indent=0]
+include::devguide:example$python/n1ql_ops.py[tag=scope]
 ----
 
+
+
+== Queries & Placeholders
+
+Placeholders allow you to specify variable constraints for an otherwise constant query.
+There are two variants of placeholders: postional and named parameters.
+Positional parameters use an ordinal placeholder for substitution and named parameters use variables.
+A named or positional parameter is a placeholder for a value in the WHERE, LIMIT or OFFSET clause of a query.
+Note that both parameters and options are optional.
+
+.Positional parameter example:
+[source,python]
+----
+include::devguide:example$python/n1ql_ops.py[tag=positional]
+----
+
+[source,python]
+----
+include::devguide:example$python/n1ql_ops.py[tag=positional_options]
+----
+
+.Named parameter example:
+[source,python]
+----
+include::devguide:example$python/n1ql_ops.py[tag=named_kwargs]
+----
+
+[source,python]
+----
+include::devguide:example$python/n1ql_ops.py[tag=named_options]
+----
+
+The complete code for this page's example can be found at https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/n1ql_ops.py[n1ql_ops.py].
 What style you choose is up to you, for readability in more complex queries we generally recommend using the named parameters.
+Note that you cannot use parameters in all positions.
+If you put it in an unsupported place the server will respond with a `ParsingFailedException` or similar.
 
-Note that you cannot use parameters in all positions. If you put it in an unsupported place the server will respond with a `PlanningFailureException` or similar.
+
 
 == The Query Result
 
 When performing a query, the response you receive is a `QueryResult`.
-If no exception gets raised the request succeeded and provides access to both the rows returned and also associated `QueryMetaData`.
+If no error is returned then the request succeeded and the result provides access to both the rows returned and also associated `QueryMetaData`.
 
-Rows can be consumed either through a `JsonObject` directly, turned into a java collection instance (like a `Map`) or into your POJO of choice mapping directly to your domain logic.
-
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=rowsasobject,indent=0]
+include::devguide:example$python/n1ql_ops.py[tag=iterating]
 ----
 
-The `QueryMetaData` provides insight into some basic profiling/timing information as well as information like the `clientContextId`.
+NOTE: The SDK executes queries lazily, meaning the query is only run against the cluster when you try to use the `QueryResult` object.
+You therefore cannot iterate over the `QueryResult` multiple times, and attempting to do so raises an `AlreadyQueriedException`.
+
+The `QueryMetaData` provides insight into some basic profiling/timing information as well as information like the `ClientContextID`.
 
 .QueryMetaData
 [options="header"]
 |====
 | Name       | Description
-| `String requestId()` | Returns the request identifer of this request.
-| `String clientContextId()` | Returns the context ID either generated by the SDK or supplied by the user.
-| `QueryStatus status()` | An enum simply representing the state of the result.
-| `Optional<QueryMetrics> metrics()` | Returns metrics provided by the query for the request if enabled.
-| `Optional<JsonObject> signature()` | If a signature is present, it will be available to consume in a generic fashion.
-| `List<QueryWarning> warnings()` | Non-fatal errors are available to consume as warnings on this method.
-| `Optional<JsonObject> profile()` | If enabled returns additional profiling information of the query.
+| `request_id() -> str` | Returns the request identifer of this request.
+| `client_context_id() -> str` | Returns the context ID either generated by the SDK or supplied by the user.
+| `status() -> QueryStatus` | An enum simply representing the state of the result.
+| `metrics() -> Optional[QueryMetrics]` | Returns metrics provided by the query for the request if enabled.
+| `signature() -> Optional[JSON]` | If a signature is present, it will be available to consume in a generic fashion.
+| `warnings() -> List[QueryWarning]` | Non-fatal errors are available to consume as warnings on this method.
+| `profile() -> Optional[JSON]` | If enabled returns additional profiling information of the query.
 |====
 
 For example, here is how you can print the `executionTime` of a query:
 
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=printmetrics,indent=0]
+include::devguide:example$python/n1ql_ops.py[tag=print_metrics]
 ----
 
+
+
 == Query Options
+
 The query service provides an array of options to customize your query. The following table lists them all:
 
 .Available Query Options
 [options="header"]
 |====
 | Name       | Description
-| `clientContextId(String)` | Sets a context ID returned by the service for debugging purposes.
-| `parameters(JsonArray)` | Allows to set positional arguments for a parameterized query.
-| `parameters(JsonObject)` | Allows to set named arguments for a parameterized query.
+| `client_context_id (str)` | Sets a context ID returned by the service for debugging purposes.
+| `positional_parameters (Iterable[JSON])` | Allows to set positional arguments for a parameterized query.
+| `named_parameters (dict[str,JSON])` | Allows to set named arguments for a parameterized query.
 | `priority(boolean)` | Assigns a different server-side priority to the query.
-| `raw(String, Object)` | Escape hatch to add arguments that are not covered by these options.
-| `readonly(boolean)` | Tells the client and server that this query is readonly.
-| `adhoc(boolean)` | If set to false will prepare the query and later execute the prepared statement.
-| `consistentWith(MutationState)` | Allows to be consistent with previously written mutations ("read your own writes").
-| `maxParallelism(int)` | Tunes the maximum parallelism on the server.
-| `metrics(boolean)` | Enables the server to send metrics back to the client as part of the response.
-| `pipelineBatch(int)` | Sets the batch size for the query pipeline.
-| `pipelineCap(int)` | Sets the cap for the query pipeline.
-| `profile(QueryProfile)` | Allows to enable additional query profiling as part of the response.
-| `scanWait(Duration)` | Allows to specify a maximum scan wait time.
-| `scanCap(int)` | Specifies a maximum cap on the query scan size.
-| `scanConsistency(QueryScanConsistency)` | Sets a different scan consistency for this query.
-| `serializer(JsonSerializer)` | Allows to use a different serializer for the decoding of the rows.
+| `raw (dict[str,JSON])` | Escape hatch to add arguments that are not covered by these options.
+| `read_only (bool)` | Tells the client and server that this query is readonly.
+| `adhoc (bool)` | If set to false will prepare the query and later execute the prepared statement.
+| `consistent_with (MutationState)` | Allows to be consistent with previously written mutations ("read your own writes").
+| `max_parallelism (int)` | Tunes the maximum parallelism on the server.
+| `metrics (bool)` | Enables the server to send metrics back to the client as part of the response.
+| `pipeline_batch (int)` | Sets the batch size for the query pipeline.
+| `pipeline_cap (int)` | Sets the cap for the query pipeline.
+| `profile (QueryProfile)` | Allows to enable additional query profiling as part of the response.
+| `scan_wait (timedelta)` | Allows to specify a maximum scan wait time.
+| `scan_cap (int)` | Specifies a maximum cap on the query scan size.
+| `scan_consistency (QueryScanConsistency)` | Sets a different scan consistency for this query.
+| `query_context` | Allows to set target bucket and/or scope.
 |====
+
+
 
 == Scan Consistency
 
@@ -162,28 +172,23 @@ By default, the query engine will return whatever is currently in the index at t
 If you need to include everything that has just been written, a different scan consistency must be chosen.
 If `QueryScanConsistency.REQUEST_PLUS` is chosen, it will likely take a bit longer to return the results but the query engine will make sure that it is as up-to-date as possible.
 
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=scanconsistency,indent=0]
+include::devguide:example$python/n1ql_ops.py[tag=scan_consistency]
 ----
+
+You can also use `consistent_with=MutationState` for a more narrowed-down scan consistency.
+Construct the `MutationState` from individual `MutationToken`s that are returned from KV `MutationResult`s to make sure at least those mutations are visible.
+Depending on the index update rate this might provide a speedier response.
 
 // Due to https://issues.couchbase.com/browse/MB-46876 this section won’t work with named scopes and collections,
 // we need to omit this information until Couchbase Server 7.0.1 is available, which will contain the fix for this bug.
 // We should avoid showing the user this information until then.
-//You can also use `consistentWith(MutationState)` for a more narrowed-down scan consistency.
-//Construct the `MutationState` from individual `MutationToken`s that are returned from KV `MutationResult`s to make sure at least those mutations are visible.
-//Depending on the index update rate this might provide a speedier response.
-//
-//[source,java]
-//----
-//include::devguide:example$java/Queries.java[tag=connect-bucket-and-scope,indent=0]
-//include::devguide:example$java/Queries.java[tag=scanconsistency_with,indent=0]
-//----
-//
-//Note that you cannot use this method and `scanConsistency(QueryScanConsistency)` at the same time, since they are mutually exclusive.
-//As a rule of thumb, if you only care about being consistent with the mutation you just wrote on the same thread or app, use this method.
-//If you need "global" scan consistency, use `QueryScanConsistency.REQUEST_PLUS` on `scanConsistency(QueryScanConsistency)`.
 
+[source,python]
+----
+include::devguide:example$python/n1ql_ops.py[tag=ryow]
+----
 
 === Client Context ID
 
@@ -192,74 +197,67 @@ By default a UUID will be generated that is mirrored back from the query engine 
 A custom string can always be provided if you want to introduce application-specific semantics into it (so that for example in a network dump it shows up with a certain identifier).
 Whatever is chosen, we recommend making sure it is unique so different queries can be distinguished during debugging or monitoring.
 
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=clientcontextid,indent=0]
+include::devguide:example$python/n1ql_ops.py[tag=client_context_id]
 ----
 
-=== Readonly
+=== ReadOnly
 
 If the query is marked as readonly, both the server and the SDK can improve processing of the operation.
 On the client side, the SDK can be more liberal with retries because it can be sure that there are no state-mutating side-effects happening.
 The query engine will ensure that actually no data is mutated when parsing and planning the query.
 
-[source,java]
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=readonly,indent=0]
+include::devguide:example$python/n1ql_ops.py[tag=read_only]
 ----
+
+////
+TODO:  can provide once transcoders/serializers are available w/in SDK
 
 === Custom JSON Serializer
 
-Like with all JSON apis, it is possible to customize the JSON serializer.
-It allows to plug in your own library (like GSON) or custom configured mappings on your own Jackson serializer.
-This in turn makes it possible to serialize rows into POJOs or other structures that your application defines and the SDK has no idea about.
+Like with all JSON apis, it is possible to customize the JSON serializer. It allows to plug in your own library. This in turn makes it possible to serialize rows into PODs or other structures that your application defines and the SDK has no idea about.
 
-Please see the xref:transcoders-nonjson.adoc[documentation on transcoding and serialization] for more information.
-
-
-== Reactive And Async APIs
-
-In addition to the blocking API on `Cluster`, the SDK provides reactive and async APIs on `ReactiveCluster` or `AsyncCluster` respectively.
-If you are in doubt of which API to use, we recommend looking at the reactive first.
-It builds on top of reactor, a powerful library that allows you to compose reactive computations and deal with error handling and other related concerns (like retry) in an elegant manner.
-The async API on the other hand exposes a `CompletableFuture` and is more meant for lower level integration into other libraries or if you need the last drop of performance.
-
-Also, there is another reason you want to use the reactive API: streaming large results with backpressure from the application side.
-Both the blocking and async APIs have no means of signalling backpressure in a good way, so if you need it the reactive API is your best option.
-
-[TIP]
-.Advanced Reactive Concepts Ahead
-====
-Please see the guides on reactive programming for more information on the basics, this guide is diving straight into their impact on querying.
-====
-
-A simple reactive query is similar to the blocking one:
+Please see the documentation transcoding and serialization for more information.
+////
 
 
-[source,java]
+
+
+
+== Streaming Large Result Sets
+
+By default, the Python SDK will stream the result set from the server, where the client will start a persistent connection with the server and only read the header until the Rows are enumerated; then, each row or JSON object will be de-serialized one at a time.
+
+This decreases pressure on Garbage Collection and helps to prevent OutOfMemory errors.
+
+
+
+== Async APIs
+
+In addition to the blocking API on `Cluster`, the SDK provides asyncio and Twisted APIs on `ACluster` or `TxCluster` respectively.
+If you are in doubt of which API to use, we recommend looking at the asyncio API first.
+
+Simple queries with both asyncio and Twisted APIs look similar to the blocking one:
+
+.ACouchbase
+[source,python]
 ----
-include::devguide:example$java/Queries.java[tag=simplereactive,indent=0]
-----
-
-This query will stream all rows as they become available from the server, automatically applying backpressure as necessary.
-
-
-== Querying at Scope Level
-
-It is possible to query off the xref:concept-docs:n1ql-query.adoc#collections-and-scopes-and-the-query-context[`Scope` level],
-_with Couchbase Server release 7.x_, using the `scope.query()` method.
-It takes the statement as a required argument, and then allows additional options if needed.
-
-A complete list of `QueryOptions` can be found in the https://docs.couchbase.com/sdk-api/couchbase-java-client/com/couchbase/client/java/AsyncScope.html#query-java.lang.String-[API docs].
-
-[source,java]
+include::devguide:example$python/acouchbase_n1ql_ops.py[tag=simple_query]
 ----
 
-include::devguide:example$java/Queries.java[tag=connect-bucket-and-scope,indent=0]
-
-include::devguide:example$java/Queries.java[tag=scope-level-query,indent=0]
-
+.TxCouchbase
+[source,python]
 ----
+include::devguide:example$python/txcouchbase_n1ql_ops.py[tag=simple_query]
+----
+
+
+
+
+
 
 == Additional Resources
 
@@ -270,4 +268,6 @@ Be sure to check that xref:concept-docs:data-services.adoc[your use case fits yo
 * The xref:{version-server}@server:n1ql:n1ql-language-reference/index.adoc[Server doc {sqlpp} intro] introduces a complete guide to the {sqlpp} language, including all of the latest additions.
 * The http://query.pub.couchbase.com/tutorial/#1[{sqlpp} interactive tutorial] is a good introduction to the basics of {sqlpp} use.
 * For scaling up queries, be sure to xref:{version-server}@server:learn:services-and-indexes/indexes/index-replication.adoc[read up on Indexes].
-* Read more on xref:concept-docs:http-services.adoc#long-running-queries-big-data[when to choose the Analytics service].
+* Read more on when to choose the Analytics service:
+** Couchbase's xref:concept-docs:http-services.adoc#long-running-queries-big-data[traditional row-based Analytics Service].
+** xref:enterprise-analytics:intro:intro.adoc[Real-time analytics].
