@@ -46,4 +46,4 @@ Python 3.12.3
 
 === Installing on GNU/Linux
 
-Now follow along the steps at xref:project-docs:sdk-full-installation.adoc#installation[].
+Now follow along the steps on the xref:project-docs:sdk-full-installation.adoc#installation[installation page].
