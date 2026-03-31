@@ -55,7 +55,7 @@ Couchbase offers a choice of:
 
 Both use versions of the {sqlpp} query language.
 
-include::{version-common}@sdk:shared:partial$columnar-available.adoc[tag=initial-availability]
+include::{version-common}@sdk:shared:partial$columnar-available.adoc[tag=initial-availability-o]
 
 
 === Search 
