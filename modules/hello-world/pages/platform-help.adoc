@@ -47,3 +47,10 @@ Python 3.12.3
 === Installing on GNU/Linux
 
 Now follow along the steps on the xref:project-docs:sdk-full-installation.adoc#installation[installation page].
+
+
+
+// TODO Windows
+// 
+// https://github.com/pyenv-win/pyenv-win
+
