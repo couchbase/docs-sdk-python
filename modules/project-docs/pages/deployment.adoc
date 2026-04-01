@@ -33,7 +33,7 @@ The xref:sdk-full-installation.adoc[full installation guide] should cover any sp
 
 // !Load Balancer - admonition
 
-include::{version-common}@sdk:shared:deployment.adoc[tag=load-balancer]
+include::{version-common}@sdk:shared:partial$deployment.adoc[tag=load-balancer]
 
 
 
