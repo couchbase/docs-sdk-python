@@ -57,7 +57,9 @@ The client fetches the full address list from the first node it is able to conta
 Opening resources is asynchronous.
 That is, the call to `cluster.bucket` or `Cluster.connect` will complete instantly, and opening that resource will continue in the background.
 
-You can force waiting for the resource to be opened with a call to `waitUntilReady`, which is available on both the `Cluster` and `Bucket` -- and used in the connect examples above on the Cluster.
+
+include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=bootstrap-completion]
+
 
 Other timeout issues may occur when using the SDK located geographically separately from the Couchbase Server cluster -- 
 this is xref:project-docs:compatibility.adoc#network-requirements[not recommended in production deployments], but often occurs during development.
