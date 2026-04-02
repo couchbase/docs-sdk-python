@@ -226,12 +226,14 @@ Please see the documentation transcoding and serialization for more information.
 
 
 
-
+////
+// C++ core does not yet support streaming!
 == Streaming Large Result Sets
 
 By default, the Python SDK will stream the result set from the server, where the client will start a persistent connection with the server and only read the header until the Rows are enumerated; then, each row or JSON object will be de-serialized one at a time.
 
-This decreases pressure on Garbage Collection and helps to prevent OutOfMemory errors.
+This reduces memory footprint and helps prevent process crashes.
+////
 
 
 
