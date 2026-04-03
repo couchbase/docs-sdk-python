@@ -120,9 +120,6 @@ Migrated internal SDK APIs away from Wrapper decorators.
 https://jira.issues.couchbase.com/browse/PYCBC-1747[PYCBC-1747]:
 Use {cpp} Templating System for SDK C-Extension.
 
-* https://jira.issues.couchbase.com/browse/PYCBC-1752[PYCBC-1752]:
-Added `ClusterOption` to enable {cpp} core lazy KV connections.
-
 * https://jira.issues.couchbase.com/browse/PYCBC-1754[PYCBC-1754]:
 Added Logging Improvements.
 
@@ -137,6 +134,12 @@ Fixed decoding to be deferred until result is accessed by `*Result` object.
 
 * https://jira.issues.couchbase.com/browse/PYCBC-1744[PYCBC-1744]:
 Fixed cluster instances across all APIs to not allow reconnect after close.
+
+
+==== Known Issues
+
+* https://issues.couchbase.com/browse/PYCBC-1758[PYCBC-1758]:
+This version of the SDK does not propagate a small number of `ClusterOptions` to the {cpp} core. This will be fixed in the next patch release (4.6.1).
 
 
 ==== Underlying {cpp} SDK Core Changes
