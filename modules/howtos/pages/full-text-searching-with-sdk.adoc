@@ -1,5 +1,5 @@
 = Search
-:description: You can use the Search service to create queryable search indexes in Couchbase Server.
+:description: You can use the Search service to create queryable Search indexes in Couchbase Server.
 :page-toclevels: 3
 :page-aliases: search-query
 
@@ -8,7 +8,7 @@
 {description}
 
 
-The Search Service allows you to create, manage and query search indexes on JSON documents stored in Couchbase buckets.
+The Search Service allows you to create, manage and query Search indexes on JSON documents stored in Couchbase buckets.
 It uses natural language processing for indexing and querying documents, provides relevance scoring on the results of your queries and has fast indexes for querying a wide range of possible text searches.
 
 Some of the supported query-types include simple queries like Match and Term queries, range queries like Date Range and Numeric Range and compound queries for conjunctions, disjunctions and/or boolean queries.
