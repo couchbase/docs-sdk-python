@@ -1,5 +1,5 @@
 = Search
-:description: You can use the Full Text Search service (FTS) to create queryable full-text indexes in Couchbase Server.
+:description: You can use the Search service to create queryable Search indexes in Couchbase Server.
 :page-toclevels: 3
 :page-aliases: search-query
 
@@ -8,12 +8,12 @@
 {description}
 
 
-Full Text Search or FTS allows you to create, manage and query full text indexes on JSON documents stored in Couchbase buckets.
+The Search Service allows you to create, manage and query Search indexes on JSON documents stored in Couchbase buckets.
 It uses natural language processing for indexing and querying documents, provides relevance scoring on the results of your queries and has fast indexes for querying a wide range of possible text searches.
 
 Some of the supported query-types include simple queries like Match and Term queries, range queries like Date Range and Numeric Range and compound queries for conjunctions, disjunctions and/or boolean queries.
 
-The Full Text Search service also supports vector search from Couchbase Server 7.6 onwards.
+The Search service also supports vector search from Couchbase Server 7.6 onwards.
 
 
 == Getting Started
@@ -23,10 +23,10 @@ After familiarizing yourself with how to create and query a Search index in the 
 There are two APIs for querying search: `cluster.searchQuery()`, and `cluster.search()`.
 Both are also available at the Scope level.
 
-The former API supports FTS queries (`SearchQuery`), while the latter additionally supports the `VectorSearch` added in 7.6.
+The former API supports Search queries (`SearchQuery`), while the latter additionally supports the `VectorSearch` added in 7.6.
 Most of this documentation will focus on the former API, as the latter is in @Stability.Volatile status.
 
-We will perform an FTS query here - see the <<vector-search>> section for examples of that.
+We will perform a Search query here - see the <<vector-search>> section for examples of that.
 
 [source,python]
 ----
@@ -101,7 +101,7 @@ The `SearchRow` contains the following methods:
 .SearchRow
 [options="header"]
 |====
-| `index -> str` | The name of the FTS index that gave this result.
+| `index -> str` | The name of the Search index that gave this result.
 | `id -> str` | The id of the matching document.
 | `score ->float` | The score of this hit.
 | `explanation -> str` | If enabled provides an explanation in JSON form.
@@ -119,9 +119,9 @@ so if you absolutely need to check if all partitions are present in the result d
 
 == Scoped vs Global Indexes
 
-The FTS APIs exist at both the `Cluster` and `Scope` levels.
+The Search APIs exist at both the `Cluster` and `Scope` levels.
 
-This is because FTS supports, as of Couchbase Server 7.6, a new form of "scoped index" in addition to the traditional "global index".
+This is because the Search Service supports, as of Couchbase Server 7.6, a new form of "scoped index" in addition to the traditional "global index".
 
 It's important to use the `Cluster.searchQuery()` / `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes.
 
