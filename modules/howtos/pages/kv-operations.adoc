@@ -158,7 +158,7 @@ xref:concept-docs:transactions.adoc[multi-document ACID transactions].
 
 
 
-== Retrieving full documents
+== Retrieving Full Documents
 
 Using the `get()` method with the document key can be done in a similar fashion to the other operations:
 
@@ -295,18 +295,18 @@ include::devguide:example$python/kv_range_scan.py[tag=range_scan_prefix]
 
 If you want to get random documents from a collection, use a sample scan.
 
-.KV Range Scan for 100 random documents
+.KV Range Scan for 100 Random Documents
 [source,python]
 ----
 include::devguide:example$python/kv_range_scan.py[tag=range_scan_sample]
 ----
 
 [#kv-range-scan-only-ids]
-=== Get IDs instead of full documents
+=== Get IDs Instead of Full Documents
 
 If you only want the document IDs, set the `ids_only` field of `ScanOptions` to `true`, like this:
 
-.KV Range Scan for all document IDs in a collection
+.KV Range Scan for All Document IDs in a Collection
 [source,python]
 ----
 include::devguide:example$python/kv_range_scan.py[tag=range_scan_all_document_ids]
