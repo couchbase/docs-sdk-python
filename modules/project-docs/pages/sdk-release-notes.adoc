@@ -3,8 +3,8 @@
 :navtitle: Release Notes
 :page-partial:
 :page-toclevels: 2
-:page-topic-type: reference
-:page-aliases: ROOT:relnotes-python-sdk,ROOT:download-links,ROOT:release-notes,ROOT:sdk-release-notes
+:page-aliases: ROOT:relnotes-python-sdk,adoc,ROOT:download-links.adoc,ROOT:release-notes.adoc,ROOT:sdk-release-notes.adoc
+
 
 // tag::all[]
 [abstract]
