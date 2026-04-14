@@ -18,23 +18,7 @@ NOTE: Because the Python SDK is written primarily in C using the CPython API, th
 
 == Installation
 
-You may install previous versions of the SDK using pip (after installing the required xref:hello-world:start-using-sdk.adoc[dependencies])
-
-[source,console]
-----
-$ python3 -m pip install couchbase==VERSION
-----
-
-where VERSION is the version you wish to install. 
-For example, to install version 4.3.6:
-
-[source,console]
-----
-$ python3 -m pip install couchbase==4.3.6
-----
-
-For more detailed installation instructions, see the xref:project-docs:sdk-full-installation.adoc[full installation guide].
-
+The full installation instructions that were previously on this page can now be found xref:sdk-full-installation.adoc[here].
 
 
 [#latest-release]
@@ -139,7 +123,12 @@ Fixed cluster instances across all APIs to not allow reconnect after close.
 ==== Known Issues
 
 * https://issues.couchbase.com/browse/PYCBC-1758[PYCBC-1758]:
-This version of the SDK does not propagate a small number of `ClusterOptions` to the {cpp} core. This will be fixed in the next patch release (4.6.1).
+This version of the SDK does not propagate a small number of `ClusterOptions` to the {cpp} core. 
+This will be fixed in the next patch release (4.6.1).
+
+* https://issues.couchbase.com/browse/PYCBC-1753[PYCBC-1753]:
+In 4.6.0, the Python Client is not passing `scope_name` or `bucket_name` when using scoped search indexes.
+This will be fixed in the next patch release (4.6.1).
 
 
 ==== Underlying {cpp} SDK Core Changes
