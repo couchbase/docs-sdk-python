@@ -247,4 +247,25 @@ python -m pip install couchbase
 NOTE: If you require a version that doesn't have a suitable binary wheel on PyPI, follow the https://github.com/couchbase/couchbase-python-client#alternative-installation-methods[build instructions] on the GitHub repo.
 --
 ====
+
+
+=== Installing a Specific Version
+
+You may install previous versions of the SDK using pip.
+
+[source,console]
+----
+$ python3 -m pip install couchbase==VERSION
+----
+
+Where VERSION is the version you wish to install. 
+For example, to install version 4.5.0:
+
+[source,console]
+----
+$ python3 -m pip install couchbase==4.5.0
+----
+
+For more detailed installation instructions, see the xref:project-docs:sdk-full-installation.adoc[full installation guide].
+
 // end::install[]
