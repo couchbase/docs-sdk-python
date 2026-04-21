@@ -101,9 +101,9 @@ The following table covers possible exceptions, and gives the version of the {na
 3+| From 4.1.5
 
 | Circuit Breakers
-3+| From 3.0.0
+3+| Unsupported
 
-| OTel 
+| Response Time Observability with OTel 
 3+| From 4.6.0
 
 | Field Level Encryption 
