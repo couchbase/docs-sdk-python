@@ -1,7 +1,7 @@
 from couchbase.cluster import Cluster, PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 
-cluster = Cluster("couchbase://localhost",
+cluster = Cluster.connect("couchbase://localhost",
                   authenticator=PasswordAuthenticator("Administrator", "password"))
 
 try:

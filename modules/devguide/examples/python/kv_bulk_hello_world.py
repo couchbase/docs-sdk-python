@@ -1,6 +1,6 @@
 from couchbase.cluster import Cluster, PasswordAuthenticator
 
-cluster = Cluster("couchbase://localhost",
+cluster = Cluster.connect("couchbase://localhost",
                   authenticator=PasswordAuthenticator("Administrator", "password"))
 bucket = cluster.bucket("travel-sample")
 users_collection = bucket.scope("tenant_agent_00").collection("users")

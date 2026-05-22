@@ -25,7 +25,7 @@ from couchbase.auth import PasswordAuthenticator
 
 
 async def get_couchbase():
-    cluster = Cluster(
+    cluster = AsyncCluster.connect(
         "couchbase://your-ip",
         ClusterOptions(PasswordAuthenticator("Administrator", "password")))
     bucket = cluster.bucket("travel-sample")

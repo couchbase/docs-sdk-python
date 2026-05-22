@@ -56,7 +56,7 @@ class CouchbaseClient(object):
             cluster_opts = ClusterOptions(
                 authenticator=PasswordAuthenticator(
                     self.username, self.password))
-            self._cluster = Cluster(conn_str, options=cluster_opts)
+            self._cluster = Cluster.connect(conn_str, options=cluster_opts)
             self._bucket = self._cluster.bucket(self.bucket_name)
             await self._bucket.on_connect()
             self._collection = self._bucket.default_collection()

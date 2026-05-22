@@ -155,7 +155,7 @@ crypto_mgr.register_legacy_decrypters(
 # end::legacy_support[]
 
 # Create a configuration to connect to your cluster
-cluster = Cluster(
+cluster = Cluster.connect(
     "couchbase://your-ip",
     ClusterOptions(PasswordAuthenticator("Administrator", "password")),
 )

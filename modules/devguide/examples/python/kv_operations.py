@@ -15,7 +15,7 @@ from couchbase.collection import (
     DecrementOptions)
 from couchbase.collection import DeltaValue, SignedInt64
 
-cluster = Cluster(
+cluster = Cluster.connect(
     "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",

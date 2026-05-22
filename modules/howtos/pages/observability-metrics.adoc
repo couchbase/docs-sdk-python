@@ -30,7 +30,7 @@ metrics_opts = ClusterMetricsOptions(emit_interval=timedelta(minutes=5))
 authenticator = PasswordAuthenticator("Administrator", "password")
 cluster_opts = ClusterOptions(authenticator=auth, metrics_options=metrics_opts)
 
-cluster = Cluster("couchbase://your-ip", cluster_opts)
+cluster = Cluster.connect("couchbases://your-ip", cluster_opts)
 ----
 
 Once enabled, there is no further configuration needed. The `LoggingMeter` will emit the collected request statistics every interval.

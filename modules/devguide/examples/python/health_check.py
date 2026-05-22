@@ -14,7 +14,7 @@ def ok(cluster):
 # end::check_connection[]
 
 
-cluster = Cluster(
+cluster = Cluster.connect(
     "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",

@@ -121,7 +121,7 @@ class ManagingConnections(object):
       print("reactivecluster")
       #tag::reactivecluster[]
       from acouchbase.bucket import Bucket
-      cluster = Cluster("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")),bucket_class=Bucket)
+      cluster = AsyncCluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")),bucket_class=Bucket)
       bucket = cluster.bucket("travel-sample")
 
       # A reactive cluster's disconnect methods returns a Mono<Void>.
@@ -143,7 +143,7 @@ class ManagingConnections(object):
 
       print("tls")
       #tag::tls[]
-      cluster = Cluster("couchbases://your-ip",ClusterOptions(PasswordAuthenticator("Administrator","password",cert_path="/path/to/cluster.crt")))
+      cluster = Cluster.connect("couchbases://your-ip",ClusterOptions(PasswordAuthenticator("Administrator","password",cert_path="/path/to/cluster.crt")))
       #end::tls[]
 
       print("dnssrv")

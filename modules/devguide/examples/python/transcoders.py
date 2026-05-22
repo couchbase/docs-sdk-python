@@ -17,7 +17,7 @@ from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException, ValueFormatException
 from couchbase.transcoder import RawJSONTranscoder, RawStringTranscoder, RawBinaryTranscoder, Transcoder
 
-cluster = Cluster("couchbase://your-ip", ClusterOptions(
+cluster = Cluster.connect("couchbase://your-ip", ClusterOptions(
     PasswordAuthenticator("Administrator", "password")))
 bucket = cluster.bucket("travel-sample")
 collection = bucket.default_collection()

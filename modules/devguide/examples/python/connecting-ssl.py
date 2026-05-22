@@ -24,7 +24,7 @@ print(cb.server_nodes)
 
 # create a Cluster object
 
-cb_cluster = Cluster("http://{}/".format(hostname))
+cb_cluster = Cluster.connect("http://{}/".format(hostname))
 
 # create an SSL-based Authenticator
 authenticator = CertAuthenticator(cluster_username="admin",

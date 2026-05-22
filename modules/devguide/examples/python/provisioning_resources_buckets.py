@@ -24,7 +24,7 @@ def retry(func, *args, back_off=0.5, limit=5, **kwargs):
 
 
 # tag::create_bucket_mgr[]
-cluster = Cluster(
+cluster = Cluster.connect(
     "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
