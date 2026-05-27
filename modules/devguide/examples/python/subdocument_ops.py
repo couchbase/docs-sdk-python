@@ -16,7 +16,7 @@ from couchbase.auth import PasswordAuthenticator
 import couchbase.subdocument as SD
 from couchbase.options import ClusterOptions, MutateInOptions
 
-cluster = Cluster('couchbase://your-ip',
+cluster = Cluster.connect('couchbase://your-ip',
                   ClusterOptions(PasswordAuthenticator('Administrator',
                                                        'password')))
 bucket = cluster.bucket('travel-sample')

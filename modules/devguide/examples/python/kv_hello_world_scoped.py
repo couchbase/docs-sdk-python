@@ -4,7 +4,7 @@ from couchbase.cluster import Cluster, PasswordAuthenticator
 from couchbase.collection import GetOptions, InsertOptions, ReplaceOptions
 from couchbase_core import subdocument
 
-cluster = Cluster("couchbase://localhost",
+cluster = Cluster.connect("couchbase://localhost",
                   authenticator=PasswordAuthenticator("Administrator", "password"))
 bucket = cluster.bucket("travel-sample")
 hotel_collection = bucket.scope("inventory").collection("hotel")

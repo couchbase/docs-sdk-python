@@ -24,7 +24,7 @@ from couchbase.cluster import Cluster
 from couchbase.options import ClusterOptions
 
 
-cluster = Cluster('couchbase://your-ip',
+cluster = Cluster.connect('couchbases://your-ip',
                   ClusterOptions(PasswordAuthenticator('username', 'password')))
 ----
 
@@ -53,5 +53,5 @@ include::{version-common}@sdk:shared:partial$auth-overview.adoc[tag=ldap]
 # Use over TLS for production
 opts = ClusterOptions(PasswordAuthenticator('einstein', 'password'))
 connection_str = "couchbases://10.143.205.101?sasl_mech_force=PLAIN&certpath=cert.ca"
-cluster = Cluster(connection_str, opts)
+cluster = Cluster.connect(connection_str, opts)
 ----

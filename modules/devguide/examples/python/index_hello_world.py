@@ -7,7 +7,7 @@ from couchbase.management.queries import (CreatePrimaryQueryIndexOptions,
                                           DropPrimaryQueryIndexOptions,
                                           WatchQueryIndexOptions)
 
-cluster = Cluster('couchbase://localhost', ClusterOptions(
+cluster = Cluster.connect('couchbase://localhost', ClusterOptions(
     PasswordAuthenticator('Administrator', 'password'))
 )
 

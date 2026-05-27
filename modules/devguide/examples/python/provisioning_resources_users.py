@@ -8,7 +8,7 @@ bucket_name = "travel-sample"
 username = "test-user"
 pw = "test-passw0rd!"
 
-adm_cluster = Cluster(
+adm_cluster = Cluster.connect(
     "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",
@@ -46,7 +46,7 @@ for u in users_metadata:
 # end::get_all_users[]
 
 # tag::user_operations[]
-user_cluster = Cluster(
+user_cluster = Cluster.connect(
     "couchbase://your-ip",
     authenticator=PasswordAuthenticator(username, pw))
 

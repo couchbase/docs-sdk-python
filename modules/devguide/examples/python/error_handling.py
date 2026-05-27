@@ -18,7 +18,7 @@ from couchbase.durability import Durability, ServerDurability
 # ErrorContext is still uncommited in the Python SDK, ignore the runtime warnings for the example
 warnings.filterwarnings("ignore")
 
-cluster = Cluster(
+cluster = Cluster.connect(
     "couchbase://your-ip",
     authenticator=PasswordAuthenticator(
         "Administrator",

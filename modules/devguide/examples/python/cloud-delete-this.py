@@ -12,7 +12,7 @@ cert_path = "path/to/certificate"
 # User Input ends here.
 
 # Initialize the Connection
-cluster = Cluster("couchbases://{}".format(endpoint), ClusterOptions(
+cluster = Cluster.connect("couchbases://{}".format(endpoint), ClusterOptions(
     PasswordAuthenticator(username, password, cert_path=cert_path)))
 cb = cluster.bucket(bucket_name)
 cb_coll = cb.default_collection()

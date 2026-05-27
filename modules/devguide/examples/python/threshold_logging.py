@@ -28,7 +28,7 @@ tracing_opts = ClusterTracingOptions(
 auth = PasswordAuthenticator("Administrator", "password")
 cluster_opts = ClusterOptions(authenticator=auth, tracing_options=tracing_opts)
 
-cluster = Cluster("couchbase://your-ip", cluster_opts)
+cluster = Cluster.connect("couchbase://your-ip", cluster_opts)
 # end::threshold_logging_config[]
 
 collection = cluster.bucket("beer-sample").default_collection()

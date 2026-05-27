@@ -29,7 +29,7 @@ orphan_opts = ClusterOrphanReportingOptions(
 authenticator = PasswordAuthenticator("Administrator", "password")
 cluster_opts = ClusterOptions(authenticator, orphan_reporting_options=orphan_opts)
 
-cluster = Cluster("couchbase://your-ip", cluster_opts)
+cluster = Cluster.connect("couchbase://your-ip", cluster_opts)
 # end::orphan_logging_config[]
 collection = cluster.bucket("beer-sample").default_collection()
 

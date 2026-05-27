@@ -38,7 +38,7 @@ As an example here is a KeyValue document fetch:
 from datetime import timedelta
 from couchbase.cluster import Cluster
 from couchbase.collection import GetOptions
-cluster=Cluster("couchbases://10.192.1.104")
+cluster=Cluster.connect("couchbases://10.192.1.104")
 collection=cluster.default_collection()
 get_result = collection.get("key", GetOptions(timeout=timedelta(seconds=3)))
 ----

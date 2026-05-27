@@ -13,7 +13,7 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 
 # tag::connect[]
-cluster = Cluster(
+cluster = Cluster.connect(
     "couchbase://localhost",
     authenticator=PasswordAuthenticator(
         "Administrator", "password"))

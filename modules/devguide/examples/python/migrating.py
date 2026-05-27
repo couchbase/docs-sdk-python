@@ -6,7 +6,7 @@ class Migrating(object):
 
 #tag::timeoutbuilder[]
 # SDK 3 equivalent
-cluster=Cluster("couchbases://10.192.1.104")
+cluster=Cluster.connect("couchbases://10.192.1.104")
 collection=cluster.bucket("default").default_collection()
 collection.timeout=5
 #end::timeoutbuilder[]
