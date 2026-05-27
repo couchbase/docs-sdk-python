@@ -7,7 +7,7 @@ import couchbase.search as search
 
 
 async def get_couchbase():
-    cluster = AsyncCluster.connect(
+    cluster = await AsyncCluster.connect(
         "couchbase://your-ip",
         ClusterOptions(PasswordAuthenticator("Administrator", "password")))
     bucket = cluster.bucket("travel-sample")
