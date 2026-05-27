@@ -120,13 +120,13 @@ class ManagingConnections(object):
 
       print("reactivecluster")
       #tag::reactivecluster[]
+#     //  This sample, and the above one not used -
+#     //  see the source of https://docs.couchbase.com/python-sdk/current/howtos/managing-connections.html#async-apis 
+        
       from acouchbase.bucket import Bucket
       cluster = await AsyncCluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       bucket = cluster.bucket("travel-sample")
 
-      # A reactive cluster's disconnect methods returns a Mono<Void>.
-      # Nothing actually happens until you subscribe to the Mono.
-      # The simplest way to subscribe is to await completion by calling call `block()`.
       cluster.disconnect()
       #end::reactivecluster[]
 
