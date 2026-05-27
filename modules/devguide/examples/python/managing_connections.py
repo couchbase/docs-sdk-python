@@ -121,7 +121,7 @@ class ManagingConnections(object):
       print("reactivecluster")
       #tag::reactivecluster[]
       from acouchbase.bucket import Bucket
-      cluster = AsyncCluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")),bucket_class=Bucket)
+      cluster = await AsyncCluster.connect("couchbase://your-ip", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       bucket = cluster.bucket("travel-sample")
 
       # A reactive cluster's disconnect methods returns a Mono<Void>.
