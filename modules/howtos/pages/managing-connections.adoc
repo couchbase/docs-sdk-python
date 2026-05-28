@@ -102,23 +102,6 @@ xref:ref:client-settings.adoc#cluster-options[Configuring client settings with `
 More details can be found in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#cluster[API reference].
 
 
-////
-N/A for Python currently
-[#cluster-settings]
-== Cluster Settings
-
-A `ClusterEnvironment` manages shared resources like thread pools, timers, and schedulers.
-It also holds the client settings.
-One way to customize the client's behavior is to build your own `ClusterEnvironment` with custom settings:
-
-[source,python]
-----
-include::devguide:example$python/managing_connections.py[tag=customenv,indent=0]
-----
-////
-
-
-
 === Connection Lifecycle
 
 Most of the high-level classes in the Python SDK are designed to be safe for concurrent use by multiple threads.
@@ -127,26 +110,6 @@ For synchronous mode, it is better to use separate instances in different thread
 
 We recommend creating a single `Cluster` instance when your application starts up, and sharing this instance throughout your application.
 If you know at startup time which buckets, scopes, and collections your application will use, we recommend obtaining them from the `Cluster` at startup time and sharing those instances throughout your application as well.
-
-
-
-// not available from PYCBC/LCB yet AFAIK
-////
-[#multiple-clusters]
-== Connecting to Multiple Clusters
-
-If a single application needs to connect to multiple Couchbase Server clusters, we recommend creating a single `ClusterEnvironment` and sharing it between the `Clusters`:
-[source,python]
-----
-include::devguide:example$python/managing_connections.py[tag=shareclusterenvironment,indent=0]
-----
-
-When you manually create a `ClusterEnvironment` like this, the SDK will not shut it down when you call `Cluster.disconnect()`.
-Instead you are responsible for shutting it down after disconnecting all clusters that share the environment.
-
-TIP: If you create a `Cluster` without specifying a custom environment, the client creates a default environment used exclusively by that `Cluster`.
-This default `ClusterEnvironment` is managed completely by the Python SDK, and is automatically shut down when the associated `Cluster` is disconnected.
-////
 
 
 
@@ -305,11 +268,7 @@ A node configured in this way will advertise two addresses: one for connecting f
 
 On the client side, the externally visible ports must be used when connecting.
 If the external ports are not the default, you can specify custom ports through the connection string.
-// using the overloaded `Cluster.connect()` method that takes a set of `SeedNode` objects instead of a connection string.
 
-// todo use the include (and uncomment in ManageingConnections.python) after next client snapshot is published
-// https://github.com/couchbase/docs-sdk-python/blob/temp/4.5/modules/howtos/examples/managing_connections.py#L86
-// include::devguide:example$python/managing_connections.py[tag=seednodes,indent=0]
 [source,python]
 ----
 cluster = Cluster.connect("couchbase://127.0.0.1:1234", ClusterOptions(PasswordAuthenticator("Administrator", "password")));
@@ -444,25 +403,6 @@ Methods in the asynchronous API return instances of the relevant Async API:
 2. `Deferred` for Twisted
 
 Reference our xref:concurrent-async-apis.adoc[asynchronous programming] page for more details.
-
-////
-
-On the other hand, you can use the Async API right from the beginning:
-// todo use tabs here?
-[source,python]
-----
-include::devguide:example$python/managing_connections.py[tag=asynccluster,indent=0]
-----
-
-Here's the same example, but using the Reactive API instead of the Async API:
-
-[source,python]
-----
-include::devguide:example$python/managing_connections.py[tag=reactivecluster,indent=0]
-----
-////
-
-
 
 
 
