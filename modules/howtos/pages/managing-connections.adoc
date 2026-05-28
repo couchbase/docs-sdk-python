@@ -271,14 +271,7 @@ If the external ports are not the default, you can specify custom ports through 
 
 [source,python]
 ----
-int customKvPort = 1234;
-int customManagerPort = 2345;
-Set<SeedNode> seedNodes = new HashSet<>(Arrays.asList(
-  SeedNode.create("127.0.0.1",
-      Optional.of(customKvPort),
-      Optional.of(customManagerPort))));
-
-Cluster cluster = Cluster.connect(seedNodes, "username", "password");
+cluster = Cluster.connect("couchbase://127.0.0.1:1234", ClusterOptions(PasswordAuthenticator("Administrator", "password")));
 ----
 
 ////
