@@ -312,14 +312,7 @@ If the external ports are not the default, you can specify custom ports through 
 // include::devguide:example$python/managing_connections.py[tag=seednodes,indent=0]
 [source,python]
 ----
-int customKvPort = 1234;
-int customManagerPort = 2345;
-Set<SeedNode> seedNodes = new HashSet<>(Arrays.asList(
-  SeedNode.create("127.0.0.1",
-      Optional.of(customKvPort),
-      Optional.of(customManagerPort))));
-
-Cluster cluster = Cluster.connect(seedNodes, "username", "password");
+cluster = Cluster.connect("couchbase://127.0.0.1:1234", ClusterOptions(PasswordAuthenticator("Administrator", "password")));
 ----
 
 ////
@@ -453,14 +446,6 @@ Methods in the asynchronous API return instances of the relevant Async API:
 Reference our xref:concurrent-async-apis.adoc[asynchronous programming] page for more details.
 
 ////
-TODO: write up pending https://issues.couchbase.com/browse/PYCBC-805 etc
-
-So if you are connecting to the bucket synchronously but then want to switch over to asynchronous data operations, you can do it like this:
-
-[source,python]
-----
-include::devguide:example$python/managing_connections.py[tag=blockingtoasync,indent=0]
-----
 
 On the other hand, you can use the Async API right from the beginning:
 // todo use tabs here?
