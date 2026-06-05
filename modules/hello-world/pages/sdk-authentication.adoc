@@ -1,5 +1,0 @@
-
-
-
-
-:page-aliases: sdk-authentication-overview
