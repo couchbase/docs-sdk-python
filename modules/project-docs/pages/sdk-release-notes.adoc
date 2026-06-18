@@ -29,6 +29,63 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.6.2 (17 June 2026)
+
+Version 4.6.2 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.6.2
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.6.2/
+
+
+==== Enhancements
+
+https://jira.issues.couchbase.com/browse/PYCBC-1767[PYCBC-1767]:
+Updated no-op observability path to use `nullcontext`
+
+https://jira.issues.couchbase.com/browse/PYCBC-1771[PYCBC-1771]:
+Cleaned up `txcouchbase` `ObservableRequestHandler` context manager creation
+
+https://jira.issues.couchbase.com/browse/PYCBC-1774[PYCBC-1774]:
+Added cancellation/close support to the C-extension streaming result so cancelled streams release their worker thread promptly
+
+https://jira.issues.couchbase.com/browse/PYCBC-1779[PYCBC-1779]:
+Removed `asyncio.QueueEmpty` unreachable exception blocks
+
+==== Fixes
+
+https://jira.issues.couchbase.com/browse/PYCBC-1770[PYCBC-1770]:
+Fixed Collection Management `create_collection` and `drop_collection` overload path that did not correctly set options
+
+https://jira.issues.couchbase.com/browse/PYCBC-1773[PYCBC-1773]:
+Fixed streaming operations to handle `asyncio.CancelledError` / `BaseException`
+
+https://jira.issues.couchbase.com/browse/PYCBC-1778[PYCBC-1778]:
+Fixed how client handles KV range scan with `consistent_with` and `ScanResult.expiry_time` options
+
+
+==== Underlying C++ SDK Core Changes
+
+===== Fixes and Enhancements
+https://jira.issues.couchbase.com/browse/CXXCBC-785[CXXCBC-785]:
+Projected get requesting more than 16 paths no longer fails when one of the requested paths does not exist in the document and missing paths are now skipped rather than aborting the whole projection
+
+https://jira.issues.couchbase.com/browse/CXXCBC-823[CXXCBC-823]:
+Fixed http_session manager `check_in()` to remove sessions from the pending/idle session maps when a session is not connected, and updated each session's `on_stop()` to remove itself from all session maps
+
+https://jira.issues.couchbase.com/browse/CXXCBC-828[CXXCBC-828]:
+Replaced inline `std::regex` construction with `std::string::find()` when building errors from server response text in collection and scope management operations
+
+https://jira.issues.couchbase.com/browse/CXXCBC-829[CXXCBC-829]:
+Added `utils::contains_string(input, substr, ignore_case = false)`, a substring match with optional ASCII-only case folding and no `std::locale` dependency, and replaced the remaining `std::regex_search` calls with it
+
+https://jira.issues.couchbase.com/browse/CXXCBC-839[CXXCBC-839]:
+Push configuration notifications are now filtered strictly by session bucket binding
+
+
 === Version 4.6.1 (29 April 2026)
 
 Version 4.6.1 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
