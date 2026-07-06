@@ -4,10 +4,15 @@
 :page-partial:
 :page-topic-type: project-doc
 :page-aliases: ROOT:relnotes-python-sdk,ROOT:download-links,ROOT:release-notes,ROOT:sdk-release-notes
+:name_platform_lc: python
 
 // tag::all[]
 [abstract]
 {description}
+
+include::6.5@sdk:shared:partial$use-latest.adoc[tag=latest]
+
+
 
 include::hello-world:page$start-using-sdk.adoc[tag=prep]
 
