@@ -5,10 +5,14 @@
 :page-toclevels: 2
 :page-topic-type: reference
 :page-aliases: ROOT:relnotes-python-sdk,adoc,ROOT:download-links.adoc,ROOT:release-notes.adoc,ROOT:sdk-release-notes.adoc
+:name_platform_lc: python
 
 // tag::all[]
 [abstract]
 {description}
+
+include::6.5@sdk:shared:partial$use-latest.adoc[tag=latest]
+
 
 Couchbase Python SDK 4.x is built upon the Couchbase {cpp} SDK, and SDK 3.x is built upon LCB (libcouchbase), but both conform to the xref:project-docs:compatibility.adoc#api-version[SDK API 3.x].
 The move to the Couchbase {cpp} SDK facilitates the introduction of xref:howtos:distributed-acid-transactions-from-the-sdk.adoc[distributed ACID transactions].
