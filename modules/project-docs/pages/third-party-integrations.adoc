@@ -32,6 +32,10 @@ The Couchbase Scala SDK is a first class citizen in the https://spring.io/projec
 Couchbase supports integrating with the xref:spark-connector::pyspark.adoc[Spark Connector].
 See the sample Jupyter notebook collection https://github.com/couchbase/couchbase-spark-connector/tree/master/src/test/pyspark/examples[here^].
 
+For a guide to running the {name-sdk} in an https://docs.aws.amazon.com/lambda/latest/dg/welcome.html[AWS Lambda environment],
+with calls to the lambda handlers via Amazon API Gateway with the Lambda proxy integration,
+see this https://github.com/nithishr/aws-lambda-couchbase-starter-python[starter project],
+
 
 === IDE Integrations
 
