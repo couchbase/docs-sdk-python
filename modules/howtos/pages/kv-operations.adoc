@@ -5,8 +5,6 @@
 :page-toclevels: 2
 :page-pagination: full
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 {description}
 Here we cover CRUD operations, document expiration, and optimistic locking with CAS.

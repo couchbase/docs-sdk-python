@@ -10,8 +10,6 @@
 :travel-sample-git-project: try-cb-python
 :travel-sample-entrypoint: travel.py
 
-include::project-docs:partial$attributes.adoc[]
-
 include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=abstract]
 
 include::{version-common}@sdk:shared:partial$sample-application.adoc[tag=quick-start]

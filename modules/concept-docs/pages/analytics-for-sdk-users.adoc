@@ -4,8 +4,6 @@
 :page-topic-type: concept
 :page-aliases: analytics,
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 {description}
 

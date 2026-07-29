@@ -2,8 +2,6 @@
 :description: Fully supported in Couchbase Server 7.0.
 :page-topic-type: concept
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 {description}
 

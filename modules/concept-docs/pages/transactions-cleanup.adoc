@@ -7,7 +7,6 @@
 [abstract]
 {description}
 
-include::project-docs:partial$attributes.adoc[]
 include::howtos:partial$acid-transactions-attributes.adoc[]
 
 include::{version-common}@sdk:shared:partial$acid-transactions.adoc[tags=cleanup;!library-cleanup-buckets]

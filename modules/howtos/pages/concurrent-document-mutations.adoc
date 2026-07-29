@@ -2,8 +2,6 @@
 :page-topic-type: howto
 :page-aliases: ROOT:concurrent-document-mutations.adoc
 
-include::project-docs:partial$attributes.adoc[]
-
 include::{version-common}@sdk:shared:partial$cas.adoc[tag=intro]
 
 include::{version-common}@sdk:shared:partial$cas.adoc[tag=demo]
