@@ -18,3 +18,11 @@ Capella Operational exposes these metrics through the UI.
 
 
 include::{version-common}@sdk:shared:partial$rto.adoc[tag=rto]
+
+=== Performance Trade-Off
+
+SDK observability is on by default.
+The information it provides in invaluable when diagnosing network bottlenecks.
+There may be use cases where disabling observability is desirable to slightly improve raw performance,
+but be sure of your environment first, as well as the relative importance of absolute performance,
+as it will be harder to diagnose network problems in production.
