@@ -3,8 +3,6 @@
 :page-topic-type: howto
 :page-pagination: full
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 {description}
 

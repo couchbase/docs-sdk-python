@@ -4,8 +4,6 @@
 :page-aliases: ROOT:client-settings.adoc
 :page-toclevels: 2
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 
 {description}

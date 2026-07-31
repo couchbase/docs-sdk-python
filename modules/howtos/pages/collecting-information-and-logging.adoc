@@ -4,8 +4,6 @@
 :page-aliases: logging
 :page-aliases: event-bus-metrics,logging
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 
 {description}

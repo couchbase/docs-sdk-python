@@ -65,8 +65,6 @@ include::{version-common}@sdk:shared:partial$durability-replication-failure-cons
 :page-topic-type: concept
 // :page-aliases: ROOT:failure-considerations,ROOT:durability,ROOT:enhanced-durability
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 {description}
 Even the most reliable software and hardware might fail at some point, and along with the failures, introduce a chance of data loss.

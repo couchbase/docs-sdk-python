@@ -4,7 +4,6 @@
 :page-pagination: full
 :page-topic-type: concept
 
-include::project-docs:partial$attributes.adoc[]
 include::howtos:partial$acid-transactions-attributes.adoc[]
 
 [abstract]

@@ -27,10 +27,10 @@ options = ClusterOptions(auth)
 # when accessing Capella from a different Wide Area Network
 # or Availability Zone(e.g. your laptop).
 options.apply_profile('wan_development')
-cluster = Cluster.connect('couchbases://{}'.format(endpoint), options)
+cluster = Cluster.connect(f'couchbases://{endpoint}', options)
 
 # Wait until the cluster is ready for use.
-cluster.wait_until_ready(timedelta(seconds=5))
+cluster.wait_until_ready(timedelta(seconds=35))
 # end::connect[]
 
 # tag::bucket[]

@@ -16,7 +16,7 @@
 [abstract]
 {description}
 
-**TODO: Scala --> Python**
+// **TODO: Scala --> Python**
 
 
 
@@ -74,6 +74,8 @@ If you know the key (ID) of a document, then use the xref:howtos:kv-operations.a
 
 If you need pessimistic logging, in particular if you need to lock documents for multi-document ACID transactions, then anything you can do at the schema level to reduce the number of documents locked simultaneously wil remvoe a bottleneck to updating the affected documents.  
 
+Note, a slight performance improvement can be found by <<#rto-vs-performance,turning off observability>>,
+but this is rarely a good idea.
 
 
 === Dealing with Timeout Errors
@@ -155,7 +157,20 @@ include::{version-common}@sdk:shared:partial$errors.adoc[tag=observability]
 // until opentelemetry release for link below, could add note on API to expose own tracing features?
 // include::{version-common}@sdk:shared:partial$errors.adoc[tag=rto]
 
+[#rto-vs-performance]
 
+[TIP]
+.Observability & SDK Performance
+====
+In version 4.6.0 of the {name-sdk},
+fully featured Observability (switched on by default) replaced the limited information from the underlying {cpp} core.
+This slighty reduced overall performance of the SDK,
+
+If absolute performance is critical to your application, then observability features can be turned off
+(see `ClusterOptions` in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#clusteroptions[API reference]).
+But be sure that your performance need is strong --
+observability information is invaluable in diagnosing network bottlenecks and problems.
+====
 
 
 

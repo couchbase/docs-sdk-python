@@ -3,8 +3,6 @@
 :page-topic-type: concept
 :page-aliases: ROOT:core-operations, ROOT:datastructures
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 {description}
 Several data structures are supported by the SDK, including map, list, queue, and set.

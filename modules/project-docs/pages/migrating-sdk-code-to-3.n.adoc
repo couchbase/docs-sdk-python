@@ -4,8 +4,6 @@ Collections and Scopes are introduced.
 :page-topic-type: concept
 :page-aliases: ROOT:migrate
 
-include::project-docs:partial$attributes.adoc[]
-
 [abstract]
 {description}
 The Document class and structure has been completely removed from the API, and the returned value is now `Result`.
