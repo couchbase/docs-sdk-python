@@ -85,7 +85,7 @@ but this is rarely a good idea.
 // https://couchbasecloud.atlassian.net/wiki/spaces/CST/pages/1993769712/Java+-+Debugging+KV+Timeouts
 // in Support wiki
 
-
+// TODO revisit this
 * `waitUntilReady` should be the default setting for `Cluster.connect` and `Cluster.bucket` in most cases, so that resources are fully loaded before the client proceeds with CRUD calls to the cluster.
 * LAN-type connection of client and server is recommended in production, but WAN development is a reality pre-production.
 Ensure that you're familiar with the 
