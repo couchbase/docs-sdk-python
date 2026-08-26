@@ -7,7 +7,7 @@ nav:
 asciidoc:
   attributes:
     server_version: '8.0'
-    sdk_current_version: '4.5.0'
+    sdk_current_version: '4.5.1'
     sdk_dot_minor: '4.5'
     sdk_dot_major: 4.x'
     version-server: '8.0'
