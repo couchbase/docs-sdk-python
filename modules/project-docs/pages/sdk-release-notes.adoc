@@ -29,6 +29,85 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.6.3 (25 August 2026)
+
+Version 4.6.3 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably, this release delivers the first phase of a hardening effort across the SDK's C-extension.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.6.3
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.6.3/
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1795[PYCBC-1795]:
+C-Extension Hardening (Phase 1).
+Following a static analysis review of the SDK's `_core` C-extension, this release delivers the first phase of low-risk memory-safety, leak, and crash fixes.
+The Phase 1 changes are grouped below.
+
+** *Memory safety and reference counting* --
+https://jira.issues.couchbase.com/browse/PYCBC-1800[PYCBC-1800],
+https://jira.issues.couchbase.com/browse/PYCBC-1802[PYCBC-1802],
+https://jira.issues.couchbase.com/browse/PYCBC-1804[PYCBC-1804],
+https://jira.issues.couchbase.com/browse/PYCBC-1805[PYCBC-1805],
+https://jira.issues.couchbase.com/browse/PYCBC-1816[PYCBC-1816],
+https://jira.issues.couchbase.com/browse/PYCBC-1819[PYCBC-1819],
+https://jira.issues.couchbase.com/browse/PYCBC-1825[PYCBC-1825],
+https://jira.issues.couchbase.com/browse/PYCBC-1827[PYCBC-1827],
+https://jira.issues.couchbase.com/browse/PYCBC-1829[PYCBC-1829]:
+Fixed memory leaks, reference leaks and `NULL` dereferences -- including out-of-memory paths -- across the KV, streaming, transaction, tracing, and histogram result paths, and extended `NULL`-safe UTF-8 string handling throughout the extension.
+
+** *Exception and error handling* --
+https://jira.issues.couchbase.com/browse/PYCBC-1799[PYCBC-1799],
+https://jira.issues.couchbase.com/browse/PYCBC-1807[PYCBC-1807],
+https://jira.issues.couchbase.com/browse/PYCBC-1823[PYCBC-1823],
+https://jira.issues.couchbase.com/browse/PYCBC-1824[PYCBC-1824],
+https://jira.issues.couchbase.com/browse/PYCBC-1826[PYCBC-1826],
+https://jira.issues.couchbase.com/browse/PYCBC-1828[PYCBC-1828]:
+Fixed cases where an exception could be lost, swallowed, or left pending -- 
+including exception loss across ``execute_op``'s barrier path, double-``DECREF``, and orphaned-exception bugs in the exception helpers, and unpropagated out-of-memory failures -- 
+and enforced the callback/errback invariant in the async transaction functions.
+
+** *GIL correctness and object lifecycle* --
+https://jira.issues.couchbase.com/browse/PYCBC-1796[PYCBC-1796],
+https://jira.issues.couchbase.com/browse/PYCBC-1798[PYCBC-1798],
+https://jira.issues.couchbase.com/browse/PYCBC-1803[PYCBC-1803],
+https://jira.issues.couchbase.com/browse/PYCBC-1806[PYCBC-1806]:
+Removed a stray `Py_Initialize()` call from module initialization, released the GIL in the `Connection` destructor before its blocking join, fixed the `Transactions` deallocation leak and GIL-held close, and restored `Ctrl-C` handling during streaming queries.
+
+** *Logging and diagnostics* --
+https://jira.issues.couchbase.com/browse/PYCBC-1801[PYCBC-1801],
+https://jira.issues.couchbase.com/browse/PYCBC-1830[PYCBC-1830]:
+Fixed refcount, error-swallowing, and shared-cache bugs in the logger sink, and added a `CB_LOG_WARNING` alongside every `PyErr_WriteUnraisable` call site so unraisable errors are visible in the SDK log.
+
+** *Code health* --
+https://jira.issues.couchbase.com/browse/PYCBC-1797[PYCBC-1797],
+https://jira.issues.couchbase.com/browse/PYCBC-1831[PYCBC-1831],
+https://jira.issues.couchbase.com/browse/PYCBC-1833[PYCBC-1833]:
+Documented intentional C-API protocol deviations, deleted confirmed-dead code, and fixed a `dns_port` key mismatch and a `get_default_timeout` fallthrough in the connection utilities.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1781[PYCBC-1781]:
+Updated Eventing Function Management tests to handle the new `ERR_APP_NOT_FOUND` error returned by Couchbase Server.
+
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1782[PYCBC-1782]:
+Fixed `MutateInResult.content_as()` raising a `TypeError`.
+The result is now constructed with a transcoder and flagged as a sub-document result.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1821[PYCBC-1821]:
+Guarded lazy `Transactions` initialization against concurrent first access, and ensured `Transactions` teardown also happens on cluster close.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1878[PYCBC-1878]:
+Prevented Windows wheels from including BoringSSL's `bssl.exe`, which was previously installed into `site-packages` alongside the extension module.
+Linux and macOS wheels were unaffected.
+
+
 === Version 4.6.2 (17 June 2026)
 
 Version 4.6.2 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
@@ -271,6 +350,32 @@ Implemented `AuthStale` handling and JWT reauthentication support.
 
 
 == Python SDK 4.5 Releases
+
+
+=== Version 4.5.1 (21 August 2026)
+
+Version 4.5.1 is a patch release of the fourth generation Python SDK, bringing a number of fixes.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.5.1
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.5.1/
+
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1815[PYCBC-1815]:
+Fixed a GIL deadlock where deallocating an orphaned `Transactions` object could block the {cpp} core's I/O thread, causing `cluster.transactions.run()` to hang indefinitely.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1878[PYCBC-1878]:
+Prevented Windows wheels from including BoringSSL's `bssl.exe`, which was previously installed into `site-packages` alongside the extension module.
+Linux and macOS wheels were unaffected.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1879[PYCBC-1879]:
+Fixed a race between closing a cluster and a first access to `cluster.transactions` that could skip `Transactions` teardown and strand a live instance on a closed cluster.
+A first access that loses this race now raises an `AttributeError` rather than returning a leaked instance -- this already matches the behavior of any post-close access.
 
 
 === Version 4.5.0 (29 September 2025)
