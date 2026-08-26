@@ -114,13 +114,11 @@ A value of `3` should not be used, save in exceptionally complicated pages like 
 Update the following files:
 
 * antora.yml
-* build.gradle
-* modules/devguide/examples/scala/pom.xml
 * modules/project-docs/pages/sdk-release-notes.adoc
 
 === New Branches
 
-Production branches use the *release/x.y* naming pattern (e.g. `release/3.10`, `release/3.9`).
+Production branches use the *release/x.y* naming pattern (e.g. `release/4.6`, `release/4.5`).
 Antora uses the branch names in the playbook, but also uses the `version` given in the antor.yml file, to create the version navigation -- so this version number must be unique within the repo for any branches included in the playbook.
 When creating a new branch for a new release, remember to update the antora.yml file before trying to build.
 
