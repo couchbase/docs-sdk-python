@@ -59,7 +59,7 @@ https://jira.issues.couchbase.com/browse/PYCBC-1819[PYCBC-1819],
 https://jira.issues.couchbase.com/browse/PYCBC-1825[PYCBC-1825],
 https://jira.issues.couchbase.com/browse/PYCBC-1827[PYCBC-1827],
 https://jira.issues.couchbase.com/browse/PYCBC-1829[PYCBC-1829]:
-Fixed memory leaks, reference leaks and `NULL` dereferences -- including out-of-memory paths -- across the KV, streaming, transaction, tracing and histogram result paths, and extended `NULL`-safe UTF-8 string handling throughout the extension.
+Fixed memory leaks, reference leaks and `NULL` dereferences -- including out-of-memory paths -- across the KV, streaming, transaction, tracing, and histogram result paths, and extended `NULL`-safe UTF-8 string handling throughout the extension.
 
 ** *Exception and error handling* --
 https://jira.issues.couchbase.com/browse/PYCBC-1799[PYCBC-1799],
@@ -68,7 +68,9 @@ https://jira.issues.couchbase.com/browse/PYCBC-1823[PYCBC-1823],
 https://jira.issues.couchbase.com/browse/PYCBC-1824[PYCBC-1824],
 https://jira.issues.couchbase.com/browse/PYCBC-1826[PYCBC-1826],
 https://jira.issues.couchbase.com/browse/PYCBC-1828[PYCBC-1828]:
-Fixed cases where an exception could be lost, swallowed or left pending -- including exception loss across `execute_op`'s barrier path, double-`DECREF` and orphaned-exception bugs in the exception helpers, and unpropagated out-of-memory failures -- and enforced the callback/errback invariant in the async transaction functions.
+Fixed cases where an exception could be lost, swallowed, or left pending -- 
+including exception loss across ``execute_op``'s barrier path, double-``DECREF``, and orphaned-exception bugs in the exception helpers, and unpropagated out-of-memory failures -- 
+and enforced the callback/errback invariant in the async transaction functions.
 
 ** *GIL correctness and object lifecycle* --
 https://jira.issues.couchbase.com/browse/PYCBC-1796[PYCBC-1796],
@@ -80,7 +82,7 @@ Removed a stray `Py_Initialize()` call from module initialization, released the 
 ** *Logging and diagnostics* --
 https://jira.issues.couchbase.com/browse/PYCBC-1801[PYCBC-1801],
 https://jira.issues.couchbase.com/browse/PYCBC-1830[PYCBC-1830]:
-Fixed refcount, error-swallowing and shared-cache bugs in the logger sink, and added a `CB_LOG_WARNING` alongside every `PyErr_WriteUnraisable` call site so unraisable errors are visible in the SDK log.
+Fixed refcount, error-swallowing, and shared-cache bugs in the logger sink, and added a `CB_LOG_WARNING` alongside every `PyErr_WriteUnraisable` call site so unraisable errors are visible in the SDK log.
 
 ** *Code health* --
 https://jira.issues.couchbase.com/browse/PYCBC-1797[PYCBC-1797],
