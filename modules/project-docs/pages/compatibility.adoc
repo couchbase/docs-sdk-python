@@ -182,7 +182,7 @@ include::{version-common}@sdk:shared:partial$capella.adoc[tag=cloud]
 
 | Zone aware replica reads
 | N/A
-2+| From SDK 4.3.0
+2+| From SDK 4.4.0
 
 | Vector Query using GSI
 2+| N/A
