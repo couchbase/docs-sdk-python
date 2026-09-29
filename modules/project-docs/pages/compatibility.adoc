@@ -132,7 +132,7 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 |===
 | | 4.2 - 4.3 | 4.4 | 4.5
 
-| *Server 7.0 - 7.2*
+| *Server 7.0 - 7.2* ①
 | *✔*
 | *✔*
 | *✔*
@@ -147,6 +147,8 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 | *✔*
 | *✔*
 |===
+
+① Earlier versions of Server, back to 7.0, should be compatible with newer releases of the SDK (unless the release notes mention specific deprecations), but these older Server versions are EOL and no longer supported.
 
 Note the https://www.couchbase.com/support-policy/EOL/[End of Life dates^] for Couchbase Server and SDK versions.
 See the notes there for Support details.
