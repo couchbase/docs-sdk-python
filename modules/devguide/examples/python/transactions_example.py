@@ -42,7 +42,7 @@ def main():
     # tag::ts-default-collection[]
     # get a reference to the default collection, required for older Couchbase server versions
     collection_default = bucket.default_collection()
-    # tag::ts-default-collection[]
+    # end::ts-default-collection[]
 
     # Set up for what we'll do below
     remove_or_warn(collection, 'doc-a')
@@ -314,8 +314,9 @@ def query_insert(cluster):
 
 def query_ryow(cluster):
     # tag::query_ryow[]
+    collection = cluster.bucket('travel-sample').default_collection()
+
     def txn_logic(ctx):
-        collection = cluster.defaultCollection()
         ctx.insert(collection, 'doc-greeting',
                    {'greeting': 'hello world'})  # <1>
         query_str = "SELECT greeting FROM `travel-sample` WHERE META().id = 'doc-greeting'"  # <2>

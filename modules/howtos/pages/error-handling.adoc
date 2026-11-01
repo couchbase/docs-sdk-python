@@ -41,19 +41,15 @@ If you do not catch the Exception, it will bubble up:
 [source,python]
 ----
 Traceback (most recent call last):
-  File "../sample_code/3x/docs/error_handling.py", line 21, in <module>
+  File "error_handling.py", line 6, in <module>
     res = collection.get("not-a-key")
-  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/collection.py", line 293, in wrapped
-    return func(self, *args, **kwargs)
-  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/result.py", line 507, in wrapped
-    x, options = func(*args, **kwargs)
-  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/collection.py", line 521, in get
-    return self._get_generic(key, kwargs, options)
-  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase/collection.py", line 484, in _get_generic
-    x = CoreClient.get(self.bucket, key, **opts)
-  File "../.virtualenvs/cb-sample-py3.9.5/lib/python3.9/site-packages/couchbase_core/client.py", line 409, in get
-    return super(Client, self).get(*args, **kwargs)
-couchbase.exceptions.DocumentNotFoundException: <Key='not-a-key', RC=0x12D[LCB_ERR_DOCUMENT_NOT_FOUND (301)], Operational Error, Results=1, C Source=(src/multiresult.c,332), Context={'status_code': 1, 'opaque': 1, 'cas': 0, 'key': 'not-a-key', 'bucket': 'travel-sample', 'collection': 'hotel', 'scope': 'inventory', 'context': '', 'ref': '', 'endpoint': '172.23.111.139:11210', 'type': 'KVErrorContext'}, Tracing Output={"not-a-key": {"debug_info": {"FILE": "src/callbacks.c", "FUNC": "value_callback", "LINE": 848}}}>
+  File ".../site-packages/couchbase/collection.py", line 166, in get
+    return self._impl.get(req, transcoder, obs_handler)
+  File ".../site-packages/couchbase/logic/collection_impl.py", line 258, in get
+    ret = self._client_adapter.execute_collection_request(req.opcode, req, obs_handler=obs_handler)
+  File ".../site-packages/couchbase/logic/client_adapter.py", line 120, in execute_collection_request
+    raise ErrorMapper.build_exception(ret)
+couchbase.exceptions.DocumentNotFoundException: DocumentNotFoundException(<ec=101, category=couchbase.key_value, message=Operation failed, context=KeyValueErrorContext:{'key': 'not-a-key', 'bucket_name': 'travel-sample', 'scope_name': 'inventory', 'collection_name': 'hotel', 'opaque': 10, 'status_code': 1, 'retry_attempts': 0, 'retry_reasons': set()}, C Source=src/connection.hxx:395>)
 ----
 
 === Logging
