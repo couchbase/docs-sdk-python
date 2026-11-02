@@ -29,6 +29,74 @@ All patch releases for each dot minor release should be API compatible, and safe
 any changes to expected behavior are noted in the release notes that follow.
 
 
+=== Version 4.6.4 (27 October 2026)
+
+Version 4.6.4 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
+Most notably, this release fixes a memory leak in the multi-op APIs on Python 3.12+, a process crash when closing an `acouchbase` cluster, and several defects in the built-in observability implementations.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.6.4
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.6.4/
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1905[PYCBC-1905]:
+Scope-level `search_query()` and `search()` no longer emit an unavoidable `CouchbaseDeprecationWarning` for the deprecated `scope_name` option when the caller has not set it.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1909[PYCBC-1909]:
+Corrected "Excepted" to "Expected" in `InvalidArgumentException` argument-validation messages.
+
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1897[PYCBC-1897]:
+Fixed `TxScope.query()`, `TxScope.analytics_query()`, `TxScope.search()`, and `TxScope.search_query()` in the `txcouchbase` API raising an `AttributeError` before any request was sent.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1916[PYCBC-1916]:
+Fixed a process crash (use-after-free) that could occur when closing an `acouchbase` cluster, where the connection's IO context could be destroyed while a worker thread was still running it.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1923[PYCBC-1923]:
+Fixed three defects in the built-in observability implementations:
+** `LoggingMeter` emitted a single report and then stopped reporting for the life of the process.
+** Creating a span through the no-op tracer raised a `TypeError`.
+** Closing a cluster left the logging meter and tracer reporter threads running.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1925[PYCBC-1925]:
+Connection info returned by the `acouchbase` and `txcouchbase` APIs now includes `allowed_sasl_mechanisms` in the credentials, consistent with the `couchbase` API.
+The `Cluster.set_authenticator()` docstring now documents the `InvalidArgumentException` raised when the new authenticator type differs from the current one.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1926[PYCBC-1926]:
+Fixed `CouchbaseException` discarding a message passed as its first positional argument, which caused the sub-document unknown-status error to lose its diagnostic message and raise an `AttributeError` when rendered.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1929[PYCBC-1929]:
+Fixed the `vector_query_combination` search option getter reading the `highlight_style` option.
+The encoded request sent to the server was not affected.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1928[PYCBC-1928]:
+Fixed inconsistent connection lifecycle handling between the `couchbase` and `acouchbase` APIs.
+Closing a bucket, or closing an async cluster that never connected, no longer raises; close is now idempotent, matching the documented behavior of closing a cluster twice.
+Note that accessing the `Cluster.transactions` property now raises if the cluster is closed or has not connected, matching the behavior of other cluster operations.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1934[PYCBC-1934]:
+Fixed the search `sort` option silently accepting an invalid value (causing an unsorted search) instead of raising an `InvalidArgumentException`, and raising an `AttributeError` when given a list mixing strings and `Sort` objects.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1935[PYCBC-1935]:
+Fixed analytics and view query timeouts being sent to the server 1000 times too long, and fixed duration option getters (for example, `timeout` and scan wait) raising a `TypeError` when read back.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1945[PYCBC-1945]:
+Fixed observability span and meter timestamps on Windows with Python versions below 3.13, where the low-resolution system clock caused most operation durations to be recorded as zero.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1954[PYCBC-1954]:
+Fixed `acouchbase` attempting to close the caller's running event loop when resolving it, which caused the first cluster operation to fail with `RuntimeError: Cannot close a running event loop` on Windows when using `asyncio.run()`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1967[PYCBC-1967]:
+Fixed a memory leak on Python 3.12+ where result keys from `*_multi` operations (for example, `get_multi` and `upsert_multi`) were interned and never freed, growing memory with every distinct document key.
+
+
 === Version 4.6.3 (25 August 2026)
 
 Version 4.6.3 is the next patch release of the fourth generation Python SDK, bringing a number of improvements.
