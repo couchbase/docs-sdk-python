@@ -2,8 +2,8 @@
 
 This repository hosts the documentation source for the https://docs.couchbase.com/python-sdk/4.6/hello-world/overview.html[Couchbase Python SDK].
 
-This branch documents the 4.6 release of the SDK.
-It follows the https://docs.couchbase.com/python-sdk/4.6/project-docs/compatibility.html#api-version[SDK 3.9 API].
+This branch documents the 4.7 release of the SDK.
+It follows the https://docs.couchbase.com/python-sdk/4.7/project-docs/compatibility.html#api-version[SDK 3.10 API].
 
 This branch reflects the new Information Architecture for the SDK docs.
 
