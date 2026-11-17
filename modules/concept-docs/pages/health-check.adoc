@@ -7,11 +7,11 @@
 {description}
 
 
-include::{version-common}@sdk:pages:partial$health-check.adoc[tag="intro"]
+include::{version-common}@sdk:shared:partial$health-check.adoc[tag="intro"]
 
-include::{version-common}@sdk:pages:partial$health-check.adoc[tag="users"]
+include::{version-common}@sdk:shared:partial$health-check.adoc[tag="uses"]
 
-include::{version-common}@sdk:pages:partial$health-check.adoc[tag="ping"]
+include::{version-common}@sdk:shared:partial$health-check.adoc[tag="ping"]
 
 [source,javascript]
 ----
@@ -80,7 +80,7 @@ bucket.ping(services, (err, res) => {
 */
 ----
 
-include::{version-common}@sdk:pages:partial$health-check.adoc[tag="diag"]
+include::{version-common}@sdk:shared:partial$health-check.adoc[tag="diag"]
 
 
 [source,javascript]

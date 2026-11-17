@@ -7,8 +7,8 @@
 {description}
 
 This example uses https://pypi.org/project/Flask/[Flask] as a web-framework for a Python REST API.
-Flask has no direct support for async, but another code sample is available demonstrating this whole application using the Couchbase async API https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_fastapi.py[here].
-You can also find the https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_flask.py[full code for _this_ example here].
+Flask has no direct support for async, but another code sample is available demonstrating this whole application using the Couchbase async API https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/caching_fastapi.py[here].
+You can also find the https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/caching_flask.py[full code for _this_ example here].
 
 
 == Basic Endpoint
@@ -68,7 +68,7 @@ include::devguide:example$python/caching_flask.py[tag=delete]
 
 == Additional Resources
 
-* You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_flask.py[here].
+* You can find the full contextualized code from this sample https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/caching_flask.py[here].
 
 * Selecting an xref:{version-server}@server:learn:buckets-memory-and-storage/buckets.adoc#bucket-types[ephemeral or Memcached bucket] for the advantages of purely in-memory storage may make sense as a design decision.
 

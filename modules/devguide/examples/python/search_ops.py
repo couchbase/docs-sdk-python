@@ -139,7 +139,7 @@ vector_query = VectorQuery.create('vector_field',
 vector_search = VectorSearch.from_vector_query(vector_query)
 request = search.SearchRequest.create(vector_search)
 result = scope.search('vector-index', request)
-# end::vector_search_prefilter[]
+# end::vector_search_prefilter_query_str[]
 
 # tag::vector_search_multi[]
 request = search.SearchRequest.create(VectorSearch([

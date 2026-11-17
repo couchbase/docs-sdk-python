@@ -157,7 +157,6 @@ The following table covers possible exceptions, and gives the version of the {na
 |===
 
 ① As part of the standard SDK {sqlpp} API, it should be compatible with all earlier versions of the SDK -- but it has not been tested.
-// end::feature-compat[]
 ////
 
 
