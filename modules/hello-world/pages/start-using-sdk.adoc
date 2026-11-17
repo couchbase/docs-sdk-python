@@ -67,6 +67,7 @@ include::{version-common}@sdk:shared:partial$start-using-sdk.adoc[tag=before]
 === Prerequisites
 
 The Couchbase Python SDK aims to support https://devguide.python.org/versions/#supported-versions[Python versions] in security or bug-fix (a.k.a. maintenance) status.
+It requires Python {python-min-version} or later.
 
 Details of all build dependencies are in the
 xref:project-docs:sdk-full-installation.adoc[full installation guide].
@@ -79,12 +80,16 @@ include::{version-common}@sdk:shared:partial$start-using-sdk.adoc[tag=prereq]
 == Installation
 
 // tag::quick-install[]
-Given the above prerequisites, use `pip` to install the SDK:
+Given the above prerequisites, create a virtual environment and use `pip` to install the SDK:
 
 [source,console]
 ----
-$ sudo -H python3 -m pip install couchbase
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ python -m pip install couchbase
 ----
+
+On Windows, activate it with `.venv\Scripts\activate` instead.
 
 Details of all build dependencies and platform variations are in the
 xref:project-docs:sdk-full-installation.adoc[full installation guide].
