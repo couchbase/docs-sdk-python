@@ -1,8 +1,7 @@
+import asyncio
+
 from couchbase.exceptions import (
     CouchbaseException, DocumentNotFoundException, ParsingFailedException)
-
-# used to obtain the event loop
-from acouchbase.cluster import get_event_loop
 
 # needed for sub-document operations
 import couchbase.subdocument as SD
@@ -19,7 +18,7 @@ from couchbase.options import AnalyticsOptions
 # tag::create[]
 
 # needed for cluster creation
-from acouchbase.cluster import Cluster
+from acouchbase.cluster import AsyncCluster
 from couchbase.options import ClusterOptions
 from couchbase.auth import PasswordAuthenticator
 
@@ -68,6 +67,19 @@ async def sub_doc_operations(collection):
 # end::sub_doc[]
 
 
+# tag::bulk[]
+async def bulk_operations(collection):
+    keys = ["hotel_10025", "hotel_10026", "hotel_10064"]
+    results = await asyncio.gather(*[collection.get(key) for key in keys],
+                                   return_exceptions=True)
+    for key, res in zip(keys, results):
+        if isinstance(res, CouchbaseException):
+            print("Get failed for {}: {}".format(key, res))
+        else:
+            print("Hotel {}: {}".format(key, res.content_as[dict]["name"]))
+# end::bulk[]
+
+
 # tag::n1ql[]
 async def n1ql_query(cluster):
     try:
@@ -111,15 +123,25 @@ async def analytics_query(cluster):
         print(ex)
 # end::analytics[]
 
-loop = get_event_loop()
-cluster, bucket = loop.run_until_complete(get_couchbase())
-# get a reference to the default collection, required for older Couchbase server versions
-cb_coll_default = bucket.default_collection()
-# get a reference a named collection
-cb_coll = bucket.scope("inventory").collection("hotel")
 
-loop.run_until_complete(kv_operations(cb_coll))
-loop.run_until_complete(sub_doc_operations(cb_coll))
-loop.run_until_complete(n1ql_query(cluster))
-loop.run_until_complete(search_query(cluster))
-loop.run_until_complete(analytics_query(cluster))
+# tag::run[]
+async def main():
+    cluster, bucket = await get_couchbase()
+    # get a reference to the default collection, required for older Couchbase server versions
+    cb_coll_default = bucket.default_collection()
+    # get a reference a named collection
+    cb_coll = bucket.scope("inventory").collection("hotel")
+
+    try:
+        await kv_operations(cb_coll)
+        await sub_doc_operations(cb_coll)
+        await bulk_operations(cb_coll)
+        await n1ql_query(cluster)
+        await search_query(cluster)
+        await analytics_query(cluster)
+    finally:
+        await cluster.close()
+
+
+asyncio.run(main())
+# end::run[]
