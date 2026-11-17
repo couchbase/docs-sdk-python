@@ -11,8 +11,8 @@ import couchbase.search as search
 # NOTE: the travel-sample-index search index might need to be created
 async def simple_query(cluster):
     try:
-        result = cluster.search_query(
-            "travel-sample-index", search.QueryStringQuery("swanky"))
+        result = cluster.search(
+            "travel-sample-index", search.SearchRequest.create(search.QueryStringQuery("swanky")))
         async for row in result:
             print("Found row: {}".format(row))
     except CouchbaseException as ex:

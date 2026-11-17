@@ -11,7 +11,7 @@ import couchbase.search as search
 import couchbase.subdocument as SD
 
 # used for analytics operations
-from couchbase.analytics import AnalyticsOptions
+from couchbase.options import AnalyticsOptions
 
 # used to support SQL++ (N1QL) query
 from couchbase.options import QueryOptions
@@ -102,8 +102,8 @@ def handle_search_results(result):
 
 
 def search_query(cluster):
-    d = cluster.search_query(
-        "travel-sample-index", search.QueryStringQuery("swanky"))
+    d = cluster.search(
+        "travel-sample-index", search.SearchRequest.create(search.QueryStringQuery("swanky")))
     d.addCallback(handle_search_results).addErrback(on_streaming_error)
 # end::search[]
 

@@ -1,14 +1,17 @@
 from datetime import timedelta
+from couchbase.auth import CertificateAuthenticator, PasswordAuthenticator
 from couchbase.cluster import Cluster
-from couchbase.collection import GetOptions
+from couchbase.options import ClusterOptions, ClusterTimeoutOptions, GetOptions
 class Migrating(object):
     pass
 
 #tag::timeoutbuilder[]
 # SDK 3 equivalent
-cluster=Cluster.connect("couchbases://10.192.1.104")
-collection=cluster.bucket("default").default_collection()
-collection.timeout=5
+cluster = Cluster.connect(
+    "couchbases://127.0.0.1",
+    ClusterOptions(PasswordAuthenticator("user", "pass"),
+                   timeout_options=ClusterTimeoutOptions(kv_timeout=timedelta(seconds=5))))
+collection = cluster.bucket("default").default_collection()
 #end::timeoutbuilder[]
 
 # not applicable
@@ -39,23 +42,20 @@ collection.timeout=5
 #     .build();
 #naend::sysprops[]
 
-from couchbase.cluster import *
-from couchbase_core.cluster import PasswordAuthenticator
-from couchbase_v2 import COMPRESS_INOUT
 #tag::connstr[]
-# Will set the compression type to inout
+# Will disable compression
 Cluster.connect(
-    "couchbases://127.0.0.1?compression=inout",ClusterOptions(PasswordAuthenticator(
-    "user",
-    "pass")))
+    "couchbases://127.0.0.1?enable_compression=false",
+    ClusterOptions(PasswordAuthenticator("user", "pass")))
 
 # This is equivalent to
-collection.compression = COMPRESS_INOUT
+Cluster.connect(
+    "couchbases://127.0.0.1",
+    ClusterOptions(PasswordAuthenticator("user", "pass"), enable_compression=False))
 #end::connstr[]
 
 #tag::rbac[]
-# add convenience overload when available
-Cluster.connect("couchbases://127.0.0.1", ClusterOptions(PasswordAuthenticator("username", "password")))
+Cluster.connect("couchbases://127.0.0.1", authenticator=PasswordAuthenticator("username", "password"))
 #end::rbac[]
 
 #tag::rbac-full[]
@@ -64,16 +64,11 @@ Cluster.connect(
     ClusterOptions(PasswordAuthenticator("username", "password")))
 #end::rbac-full[]
 
-from couchbase_core.cluster import  CertAuthenticator
-import os
 #tag::certauth[]
-cert_dir=os.path.join(os.path.curdir,"cert_dir")
-
 Cluster.connect("couchbases://127.0.0.1", ClusterOptions(
-    CertAuthenticator(cert_path="cert.pem",
-                      key_path="key.crt",
-                      trust_store_path="trust_store.pem"
-)))
+    CertificateAuthenticator(cert_path="cert.pem",
+                             key_path="key.pem",
+                             trust_store_path="trust_store.pem")))
 #end::certauth[]
 
 #tag::simpleget[]
@@ -107,7 +102,7 @@ import couchbase_tests.base
 
 #natag::rawjson[]
 # TODO: update when implemented
-from couchbase.collection import UpsertOptions
+from couchbase.options import UpsertOptions
 from couchbase_core.transcoder import Transcoder
 
 class RawJSONTranscoder(Transcoder):
@@ -168,7 +163,7 @@ del bucket
 
 # tag::queryparameterized[]
 # SDK 3 named parameters
-from couchbase.cluster import QueryOptions
+from couchbase.options import QueryOptions
 cluster.query(
     "select * from bucket where type = $type",
     QueryOptions(named_parameters={"type": "airport"}))
@@ -188,7 +183,7 @@ for value in analytics_result:
 #end::analyticssimple[]
 
 #tag::analyticsparameterized[]
-from couchbase.cluster import AnalyticsOptions
+from couchbase.options import AnalyticsOptions
 # SDK 3 named parameters for analytics
 cluster.analytics_query(
         "select * from dataset where type = $type",
@@ -224,12 +219,13 @@ if not analyticsQueryResult.errors():
 
 #tag::searchsimple[]
 # SDK 3 search query
-from couchbase.cluster import SearchOptions
-search_result = cluster.search_query(
+import couchbase.search as search
+from couchbase.options import SearchOptions
+search_result = cluster.search(
     "indexname",
-    "airports",
-    SearchOptions(timeout=timedelta(seconds=2),limit=5,fields=["a", "b", "c"]))
-for row in search_result:
+    search.SearchRequest.create(search.QueryStringQuery("airports")),
+    SearchOptions(timeout=timedelta(seconds=2), limit=5, fields=["a", "b", "c"]))
+for row in search_result.rows():
     # ...
     pass
 #end::searchsimple[]
@@ -244,7 +240,7 @@ if search_result.metadata().error_count()==0:
     pass
 #naend::searchcheck_args_kwargs[]
 
-from couchbase.bucket import ViewOptions
+from couchbase.options import ViewOptions
 
 bucket=cluster.bucket("fred")
 #tag::viewquery[]

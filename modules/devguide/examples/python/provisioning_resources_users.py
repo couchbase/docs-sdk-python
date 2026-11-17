@@ -1,6 +1,6 @@
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
-from couchbase.management.queries import CreatePrimaryQueryIndexOptions
+from couchbase.management.options import CreatePrimaryQueryIndexOptions
 from couchbase.management.users import User, Role
 
 

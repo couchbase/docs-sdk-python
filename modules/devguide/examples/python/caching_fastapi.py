@@ -13,14 +13,13 @@ from datetime import timedelta
 
 from fastapi import FastAPI, HTTPException, Body
 
-from acouchbase.cluster import Cluster
-from couchbase.cluster import ClusterOptions
+from acouchbase.cluster import AsyncCluster
+from couchbase.options import ClusterOptions, InsertOptions, UpsertOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import (
     CouchbaseException,
     DocumentExistsException,
     DocumentNotFoundException)
-from couchbase.collection import InsertOptions, UpsertOptions
 
 
 class CouchbaseClient(object):
@@ -44,6 +43,7 @@ class CouchbaseClient(object):
             CouchbaseClient._instance.bucket_name = bucket
             CouchbaseClient._instance.username = username
             CouchbaseClient._instance.password = pw
+            CouchbaseClient._instance._collection = None
         return CouchbaseClient._instance
 
     async def connect(self, **kwargs):
@@ -56,7 +56,7 @@ class CouchbaseClient(object):
             cluster_opts = ClusterOptions(
                 authenticator=PasswordAuthenticator(
                     self.username, self.password))
-            self._cluster = Cluster.connect(conn_str, options=cluster_opts)
+            self._cluster = await AsyncCluster.connect(conn_str, cluster_opts)
             self._bucket = self._cluster.bucket(self.bucket_name)
             await self._bucket.on_connect()
             self._collection = self._bucket.default_collection()
@@ -65,11 +65,7 @@ class CouchbaseClient(object):
             raise
 
     async def ping(self):
-        try:
-            return not self._bucket.closed
-        except AttributeError:
-            # if the _bucket attr doesn't exist, neither does the client
-            return False
+        return self._collection is not None
 
     async def get(self, key, **kwargs):
         # note: kwargs would be how one could pass in

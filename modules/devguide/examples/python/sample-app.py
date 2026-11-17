@@ -22,7 +22,10 @@ import couchbase.subdocument as SD
 from couchbase.cluster import Cluster
 from couchbase.options import ClusterOptions, SearchOptions
 from couchbase.auth import PasswordAuthenticator
-from couchbase.exceptions import *
+from couchbase.exceptions import (AmbiguousTimeoutException,
+                                  DocumentExistsException,
+                                  DocumentNotFoundException,
+                                  UnAmbiguousTimeoutException)
 
 JWT_SECRET = 'cbtravelsample'
 
@@ -234,7 +237,7 @@ class TenantUserView(SwaggerView):
 
         except DocumentNotFoundException:
             print(f"User {user} item does not exist", flush=True)
-        except AmbiguousTimeoutException or UnAmbiguousTimeoutException:
+        except (AmbiguousTimeoutException, UnAmbiguousTimeoutException):
             print("Request timed out - has Couchbase stopped running?", flush=True)
         else:
             return jsonify({'data': {'token': genToken(user)}, 'context': [queryType + user]})
@@ -399,9 +402,9 @@ class HotelView(SwaggerView):
             response = {'data': [], 'context': [queryType]}
             return jsonify(response)
 
-        searchRows = cluster.search_query('hotels-index', 
-                                          queryPrep, 
-                                          SearchOptions(limit=100))
+        searchRows = cluster.search('hotels-index',
+                                    FT.SearchRequest.create(queryPrep),
+                                    SearchOptions(limit=100))
 # end::search-query[]
 # tag::search-subdoc[]
         allResults = []

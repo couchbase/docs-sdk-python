@@ -201,7 +201,7 @@ collection.mutate_in('array', [SD.array_insert('[3][2]', '!')])
 
 
 # tag::counter1[]
-result = collection.mutate_in('customer123', (SD.counter('logins', 1),))
+result = collection.mutate_in('customer123', (SD.increment('logins', 1),))
 num_logins = collection.get('customer123').content_as[dict]['logins']
 print(f'Number of logins: {num_logins}.')
 # Number of logins: 1.
@@ -212,7 +212,7 @@ print(f'Number of logins: {num_logins}.')
 player_key = 'player432'
 collection.upsert(player_key, {'gold': 1000})
 
-collection.mutate_in(player_key, (SD.counter('gold', -150),))
+collection.mutate_in(player_key, (SD.decrement('gold', 150),))
 result = collection.lookup_in(player_key, (SD.get('gold'),))
 print(f'{player_key} has {result.content_as[int](0)} gold remaining.')
 # player432 has 850 gold remaining.

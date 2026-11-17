@@ -1,7 +1,8 @@
 import uuid
 
 # tag::analytics_basic_example[]
-from couchbase.cluster import Cluster, ClusterOptions, AnalyticsOptions
+from couchbase.cluster import Cluster
+from couchbase.options import AnalyticsOptions, ClusterOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 from couchbase.analytics import AnalyticsScanConsistency

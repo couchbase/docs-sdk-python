@@ -1,6 +1,6 @@
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
-from couchbase.bucket import PingOptions
+from couchbase.options import PingOptions
 from couchbase.diagnostics import PingState, ServiceType
 
 # tag::check_connection[]

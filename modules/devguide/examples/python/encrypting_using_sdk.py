@@ -3,7 +3,8 @@ import traceback
 from typing import List, Dict
 
 from couchbase.encryption import CryptoManager
-from couchbase.cluster import Cluster, ClusterOptions
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions
 from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import (
     DecrypterAlreadyExistsException,

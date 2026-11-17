@@ -27,7 +27,7 @@ def on_connect_ok(result, cluster):
     # create a collection object
     cb = bucket.default_collection()
 
-    d = cluster.search_query("travel-sample-index", search.QueryStringQuery("swanky"))
+    d = cluster.search("travel-sample-index", search.SearchRequest.create(search.QueryStringQuery("swanky")))
     d.addCallback(handle_query_results).addErrback(on_streaming_error)
 
 

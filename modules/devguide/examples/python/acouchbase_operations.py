@@ -99,8 +99,8 @@ async def n1ql_query(cluster):
 # tag::search[]
 async def search_query(cluster):
     try:
-        result = cluster.search_query(
-            "travel-sample-index", search.QueryStringQuery("swanky"))
+        result = cluster.search(
+            "travel-sample-index", search.SearchRequest.create(search.QueryStringQuery("swanky")))
 
         async for row in result:
             print(f"Found row: {row}")

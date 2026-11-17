@@ -20,11 +20,10 @@ The Search service also supports vector search from Couchbase Server 7.6 onwards
 
 After familiarizing yourself with how to create and query a Search index in the UI you can query it from the SDK. 
 
-There are two APIs for querying search: `cluster.searchQuery()`, and `cluster.search()`.
-Both are also available at the Scope level.
+Search queries run through `cluster.search()`, which is also available at the Scope level.
+It takes a `SearchRequest`, which holds a Search query (`SearchQuery`), a `VectorSearch` (added in Couchbase Server 7.6), or both.
 
-The former API supports Search queries (`SearchQuery`), while the latter additionally supports the `VectorSearch` added in 7.6.
-Most of this documentation will focus on the former API, as the latter is in @Stability.Volatile status.
+The older `cluster.search_query()`, which takes a `SearchQuery` directly, is deprecated.
 
 We will perform a Search query here - see the <<vector-search>> section for examples of that.
 
@@ -36,8 +35,9 @@ include::devguide:example$python/search_ops.py[tag=search_basic_example]
 NOTE: When using a Couchbase version < 6.5 you must create a valid Bucket connection using `cluster.bucket(name)` before you can use Search.
 
 Let's break it down. 
-The `search_query` API takes the name of the index and the type of query  as required arguments and then allows to provide additional options if needed
+The `search` API takes the name of the index and a `SearchRequest` as required arguments and then allows to provide additional options if needed
 (in the example above, no options are specified).
+`SearchRequest.create()` wraps the query to run.
 
 Once a result returns you can iterate over the returned rows, and/or access the `search.metadata` associated with the query. 
 
@@ -56,7 +56,7 @@ For information about pagination in Search responses, see xref:server:fts:fts-se
 
 == Search Queries
 
-The second mandatory argument in the example above used `QueryStringQuery("query")` to specify the query to run against the search index.
+The `SearchRequest` in the example above wraps `QueryStringQuery("query")`, the query to run against the search index.
 The query string is the simplest form, but there are many more available. 
 The table below lists all of them with a short description of each. 
 You can combine them with `conjuncts` and `disjuncts` respectively.
@@ -123,7 +123,7 @@ The Search APIs exist at both the `Cluster` and `Scope` levels.
 
 This is because the Search Service supports, as of Couchbase Server 7.6, a new form of "scoped index" in addition to the traditional "global index".
 
-It's important to use the `Cluster.searchQuery()` / `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes.
+It's important to use `Cluster.search()` for global indexes, and `Scope.search()` for scoped indexes.
 
 [source,python]
 ----
@@ -135,7 +135,7 @@ The `SearchQuery` is created in the same way as detailed earlier.
 
 == Search Options
 
-The `cluster.search_query` function provides an array of named parameters to customize your query via `**kwargs` or `SearchOptions`. The following table lists them all:
+The `cluster.search` function provides an array of named parameters to customize your query via `**kwargs` or `SearchOptions`. The following table lists them all:
 
 .Available Search Options
 [options="header"]
