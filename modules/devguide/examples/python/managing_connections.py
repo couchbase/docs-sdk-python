@@ -44,7 +44,7 @@ class ManagingConnections(object):
       print("connectionstringparams")
       #tag::connectionstringparams[]
       cluster = Cluster.connect(
-          "couchbase://your-ip?compression=on&log_redaction=on", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
+          "couchbase://your-ip?kv_timeout=2.5s&log_redaction=true", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
       #end::connectionstringparams[]
 
     async def test_async(self):

@@ -52,18 +52,16 @@ wrapped inside the {name-sdk} Query API.
 .Hyperscale Index Example
 [source,python]
 ----
-  result = cluster.query(
-  "SELECT d.id, d.question, d.wanted_similar_color_from_search, " +
-  "  ARRAY_CONCAT( " +
-    "d.couchbase_search_query.knn[0].vector[0:4], " +
-    "['...'] " +
-  ") AS vector " +
-  "FROM `vector-sample`.`color`.`rgb-questions` AS d " +
-  "WHERE d.id = '#87CEEB';",
-  QueryOptions(metrics=True)
+statement = (
+    "SELECT d.id, d.question, d.wanted_similar_color_from_search, "
+    "ARRAY_CONCAT(d.couchbase_search_query.knn[0].vector[0:4], ['...']) AS vector "
+    "FROM `vector-sample`.`color`.`rgb-questions` AS d "
+    "WHERE d.id = '#87CEEB';"
+)
+result = cluster.query(statement, QueryOptions(metrics=True))
 
-    for row in result.rows():
-        print(f"Found match: {row}")
+for row in result.rows():
+    print(f"Found match: {row}")
 ----
 
 Parameterizing the query, as with xref:sqlpp-queries-with-sdk.adoc#parameterized-queries[regular queries], will allow the reuse of the xref:server:n1ql:n1ql-intro/queriesandresults.adoc#prepare-stmts[Query Plan].
@@ -72,18 +70,16 @@ This can be more efficient, unless you are doing a lot of optimization to your q
 .Parameterized Vector Query
 [source,python]
 ----
-  result = cluster.query(
-         "SELECT d.id, d.question, d.wanted_similar_color_from_search, " +
-         "  ARRAY_CONCAT( " +
-           "d.couchbase_search_query.knn[0].vector[0:4], " +
-           "['...'] " +
-         ") AS vector " +
-      "FROM `vector-sample`.`color`.`rgb-questions` AS d " +
-  	"WHERE d.id = $id;",
-  QueryOptions(named_parameters={'id': '#87CEEB'})
+statement = (
+    "SELECT d.id, d.question, d.wanted_similar_color_from_search, "
+    "ARRAY_CONCAT(d.couchbase_search_query.knn[0].vector[0:4], ['...']) AS vector "
+    "FROM `vector-sample`.`color`.`rgb-questions` AS d "
+    "WHERE d.id = $id;"
+)
+result = cluster.query(statement, QueryOptions(named_parameters={'id': '#87CEEB'}))
 
-    for row in result.rows():
-        print(f"Found match: {row}")
+for row in result.rows():
+    print(f"Found match: {row}")
 ----
 
 
@@ -138,17 +134,18 @@ Then it executes the vector query on the intermediate result to get the final re
 include::devguide:example$python/search_ops.py[tag=vector_search_prefilter]
 ----
 
-Here's the signature of the method:
+`VectorQuery.create` takes the same arguments as the `VectorQuery` constructor:
 
 [source,python]
 ----
-    def __init__(self,
-                        field_name: str,
-                        vector: Union[List[float], str],
-                        num_candidates: Optional[int] = None,
-                        boost: Optional[float] = None,
-                        prefilter: Optional[SearchQuery] = None
-                        ) -> None:
+@classmethod
+def create(cls,
+           field_name: str,
+           vector: list[float] | str,
+           num_candidates: int | None = None,
+           boost: float | None = None,
+           prefilter: SearchQuery | None = None
+           ) -> VectorQuery: ...
 ----
 
 If no prefilter is specified, the server executes the vector query on all indexed documents.
@@ -172,7 +169,7 @@ from a simple match, as above, to a string query:
 include::devguide:example$python/search_ops.py[tag=vector_search_prefilter_query_str]
 ----
 
-See the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_search.html#couchbase.vector_search.VectorQuery.prefilter[API reference].
+See the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/common/vector_search.html#couchbase.vector_search.VectorQuery.prefilter[API reference].
 
 
 ==== Multiple vector queries
@@ -234,11 +231,11 @@ include::devguide:example$java/Search.java[tag=vector4,indent=0]
 * xref:server:vector-index:vectors-and-indexes-overview.adoc[Vector Query for AI Apps docs (self-managed Couchbase Server)].
 * xref:cloud::vector-index/vectors-and-indexes-overview.adoc[Vector Query for AI Apps docs (Capella DBaaS)]
 * Vector GSI Query is just like any other query from the SDK to the Query service: 
-https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_n1ql.html[Python SDK API Reference, Query Service page].
+https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/common/n1ql.html[Python SDK API Reference, Query Service page].
 
 === Vector Search
 
 * xref:server:vector-search:vector-search.adoc[Vector Search for AI Apps docs (self-managed Couchbase Server)]
 * xref:cloud::vector-search:vector-search.adoc[Vector Search for AI Apps docs (Capella DBaaS)]
-* Vector Search in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_search.html#module-couchbase.vector_search[Python API reference].
+* Vector Search in the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/common/vector_search.html[Python API reference].
 * https://developer.couchbase.com/tutorial-python-langchain-pdf-chat

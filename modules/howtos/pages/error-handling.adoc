@@ -38,18 +38,13 @@ include::devguide:example$python/error_handling.py[tag=generic_try_catch]
 
 If you do not catch the Exception, it will bubble up:
 
-[source,python]
+[source,console]
 ----
 Traceback (most recent call last):
   File "error_handling.py", line 6, in <module>
     res = collection.get("not-a-key")
-  File ".../site-packages/couchbase/collection.py", line 166, in get
-    return self._impl.get(req, transcoder, obs_handler)
-  File ".../site-packages/couchbase/logic/collection_impl.py", line 258, in get
-    ret = self._client_adapter.execute_collection_request(req.opcode, req, obs_handler=obs_handler)
-  File ".../site-packages/couchbase/logic/client_adapter.py", line 120, in execute_collection_request
-    raise ErrorMapper.build_exception(ret)
-couchbase.exceptions.DocumentNotFoundException: DocumentNotFoundException(<ec=101, category=couchbase.key_value, message=Operation failed, context=KeyValueErrorContext:{'key': 'not-a-key', 'bucket_name': 'travel-sample', 'scope_name': 'inventory', 'collection_name': 'hotel', 'opaque': 10, 'status_code': 1, 'retry_attempts': 0, 'retry_reasons': set()}, C Source=src/connection.hxx:395>)
+  ...
+couchbase.exceptions.DocumentNotFoundException: DocumentNotFoundException(<ec=101, category=couchbase.key_value, message=Operation failed, context=KeyValueErrorContext({'key': 'not-a-key', 'bucket_name': 'travel-sample', 'scope_name': 'inventory', 'collection_name': 'hotel', 'opaque': 10, 'status_code': 1, 'retry_attempts': 0, 'retry_reasons': set()}), C Source=src/connection.hxx:413>)
 ----
 
 === Logging
@@ -161,7 +156,7 @@ Errors & Exception handling is an expansive topic.
 Here, we have covered examples of the kinds of exception scenarios that you are most likely to face.
 More fundamentally, you also need to weigh up xref:concept-docs:durability-replication-failure-considerations.adoc[concepts of durability].
 
-Diagnostic methods are available to check on the xref:health-check.adoc[health if the cluster], and the xref:tracing-from-the-sdk.adoc[health of the network].
+Diagnostic methods are available to check on the xref:health-check.adoc[health of the cluster], and the xref:observability-tracing.adoc[health of the network].
 
 Logging methods are dependent upon the platform and SDK used.
 We offer xref:collecting-information-and-logging.adoc[recommendations and practical examples].

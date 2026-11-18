@@ -35,11 +35,15 @@ def on_connect_err(error):
     print(f"Unable to connect.\n{error}")
 
 
-cluster = TxCluster("couchbase://your-ip",
-                    ClusterOptions(PasswordAuthenticator("Administrator", "password")))
+# create the cluster once the reactor, and its asyncio loop, are running
+def connect():
+    cluster = TxCluster("couchbase://your-ip",
+                        ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 
-# wait for connect
-cluster.on_connect().addCallback(on_connect_ok, cluster).addErrback(on_connect_err)
+    # wait for connect
+    cluster.on_connect().addCallback(on_connect_ok, cluster).addErrback(on_connect_err)
 
+
+reactor.callLater(0, connect)
 reactor.run()
 # end::simple_query[]

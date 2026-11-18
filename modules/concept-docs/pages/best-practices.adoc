@@ -16,10 +16,6 @@
 [abstract]
 {description}
 
-// **TODO: Scala --> Python**
-
-
-
 // see .NET doc on this
 
 
@@ -105,25 +101,24 @@ Advanced zone aware....
 
 // ....this paragraph different for each SDK.
 
-Choosing between the blocking, asynchronous, and reactive APIs for the Scala SDK is partly bound up with how (and where) you want to handle exceptions.
+The Python SDK has a blocking API in `couchbase`, an asyncio API in `acouchbase`, and a Twisted API in `txcouchbase`.
+Choose the one that matches the concurrency model your application already uses; the choice also decides how results and exceptions reach you.
 
-* Synchronous operations are blocking, and return a Scala `Try` object.
-This contains either the result or a _Throwable_ exception,
-which can be pattern matched over (using `flatMap` in more complex cases).
-* The asynchronous API returns Scala `Future`, representing the execution of an asynchronous task and the promise of a future result.
-An `ExecutionContext` must be provided, to give a thread pool for handling whatever is returned.
-* The reactive API is a more natural fit for network-aware, fault tolerant programs, 
-and will provide full back pressure for streaming results from large {sqlpp} or Search queries.
+* Blocking operations wait for completion, and return a result object or raise an exception.
+* asyncio operations are coroutines. Awaiting one returns the result object or raises the exception.
+* Twisted operations return a `Deferred`, which passes the result to its callbacks or the failure to its errbacks.
 
-See the xref:howtos:concurrent-async-apis.adoc[Async & Reactive APIs page] for further discussion and practical examples.
+{sqlpp}, Search and Analytics rows are read as you iterate the result, with `for` on the blocking API and `async for` on asyncio, so a large result does not have to fit in memory at once.
+
+See the xref:howtos:concurrent-async-apis.adoc[Async APIs page] for further discussion and practical examples.
 
 
 
 == Error Handling
 
-Best practices for error handling in Scala depend somewhat upon your choice of API: 
-blocking, asynchronous, or reactive, as covered in the xref:howtos:concurrent-async-apis.adoc[async and reactive API guide].
-That guide also covers how errors are actually returned (e.g. via `Try`, `Future`, or `Mono`) and handled.
+Best practices for error handling in Python depend somewhat upon your choice of API:
+blocking, asyncio, or Twisted, as covered in the xref:howtos:concurrent-async-apis.adoc[async API guide].
+Blocking and asyncio operations raise exceptions, which you handle with `try`/`except`; Twisted delivers them to a `Deferred`'s errbacks.
 See also the xref:howtos:error-handling.adoc[error handling guide],
 which covers specific errors, along with a broader look at error handling strategies.
 
@@ -167,7 +162,7 @@ fully featured Observability (switched on by default) replaced the limited infor
 This slighty reduced overall performance of the SDK,
 
 If absolute performance is critical to your application, then observability features can be turned off
-(see `ClusterOptions` in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#clusteroptions[API reference]).
+(see `ClusterOptions` in the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/common/options.html#couchbase.options.ClusterOptions[API reference]).
 But be sure that your performance need is strong --
 observability information is invaluable in diagnosing network bottlenecks and problems.
 ====
@@ -249,6 +244,6 @@ Specifically, for information on:
 // other SDK's docs
 //
 // add in Python
-// https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/parallelism.html
+// https://docs.couchbase.com/sdk-api/couchbase-python-client/parallelism.html
 //
 // 

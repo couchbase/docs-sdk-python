@@ -65,6 +65,10 @@ for row in result:
 # tag::print_metrics[]
 result = cluster.analytics_query("SELECT 1=1")
 
+# metadata is available once all rows have been read
+for row in result.rows():
+    print("Found row: {}".format(row))
+
 print("Execution time: {}".format(
     result.metadata().metrics().execution_time()))
 # end::print_metrics[]

@@ -102,7 +102,9 @@ except DocumentExistsException:
 # tag::CASMismatchException[]
 try:
     result = collection.get("hotel_10026")
-    collection.replace("hotel_10026", {}, ReplaceOptions(cas=result.cas))
+    content = result.content_as[dict]
+    content["vacancy"] = False
+    collection.replace("hotel_10026", content, ReplaceOptions(cas=result.cas))
 except CASMismatchException:
     # the CAS value has changed
     pass

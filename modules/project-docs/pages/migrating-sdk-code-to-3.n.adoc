@@ -34,10 +34,12 @@ As an example here is a KeyValue document fetch:
 [source,python]
 ----
 from datetime import timedelta
+from couchbase.auth import PasswordAuthenticator
 from couchbase.cluster import Cluster
-from couchbase.collection import GetOptions
-cluster=Cluster.connect("couchbases://10.192.1.104")
-collection=cluster.default_collection()
+from couchbase.options import ClusterOptions, GetOptions
+cluster = Cluster.connect("couchbases://10.192.1.104",
+                          ClusterOptions(PasswordAuthenticator("Administrator", "password")))
+collection = cluster.bucket("travel-sample").default_collection()
 get_result = collection.get("key", GetOptions(timeout=timedelta(seconds=3)))
 ----
 
@@ -116,14 +118,12 @@ bucket.timeout=5
 ----
 
 [source,python]
-
 ----
 include::devguide:example$python/migrating.py[tag=timeoutbuilder,indent=0]
 ----
 
-The default settings can still be customized through either the connection string or xref:ref:client-settings.adoc[system properties].
-The SDK has elaborate reflection logic in place to parse "flat" string values and apply them to the builder, which means that you can now configure more properties than in SDK API 2.
-Note that the property paths have changed.
+The defaults can still be changed through the connection string, or through the options classes described in xref:ref:client-settings.adoc[Client Settings].
+Note that some setting names have changed since SDK API 2.
 
 ////
 // [source,python]
@@ -702,7 +702,7 @@ Use a `collection` instance for key-value operations.
 * The 4.x version of the Python SDK significantly improves how the SDK handles the https://docs.python.org/3/glossary.html#term-global-interpreter-lock[Global Interpreter Lock (GIL)]. 
 As part of the improvements, the `lockmode` cluster option has been deprecated as it is a no-op (i.e. has no functionality) and will be removed in a future version of the SDK. 
 Also, the `unlock_gil` option is no longer available.
-** For details on how to use the 4.x SDK within the parallelism paradigms provided by the Python language see the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/parallelism.html[parallelism] page in the API documentation.
+** For details on how to use the 4.x SDK within the parallelism paradigms provided by the Python language see the https://docs.couchbase.com/sdk-api/couchbase-python-client/parallelism.html[parallelism] page in the API documentation.
 * Import paths have been reorganized to follow consistent patterns.  While the import paths that existed in 3.x SDK are mostly available (see previous points on removal of `couchbase_core` package), some paths are deprecated and will be removed in a future release.
 ** All authenticators should be imported from `couchbase.auth`
 ** All constants should be imported from `couchbase.constants`
@@ -733,7 +733,7 @@ Key new features include:
 In addition:
 
 * `get` requests on locked documents now retry rather than fast-fail.
-* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] can be found documented in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#cluster[API reference].
+* The changes to xref:howtos:managing-connections.adoc#connection-strings[Connection Strings] can be found documented in the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/common/options.html#couchbase.options.ClusterOptions[API reference].
 * The xref:howtos:collecting-information-and-logging.adoc[Logging] changes are not fully documented.
 
 include::{version-common}@sdk:shared:partial$archive.adoc[tag=migration]

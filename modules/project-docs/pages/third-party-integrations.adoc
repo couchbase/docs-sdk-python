@@ -1,5 +1,5 @@
 = Integrations & Ecosystem
-:description: The Couchbase Scala SDK is often used with unofficial and third party tools and applications to integrate into broader language and platform ecosystems, and across data lakes in heterogeneous environments.
+:description: The Couchbase Python SDK is often used with unofficial and third party tools and applications to integrate into broader language and platform ecosystems, and across data lakes in heterogeneous environments.
 :navtitle: Integrations
 :page-toclevels: 2
 

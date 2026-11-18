@@ -14,16 +14,17 @@ include::{version-common}@sdk:shared:partial$n1ql-queries.adoc[tag=intro]
 // Prepared Statements for Query Optimization
 include::{version-common}@sdk:shared:partial$n1ql-queries.adoc[tag=prepared]
 
-For the Python SDK, the `adhoc` parameter should be set to `false` for a plan to be prepared, or a prepared plan to be reused.
+For the Python SDK, the `adhoc` parameter should be set to `False` for a plan to be prepared, or a prepared plan to be reused.
 Do not turn off the `adhoc` flag for _every_ query to Server 6.0 and earlier, since only a finite number of query plans (currently 5000) can be stored in the SDK.
 
 [source,python]
 ----
-result = cluster.query(
-    """SELECT airportname, city
-    FROM \`travel-sample\`.inventory.airport
-    WHERE city=$1;""",
-    'London', QueryOptions(adhoc=false))
+statement = (
+    "SELECT airportname, city "
+    "FROM `travel-sample`.inventory.airport "
+    "WHERE city=$1;"
+)
+result = cluster.query(statement, QueryOptions(positional_parameters=['London'], adhoc=False))
 ----
 
 
@@ -84,13 +85,15 @@ For more information, see xref:{version-server}@server:n1ql:n1ql-language-refere
 
 You can also create and define indexes in the SDK using:
 
-// TODO: Python example
-[source,csharp]
+[source,python]
 ----
-var bucketManager = bucket.CreateManager();
-await bucketManager.CreateN1qlPrimaryIndexAsync();
-await bucketManager.CreateN1qlIndexAsync("index_name", new string[] { "name" })
-await bucketManager.CreateN1qlIndexAsync("index_emai", new string[] { "email" })
+from couchbase.management.options import CreatePrimaryQueryIndexOptions, CreateQueryIndexOptions
+
+hotels = cluster.bucket('travel-sample').scope('inventory').collection('hotel')
+index_mgr = hotels.query_indexes()
+index_mgr.create_primary_index(CreatePrimaryQueryIndexOptions(ignore_if_exists=True))
+index_mgr.create_index('ix_name', ['name'], CreateQueryIndexOptions(ignore_if_exists=True))
+index_mgr.create_index('ix_email', ['email'], CreateQueryIndexOptions(ignore_if_exists=True))
 ----
 
 
@@ -109,20 +112,27 @@ BUILD INDEX ON `travel-sample`.inventory.hotel(`#primary`, `ix_name`, `ix_email`
 ----
 
 The indexes are not built until the `BUILD INDEX` statement is executed.
-At this point, the server scans all of the documents in the `users` bucket,
+At this point, the server scans all of the documents in the `hotel` collection,
 and indexes it for all of the applicable indexes (in this case, those that have a `name` or `email` field).
 
 Building deferred indexes can also be done via the SDK:
 
-// TODO: Python example
-[source,csharp]
+[source,python]
 ----
-var bucketManager = bucket.CreateManager();
-await bucketManager.CreateN1qlPrimaryIndexAsync(defer = true);
-await bucketManager.CreateN1qlIndexAsync("ix_name", defer = true, new string[] { "name" });
-await bucketManager.CreateN1qlIndexAsync("ix_email", defer = true, new string[] { "email" });
-await bucketManager.BuildN1qlDeferredIndexesAsync();
-await bucketManager.WatchN1qlIndexes(new List<string> { "ix_name", "ix_email", "#primary"}, TimeSpan.FromSeconds(2));
+from datetime import timedelta
+
+from couchbase.management.options import (CreatePrimaryQueryIndexOptions,
+                                          CreateQueryIndexOptions,
+                                          WatchQueryIndexOptions)
+
+hotels = cluster.bucket('travel-sample').scope('inventory').collection('hotel')
+index_mgr = hotels.query_indexes()
+index_mgr.create_primary_index(CreatePrimaryQueryIndexOptions(deferred=True))
+index_mgr.create_index('ix_name', ['name'], CreateQueryIndexOptions(deferred=True))
+index_mgr.create_index('ix_email', ['email'], CreateQueryIndexOptions(deferred=True))
+index_mgr.build_deferred_indexes()
+index_mgr.watch_indexes(['ix_name', 'ix_email'],
+                        WatchQueryIndexOptions(watch_primary=True, timeout=timedelta(seconds=30)))
 ----
 
 
@@ -131,7 +141,7 @@ include::{version-common}@sdk:shared:partial$n1ql-queries.adoc[tag=index-consist
 
 The following options are available:
 
-include::{version-server}@server:learn:page$services-and-indexes/indexes/index-replication.adoc[tag=scan_consistency]
+include::{version-server}@server:indexes:page$index-replication.adoc[tag=scan_consistency]
 ////
 * `not_bounded`: Executes the query immediately, without requiring any consistency for the query.
 If index-maintenance is running behind, out-of-date results may be returned.
@@ -144,22 +154,25 @@ For Query, the default consistency is `not_bounded`.
 ////
 Consider the following snippet:
 
-// TODO: Python example
-[source,csharp]
+[source,python]
 ----
+import random
 
-var randomNumber = new Random().Next(0, 10000000);
+from couchbase.options import QueryOptions
 
-bucket.Upsert($"user:{randomNumber}", new {
-    name = "Brass Doorknob",
-    email = "brass.doorknob@juno.com",
-    random = randomNumber
-});
+users = cluster.bucket('travel-sample').scope('tenant_agent_00').collection('users')
+random_number = random.randint(0, 10_000_000)
+users.upsert(f'user:{random_number}', {
+    'name': 'Brass Doorknob',
+    'email': 'brass.doorknob@juno.com',
+    'random': random_number,
+})
 
-var query = new QueryRequest("SELECT name, email, random, META(default).id FROM default WHERE $1 IN name'")
-    .AddPositionalParamter("Brass");
-
-var result = bucket.Query<dynamic>(query);
+statement = (
+    "SELECT u.name, u.email, u.random, META(u).id "
+    "FROM `travel-sample`.tenant_agent_00.users u WHERE u.name = $1"
+)
+result = cluster.query(statement, QueryOptions(positional_parameters=['Brass Doorknob']))
 ----
 
 The above query may not return the newly inserted document because it has not yet been indexed.
@@ -167,15 +180,20 @@ The query is issued immediately after document creation, and in this case the qu
 
 If the above code is modified to use _RequestPlus_, query processing will wait until all updates have been processed and recalculated into the index from the point in time the query was received:
 
-// TODO: Python example
-[source,csharp]
+[source,python]
 ----
-var query = new QueryRequest("SELECT name, email, random, META(default).id FROM default WHERE $1 IN name'")
-    .AddPositionalParamter("Brass")
-    // If this line is removed, the latest 'random' field might not be present
-    .ScanConsistency(ScanConsistency.RequestPlus);
+from couchbase.n1ql import QueryScanConsistency
+from couchbase.options import QueryOptions
 
-var result = bucket.Query<dynamic>(query);
+statement = (
+    "SELECT u.name, u.email, u.random, META(u).id "
+    "FROM `travel-sample`.tenant_agent_00.users u WHERE u.name = $1"
+)
+result = cluster.query(
+    statement,
+    QueryOptions(positional_parameters=['Brass Doorknob'],
+                 # If this option is removed, the latest 'random' field might not be present
+                 scan_consistency=QueryScanConsistency.REQUEST_PLUS))
 ----
 
 This gives the application developer more control over the balance between performance (latency) and consistency,

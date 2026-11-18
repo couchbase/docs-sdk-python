@@ -35,7 +35,7 @@ include::{version-common}@sdk:shared:partial$durability-replication-failure-cons
 
 Early versions of Couchbase Server used client-verified durablilty.
 This is still available in the SDK --
-see the https://docs.couchbase.com/sdk-api/couchbase-python-client/acouchbase_api/acouchbase_core.html#acouchbase.collection.AsyncCollection.insert[API documentation on durability] for details of `PersistTo` and `ReplicateTo` --
+see the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/acouchbase/collection.html#acouchbase.collection.AsyncCollection.insert[API documentation on durability] for details of `PersistTo` and `ReplicateTo` --
 but in almost every case with current Couchbase Server versions it's best to use the guarantees offered by the the Server.
 
 

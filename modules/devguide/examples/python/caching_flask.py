@@ -11,7 +11,7 @@ NOTE:  make sure to change into the working
 flask run
 
 '''
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 
 from flask import Flask, jsonify, request
 
@@ -44,6 +44,7 @@ class CouchbaseClient(object):
             CouchbaseClient._instance.bucket_name = bucket
             CouchbaseClient._instance.username = username
             CouchbaseClient._instance.password = pw
+            CouchbaseClient._instance._cluster = None
         return CouchbaseClient._instance
 
     def connect(self, **kwargs):
@@ -63,18 +64,14 @@ class CouchbaseClient(object):
             raise
 
     def ping(self):
-        try:
-            # if couchbase version >= 3.0.10:
-            # else use self._bucket.ping()
-            result = self._cluster.ping()
-            for _, reports in result.endpoints.items():
-                for report in reports:
-                    if not report.state == PingState.OK:
-                        return False
-            return True
-        except AttributeError:
-            # if the _cluster attr doesn't exist, neither does the client
+        if self._cluster is None:
             return False
+        result = self._cluster.ping()
+        for _, reports in result.endpoints.items():
+            for report in reports:
+                if not report.state == PingState.OK:
+                    return False
+        return True
 
     def get(self, key, **kwargs):
         return self._collection.get(key)
@@ -114,6 +111,33 @@ def get(key):
     except CouchbaseException as e:
         return 'Unexpected error: {}'.format(e), 500
 # end::get[]
+
+# tag::cache-miss[]
+def fetch_from_source(key):
+    # Stands in for the system of record the cache sits in front of,
+    # such as a relational database or a slower upstream service.
+    return {'id': key, 'fetched_at': datetime.now(timezone.utc).isoformat()}
+
+
+@app.route('/read-through/<key>', methods=['GET'])
+def read_through(key):
+    try:
+        return jsonify(cb.get(key).content_as[dict])
+    except DocumentNotFoundException:
+        pass
+    except CouchbaseException as e:
+        return 'Unexpected error: {}'.format(e), 500
+
+    doc = fetch_from_source(key)
+    if doc is None:
+        return 'Key not found', 404
+    try:
+        cb.upsert(key, doc, expiry=EXPIRY)
+    except CouchbaseException as e:
+        # The caller still gets the data; the next miss tries the write again.
+        app.logger.warning('Could not cache %s: %s', key, e)
+    return jsonify(doc)
+# end::cache-miss[]
 
 # tag::post[]
 @app.route('/<key>', methods=['POST'])

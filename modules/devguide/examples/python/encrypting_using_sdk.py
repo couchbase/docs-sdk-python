@@ -1,3 +1,4 @@
+# tag::imports[]
 import json
 import traceback
 from typing import List, Dict
@@ -12,7 +13,8 @@ from couchbase.exceptions import (
 )
 
 from cbencryption import DefaultCryptoManager, AeadAes256CbcHmacSha512Provider
-from cbencryption.insecure_keyring import InsecureKeyring
+from cbencryption.unsecure_keyring import UnsecureKeyring
+# end::imports[]
 
 # tag::helper_methods[]
 # Create a helper method to encrypt document fields
@@ -87,7 +89,7 @@ def decrypt_doc(
 # Create a keyring and add keys
 # NOTE:  Use a secure keyring for applications, this is shown for example purposes
 # tag::keys[]
-keyring = InsecureKeyring()
+keyring = UnsecureKeyring()
 secret_key_id = "secret_key"
 keyring.set_key(
     secret_key_id,
@@ -155,13 +157,14 @@ crypto_mgr.register_legacy_decrypters(
 )
 # end::legacy_support[]
 
-# Create a configuration to connect to your cluster
+# tag::connect[]
 cluster = Cluster.connect(
     "couchbase://your-ip",
     ClusterOptions(PasswordAuthenticator("Administrator", "password")),
 )
 bucket = cluster.bucket("default")
 collection = bucket.default_collection()
+# end::connect[]
 
 # tag::save_to_couchbase[]
 user = {

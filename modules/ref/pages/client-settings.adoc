@@ -17,8 +17,8 @@ Once it is passed in to the Cluster constructor or Cluster.connect, its settings
 [source,python]
 ----
 # Create a cluster using the custom client settings.
-cluster = Cluster.connect(connectionString, ClusterOptions(
-PasswordAuthenticator(username, password), option1=xxx, option2=yyy...))
+cluster = Cluster.connect(connection_string, ClusterOptions(
+    PasswordAuthenticator(username, password), enable_compression=True, show_queries=False))
 # [Your code to interact with the cluster]
 ----
 
@@ -193,9 +193,9 @@ Timeout settings are configured using an instance of `ClusterTimeoutOptions` or 
 
 [source,python]
 ----
-timeout_options=ClusterTimeoutOptions(kv_timeout=timedelta(seconds=5), query_timeout=timedelta(seconds=10))
-options=ClusterOptions(PasswordAuthenticator('username', 'password'), timeout_options=timeout_options)
-cluster.connect('couchbase://host',options)
+timeout_options = ClusterTimeoutOptions(kv_timeout=timedelta(seconds=5), query_timeout=timedelta(seconds=10))
+options = ClusterOptions(PasswordAuthenticator('username', 'password'), timeout_options=timeout_options)
+cluster = Cluster.connect('couchbase://host', options)
 ----
 
 Name: *Bootstrap Timeout*::
@@ -344,9 +344,9 @@ Tracing settings are configured using an instance of `ClusterTracingOptions` or 
 
 [source,python]
 ----
-tracing_options=ClusterTimeoutOptions(tracing_threshold_kv=timedelta(milliseconds=5), tracing_threshold_query=timedelta(milliseconds=10))
-options=ClusterOptions(PasswordAuthenticator('username', 'password'), tracing_options=tracing_options)
-cluster.connect('couchbase://host',options)
+tracing_options = ClusterTracingOptions(tracing_threshold_kv=timedelta(milliseconds=5), tracing_threshold_query=timedelta(milliseconds=10))
+options = ClusterOptions(PasswordAuthenticator('username', 'password'), tracing_options=tracing_options)
+cluster = Cluster.connect('couchbase://host', options)
 ----
 
 Name: *Tracing Enabled*::
@@ -481,15 +481,15 @@ Logging Meter Emit Interval.
 === Transaction Config
 
 // TODO:  all options need better descriptions + default values
-Tracing settings are configured using an instance of `TransactionConfig`.
+Transaction settings are configured using an instance of `TransactionConfig`.
 
 .Creating a new `TransactionConfig` instance:
 
 [source,python]
 ----
-transaction_config=TransactionConfig(durability=ServerDurability(DurabilityLevel.MAJORITY), kv_timeout=timedelta(seconds=10))
-options=ClusterOptions(PasswordAuthenticator('username', 'password'), transaction_config=transaction_config)
-cluster.connect('couchbase://host',options)
+transaction_config = TransactionConfig(durability=ServerDurability(DurabilityLevel.MAJORITY), timeout=timedelta(seconds=10))
+options = ClusterOptions(PasswordAuthenticator('username', 'password'), transaction_config=transaction_config)
+cluster = Cluster.connect('couchbase://host', options)
 ----
 
 Name: *Transaction Durability Level*::
@@ -510,23 +510,17 @@ Default:  `None`
 +
 Transaction Cleanup Window.
 
-Name: *Transaction Key-Value Timeout*::
+Name: *Transaction Timeout*::
 Options Class: `TransactionConfig`
 +
-Parameter: `kv_timeout: Optional[timedelta]`
+Parameter: `timeout: Optional[timedelta]`
 +
-Default:  `None`
+Default:  `timedelta(seconds=15)`
 +
-Transaction Key-Value Timeout.
-
-Name: *Transaction Expiration Time*::
-Options Class: `TransactionConfig`
+The maximum time a transaction may run, across all its attempts, before it expires.
 +
-Parameter: `expiration_time: Optional[timedelta]`
-+
-Default:  `None`
-+
-Transaction Expiration Time.
+`expiration_time` is deprecated in favor of `timeout`.
+`kv_timeout` is deprecated and has no effect; transactions use the cluster's `kv_durable_timeout`.
 
 Name: *Transaction Cleanup Lost Attempts*::
 Options Class: `TransactionConfig`
@@ -546,10 +540,10 @@ Default:  `None`
 +
 Transaction Cleanup Client Attempts.
 
-Name: *Transaction Custom Metadata Collection*::
+Name: *Transaction Metadata Collection*::
 Options Class: `TransactionConfig`
 +
-Parameter: `custom_metadata_collection: Optional[Collection]`
+Parameter: `metadata_collection: Optional[TransactionKeyspace]`
 +
 Default:  `None`
 +

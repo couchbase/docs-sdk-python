@@ -35,12 +35,18 @@ We also include the `expiry` parameter, which will automatically delete the docu
 
 There are many ways this can and could be improved upon for real world use.
 What happens in the case of a cache miss?
-With this code, we handle the `DocumentNotFoundException` and respond with a HTTP 404.
+The `GET` endpoint above handles the `DocumentNotFoundException` and responds with a HTTP 404, which suits a cache that callers fill themselves.
+
+A read-through cache fills itself instead.
+On a miss, it fetches the value from the system of record, stores it in Couchbase with the same `expiry`, and returns it, so the next request for that key is a cache hit:
 
 [source,python]
 ----
-include::devguide:example$python/caching_flask.py[tag=get]
+include::devguide:example$python/caching_flask.py[tag=cache-miss]
 ----
+
+`fetch_from_source` stands in for whatever the cache sits in front of, such as a relational database or a slower service.
+A failure to write the value to the cache is logged rather than returned, because the caller already has the data it asked for.
 
 == Error Handling
 

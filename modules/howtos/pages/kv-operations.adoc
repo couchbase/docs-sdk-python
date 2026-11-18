@@ -314,7 +314,7 @@ include::devguide:example$python/kv_range_scan.py[tag=range_scan_all_document_id
 == Scoped KV Operations
 
 It is possible to perform scoped key-value operations on named
-xref:{version-server}@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release 7.0_. See the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#collection-object[API docs] for more information.
+xref:{version-server}@server:learn:data/scopes-and-collections.adoc[`Collections`] _with Couchbase Server release 7.0_. See the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/collection.html[API docs] for more information.
 
 
 Here is an example showing an upsert in the `users` collection, which lives in the `travel-sample.tenant_agent_00` keyspace:
@@ -327,7 +327,7 @@ include::devguide:example$python/kv_operations.py[tag=named-collection-upsert,in
 
 == Additional Resources
 
-A https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/caching_flask.py[complete Caching example] for the Python 3.x SDK, using Flask, is xref:caching-example.adoc[worked through here].
+A https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/caching_flask.py[complete Caching example] using Flask is xref:caching-example.adoc[worked through here].
 
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
 

@@ -21,66 +21,92 @@ At its simplest, `ping` provides information about the current state of the conn
 include::devguide:example$python/health_check.py[tag=cluster_ping_latency]
 ----
 
-This will print latency for each socket (endpoint) connected per service.  More information is available on the classess.  Usually though, you want to regularly perform the ping and then print the results into the log.  This is made easy by the `as_json` method:
+This will print latency for each socket (endpoint) connected per service.  Usually though, you want to regularly perform the ping and then print the results into the log.  This is made easy by the `as_json` method:
 
 [source,python]
 ----
 include::devguide:example$python/health_check.py[tag=cluster_ping_as_json]
 ----
 
-Which returns a `PingResult` object, encapsulating a payload similar to this:
-// TODO -- multiple nodes
+`as_json` returns the report as a JSON string.
+On a four-node cluster, trimmed here to one endpoint per service, it looks like this:
+
 [source,json]
 ----
 {
-    "version": 1,
-    "id": "0x7fecb15526d0/e9097b2135f47b2d",
-    "sdk": "libcouchbase/3.1.0_2_ga1e9e1ca91 PYCBC/3.1.0.dev5+g207fb829",
+    "version": 2,
+    "id": "c1dc89-34cc-e543-2273-4a2239f9d52e34",
+    "sdk": "cxx/1.5.1/33c90f2;Darwin/arm64",
     "services": {
-        "cbas": [
+        "key_value": [
             {
-                "id": "0x7fec91445c40",
-                "latency_us": 1583,
-                "local": "127.0.0.1:51749",
-                "remote": "127.0.0.1:8095",
-                "state": "ok"
+                "type": "key_value",
+                "id": "1b4d79-f295-1a47-f700-59a1bb64c56985",
+                "remote": "192.0.2.13:11210",
+                "local": "192.0.2.1:64836",
+                "state": "ok",
+                "bucket": "beer-sample",
+                "latency_us": 586
             }
         ],
-        "fts": [
+        "query": [
             {
-                "id": "0x7feca14a60e0",
-                "latency_us": 1252,
-                "local": "127.0.0.1:51748",
-                "remote": "127.0.0.1:8094",
-                "state": "ok"
+                "type": "query",
+                "id": "7fe634-1ff7-a241-9420-c744dbac8dbe7c",
+                "remote": "192.0.2.11:8093",
+                "local": "192.0.2.1:64863",
+                "state": "ok",
+                "latency_us": 1521
             }
         ],
-        "kv": [
+        "analytics": [
             {
-                "id": "0x7fec9152fe30",
-                "latency_us": 1554,
-                "local": "127.0.0.1:51745",
-                "namespace": "default",
-                "remote": "127.0.0.1:11210",
-                "state": "ok"
+                "type": "analytics",
+                "id": "b5eb93-9fcd-dd43-06de-49293ff6705298",
+                "remote": "192.0.2.13:8095",
+                "local": "192.0.2.1:64869",
+                "state": "ok",
+                "latency_us": 2790
             }
         ],
-        "n1ql": [
+        "search": [
             {
-                "id": "0x7fecb1454090",
-                "latency_us": 1711,
-                "local": "127.0.0.1:51746",
-                "remote": "127.0.0.1:8093",
-                "state": "ok"
+                "type": "search",
+                "id": "f57a51-1c32-d748-d99a-fc10d526259f1e",
+                "remote": "192.0.2.12:8094",
+                "local": "192.0.2.1:64866",
+                "state": "ok",
+                "latency_us": 1959
             }
         ],
-        "views": [
+        "view": [
             {
-                "id": "0x7fecb1443400",
-                "latency_us": 1829,
-                "local": "127.0.0.1:51747",
-                "remote": "127.0.0.1:8092",
-                "state": "ok"
+                "type": "view",
+                "id": "e7b621-7f54-1945-2f92-611848e41ca4e4",
+                "remote": "192.0.2.10:8092",
+                "local": "192.0.2.1:64861",
+                "state": "ok",
+                "latency_us": 1539
+            }
+        ],
+        "management": [
+            {
+                "type": "management",
+                "id": "ebaae3-13b9-8c44-34c1-106ffd57b02395",
+                "remote": "192.0.2.10:8091",
+                "local": "192.0.2.1:64862",
+                "state": "ok",
+                "latency_us": 1549
+            }
+        ],
+        "eventing": [
+            {
+                "type": "eventing",
+                "id": "30bd2e-f529-734b-263a-c3100c81d0e1c1",
+                "remote": "192.0.2.13:8096",
+                "local": "192.0.2.1:64871",
+                "state": "ok",
+                "latency_us": 2322
             }
         ]
     }
@@ -101,7 +127,7 @@ By default the SDK will ping all services available on the target cluster.  You 
 include::devguide:example$python/health_check.py[tag=cluster_ping_n1ql]
 ----
 
-In this example, on the Query service is included in the ping report.
+In this example, only the Query service is included in the ping report.
 
 Note the ping is available both on the cluster and bucket level.  The difference is that the cluster level, the key-value service might not be included based on the Couchbase Server version in use.  If you want to make sure the key-value service is included, perform it at the bucket level.
 
@@ -114,41 +140,85 @@ Note the ping is available both on the cluster and bucket level.  The difference
 include::devguide:example$python/health_check.py[tag=cluster_diagnostics]
 ----
 
-Which will print the diagnostics result as a json string.  For instance, on a single node cluster that has had {sqlpp} (formerly N1QL) queries and kv operations
-executed, you will see something like:
+Which will print the diagnostics result as a JSON string.
+On the same cluster, after the pings above and trimmed to one endpoint per service, it looks like this:
 
 [source,json]
 ----
 {
-    "version": 1,
-    "id": "0x7f8e8d464350",
-    "sdk": "libcouchbase/3.1.0_2_ga1e9e1ca91 PYCBC/3.1.0.dev5+g207fb829",
+    "version": 2,
+    "id": "1163ff-be50-e643-5276-885878aa787126",
+    "sdk": "cxx/1.5.1/33c90f2;Darwin/arm64",
     "services": {
-        "kv": [
+        "key_value": [
             {
-                "id": "c89f4c25513f1fb3",
-                "last_activity_us": 3181,
-                "local": "127.0.0.1:60360",
-                "remote": "127.0.0.1:11210",
-                "state": "connected"
+                "type": "key_value",
+                "id": "3ab0e4-a92f-3346-7288-1ed8fe3d2f9bb2",
+                "remote": "192.0.2.10:11210",
+                "local": "192.0.2.1:64834",
+                "state": "connected",
+                "bucket": "beer-sample",
+                "last_activity_us": 3755
             }
         ],
-        "config": [
+        "query": [
             {
-                "id": "0x7f8e9d53e440",
-                "last_activity_us": 163988,
-                "local": "127.0.0.1:60148",
-                "remote": "127.0.0.1:11210",
-                "state": "connected"
+                "type": "query",
+                "id": "58e17c-4dbd-934c-1e3c-3346ce8c0d5cf8",
+                "remote": "192.0.2.11:8093",
+                "local": "192.0.2.1:64839",
+                "state": "connected",
+                "last_activity_us": 123176
             }
         ],
-        "n1ql": [
+        "analytics": [
             {
-                "id": "0x7f8e5d44d8e0",
-                "last_activity_us": 354,
-                "local": "127.0.0.1:60162",
-                "remote": "127.0.0.1:8093",
-                "state": "connected"
+                "type": "analytics",
+                "id": "45cd70-2981-1c47-13ca-41db6c9bf49594",
+                "remote": "192.0.2.13:8095",
+                "local": "192.0.2.1:64845",
+                "state": "connected",
+                "last_activity_us": 123161
+            }
+        ],
+        "search": [
+            {
+                "type": "search",
+                "id": "8dbba4-14b7-e146-46e6-f277c3f2628b19",
+                "remote": "192.0.2.12:8094",
+                "local": "192.0.2.1:64842",
+                "state": "connected",
+                "last_activity_us": 123171
+            }
+        ],
+        "view": [
+            {
+                "type": "view",
+                "id": "180be2-c09a-3644-1f62-0874587699f949",
+                "remote": "192.0.2.10:8092",
+                "local": "192.0.2.1:64837",
+                "state": "connected",
+                "last_activity_us": 123220
+            }
+        ],
+        "management": [
+            {
+                "type": "management",
+                "id": "db44cb-782a-8642-fb03-44e3faf7a20363",
+                "remote": "192.0.2.10:8091",
+                "local": "192.0.2.1:64838",
+                "state": "connected",
+                "last_activity_us": 123192
+            }
+        ],
+        "eventing": [
+            {
+                "type": "eventing",
+                "id": "fafeda-d563-0849-96ba-90c70a8b85a554",
+                "remote": "192.0.2.13:8096",
+                "local": "192.0.2.1:64847",
+                "state": "connected",
+                "last_activity_us": 123166
             }
         ]
     }
@@ -158,11 +228,11 @@ executed, you will see something like:
 Because it is passive, diagnostics are only available at the `Cluster` level and cover everything in the current SDK state. Also, because it is not doing any I/O you cannot proactively filter the list of services that are returned, all you need to do is look only at the ones that are interesting to you.
 
 A `DiagnosticsResult` has one interesting property over a ping result: It provides a cumulative `ClusterState` through the `state` property. 
-The state can be `ONLINE`, `DEGRADED` or `OFFLINE`. This allows to give a single, although simplistic, view on how your cluster is doing from a client point of view. 
+The state can be `ClusterState.Online`, `ClusterState.Degraded` or `ClusterState.Offline`. This allows to give a single, although simplistic, view on how your cluster is doing from a client point of view. 
 The state is determined as follows:
 
- * If at least one socket is open and all of them are connected, it is `ONLINE`
- * If at least one is connected but not all are, it is `DEGRADED`
- * If none are connected, it is `OFFLINE`
+ * If at least one socket is open and all of them are connected, it is `Online`
+ * If at least one is connected but not all are, it is `Degraded`
+ * If none are connected, it is `Offline`
 
 Of course you can iterate over the individual states and apply a different algorithm if needed.
