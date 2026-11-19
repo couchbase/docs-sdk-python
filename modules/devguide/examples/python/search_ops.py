@@ -17,8 +17,8 @@ scope = bucket.scope('inventory')
 collection = scope.collection('hotel')
 
 try:
-    result = cluster.search_query('travel-sample-index',
-                                  search.QueryStringQuery('Paris'))
+    result = cluster.search('travel-sample-index',
+                            search.SearchRequest.create(search.QueryStringQuery('Paris')))
 
     for row in result.rows():
         print(f'Found row: {row}')
@@ -32,9 +32,9 @@ except CouchbaseException as ex:
 # end::search_basic_example[]
 
 # tag::search_result[]
-result = cluster.search_query('travel-sample-index',
-                              search.PrefixQuery('swim'),
-                              SearchOptions(fields=['description']))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.PrefixQuery('swim')),
+                        SearchOptions(fields=['description']))
 
 for row in result.rows():
     print(f'Score: {row.score}')
@@ -45,48 +45,48 @@ for row in result.rows():
 # end::search_result[]
 
 # tag::limit_and_skip[]
-result = cluster.search_query('travel-sample-index',
-                              search.TermQuery('swanky'),
-                              SearchOptions(limit=4, skip=3))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.TermQuery('swanky')),
+                        SearchOptions(limit=4, skip=3))
 # end::limit_and_skip[]
 
 # tag::scan_consistency[]
-result = cluster.search_query('travel-sample-index',
-                              search.TermQuery('swanky'),
-                              SearchOptions(scan_consistency=SearchScanConsistency.NOT_BOUNDED))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.TermQuery('swanky')),
+                        SearchOptions(scan_consistency=SearchScanConsistency.NOT_BOUNDED))
 # end::scan_consistency[]
 
 # tag::ryow[]
 res = collection.upsert(f'hotel_example-123456', {'description': 'swanky'})
 ms = MutationState(res)
-result = cluster.search_query('travel-sample-index',
-                              search.QueryStringQuery('swanky'),
-                              SearchOptions(consistent_with=ms))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.QueryStringQuery('swanky')),
+                        SearchOptions(consistent_with=ms))
 # end::ryow[]
 
 # tag::highlight[]
-result = cluster.search_query('travel-sample-index',
-                              search.TermQuery('downtown'),
-                              SearchOptions(highlight_style=HighlightStyle.Html,
-                                            highlight_fields=['description', 'name']))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.TermQuery('downtown')),
+                        SearchOptions(highlight_style=HighlightStyle.Html,
+                                      highlight_fields=['description', 'name']))
 # end::highlight[]
 
 for row in result.rows():
     print(f'Fragments: {row.fragments}')
 
 # tag::sort[]
-result = cluster.search_query('travel-sample-index',
-                              search.TermQuery('downtown'),
-                              SearchOptions(sort=['_score', 'description']))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.TermQuery('downtown')),
+                        SearchOptions(sort=['_score', 'description']))
 # end::sort[]
 
 # tag::facets[]
 facet_name = 'activity'
 facet = TermFacet('activity')
 query = TermQuery('home')
-q_res = cluster.search_query('travel-sample-index',
-                            query,
-                            SearchOptions(limit=10, facets={facet_name: facet}))
+q_res = cluster.search('travel-sample-index',
+                       search.SearchRequest.create(query),
+                       SearchOptions(limit=10, facets={facet_name: facet}))
 
 for row in q_res.rows():
     print(f'Found row: {row}')
@@ -95,15 +95,15 @@ print(f'facets: {q_res.facets()}')
 # end::facets[]
 
 # tag::fields[]
-result = cluster.search_query('travel-sample-index',
-                              search.TermQuery('swanky'),
-                              SearchOptions(fields=['name', 'description']))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.TermQuery('swanky')),
+                        SearchOptions(fields=['name', 'description']))
 # end::fields[]
 
 # tag::collections[]
-result = cluster.search_query('travel-sample-index',
-                              search.QueryStringQuery('San Francisco'),
-                              SearchOptions(collections=['landmark', 'airport']))
+result = cluster.search('travel-sample-index',
+                        search.SearchRequest.create(search.QueryStringQuery('San Francisco')),
+                        SearchOptions(collections=['landmark', 'airport']))
 # end::collections[]
 
 # this should come from an external source, such as an embeddings API

@@ -169,8 +169,8 @@ include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=index-mana
 
 === QueryIndexManager
 
-The `QueryIndexManager` interface contains the means for managing indexes used for queries.
-It can be instantiated through the `Cluster.query_indexes()` method.
+The `CollectionQueryIndexManager` interface contains the means for managing the query indexes on a collection.
+It can be instantiated through the `Collection.query_indexes()` method.
 
 [source,python]
 ----
@@ -179,8 +179,7 @@ include::devguide:example$python/query_index_manager.py[tag=creating-index-mgr,i
 
 include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=query-index-manager-intro]
 
-The example below shows how to create a simple primary index, restricted to a named scope and collection, by calling the `create_primary_index()` method.
-Note that you cannot provide a named scope or collection separately, both must be set for the `QueryIndexManager` to create an index on the relevant keyspace path. 
+The example below shows how to create a simple primary index on the collection, by calling the `create_primary_index()` method.
 
 .Creating a primary index
 
@@ -205,7 +204,6 @@ include::devguide:example$python/query_index_manager.py[tag=secondary,indent=0]
 ----
 
 The `create_index()` method requires an index name to be provided, along with the fields to create the index on.
-Like the _primary_ index, you can restrict a _secondary_ index to a named scope and collection by passing some options.
 
 Indexes can easily take a long time to build if they contain a lot of documents.
 In these situations, it is more ideal to build indexes in the background.

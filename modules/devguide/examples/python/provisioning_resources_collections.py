@@ -7,7 +7,6 @@ from couchbase.exceptions import (
     CollectionNotFoundException,
     ScopeAlreadyExistsException,
     ScopeNotFoundException)
-from couchbase.management.collections import CollectionSpec
 from couchbase.management.users import User, Role
 
 
@@ -79,12 +78,8 @@ scope = retry(get_scope, coll_manager, "example-scope")
 print("Found scope: {}".format(scope.name))
 
 # tag::create_collection[]
-collection_spec = CollectionSpec(
-    "example-collection",
-    scope_name="example-scope")
-
 try:
-    collection = coll_manager.create_collection(collection_spec)
+    coll_manager.create_collection("example-scope", "example-collection")
 except CollectionAlreadyExistsException as ex:
     print(ex)
 # end::create_collection[]
@@ -98,7 +93,7 @@ print("Found collection: {}".format(collection.name))
 
 # tag::drop_collection[]
 try:
-    coll_manager.drop_collection(collection_spec)
+    coll_manager.drop_collection("example-scope", "example-collection")
 except CollectionNotFoundException as ex:
     print(ex)
 # end::drop_collection[]

@@ -1,7 +1,7 @@
 import uuid
 
 from couchbase.mutation_state import MutationState
-from couchbase.cluster import QueryScanConsistency
+from couchbase.n1ql import QueryScanConsistency
 # tag::n1ql_basic_example[]
 from couchbase.cluster import Cluster
 from couchbase.options import ClusterOptions, QueryOptions

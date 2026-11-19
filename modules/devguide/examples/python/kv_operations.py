@@ -5,15 +5,16 @@ from couchbase.durability import (Durability, ServerDurability,
 from couchbase.exceptions import CouchbaseException, CASMismatchException
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
-from couchbase.collection import (
+from couchbase.options import (
     InsertOptions,
     ReplaceOptions,
     UpsertOptions,
     GetOptions,
     RemoveOptions,
     IncrementOptions,
-    DecrementOptions)
-from couchbase.collection import DeltaValue, SignedInt64
+    DecrementOptions,
+    DeltaValue,
+    SignedInt64)
 
 cluster = Cluster.connect(
     "couchbase://your-ip",
@@ -134,7 +135,7 @@ result = collection.touch("document-key", timedelta(seconds=10))
 
 # tag::get_expiry[]
 result = collection.get("document-key", GetOptions(with_expiry=True))
-print("Expiry of result: {}".format(result.expiryTime))
+print("Expiry of result: {}".format(result.expiry_time))
 # end::get_expiry[]
 
 # tag::get_and_touch[]
