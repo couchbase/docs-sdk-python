@@ -92,8 +92,12 @@ couchbases://127.0.0.1?kv_timeout=2.5s&log_redaction=true
 The full list of recognized parameters is documented in the client settings reference.
 Any client setting with a system property name may also be specified as a connection string parameter.
 
+Boolean parameters take `true`, `yes` or `on`, or `false`, `no` or `off`, in any case.
+Any other value raises `InvalidArgumentException`, naming the parameter.
+
 A connection string may optionally be prefixed by either `"couchbase://"` or `"couchbases://"`,
 the latter signifying a TLS connection.
+A `"couchbase2://"` prefix connects through the <<cloud-native-gateway,Cloud Native Gateway>>.
 
 
 === Connection Options
@@ -297,19 +301,28 @@ NOTE: Any TLS certificates must be set up at the point where the connections are
 
 
 
-////
-// Uncomment once supported:
-
+[#cloud-native-gateway]
 == Cloud Native Gateway
 
 include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=cng]
+
+[source,python]
+----
+from couchbase.auth import PasswordAuthenticator
+from couchbase.cluster import Cluster
+from couchbase.options import ClusterOptions
+
+cluster = Cluster.connect('couchbase2://your-gateway',
+                          ClusterOptions(PasswordAuthenticator('username', 'password')))
+----
 
 
 === Limitations
 
 
 include::{version-common}@sdk:shared:partial$managing-connections.adoc[tag=cng-limitations]
-////
+
+An operation that is not available over `couchbase2://` raises `FeatureUnavailableException`.
 
 
 
@@ -359,40 +372,6 @@ Proceeding with normal bootstrap.
 
 
 
-////
-
-== Cloud Native Gateway
-
-
-Couchbase's next generation connection protocol, introduced in Scala SDK 1.5 and Couchbase Autonomous Operator 2.6.1, can be enabled simply by changing the connection string to `couchbase2://` but there are a few differences to be aware of, described <<#limitations,below>>.
-// Couchbase's next generation connection protocol, introduced in Scala SDK 1.5 and Couchbase Autonomous Operator 2.6.1, can be enabled simply by changing the connection string to `couchbase2://` but there are a few differences to be aware of, described <<#limitations,below>>.
-
-The protocol implements a gRPC-style interface between the SDK and Couchbase Server.
-(Only available with Couchbase Server running on Kubernetes or OpenShift, with a recent release of xref:operator::overview.adoc[Couchbase Autonomous Operator]: 2.6.1 onwards).
-
-
-=== Limitations
-
-The underlying protocol will not work with certain legacy features: MapReduce Views (a deprecated Service -- 
-use xref:howtos:sqlpp-queries-with-sdk.adoc[Query] instead) and 
-Memcached buckets (superseded by the improved xref:{server_version}@server:learn:buckets-memory-and-storage/buckets.adoc#bucket-types[Ephemeral Buckets]).
-
-The following are not currently implemented over the `couchbase2://` protocol:
-
-* Authentication by client certificate.
-* Multi-document ACID transactions.
-* Analytics service.
-* Health Check.
-
-There are some different behaviors seen with this protocol:
-
-* Some config options are unsupported -- see the xref:ref:client-settings.adoc#cloud-native-gateway[Settings page].
-* The SDK will poll the gRPC channels until they are in a good state, or return an error, or timeout while waiting -- in our standard protocol there is an option of setting `waitUntilReady()` for just certain services to become available.
-* Some error codes are more generic -- in cases where the client would not be expected to need to take specific action -- but should cause no problem, unless you have written code looking at individual strings within the error messages.
-* Although documents continue to be stored compressed by Couchbase Server, they will not be transmitted in compressed form (to and from the client) over the wire, using `couchbase2://`.
-
-
-////
 
 
 
