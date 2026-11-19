@@ -22,6 +22,334 @@ The full installation instructions that were previously on this page can now be 
 
 
 [#latest-release]
+== Python SDK 4.7 Releases
+
+We always recommend using the latest version of the SDK, as it contains all of the latest security patches and support for new and upcoming features.
+All patch releases for each dot minor release should be API compatible, and safe to upgrade;
+any changes to expected behavior are noted in the release notes that follow.
+
+
+=== Version 4.7.0 (20 November 2026)
+
+Version 4.7.0 is a minor release of the fourth generation Python SDK.
+Most notably, this release adds support for the Couchbase Cloud Native Gateway through the `couchbase2://` scheme, ships the SDK as a typed package for static type checkers, publishes a new generated API reference, and validates the options passed to key-value, cluster and management operations.
+The SDK's internals have been restructured so that more than one wire protocol can sit behind the same public API; every documented import path continues to work.
+Python 3.11 is now the minimum supported version, and Python 3.15 is supported.
+
+[source,bash]
+----
+$ python3 -m pip install couchbase==4.7.0
+----
+
+*API Docs:* http://docs.couchbase.com/sdk-api/couchbase-python-client-4.7.0/
+
+
+==== Behavioral Changes
+
+*Installation*
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2074[PYCBC-2074]:
+Python 3.10 is no longer supported, and Python 3.11 is the minimum.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1854[PYCBC-1854]:
+The SDK now ships one stable-ABI (`abi3`) wheel per platform, covering Python 3.11 and later, in place of a wheel per Python version.
+
+* `grpcio`, `protobuf`, `googleapis-common-protos` and `certifi` are now installed with the SDK, because `couchbase2://` needs them.
+
+* `import couchbase` no longer loads the native extension or `ssl`, which now load with `couchbase.cluster`.
+
+*API*
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2045[PYCBC-2045]:
+An option keyword that an operation does not use now emits a warning instead of being silently dropped, and passing more than one options object to an operation other than a query or analytics query raises `TypeError` (see <<option-validation,option validation>> below).
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2046[PYCBC-2046]:
+The internal `logic` packages and undocumented, unused names are removed, and a leading underscore anywhere in a name or an import path marks it private.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2047[PYCBC-2047]:
+`CouchbaseException` takes `message` as its only positional argument, and several key-value statuses raise their own subclasses of `CouchbaseException`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2048[PYCBC-2048],
+https://jira.issues.couchbase.com/browse/PYCBC-1852[PYCBC-1852]:
+An enum value the SDK cannot name raises `InvalidArgumentException` when passed in, and reads as the enum's `UNKNOWN` member when Couchbase Server sends it.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2049[PYCBC-2049]:
+Search query, sort and facet classes raise `TypeError` on an unknown keyword, and `ValueError` on `None` for a required value.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2050[PYCBC-2050]:
+Query, analytics, search, view and range scan iterators stop after a row raises an error, and `acouchbase` streaming operations return the classes in the new `acouchbase.result` module.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2052[PYCBC-2052]:
+`QueryOptions(send_to_node=...)` is no longer sent as a named query parameter, and `ClusterOptions.get_valid_options()` returns a different shape and is deprecated.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1904[PYCBC-1904]:
+`search_query()` raises `InvalidArgumentException` when given a `SearchRequest`, which should be passed to `search()` instead.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2053[PYCBC-2053]:
+The group and user management options classes take keyword arguments only.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2054[PYCBC-2054]:
+`transactions.run()` raises a commit failure such as `TransactionCommitAmbiguous` instead of running the logic again.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2055[PYCBC-2055]:
+Sub-document values are encoded and decoded with the serializer instead of the transcoder.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1944[PYCBC-1944]:
+`acouchbase` no longer requires a selector event loop, and `acouchbase.get_event_loop()` and `couchbase_loop_factory()` are deprecated in favour of `asyncio.run()`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2026[PYCBC-2026]:
+Result, metadata and option classes print in the form `Name(...)`, and secrets are redacted from `repr()` and `str()`.
+
+
+==== Deprecations
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2056[PYCBC-2056]:
+Every deprecated API now emits `CouchbaseDeprecationWarning` at the caller's own line and is marked deprecated in the API reference, so a filter on `module=r'couchbase\..*'` no longer matches these warnings.
+
+
+==== New Features
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1988[PYCBC-1988]:
+Added support for the Couchbase Cloud Native Gateway through `couchbase2://` connection strings, covering key-value, query and search operations and bucket, collection, query index and search index management.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2073[PYCBC-2073]:
+A `couchbase2://` cluster logs its connection lifecycle and any gateway error detail the SDK does not recognise to the `couchbase.couchbase2` logger, and never logs credentials.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2069[PYCBC-2069]:
+Added support for Python 3.15.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2026[PYCBC-2026]:
+The SDK ships a `py.typed` marker, so type checkers such as mypy and pyright read its annotations.
+
+* [[option-validation]]https://jira.issues.couchbase.com/browse/PYCBC-2045[PYCBC-2045]:
+Added option validation, set to `ignore`, `warn` (the default) or `strict` with `ClusterOptions(option_validation=...)` or the `PYCBC_OPTION_VALIDATION` environment variable.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1936[PYCBC-1936]:
+Added `Collection.get_replica()`, to read a document from a specific replica.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1818[PYCBC-1818]:
+Added score fusion for hybrid search through the `scoring` search option and the new `couchbase.search_scoring` module.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1769[PYCBC-1769]:
+Added the `Resuming` eventing function status.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2040[PYCBC-2040]:
+`log_redaction` now also tags sensitive data in the SDK's own Python log output, not only in the {cpp} core's.
+
+
+==== Enhancements
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1946[PYCBC-1946]:
+Restructured the SDK so a second wire protocol can sit behind the same public API, with shared code under `couchbase.common`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2026[PYCBC-2026]:
+Published a new API reference generated from the docstrings, covering all three APIs.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1795[PYCBC-1795]:
+Completed the C-extension hardening started in 4.6.3, including GIL correctness, {cpp} exception boundaries and a move to the stable ABI.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1968[PYCBC-1968]:
+Reduced per-operation allocation in the result converters for key-value, query and search.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1876[PYCBC-1876],
+https://jira.issues.couchbase.com/browse/PYCBC-1877[PYCBC-1877],
+https://jira.issues.couchbase.com/browse/PYCBC-1881[PYCBC-1881],
+https://jira.issues.couchbase.com/browse/PYCBC-1883[PYCBC-1883],
+https://jira.issues.couchbase.com/browse/PYCBC-1884[PYCBC-1884],
+https://jira.issues.couchbase.com/browse/PYCBC-1886[PYCBC-1886],
+https://jira.issues.couchbase.com/browse/PYCBC-1887[PYCBC-1887],
+https://jira.issues.couchbase.com/browse/PYCBC-1888[PYCBC-1888],
+https://jira.issues.couchbase.com/browse/PYCBC-1893[PYCBC-1893],
+https://jira.issues.couchbase.com/browse/PYCBC-1895[PYCBC-1895],
+https://jira.issues.couchbase.com/browse/PYCBC-1896[PYCBC-1896],
+https://jira.issues.couchbase.com/browse/PYCBC-1907[PYCBC-1907]:
+Corrected type annotations across the SDK to match what it accepts and returns.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2052[PYCBC-2052]:
+Options that already worked are now declared in their signatures, such as `parent_span` on the key-value options and `trust_store_path` on `ClusterOptions`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2051[PYCBC-2051]:
+The integer types returned by query and analytics metrics compare equal to plain integers, and support ordering, hashing and addition.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2054[PYCBC-2054]:
+`TransactionConfig`, `TransactionOptions` and `TransactionQueryOptions` are `dict` subclasses, and `TransactionKeyspace` can be built with `TransactionKeyspace.from_collection()`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2055[PYCBC-2055]:
+`mutate_in()` accepts its specs from any iterable, including a generator.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2049[PYCBC-2049]:
+`ConjunctionQuery` and `DisjunctionQuery` accept a mix of queries and lists of queries.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2046[PYCBC-2046]:
+The deprecated 3.x option classes importable from `couchbase.collection` are subclasses of their `couchbase.options` classes, so `isinstance` checks against the canonical class succeed.
+
+
+==== Fixes
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2052[PYCBC-2052]:
+Options that were accepted and silently ignored now take effect, such as `lock_time` on `get_and_lock_multi()` and `user_agent_extra` on `ClusterOptions`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1922[PYCBC-1922]:
+`MutateInOptions` declares `expiry`, and `service_types` on `PingOptions` and `WaitUntilReadyOptions` accepts service names as strings as well as `ServiceType` members.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1981[PYCBC-1981]:
+Key-value operations reject a `cas` that is not an integer, and an expiry later than 2106-02-07T06:28:15Z, with `InvalidArgumentException`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1983[PYCBC-1983]:
+Durable mutations and counters use `ClusterTimeoutOptions.kv_durable_timeout`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1982[PYCBC-1982]:
+An `acouchbase` range scan no longer hangs the process when other operations are in flight.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1984[PYCBC-1984]:
+Scope-level query and analytics no longer raise `TypeError` when the bucket name contains a `.`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1985[PYCBC-1985]:
+A vector search with `VectorQueryCombination.OR` is sent as OR instead of AND.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1979[PYCBC-1979]:
+The `couchbase.transactions` logger no longer writes document bodies or query parameters at DEBUG, and no longer reads past the end of a document body.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1987[PYCBC-1987]:
+Fixed defects in transaction options, `acouchbase` cancellation, view options, query index and analytics management, and connection string timeouts.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1912[PYCBC-1912]:
+Eventing function metadata and source keyspaces read back with their bucket, scope and collection, and `View.from_json()` reads the view it is given.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1930[PYCBC-1930]:
+Request option getters across the query, search and view options no longer return `None`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2051[PYCBC-2051]:
+Key-value, query, analytics, search, diagnostics and cluster info results read correctly in cases that previously raised or returned wrong values.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1924[PYCBC-1924]:
+Zero-valued durations are reported in ping and diagnostics JSON instead of being dropped.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2049[PYCBC-2049]:
+Search queries, sorts and facets send the values that were set, and `SearchRowLocations` lookup methods work.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2050[PYCBC-2050]:
+An `acouchbase` streaming result that ends without its end marker raises `InternalSDKException` instead of hanging, and `cancel_scan()` works before a range scan is iterated.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2053[PYCBC-2053]:
+Bucket, collection, query index, user, analytics, search index and eventing function management no longer raise on valid input or drop settings.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1921[PYCBC-1921]:
+User management no longer drops roles or fields between the server and the caller.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1869[PYCBC-1869]:
+`BucketSettings` and `CreateBucketSettings` handle `conflict_resolution_type` the same way.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1938[PYCBC-1938]:
+Eventing function URL binding auth is no longer dropped, `lcb_timeout` is sent, and a bucket binding without `access` is read-write.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1901[PYCBC-1901]:
+The `txcouchbase` `ViewIndexManager` is reachable.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2054[PYCBC-2054]:
+Transactions log to the `couchbase.transactions` logger under both the blocking and asyncio APIs.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2070[PYCBC-2070]:
+A query run inside a transaction decodes its rows with the serializer set in `ClusterOptions` instead of the default JSON serializer.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2083[PYCBC-2083]:
+Boolean `ClusterOptions` keys in the connection string read `true`, `yes` and `on`, or `false`, `no` and `off`, in any case, as the {cpp} core does, and any other value raises `InvalidArgumentException` naming the key.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2047[PYCBC-2047]:
+An HTTP error whose body carries `errors` as a string raises the mapped SDK exception instead of `AttributeError`.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2044[PYCBC-2044]:
+Building from the source distribution embeds the Mozilla CA bundle.
+
+
+==== Underlying {cpp} SDK Core Changes
+
+The Couchbase {cpp} SDK core is updated to the 1.5.x branch.
+
+===== Behavioral Changes
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-838[CXXCBC-838]:
+TLS connections now verify the server's hostname against its certificate, so connecting to a host the certificate does not name fails the handshake.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-882[CXXCBC-882]:
+An HTTP 400 response the SDK does not otherwise recognise, from query, analytics, search, eventing or management, now raises `InvalidArgumentException`.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1002[CXXCBC-1002]:
+Application telemetry now reports the `_sum` of the HTTP service latency histograms in milliseconds, so dashboards and alerts built on the previous, too-low values need review.
+
+===== Security Fixes
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1072[CXXCBC-1072], https://jira.issues.couchbase.com/browse/CXXCBC-1106[CXXCBC-1106]:
+Names and values passed to management operations are encoded and escaped, so they can no longer change the meaning of the request.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-836[CXXCBC-836]:
+Bucket, scope and collection names are quoted and escaped in the statements analytics management composes.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-837[CXXCBC-837]:
+A malformed key-value response frame is rejected instead of being read past the end of the receive buffer.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-981[CXXCBC-981]:
+Replica reads and durability polling no longer read past a vBucket map row after replicas are added to a bucket.
+
+===== Fixes
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-984[CXXCBC-984], https://jira.issues.couchbase.com/browse/CXXCBC-1090[CXXCBC-1090], https://jira.issues.couchbase.com/browse/CXXCBC-1093[CXXCBC-1093]:
+A key-value operation no longer waits out its timeout when its retry is refused, its node cannot bootstrap, or the cluster closes during a retry backoff.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-846[CXXCBC-846], https://jira.issues.couchbase.com/browse/CXXCBC-852[CXXCBC-852], https://jira.issues.couchbase.com/browse/CXXCBC-853[CXXCBC-853]:
+Closing a cluster while a bucket is still opening completes the pending operations instead of leaving them, and the connections they hold, alive.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1032[CXXCBC-1032], https://jira.issues.couchbase.com/browse/CXXCBC-1034[CXXCBC-1034], https://jira.issues.couchbase.com/browse/CXXCBC-1046[CXXCBC-1046]:
+Fixed use-after-free and lost-body defects in HTTP connection shutdown and reuse.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1057[CXXCBC-1057]:
+A client certificate set with `Cluster.set_authenticator()` is used by the next HTTP request instead of only after pooled connections go idle.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-841[CXXCBC-841]:
+Creating and updating a bucket no longer fails against Couchbase Server 8.1.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1808[PYCBC-1808], https://jira.issues.couchbase.com/browse/CXXCBC-1049[CXXCBC-1049], https://jira.issues.couchbase.com/browse/CXXCBC-1059[CXXCBC-1059]:
+Query error 2120 raises `AuthenticationException`, and dropping a query index that does not exist raises `QueryIndexNotFoundException` whatever HTTP status the server returns.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1109[CXXCBC-1109]:
+Eventing management raises `EventingFunctionNotFoundException` when the server answers `ERR_APP_NOT_FOUND`.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-788[CXXCBC-788], https://jira.issues.couchbase.com/browse/CXXCBC-797[CXXCBC-797]:
+Fixed first-error tracking in `lookup_in()`, and path capture and failure reporting in `lookup_in_all_replicas()`.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-862[CXXCBC-862]:
+An unknown-collection response re-resolves the collection id instead of failing the operation.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-872[CXXCBC-872]:
+Fixed a memory leak in replica reads.
+
+* https://jira.issues.couchbase.com/browse/PYCBC-1980[PYCBC-1980], https://jira.issues.couchbase.com/browse/CXXCBC-865[CXXCBC-865], https://jira.issues.couchbase.com/browse/CXXCBC-874[CXXCBC-874]:
+Transactional `get_multi()` detects and resolves read skew and handles a per-document fetch error.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-847[CXXCBC-847], https://jira.issues.couchbase.com/browse/CXXCBC-868[CXXCBC-868], https://jira.issues.couchbase.com/browse/CXXCBC-873[CXXCBC-873], https://jira.issues.couchbase.com/browse/CXXCBC-1052[CXXCBC-1052], https://jira.issues.couchbase.com/browse/CXXCBC-1054[CXXCBC-1054], https://jira.issues.couchbase.com/browse/CXXCBC-1086[CXXCBC-1086]:
+Fixed transaction handling of JSON documents stored with non-JSON flags, attempt expiry on Windows, retry waits that blocked the IO thread, and query-mode rollbacks that find the transaction expired.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-1112[CXXCBC-1112]:
+The embedded Mozilla CA bundle carries every certificate of the current curl.se bundle.
+
+===== Enhancements
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-854[CXXCBC-854], https://jira.issues.couchbase.com/browse/CXXCBC-855[CXXCBC-855], https://jira.issues.couchbase.com/browse/CXXCBC-859[CXXCBC-859], https://jira.issues.couchbase.com/browse/CXXCBC-860[CXXCBC-860]:
+Reduced per-operation allocation, locking and syscalls on the key-value path.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-863[CXXCBC-863]:
+Lost-attempts transaction cleanup checks ATRs concurrently, so expired transactions are cleaned up within their window on a loaded node.
+
+* https://jira.issues.couchbase.com/browse/CXXCBC-876[CXXCBC-876]:
+A pooled HTTP connection closed by the server is detected at once, instead of being handed to the next request.
+
+
+==== Known Issues
+
+* https://jira.issues.couchbase.com/browse/PYCBC-2075[PYCBC-2075]:
+Inside a transaction, `get_multi()` does not see documents the same attempt replaced or removed.
+
+
 == Python SDK 4.6 Releases
 
 We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
