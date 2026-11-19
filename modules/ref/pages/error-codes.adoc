@@ -51,7 +51,7 @@ This range is reserved for sdk-specific error codes which are not standardized, 
 
 
 == Connecting to Cloud
-include::{version-server}=@sdk:shared:partial$error-ref.adoc[tag=cloud]
+include::{version-common}@sdk:shared:partial$error-ref.adoc[tag=cloud]
 
 .Couldn't look up
 [source,terminal]

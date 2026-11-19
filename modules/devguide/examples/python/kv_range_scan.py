@@ -37,11 +37,11 @@ from couchbase.kv_range_scan import PrefixScan
 result = collection.scan(PrefixScan('alice::'))
 for r in result:
     print(f'Found result, ID={r.id}, content={r.content_as[dict]}')
-# tag::range_scan_prefix[]
+# end::range_scan_prefix[]
 
 # tag::range_scan_sample[]
 from couchbase.kv_range_scan import SamplingScan
 result = collection.scan(SamplingScan(100))
 for r in result:
     print(f'Found result, ID={r.id}, content={r.content_as[dict]}')
-# tag::range_scan_sample[]
+# end::range_scan_sample[]

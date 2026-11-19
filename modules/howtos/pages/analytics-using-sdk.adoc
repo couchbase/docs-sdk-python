@@ -65,7 +65,7 @@ include::devguide:example$python/analytics_ops.py[tag=named_kwargs]
 include::devguide:example$python/analytics_ops.py[tag=named_options]
 ----
 
-The complete code for this page's example can be found at https://github.com/couchbase/docs-sdk-python/blob/release/4.6/modules/devguide/examples/python/analytics_ops.py[analytics_ops.py].
+The complete code for this page's example can be found at https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/analytics_ops.py[analytics_ops.py].
 What style you choose is up to you, for readability in more complex queries we generally recommend using the named parameters.
 Note that you cannot use parameters in all positions.
 If you put it in an unsupported place the server will respond with a `CompilationFailedException` or similar.

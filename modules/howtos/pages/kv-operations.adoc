@@ -9,7 +9,7 @@
 {description}
 Here we cover CRUD operations, document expiration, and optimistic locking with CAS.
 
-The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/howtos/examples/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/kv_operations.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these Collection operations.
 
 == Documents
 
@@ -327,7 +327,7 @@ include::devguide:example$python/kv_operations.py[tag=named-collection-upsert,in
 
 == Additional Resources
 
-A https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/caching_flask.py[complete Caching example] for the Python 3.x SDK, using Flask, is xref:caching-example.adoc[worked through here].
+A https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/caching_flask.py[complete Caching example] for the Python 3.x SDK, using Flask, is xref:caching-example.adoc[worked through here].
 
 Working on just a specific path within a JSON document will reduce network bandwidth requirements - see the xref:subdocument-operations.adoc[Sub-Document] pages.
 

@@ -13,7 +13,7 @@ Sub-Document operations may be quicker and more network-efficient than _full-doc
 
 Sub-Document operations are also atomic, in that if one Sub-Document mutation fails then all will, allowing safe modifications to documents with built-in concurrency control.
 
-The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/3.1/modules/howtos/examples/subdocument_ops.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these sub-document operations.
+The complete code sample used on this page can be downloaded from https://github.com/couchbase/docs-sdk-python/blob/release/{sdk_dot_minor}/modules/devguide/examples/python/subdocument_ops.py[the GitHub repo for the Python docs], from which you can see in context how to authenticate and connect to a Couchbase Cluster, then perform these sub-document operations.
 
 == Sub-documents
 
