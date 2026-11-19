@@ -239,7 +239,7 @@ This reduces memory footprint and helps prevent process crashes.
 
 == Async APIs
 
-In addition to the blocking API on `Cluster`, the SDK provides asyncio and Twisted APIs on `ACluster` or `TxCluster` respectively.
+In addition to the blocking API on `Cluster`, the SDK provides asyncio and Twisted APIs on `AsyncCluster` or `TxCluster` respectively.
 If you are in doubt of which API to use, we recommend looking at the asyncio API first.
 
 Simple queries with both asyncio and Twisted APIs look similar to the blocking one:

@@ -712,7 +712,7 @@ Also, the `unlock_gil` option is no longer available.
 ** All exceptions should be imported from `couchbase.exceptions`
 ** Enumerations and Classes related to operations should be imported from that operation's path.  For example, `QueryScanConsistency` should be imported from `couchbase.n1ql` (i.e. `from couchbase.n1ql import QueryScanConsistency`)
 * Changes to the async APIs (`acouchbase` and `txcouchbase`):
-** While multi-operations (`get_multi`, `upsert_multi`, etc.) still exist for the `couchbase` API, they have been removed from the async APIs (`acouchbase` and `txcouchbase`) as each of the async APIs are built with libraries that have mechanisms to handle multi/bulk operations (`asyncio` has `asyncio.gather(...)` and `Twisted` has `DeferredList(...)`).
+** While multi-operations (`get_multi`, `upsert_multi`, etc.) still exist for the `couchbase` API, they have been removed from the async APIs (`acouchbase` and `txcouchbase`) as each of the async APIs are built with libraries that have mechanisms to handle multi/bulk operations (`asyncio` has `asyncio.gather(...)` and `Twisted` has `DeferredList(...)`). See xref:howtos:concurrent-async-apis.adoc#asyncio-bulk-operations[Asyncio Bulk Operations] for an example.
 ** If using the `txcouchbase` API, the reactor that should be installed is the `asyncioreactor`.  Therefore, the `txcouchbase` package _needs_ to be imported prior to importing the `reactor`.  See example import below.
 
 [source,python,indent=0]

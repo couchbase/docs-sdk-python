@@ -122,7 +122,7 @@ See the xref:howtos:concurrent-async-apis.adoc[Async & Reactive APIs page] for f
 == Error Handling
 
 Best practices for error handling in Scala depend somewhat upon your choice of API: 
-blocking, asynchronous, or reactive, as covered in the xref:concurrent-async-apis.adoc[async and reactive API guide].
+blocking, asynchronous, or reactive, as covered in the xref:howtos:concurrent-async-apis.adoc[async and reactive API guide].
 That guide also covers how errors are actually returned (e.g. via `Try`, `Future`, or `Mono`) and handled.
 See also the xref:howtos:error-handling.adoc[error handling guide],
 which covers specific errors, along with a broader look at error handling strategies.
