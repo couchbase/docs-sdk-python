@@ -234,7 +234,7 @@ from couchbase_core.fulltext import Facet, TermFacet, DateFacet, NumericFacet
 #natag::searchcheck_args_kwargs[]
 search_result = cluster.search_query(
         "myindex",
-        facets={'searchstring':Facet(),queryString("searchstring")})#.)
+        facets={'searchstring': Facet()})
 if search_result.metadata().error_count()==0:
     # no errors present, so full data got returned
     pass

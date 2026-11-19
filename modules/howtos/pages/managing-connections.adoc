@@ -86,7 +86,7 @@ couchbase://nodeA.example.com,nodeB.example.com
 
 .Connection string with two parameters
 ----
-couchbases://127.0.0.1?compression=on&redaction=on
+couchbases://127.0.0.1?kv_timeout=2.5s&log_redaction=true
 ----
 
 The full list of recognized parameters is documented in the client settings reference.
@@ -99,7 +99,7 @@ the latter signifying a TLS connection.
 === Connection Options
 
 xref:ref:client-settings.adoc#cluster-options[Configuring client settings with `ClusterOptions()`] is the preferred option for configuring connection parameters.
-More details can be found in the https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/options.html#cluster[API reference].
+More details can be found in the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/common/options.html#couchbase.options.ClusterOptions[API reference].
 
 
 === Connection Lifecycle
@@ -271,7 +271,7 @@ If the external ports are not the default, you can specify custom ports through 
 
 [source,python]
 ----
-cluster = Cluster.connect("couchbase://127.0.0.1:1234", ClusterOptions(PasswordAuthenticator("Administrator", "password")));
+cluster = Cluster.connect("couchbase://127.0.0.1:1234", ClusterOptions(PasswordAuthenticator("Administrator", "password")))
 ----
 
 ////

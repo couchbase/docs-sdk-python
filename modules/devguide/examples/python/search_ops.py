@@ -107,8 +107,8 @@ result = cluster.search('travel-sample-index',
 # end::collections[]
 
 # this should come from an external source, such as an embeddings API
-query_vector = []
-another_query_vector = []
+query_vector = [0.014, -0.025, 0.062]
+another_query_vector = [0.031, 0.008, -0.047]
 
 # tag::vector_search_single[]
 # NOTE: new imports needed for vector search

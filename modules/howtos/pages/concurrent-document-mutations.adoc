@@ -4,30 +4,111 @@
 
 include::{version-common}@sdk:shared:partial$cas.adoc[tag=intro]
 
-include::{version-common}@sdk:shared:partial$cas.adoc[tag=demo]
+== Demonstration
 
-include::{version-common}@sdk:shared:partial$cas.adoc[tag=example]
+The examples on this page use these imports:
+
+[source,python]
+----
+include::devguide:example$python/concurrent_document_mutations.py[tag=imports,indent=0]
+----
+
+The following demonstrates how the server handles CAS.
+A use case for employing the CAS is when adding a new field to an existing document.
+At the application level, this requires the following steps:
+
+. Read entire document.
+. Perform modification locally.
+. Store new document to server.
+
+Assume the following two blocks of code are executing concurrently in different application instances:
+
+.CAS flow
+|===
+| Thread #1 | Thread #2
+
+a|
+[source,python]
+----
+include::devguide:example$python/concurrent_document_mutations.py[tag=demo_thread_1,indent=0]
+----
+a|
+[source,python]
+----
+include::devguide:example$python/concurrent_document_mutations.py[tag=demo_thread_2,indent=0]
+----
+|===
+
+Retrieving the document again:
+
+[source,python]
+----
+include::devguide:example$python/concurrent_document_mutations.py[tag=demo_result,indent=0]
+----
+
+prints:
+
+[source,console]
+----
+{'a_field': 'a_value', 'field2': 'value2'}
+----
+
+Note that `field1` is not present, even though the application inserted it into the document.
+Thread #2's replace ran after Thread #1's, but Thread #2 read the document before Thread #1 stored its change.
+Its local copy did not contain `field1`, so its replace overwrote the update made by Thread #1.
+
+[cols="1,4"]
+|===
+| 1
+| (#2): `new_doc = collection.get('docid').content_as[dict]`
+
+| 2
+| (#1): `new_doc = collection.get('docid').content_as[dict]`
+
+| 3
+| (#1): `new_doc['field1'] = 'value1'`
+
+| 4
+| (#2): `new_doc['field2'] = 'value2'`
+
+| 5
+| (#1): `collection.replace('docid', new_doc)`
+
+| 6
+| (#2): `collection.replace('docid', new_doc)`
+|===
+
+== Using CAS - Example
+
+In the prior example, we saw that concurrent updates to the same document may result in some updates being lost.
+This is not because Couchbase itself has lost the updates, but because the application was unaware of newer changes made to the document and inadvertently overwrote them.
+Passing the CAS from the read to the replace makes the server reject a replace based on a stale read:
+
+.CAS flow
+|===
+| Thread #1 | Thread #2
+
+a|
+[source,python]
+----
+include::devguide:example$python/concurrent_document_mutations.py[tag=cas_thread_1,indent=0]
+----
+
+The server's CAS matches `result.cas`, so the replace succeeds and the document gets a new CAS.
+a|
+[source,python]
+----
+include::devguide:example$python/concurrent_document_mutations.py[tag=cas_thread_2,indent=0]
+----
+
+The server's CAS no longer matches `result.cas`, so the replace raises `CasMismatchException`.
+|===
 
 include::{version-common}@sdk:shared:partial$cas.adoc[tag=errors]
 
 [source,python]
 ----
-def increment_visit_count(collection, user_id):
-    for _ in range(10):
-        # Get the current document contents
-        res = collection.get(user_id)
-
-        # Increment the visit count
-        user_doc = res.content_as[dict]
-        user_doc.visitCount+= 1
-
-        try:
-            # Attempt to replace the document using CAS
-            return collection.replace(user_id, user_doc, ReplaceOptions(cas=res.cas))
-        except (CASMismatchException, DocumentExistsException):
-            # if doc is locked, we get DocumentExistsException
-            # if doc was changed between the get and the replace, we get CASMismatchException
-            continue
+include::devguide:example$python/concurrent_document_mutations.py[tag=increment_visit_count,indent=0]
 ----
 
 Sometimes more logic is needed when performing updates, for example, if a property is mutually exclusive with another property; only one or the other can exist, but not both.
@@ -41,35 +122,10 @@ include::{version-common}@sdk:shared:partial$cas.adoc[tag=locking]
 
 [source,python]
 ----
-# get doc, lock for 10 seconds
-get_res = collection.get_and_lock('key', timedelta(seconds=10))
-
-locked_cas = get_res.cas
-
-# an example of simply unlocking the document:
-# collection.unlock('key', locked_cas);
-#
-
-# this should raise an exception
-try:
-    collection.replace('key', 'new value')
-except DocumentExistsException:
-    print("this is why we lock")
-
-
-# this will also fail as well, since a get while locked
-# will not return a valid CAS.
-try:
-    bad_cas = collection.get('key').cas
-    collection.replace('key', 'new value', ReplaceOptions(cas=bad_cas))
-except DocumentExistsException:
-    print("this is also why we lock")
-
-# this will succeed
-collection.replace('key', 'new value', ReplaceOptions(cas=locked_cas))
+include::devguide:example$python/concurrent_document_mutations.py[tag=locking,indent=0]
 ----
 
 The handler will unlock the item either via an explicit unlock operation ([.api]`unlock`) or implicitly via modifying the item with the correct CAS.
 
-If the item has already been locked, the server will respond with CasMismatch which means that the operation could not be executed temporarily, but may succeed later on.
+If the item has already been locked, the SDK raises `DocumentLockedException`, which means that the operation could not be executed temporarily, but may succeed later on.
 

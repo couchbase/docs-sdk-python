@@ -50,7 +50,14 @@ The Python Field-Level Encryption library works on the principle of `Encrypters`
 
 Here we’ll go through an example of setting up and using the Python Field-Level Encryption library.
 
-To begin we need to create a couple of keys, you should *not* use the `InsecureKeyring` other than for evaluation purposes and should keep your keys secure.
+The examples below use these imports:
+
+[source,python]
+----
+include::devguide:example$python/encrypting_using_sdk.py[tag=imports]
+----
+
+To begin we need to create a couple of keys, you should *not* use the `UnsecureKeyring` other than for evaluation purposes and should keep your keys secure.
 
 [source,python]
 ----
@@ -75,7 +82,14 @@ Once an `CryptoManager` has registered encrypters and decrypters, encryption/dec
 include::devguide:example$python/encrypting_using_sdk.py[tag=helper_methods]
 ----
 
-Next, create a document and a list of field specs specifying which fields in the document should be encrypted.  Then, save the encrypted document returned by the encryption helper method to Couchbase.
+Next, connect to the cluster and open the collection that will hold the documents:
+
+[source,python]
+----
+include::devguide:example$python/encrypting_using_sdk.py[tag=connect]
+----
+
+Then create a document and a list of field specs specifying which fields in the document should be encrypted, and save the encrypted document returned by the encryption helper method to Couchbase.
 
 [source,python]
 ----

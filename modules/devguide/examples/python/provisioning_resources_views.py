@@ -44,6 +44,6 @@ view_manager.publish_design_document("landmarks")
 # end::publish_view[]
 
 # tag::drop_view[]
-#view_manager.drop_design_document(
-#    "landmarks", DesignDocumentNamespace.DEVELOPMENT)
+view_manager.drop_design_document(
+    "landmarks", DesignDocumentNamespace.DEVELOPMENT)
 # end::drop_view[]

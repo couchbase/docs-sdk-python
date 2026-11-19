@@ -31,25 +31,25 @@ except CouchbaseException as ex:
 
 # tag::positional[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$1",
+    "SELECT ts.* FROM `travel-sample`.inventory.airport ts WHERE city=$1",
     "San Jose")
 # end::positional[]
 
 # tag::positional_options[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$1",
+    "SELECT ts.* FROM `travel-sample`.inventory.airport ts WHERE city=$1",
     QueryOptions(positional_parameters=["San Jose"]))
 # end::positional_options[]
 
 # tag::named_kwargs[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$city",
+    "SELECT ts.* FROM `travel-sample`.inventory.airport ts WHERE city=$city",
     city='San Jose')
 # end::named_kwargs[]
 
 # tag::named_options[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.airport WHERE city=$city",
+    "SELECT ts.* FROM `travel-sample`.inventory.airport ts WHERE city=$city",
     QueryOptions(named_parameters={"city": "San Jose"}))
 # end::named_options[]
 
@@ -100,20 +100,20 @@ res = collection.upsert(
 ms = MutationState(res)
 
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.airline LIMIT 10",
+    "SELECT ts.* FROM `travel-sample`.inventory.airline ts LIMIT 10",
     QueryOptions(consistent_with=ms))
 # end::ryow[]
 
 # tag::client_context_id[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.hotel LIMIT 10",
+    "SELECT ts.* FROM `travel-sample`.inventory.hotel ts LIMIT 10",
     QueryOptions(client_context_id="user-44{}".format(uuid.uuid4())))
 
 # end::client_context_id[]
 
 # tag::read_only[]
 result = cluster.query(
-    "SELECT ts.* FROM `travel-sample`.inventory.hotel LIMIT 10",
+    "SELECT ts.* FROM `travel-sample`.inventory.hotel ts LIMIT 10",
     QueryOptions(read_only=True))
 # end::read_only[]
 

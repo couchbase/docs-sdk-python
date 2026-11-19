@@ -25,15 +25,16 @@ Management operations in the Python SDK may be performed through several interfa
 
 To create or delete a bucket, call the bucket manager with the `buckets()` call on the cluster:
 
-[source,java]
+[source,python]
 ----
-Cluster cluster = Cluster.connect("127.0.0.1", "user", "123456");
-BucketManager manager = cluster.buckets();
-manager.createBucket(bucketSettings);
+from couchbase.management.buckets import BucketType, CreateBucketSettings
+
+bucket_manager = cluster.buckets()
+bucket_manager.create_bucket(
+    CreateBucketSettings(name='hello', ram_quota_mb=100, bucket_type=BucketType.COUCHBASE))
 ----
 
-// The `BucketSettings` can be created via a builder, [.api]`DefaultBucketSettings.builder()`.
-This class is also used to expose information about an existing bucket (`manager.getBucket(string)`) or to update an existing bucket (`manager.updateBucket(bucketSettings)`).
+The bucket manager also returns information about an existing bucket (`bucket_manager.get_bucket(name)`) and updates an existing bucket (`bucket_manager.update_bucket(settings)`).
 
 The default Collection & Default Scope will be used automatically.
 

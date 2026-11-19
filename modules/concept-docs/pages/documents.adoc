@@ -83,7 +83,9 @@ You can also retrieve _parts_ of documents using xref:subdocument-operations.ado
 
 [source,python]
 ----
-name, email = cb.retrieve_in('user:kingarthur', 'contact.name', 'contact.email')
+result = collection.lookup_in('user:kingarthur',
+                              [SD.get('contact.name'), SD.get('contact.email')])
+name, email = result.content_as[str](0), result.content_as[str](1)
 ----
 
 // Counters
@@ -92,22 +94,22 @@ include::{version-common}@sdk:shared:partial$documents.adoc[tag=counters1]
 
 [source,python]
 ----
->>> cb.counter('counter_id', delta=20, initial=100).value
-100L
->>> cb.counter('counter_id', delta=1).value
-101L
->>> cb.counter('counter_id', delta=-50).value
-51L
+binary = collection.binary()
+
+# Creates the counter at 100, since it does not exist yet
+binary.increment('counter_id', IncrementOptions(delta=DeltaValue(20), initial=SignedInt64(100))).content  # 100
+binary.increment('counter_id', IncrementOptions(delta=DeltaValue(1))).content  # 101
+binary.decrement('counter_id', DecrementOptions(delta=DeltaValue(50))).content  # 51
 ----
 
 include::{version-common}@sdk:shared:partial$documents.adoc[tag=counters2]
 
 [source,python]
 ----
-rv = cb.get('counter_id')
-value, cas = rv.value, rv.cas
+rv = collection.get('counter_id')
+value, cas = rv.content_as[int], rv.cas
 if should_increment_value(value):
-  cb.upsert('counter_id', value + increment_amount, cas=cas)
+    collection.replace('counter_id', value + increment_amount, ReplaceOptions(cas=cas))
 ----
 
 include::{version-common}@sdk:shared:partial$documents.adoc[tag=counters3]
@@ -117,7 +119,7 @@ include::{version-common}@sdk:shared:partial$documents.adoc[tag=counters3]
 
 The SDK provides a high-level abstraction over the simple `incr()`/`decr()` of Couchbase Server's memcached binary protocol, using `collections.binary()`.
 This enables you to work with counters using `get()` and `upsert()` operations -- allowing, _inter alia_, the use of durability options with the operations.
-You will find several ways of working with counters https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html?highlight=incr#couchbase.collection.BinaryCollection.increment[in the API docs].
+You will find several ways of working with counters https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/binary_collection.html#couchbase.binary_collection.BinaryCollection.increment[in the API docs].
 
 
 // Expiry

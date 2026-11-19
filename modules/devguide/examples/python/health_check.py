@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from couchbase.cluster import Cluster
 from couchbase.auth import PasswordAuthenticator
 from couchbase.options import PingOptions
@@ -22,6 +24,8 @@ cluster = Cluster.connect(
 # For Server versions 6.5 or later you do not need to open a bucket here
 bucket = cluster.bucket("beer-sample")
 collection = bucket.default_collection()
+# Let the bucket finish bootstrapping, or its endpoints ping as errors
+cluster.wait_until_ready(timedelta(seconds=5))
 
 # tag::cluster_ping_latency[]
 ping_result = cluster.ping()

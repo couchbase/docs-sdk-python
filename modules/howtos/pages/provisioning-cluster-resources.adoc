@@ -4,13 +4,13 @@
 :page-toclevels: 2
 
 // API refs
-:bucket-api-reference: pass:q[BucketManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.buckets[`Cluster.buckets()`]]
-:user-api-reference: pass:q[UserManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.users[`Cluster.users()`]]
-:query-api-reference: pass:q[QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.query_indexes[`Cluster.query_indexes()`]]
-:analytics-api-reference: pass:q[AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.query_indexes[`Cluster.analytics_ndexes()`]]
-:search-api-reference: pass:q[SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html#couchbase.cluster.Cluster.query_indexes[`Cluster.search_indexes()`]]
-:collection-api-reference: pass:q[CollectionManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html#couchbase.bucket.Bucket.collections[`Bucket.collections()`]]
-:view-api-reference: pass:q[ ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/couchbase_api/couchbase_core.html#couchbase.bucket.Bucket.collections[`Bucket.view_indexes()`]]
+:bucket-api-reference: pass:q[BucketManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/buckets.html#couchbase.management.buckets.BucketManager[`Cluster.buckets()`]]
+:user-api-reference: pass:q[UserManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/users.html#couchbase.management.users.UserManager[`Cluster.users()`]]
+:query-api-reference: pass:q[QueryIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/queries.html#couchbase.management.queries.QueryIndexManager[`Cluster.query_indexes()`]]
+:analytics-api-reference: pass:q[AnalyticsIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/analytics.html#couchbase.management.analytics.AnalyticsIndexManager[`Cluster.analytics_indexes()`]]
+:search-api-reference: pass:q[SearchIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/search.html#couchbase.management.search.SearchIndexManager[`Cluster.search_indexes()`]]
+:collection-api-reference: pass:q[CollectionManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/collections.html#couchbase.management.collections.CollectionManager[`Bucket.collections()`]]
+:view-api-reference: pass:q[ViewIndexManager -- https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/views.html#couchbase.management.views.ViewIndexManager[`Bucket.view_indexes()`]]
 
 // one-view-update-warning common partial
 :upsertDesignDocument: pass:q[`upsert_design_document` method]
@@ -98,7 +98,7 @@ include::devguide:example$python/provisioning_resources_buckets.py[tag=drop_buck
 
 include::{version-common}@sdk:shared:partial$flush-info-pars.adoc[tag=flush-intro]
 
-You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html#flushing-clearing-the-bucket[`flush_bucket()` method].
+You can flush a bucket in the SDK by using the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/management/buckets.html#couchbase.management.buckets.BucketManager.flush_bucket[`flush_bucket()` method].
 
 [source,python]
 ----
@@ -112,7 +112,7 @@ The `flush_bucket()` operation may fail if the bucket does not have flush enable
 
 The CollectionManager interface may be used to create and delete scopes and collections from the Couchbase cluster.
 It is instantiated through the `Bucket.collections()` method.
-Refer to the https://docs.couchbase.com/sdk-api/couchbase-python-client/api/couchbase.html[API documentation]
+Refer to the https://docs.couchbase.com/sdk-api/couchbase-python-client/reference/couchbase/index.html[API documentation]
 for further details.
 
 [source,python]
@@ -138,9 +138,7 @@ Finally, you can drop unneeded collections and scopes:
 
 [source,python]
 ----
-include::devguide:example$python/provisioning_resources_collections.py[tag=drop_collection]
-
-include::devguide:example$python/provisioning_resources_collections.py[tag=drop_scope]
+include::devguide:example$python/provisioning_resources_collections.py[tags=drop_collection;drop_scope]
 ----
 
 Note that the most minimal permissions to create and drop a Scope or Collection is

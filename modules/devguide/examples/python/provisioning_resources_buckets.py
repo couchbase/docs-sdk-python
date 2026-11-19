@@ -47,9 +47,9 @@ try:
             num_replicas=0,
             bucket_type=BucketType.COUCHBASE,
             conflict_resolution_type=ConflictResolutionType.SEQUENCE_NUMBER))
-# end::create_bucket[]
 except BucketAlreadyExistsException:
     print("hello bucket previously created.")
+# end::create_bucket[]
 
 # Creating a bucket can take some time depending on what
 # the cluster is doing, good to use retries

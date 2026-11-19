@@ -28,7 +28,7 @@ By default the metrics will be emitted every 10 minutes, but you can customize t
 metrics_opts = ClusterMetricsOptions(emit_interval=timedelta(minutes=5))
 
 authenticator = PasswordAuthenticator("Administrator", "password")
-cluster_opts = ClusterOptions(authenticator=auth, metrics_options=metrics_opts)
+cluster_opts = ClusterOptions(authenticator=authenticator, metrics_options=metrics_opts)
 
 cluster = Cluster.connect("couchbases://your-ip", cluster_opts)
 ----
