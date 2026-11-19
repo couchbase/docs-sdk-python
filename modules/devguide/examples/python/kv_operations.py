@@ -135,7 +135,7 @@ result = collection.touch("document-key", timedelta(seconds=10))
 
 # tag::get_expiry[]
 result = collection.get("document-key", GetOptions(with_expiry=True))
-print("Expiry of result: {}".format(result.expiryTime))
+print("Expiry of result: {}".format(result.expiry_time))
 # end::get_expiry[]
 
 # tag::get_and_touch[]
