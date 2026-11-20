@@ -30,10 +30,6 @@ Please make sure you run on one of the latest patch releases, since they provide
 |===
 | Python Version | Support EOL | Couchbase SDK Versions Supported
 
-| https://peps.python.org/pep-0619/#lifespan[3.10]
-| until 2026-10
-| from 4.0.0
-
 | https://peps.python.org/pep-0664/#lifespan[3.11]
 | until 2027-10
 | from 4.1.6

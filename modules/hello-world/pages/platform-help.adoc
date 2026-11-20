@@ -1,5 +1,5 @@
 = Setting Up Couchbase Python SDK with pyenv
-:description: pass:q[Discover how to get up and running developing applications with the Couchbase Python SDK 4.0+ using a virtual python installation]
+:description: pass:q[Discover how to get up and running developing applications with the Couchbase Python SDK 4.x using a virtual python installation]
 :page-toclevels: 2
 :navtitle: Setting Up the Python SDK
 
@@ -41,6 +41,9 @@ You should see output like this:
 ----
 Python 3.12.3
 ----
+
+The SDK needs Python {python-min-version} or later.
+If your system Python is older, install a newer one with a version manager such as https://github.com/pyenv/pyenv[pyenv^], or https://github.com/pyenv-win/pyenv-win[pyenv-win^] on Windows, and work in a virtual environment.
 
 // pyenv
 // vs
