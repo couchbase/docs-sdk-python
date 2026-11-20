@@ -109,8 +109,8 @@ The following table covers possible exceptions, and gives the version of the {na
 | Field Level Encryption 
 3+| From 3.2.0
 
-| Cloud Native Gateway  
-3+| Unsupported
+| Cloud Native Gateway
+3+| From 4.7.0
 |===
 
 <1> As part of the standard SDK {sqlpp} API, it should be compatible with all earlier versions of the SDK -- but it has not been tested.

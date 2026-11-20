@@ -598,6 +598,33 @@ When writing documents it sets the appropriate flags to indicate the document co
 +
 The transcoder configured here is just the default; it can be overridden on a per-operation basis.
 
+[#option-validation]
+Name: *Option Validation*::
+Options Class: `ClusterOptions`
++
+Parameter: `option_validation: Optional[OptionValidationMode | str]`
++
+Default:  `warn`, or the value of the `PYCBC_OPTION_VALIDATION` environment variable
++
+What the SDK does when an operation is given an option it does not carry, or one the protocol in use cannot act on.
+`OptionValidationMode` is in `couchbase.options`.
++
+* `warn` emits `CouchbaseOptionWarning` for an unknown option, naming the closest known option where there is one, and `CouchbaseApplicabilityWarning` for an option that changes nothing.
+* `strict` raises `InvalidArgumentException` instead.
+* `ignore` says nothing.
++
+The setting applies to the cluster's own options and to every operation under it.
+Any other value raises `InvalidArgumentException`.
++
+`PYCBC_OPTION_VALIDATION` sets the default for every cluster in the process that is not given `option_validation`.
+Those clusters read it at each operation, so a change takes effect on the next one.
+A value that is not one of the three is reported with `CouchbaseOptionWarning` and treated as `warn`.
++
+[source,console]
+----
+$ PYCBC_OPTION_VALIDATION=strict python -m pytest
+----
+
 // TODO:  Python SDK - will this be in 4.0 release?
 // Name: *Request Tracing Span*::
 // Options Class: `ClusterOptions`
@@ -635,6 +662,12 @@ The transcoder configured here is just the default; it can be overridden on a pe
 // Default:  `None`
 // +
 // User Agent Extra.
+
+[#cloud-native-gateway]
+=== Cloud Native Gateway
+
+Over a `couchbase2://` connection, a setting the gateway cannot act on changes nothing.
+Option validation reports each one with `CouchbaseApplicabilityWarning`, or raises `InvalidArgumentException` under `strict`; see <<option-validation,Option Validation>>.
 
 include::{version-common}@sdk:shared:partial$client-settings-wide-network.adoc[]
 

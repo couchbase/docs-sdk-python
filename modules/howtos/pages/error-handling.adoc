@@ -151,6 +151,31 @@ include::devguide:example$python/error_handling.py[tag=QueryErrorContext]
 
 Analytics works in an identical fashion, potentially raising an analytics specific error and having an `AnalyticsErrorContext`.
 
+== Warnings
+
+The SDK reports things that do not stop an operation, but may need attention, through Python's `warnings` module.
+Every SDK warning derives from `CouchbaseWarning`, in `couchbase.warnings`.
+That derives from `UserWarning`, so Python's default filters show it.
+
+* `CouchbaseDeprecationWarning`: something the SDK still supports and will stop supporting, such as importing a name from a module it has moved from.
+* `CouchbaseOptionWarning`: an option that the options class does not carry; see xref:ref:client-settings.adoc#option-validation[Option Validation].
+* `CouchbaseApplicabilityWarning`: an option that the protocol in use cannot act on, so setting it changes nothing.
+
+Use the standard `warnings` filters to hide them or turn them into errors:
+
+[source,python]
+----
+import warnings
+
+from couchbase.warnings import CouchbaseDeprecationWarning, CouchbaseWarning
+
+# hide deprecation warnings
+warnings.filterwarnings('ignore', category=CouchbaseDeprecationWarning)
+
+# or, in a test suite, make every SDK warning an error
+warnings.simplefilter('error', CouchbaseWarning)
+----
+
 == Additional Resources
 Errors & Exception handling is an expansive topic.
 Here, we have covered examples of the kinds of exception scenarios that you are most likely to face.
