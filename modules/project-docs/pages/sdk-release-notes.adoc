@@ -7,4 +7,4 @@
 
 
 
-include::4.6@python-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
+include::4.7@python-sdk:project-docs:page$sdk-release-notes.adoc[tag=all]
